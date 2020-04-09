@@ -1,5 +1,5 @@
 /*
- * Spotifabba 0.0.1 rev.1 - 08.04.2020
+ * Spotifabba 0.0.1 rev.2 - 09.04.2020
  * Copyright (c) 2020, Simone Cervino.
  *
  * Redistribution and use in source and binary forms, with or without

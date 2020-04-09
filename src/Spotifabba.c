@@ -1,5 +1,5 @@
 /*
- * Spotifabba 0.0.1 rev.1 - 08.04.2020
+ * Spotifabba 0.0.1 rev.2 - 09.04.2020
  * Copyright (c) 2020, Simone Cervino.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -26,10 +26,57 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <gestorefile.h>
+#include <string.h>
+//#include <gestorefile.h>
+void inizializzazione();
 
 int main() {
+	inizializzazione();
+
 	printf("hey!");
 	return 0;
 }
 
+void inizializzazione() {
+	// Visualizza informazioni su Spotifabba
+	printf("Spotifabba 0.0.1 rev.2 - nightly build 3\n");
+	printf("\nBenvenuto su Spotifabba.");
+	// Controllo configurazione
+
+
+	/*
+	//TODO: Creazione di utenti
+	// Effettua login per poter accedere alla propria libreria
+	login();*/
+}
+
+void inserimento_Database() {
+
+}
+
+void database() {
+	FILE* fp;
+	char* file = "database.txt";
+	fp=fopen(file, "r");
+	if(fp=="NULL")
+		printf("Database non trovato, creazione in corso.");
+
+}
+
+//TODO: Creazione di utenti
+/*
+void login() {
+	int scelta=0;
+	printf("Vuoi creare un utente[0] oppure effettuare il login[1]? [0/1]: ");
+	scanf("%d", scelta);
+	if(scelta==0)
+		creazioneUtente();
+	else if(scelta==1)
+
+		printf("\nInserisci nome utente: ");
+}
+
+void creazioneUtente() {
+	printf("Inserisci ");
+}
+*/
