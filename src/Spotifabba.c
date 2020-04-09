@@ -27,11 +27,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#define MAX_CHAR 50
 //#include <gestorefile.h>
 void inizializzazione();
+void creaDatabaseSeNonEsiste();
+void inserimento(int scelta);
+void inserisciBrano(char titolo[], char artista[], char durata[]);
+void menu();
 
 int main() {
 	inizializzazione();
+	menu();
 
 	printf("hey!");
 	return 0;
@@ -41,7 +47,10 @@ void inizializzazione() {
 	// Visualizza informazioni su Spotifabba
 	printf("Spotifabba 0.0.1 rev.2 - nightly build 3\n");
 	printf("\nBenvenuto su Spotifabba.");
+	creaDatabaseSeNonEsiste();
 	// Controllo configurazione
+
+	// Test database
 
 
 	/*
@@ -50,17 +59,61 @@ void inizializzazione() {
 	login();*/
 }
 
-void inserimento_Database() {
-
-}
-
-void database() {
+void creaDatabaseSeNonEsiste() {
 	FILE* fp;
 	char* file = "database.txt";
-	fp=fopen(file, "r");
-	if(fp=="NULL")
-		printf("Database non trovato, creazione in corso.");
+	fp=fopen(file, "ab+");
+	if(fp == NULL)
+		printf("Impossibile aprire e/o creare il database.");
+	fclose(fp);
+}
 
+void inserimento(int scelta) {
+	if(scelta==0) { //dunque brano
+		char titolo[MAX_CHAR];
+		char artista[MAX_CHAR];
+		char durata[MAX_CHAR];
+		printf("\nInserisci titolo: ");
+		scanf("%s", titolo);
+		printf("\nInserisci artista: ");
+		scanf("%s", artista);
+		printf("\nInserisci durata: ");
+		scanf("%s", durata);
+		inserisciBrano(titolo, artista, durata);
+		int scelta_2=0;
+		printf("\nVuoi inserire un altro brano? [0/1]: ");
+		scanf("%d", &scelta_2);
+		if(scelta_2==1)
+			inserimento(0);
+	}
+}
+
+void inserisciBrano(char titolo[], char artista[], char durata[]) {
+	FILE* fp=fopen("database.txt", "a");
+	fprintf(fp, "\nTitolo: %s", titolo);
+	fprintf(fp, "\nArtista: %s", artista);
+	fprintf(fp, "\nDurata: %s", durata);
+	fputs("\n-", fp);
+	fclose(fp);
+	printf("\nBrano inserito.");
+}
+
+void menu() {
+	int scelta=-1;
+	do {
+		printf("\n[1] Inserimento brano nel database");
+		printf("\n[2] TODO: Ricerca brano nel database");
+		printf("\n[3] TODO: Mostra i miei brani");
+		printf("\n[4] TODO: Condividi un mio brano");
+		printf("\n[5] TODO: Riproduci un mio brano");
+		printf("\n[0] ");
+		printf("\nInserisci la tua scelta: ");
+		scanf("%d", &scelta);
+	} while (scelta==-1);
+
+	if(scelta==1) {
+		inserimento(0);
+	}
 }
 
 //TODO: Creazione di utenti
