@@ -27,19 +27,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define MAX_CHAR 50
+#define MAX_CHAR 256
 //#include <gestorefile.h>
 void inizializzazione();
 void creaDatabaseSeNonEsiste();
 void inserimento(int scelta);
-void inserisciBrano(char titolo[], char artista[], char durata[]);
+void inserisciBrano(char titolo[], char artista[], char anno[], char album[]);
 void menu();
 
 int main() {
 	inizializzazione();
 	menu();
 
-	printf("hey!");
+	system("PAUSE");
 	return 0;
 }
 
@@ -70,34 +70,53 @@ void creaDatabaseSeNonEsiste() {
 
 void inserimento(int scelta) {
 	if(scelta==0) { //dunque brano
-		char titolo[MAX_CHAR];
-		char artista[MAX_CHAR];
-		char durata[MAX_CHAR];
+		// Flush per evitare indesiderati comportamenti dell'input
+		int c;
+		while ((c = getchar()) != '\n' && c != EOF) { }
+		// Allocazione della memoria
+		char *titolo = malloc(MAX_CHAR);
+		char *artista = malloc(MAX_CHAR);
+		char *anno = malloc(MAX_CHAR);
+		char *album = malloc(MAX_CHAR);
 		printf("\nInserisci titolo: ");
-		scanf("%s", titolo);
+		fgets(titolo, MAX_CHAR, stdin); // Al posto di scanf per gestire gli spazi, evitare overflow
+		strtok(titolo, "\n"); // In modo da evitare indesiderati newline
 		printf("\nInserisci artista: ");
-		scanf("%s", artista);
-		printf("\nInserisci durata: ");
-		scanf("%s", durata);
-		inserisciBrano(titolo, artista, durata);
+		fgets(artista, MAX_CHAR, stdin);
+		strtok(artista, "\n");
+		printf("\nInserisci anno di incisione: ");
+		fgets(anno, MAX_CHAR, stdin);
+		strtok(anno, "\n");
+		printf("\nInserisci titolo dell'album: ");
+		fgets(album, MAX_CHAR, stdin);
+		strtok(album, "\n");
+		inserisciBrano(titolo, artista, anno, album);
+		// Libero la memoria
+		free(titolo); free(artista); free(anno); free(album);
+		// Possibilità di scelta da parte dell'utente
 		int scelta_2=0;
 		printf("\nVuoi inserire un altro brano? [0/1]: ");
 		scanf("%d", &scelta_2);
 		if(scelta_2==1)
 			inserimento(0);
+		else
+			menu();
 	}
 }
 
-void inserisciBrano(char titolo[], char artista[], char durata[]) {
+// Inserimento del brano su base Titolo/Artista/Anno di incisione/Album
+void inserisciBrano(char titolo[], char artista[], char anno[], char album[]) {
 	FILE* fp=fopen("database.txt", "a");
-	fprintf(fp, "\nTitolo: %s", titolo);
+	fprintf(fp, "Titolo: %s", titolo);
 	fprintf(fp, "\nArtista: %s", artista);
-	fprintf(fp, "\nDurata: %s", durata);
-	fputs("\n-", fp);
+	fprintf(fp, "\nAnno: %s", anno);
+	fprintf(fp, "\nAlbum: %s", album);
+	fputs("\n-\n", fp);
 	fclose(fp);
 	printf("\nBrano inserito.");
 }
 
+// Menu principale di Spotifabba
 void menu() {
 	int scelta=-1;
 	do {
@@ -106,7 +125,7 @@ void menu() {
 		printf("\n[3] TODO: Mostra i miei brani");
 		printf("\n[4] TODO: Condividi un mio brano");
 		printf("\n[5] TODO: Riproduci un mio brano");
-		printf("\n[0] ");
+		printf("\n[0] Esci dal programma");
 		printf("\nInserisci la tua scelta: ");
 		scanf("%d", &scelta);
 	} while (scelta==-1);

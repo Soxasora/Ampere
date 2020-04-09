@@ -18,30 +18,30 @@ Le operazioni che il sistema fornirà agli utenti si suddividono in X classi:
 
 ### Gestione dei dati:
 Le operazioni per la gestione dei dati sono fondamentali per qualunque base di dati. Sono le operazioni classiche che si eseguono su ogni base di dati:
-* Inserimento dei dati: Inserimento nella base dati di tutte le informazioni previste per un brano musicale
-* Modifica dei dati: modifica di una o più informazioni di un determinato brano musicale
-* Cancellazione dei dati: eliminazione di un brano musicale dalla base dati (con esso, tutte le informazioni)
-* Backup dei dati: copia periodica della base dati
-* Stampa di report: stampa di tutte o alcune delle informazioni relative a uno o più brani musicali selezionati
+* [Inserimento dei dati](https://github.com/Soxasora/Spotifabba/issues/5): Inserimento nella base dati di tutte le informazioni previste per un brano musicale
+* [Modifica dei dati](https://github.com/Soxasora/Spotifabba/issues/6): modifica di una o più informazioni di un determinato brano musicale
+* [Cancellazione dei dati](https://github.com/Soxasora/Spotifabba/issues/7): eliminazione di un brano musicale dalla base dati (con esso, tutte le informazioni)
+* [Backup dei dati](https://github.com/Soxasora/Spotifabba/issues/8): copia periodica della base dati
+* [Stampa di report](https://github.com/Soxasora/Spotifabba/issues/9): stampa di tutte o alcune delle informazioni relative a uno o più brani musicali selezionati
 
 ### Ricerca di informazioni:
 Le operazioni di ricerca sono le operazioni più eseguite su ogni base di dati e, pertanto, devono essere efficienti e permettere agli utenti di cercare qualunque informazione sia di loro interesse. Nel caso del sistema **Spotifabba** saranno presenti le seguenti operazioni di ricerca:
-* Ricerca di brani in base a qualunque dato *anagrafico*: autore, titolo ecc.
-* Ricerca di brani in base al loro gradimento tra gli utenti del sistema
+* [Ricerca di brani in base a qualunque dato *anagrafico*](https://github.com/Soxasora/Spotifabba/issues/10): autore, titolo ecc.
+* [Ricerca di brani in base al loro gradimento](https://github.com/Soxasora/Spotifabba/issues/11) tra gli utenti del sistema
 
 **IN AGGIORNAMENTO**
 
 ### Condivisione di informazioni
 Queste operazioni, così come le prossime, sono operazioni non necessarie ma che potrebbero risultare sicuramente gradite agli utenti del sistema. L'obiettivo di tali operazioni è quello di permettere la condivisione, con altri utenti, dei propri brani e/o playlist:
-* Condivisione di un brano con uno o più utenti del sistema
-* Condivisione di una playlist con uno o più utenti del sistema
-* Creazione di gruppi di utenti
+* [Condivisione di un brano](https://github.com/Soxasora/Spotifabba/issues/12) con uno o più utenti del sistema
+* [Condivisione di una playlist](https://github.com/Soxasora/Spotifabba/issues/13) con uno o più utenti del sistema
+* [Creazione di gruppi di utenti](https://github.com/Soxasora/Spotifabba/issues/14)
 
 ### Ascolto di brani
 In questa categoria rientrano tutte le operazioni di ascolto/fruizione dei brani musicali.
-* Ascolto di un singolo brano
-* Ascolto di una intera playlist
-* Creazione di una playlist personale
+* [Ascolto di un singolo brano](https://github.com/Soxasora/Spotifabba/issues/15)
+* [Ascolto di una intera playlist](https://github.com/Soxasora/Spotifabba/issues/16)
+* [Creazione di una playlist](https://github.com/Soxasora/Spotifabba/issues/17) personale
 
 ### Dati del sistema
 I dati che saranno gestiti, per ogni   brano musicale saranno:
