@@ -116,6 +116,28 @@ void inserisciBrano(char titolo[], char artista[], char anno[], char album[]) {
 	printf("\nBrano inserito.");
 }
 
+void cercaBrano() {
+	FILE* fp=fopen("database.txt", "r");
+	char temp[1000];
+	char brani[1000][1000];
+	fgets(temp, 1000, fp);
+	fclose(fp);
+	char* spaziatore = "\n-\n";
+	char* ptr = strtok(temp, spaziatore);
+	int i=0, l=0;
+	while(ptr!=NULL) {
+			strcpy(brani[i], ptr);
+			ptr=strtok(NULL, spaziatore);
+			i++;
+			l++;
+	}
+	i=0;
+	while(i<l) {
+		printf("%s\n", brani[i]);
+		i++;
+	}
+}
+
 // Menu principale di Spotifabba
 void menu() {
 	int scelta=-1;
@@ -132,6 +154,8 @@ void menu() {
 
 	if(scelta==1) {
 		inserimento(0);
+	} else if (scelta==2) {
+		cercaBrano();
 	}
 }
 
