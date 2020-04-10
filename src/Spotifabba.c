@@ -122,20 +122,13 @@ void cercaBrano() {
 	char brani[1000][1000];
 	fgets(temp, 1000, fp);
 	fclose(fp);
-	char* spaziatore = "\n-\n";
-	char* ptr = strtok(temp, spaziatore);
-	int i=0, l=0;
-	while(ptr!=NULL) {
-			strcpy(brani[i], ptr);
-			ptr=strtok(NULL, spaziatore);
-			i++;
-			l++;
-	}
-	i=0;
-	while(i<l) {
-		printf("%s\n", brani[i]);
-		i++;
-	}
+	char spaziatore[] = "\n";
+	char *ptr = strtok(temp, spaziatore);
+	while(ptr != NULL)
+		{
+			printf("'%s'\n", ptr);
+			ptr = strtok(NULL, spaziatore);
+		}
 }
 
 // Menu principale di Spotifabba
@@ -156,6 +149,14 @@ void menu() {
 		inserimento(0);
 	} else if (scelta==2) {
 		cercaBrano();
+	} else if (scelta==3) {
+		//TODO
+	} else if (scelta==4) {
+		//TODO
+	} else if (scelta==5) {
+		// TODO
+	} else if (scelta==0) {
+		printf("\nUscendo dal programma...");
 	}
 }
 
