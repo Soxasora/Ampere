@@ -29,10 +29,20 @@
 #include <string.h>
 #define MAX_CHAR 256
 //#include <gestorefile.h>
+
+typedef struct libreriaMusicale {
+	char titolo[MAX_CHAR];
+	char artista[MAX_CHAR];
+	char album[MAX_CHAR];
+	char durata[MAX_CHAR];
+	int anno;
+} database;
+
 void inizializzazione();
 void creaDatabaseSeNonEsiste();
 void inserimento(int scelta);
-void inserisciBrano(char titolo[], char artista[], char anno[], char album[]);
+void inserisciBrano(char titolo[], char artista[], char album[], char durata[], char anno[]);
+database* ottieniDatabase();
 void menu();
 
 int main() {
@@ -76,23 +86,27 @@ void inserimento(int scelta) {
 		// Allocazione della memoria
 		char *titolo = malloc(MAX_CHAR);
 		char *artista = malloc(MAX_CHAR);
-		char *anno = malloc(MAX_CHAR);
 		char *album = malloc(MAX_CHAR);
+		char *durata = malloc(MAX_CHAR);
+		char *anno = malloc(MAX_CHAR);
 		printf("\nInserisci titolo: ");
 		fgets(titolo, MAX_CHAR, stdin); // Al posto di scanf per gestire gli spazi, evitare overflow
 		strtok(titolo, "\n"); // In modo da evitare indesiderati newline
 		printf("\nInserisci artista: ");
 		fgets(artista, MAX_CHAR, stdin);
 		strtok(artista, "\n");
-		printf("\nInserisci anno di incisione: ");
-		fgets(anno, MAX_CHAR, stdin);
-		strtok(anno, "\n");
 		printf("\nInserisci titolo dell'album: ");
 		fgets(album, MAX_CHAR, stdin);
 		strtok(album, "\n");
-		inserisciBrano(titolo, artista, anno, album);
+		printf("\nInserisci durata: ");
+		fgets(durata, MAX_CHAR, stdin);
+		strtok(durata, "\n");
+		printf("\nInserisci anno di incisione: ");
+		fgets(anno, MAX_CHAR, stdin);
+		strtok(anno, "\n");
+		inserisciBrano(titolo, artista, album, durata, anno);
 		// Libero la memoria
-		free(titolo); free(artista); free(anno); free(album);
+		free(titolo); free(artista); free(album); free(durata); free(anno);
 		// Possibilità di scelta da parte dell'utente
 		int scelta_2=0;
 		printf("\nVuoi inserire un altro brano? [0/1]: ");
@@ -105,21 +119,17 @@ void inserimento(int scelta) {
 }
 
 // Inserimento del brano su base Titolo/Artista/Anno di incisione/Album
-void inserisciBrano(char titolo[], char artista[], char anno[], char album[]) {
+void inserisciBrano(char titolo[], char artista[], char album[], char durata[], char anno[]) {
 	FILE* fp=fopen("database.txt", "a");
-	fprintf(fp, "Titolo: %s", titolo);
-	fprintf(fp, "\nArtista: %s", artista);
-	fprintf(fp, "\nAnno: %s", anno);
-	fprintf(fp, "\nAlbum: %s", album);
-	fputs("\n-\n", fp);
+	fprintf(fp, "%s,%s,%s,%s,%s.\n", titolo, artista, album, durata, anno);
 	fclose(fp);
 	printf("\nBrano inserito.");
 }
 
-void cercaBrano() {
+/*void cercaBrano() {
 	FILE* fp=fopen("database.txt", "r");
 	char temp[1000];
-	char brani[1000][1000];
+	//char brani[1000][1000];
 	fgets(temp, 1000, fp);
 	fclose(fp);
 	char spaziatore[] = "\n";
@@ -129,6 +139,35 @@ void cercaBrano() {
 			printf("'%s'\n", ptr);
 			ptr = strtok(NULL, spaziatore);
 		}
+}*/
+
+database* ottieniDatabase() {
+	FILE* fp=fopen("database.txt", "r");
+	database brani[1000];
+	char temp[1000];
+	char dati[1000][1000];
+	char spaziatore[] = ",";
+	int i, j, l;
+	i=0; l=0;
+	while(!feof(fp)) {
+		fgets(temp, 1000, fp);
+		char *ptr = strtok(temp, spaziatore);
+		j=0;
+		while(ptr!=NULL) {
+			strcpy(dati[j], ptr);
+			ptr=strtok(NULL, spaziatore);
+			j++;
+		}
+		strcpy(brani[i].titolo, dati[0]);
+		strcpy(brani[i].artista, dati[1]);
+		strcpy(brani[i].album, dati[2]);
+		strcpy(brani[i].durata, dati[3]);
+		brani[i].anno = atoi(dati[4]);
+		i++;
+	}
+	l=i;
+	fclose(fp);
+	return brani;
 }
 
 // Menu principale di Spotifabba
@@ -141,6 +180,7 @@ void menu() {
 		printf("\n[4] TODO: Condividi un mio brano");
 		printf("\n[5] TODO: Riproduci un mio brano");
 		printf("\n[0] Esci dal programma");
+		printf("\n[11] DEBUG");
 		printf("\nInserisci la tua scelta: ");
 		scanf("%d", &scelta);
 	} while (scelta==-1);
@@ -148,15 +188,17 @@ void menu() {
 	if(scelta==1) {
 		inserimento(0);
 	} else if (scelta==2) {
-		cercaBrano();
+		//TODO: cercaBrano();
 	} else if (scelta==3) {
 		//TODO
 	} else if (scelta==4) {
 		//TODO
 	} else if (scelta==5) {
 		// TODO
+	} else if (scelta==11) {
+		// Da usare per debuggare
 	} else if (scelta==0) {
-		printf("\nUscendo dal programma...");
+		printf("\nUscendo dal programma...\n");
 	}
 }
 
