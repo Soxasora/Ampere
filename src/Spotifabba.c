@@ -42,42 +42,43 @@ void inizializzazione();
 void creaDatabaseSeNonEsiste();
 void inserimento(int scelta);
 void inserisciBrano(char titolo[], char artista[], char album[], char durata[], char anno[]);
+void elencaBrani();
 database* ottieniDatabase();
 void menu();
 
+int numero_brani=0;
+
 int main() {
+	// Inizializza il programma
 	inizializzazione();
+	// Mostra il menu
 	menu();
 
+	//TODO: Cambiare in un sistema multipiattaforma.
 	system("PAUSE");
 	return 0;
 }
 
 void inizializzazione() {
 	// Visualizza informazioni su Spotifabba
-	printf("Spotifabba 0.0.1 rev.2 - nightly build 3\n");
+	printf("Spotifabba 0.0.1 rev.27\n");
 	printf("\nBenvenuto su Spotifabba.");
+	// Crea database se esso non è presente nella cartella.
 	creaDatabaseSeNonEsiste();
-	// Controllo configurazione
-
-	// Test database
-
-
-	/*
-	//TODO: Creazione di utenti
-	// Effettua login per poter accedere alla propria libreria
-	login();*/
 }
 
+// Funzione di controllo e creazione del database
 void creaDatabaseSeNonEsiste() {
 	FILE* fp;
 	char* file = "database.txt";
 	fp=fopen(file, "ab+");
+	// Se non ha i permessi per scrivere nella cartella:
 	if(fp == NULL)
 		printf("Impossibile aprire e/o creare il database.");
 	fclose(fp);
 }
 
+// Inserimento di informazioni direttamente nel database file-based
 void inserimento(int scelta) {
 	if(scelta==0) { //dunque brano
 		// Flush per evitare indesiderati comportamenti dell'input
@@ -118,55 +119,64 @@ void inserimento(int scelta) {
 	}
 }
 
-// Inserimento del brano su base Titolo/Artista/Anno di incisione/Album
+// Inserimento del brano su base Titolo/Artista/Album/Durata/Anno di incisione
 void inserisciBrano(char titolo[], char artista[], char album[], char durata[], char anno[]) {
 	FILE* fp=fopen("database.txt", "a");
-	fprintf(fp, "%s,%s,%s,%s,%s.\n", titolo, artista, album, durata, anno);
+	fprintf(fp, "%s,%s,%s,%s,%s\n", titolo, artista, album, durata, anno);
 	fclose(fp);
 	printf("\nBrano inserito.");
 }
 
-/*void cercaBrano() {
-	FILE* fp=fopen("database.txt", "r");
-	char temp[1000];
-	//char brani[1000][1000];
-	fgets(temp, 1000, fp);
-	fclose(fp);
-	char spaziatore[] = "\n";
-	char *ptr = strtok(temp, spaziatore);
-	while(ptr != NULL)
-		{
-			printf("'%s'\n", ptr);
-			ptr = strtok(NULL, spaziatore);
-		}
-}*/
+// Funzione di elencazione di tutti i brani presenti nel database file-based
+void elencaBrani() {
+	database *brani = ottieniDatabase();
 
+	printf("Elenco dei brani:\n");
+	int i=0;
+	while (i<numero_brani) {
+		printf("\nBrano n.%d\n", i+1);
+		printf("Titolo: %s\n", brani[i].titolo);
+		printf("Artista: %s\n", brani[i].artista);
+		printf("Album: %s\n", brani[i].album);
+		printf("Durata: %s\n", brani[i].durata);
+		printf("Anno: %d\n", brani[i].anno);
+		i++;
+	}
+}
+
+// Funzione per trasferire in memoria il database file-based velocizzando la sua lettura.
 database* ottieniDatabase() {
-	FILE* fp=fopen("database.txt", "r");
-	database brani[1000];
-	char temp[1000];
-	char dati[1000][1000];
-	char spaziatore[] = ",";
-	int i, j, l;
-	i=0; l=0;
-	while(!feof(fp)) {
-		fgets(temp, 1000, fp);
-		char *ptr = strtok(temp, spaziatore);
+	printf("\nOttengo il database");
+	//Allocazione di memoria
+	database *brani = malloc(sizeof(brani)*1000);
+	FILE* fp=fopen("database.txt", "r"); // Apro database
+	printf(".");
+	char temp[1000]; // Variabile temporanea per ottenere i dati
+	char dati[1000][1000]; // Array temporaneo per trasportare i dati
+	char spaziatore[] = ","; // Il database divide i dati utilizzando lo spaziatore ,
+	int i, j;
+	i=0;
+	while(!feof(fp)) { // Fino a quando non arriva alla fine del file
+		fgets(temp, 1000, fp); // Ottiene la linea
+		char *ptr = strtok(temp, spaziatore); // Imposta lo spaziatore
 		j=0;
-		while(ptr!=NULL) {
-			strcpy(dati[j], ptr);
-			ptr=strtok(NULL, spaziatore);
+		while(ptr!=NULL) { // Fino a quando il puntatore non ha più niente da trasportare
+			strcpy(dati[j], ptr); // Copia informazione nel punto i dell'array temporaneo
+			ptr=strtok(NULL, spaziatore); // Passa al prossimo spaziatore
 			j++;
 		}
+		// Blocco di organizzazione dei dati dall'array temporaneo allo struct finale
 		strcpy(brani[i].titolo, dati[0]);
 		strcpy(brani[i].artista, dati[1]);
 		strcpy(brani[i].album, dati[2]);
 		strcpy(brani[i].durata, dati[3]);
-		brani[i].anno = atoi(dati[4]);
+		brani[i].anno = atoi(dati[4]); // Conversione da char a int del valore Anno
 		i++;
 	}
-	l=i;
+	printf(".");
+	numero_brani=i; // TODO: Trovare un metodo migliore per far sapere al programma il numero dei brani
 	fclose(fp);
+	printf(". Fatto.\n");
 	return brani;
 }
 
@@ -176,7 +186,7 @@ void menu() {
 	do {
 		printf("\n[1] Inserimento brano nel database");
 		printf("\n[2] TODO: Ricerca brano nel database");
-		printf("\n[3] TODO: Mostra i miei brani");
+		printf("\n[3] Mostra i miei brani");
 		printf("\n[4] TODO: Condividi un mio brano");
 		printf("\n[5] TODO: Riproduci un mio brano");
 		printf("\n[0] Esci dal programma");
@@ -188,9 +198,9 @@ void menu() {
 	if(scelta==1) {
 		inserimento(0);
 	} else if (scelta==2) {
-		//TODO: cercaBrano();
+		//cercaBrano();
 	} else if (scelta==3) {
-		//TODO
+		elencaBrani();
 	} else if (scelta==4) {
 		//TODO
 	} else if (scelta==5) {
