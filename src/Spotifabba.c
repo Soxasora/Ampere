@@ -42,9 +42,12 @@ void inizializzazione();
 void creaDatabaseSeNonEsiste();
 void inserimento(int scelta);
 void inserisciBrano(char titolo[], char artista[], char album[], char durata[], char anno[]);
+void ricercaBrani(int modalita);
+void elencaSingoloBrano(database *brani, int i);
 void elencaBrani();
 database* ottieniDatabase();
-void menu();
+void menu(int scelta);
+void menuRicerca();
 
 int numero_brani=0;
 
@@ -52,7 +55,7 @@ int main() {
 	// Inizializza il programma
 	inizializzazione();
 	// Mostra il menu
-	menu();
+	menu(-1);
 
 	//TODO: Cambiare in un sistema multipiattaforma.
 	system("PAUSE");
@@ -115,7 +118,7 @@ void inserimento(int scelta) {
 		if(scelta_2==1)
 			inserimento(0);
 		else
-			menu();
+			menu(-1);
 	}
 }
 
@@ -125,6 +128,134 @@ void inserisciBrano(char titolo[], char artista[], char album[], char durata[], 
 	fprintf(fp, "%s,%s,%s,%s,%s\n", titolo, artista, album, durata, anno);
 	fclose(fp);
 	printf("\nBrano inserito.");
+}
+
+void ricercaBrani(int modalita) {
+	database *brani = ottieniDatabase();
+	int scelta=0;
+	if (modalita==0) {
+		// Flush per evitare indesiderati comportamenti dell'input
+		int c;
+		while ((c = getchar()) != '\n' && c != EOF) { }
+		char *titolo = malloc(MAX_CHAR);
+		printf("\nInserisci titolo: ");
+		fgets(titolo, MAX_CHAR, stdin);
+		strtok(titolo, "\n");
+		int i=0;
+		printf("\nTrovate le seguenti occorrenze:\n\n");
+		while(i<numero_brani) {
+			if (strcmp(titolo, brani[i].titolo)==0) {
+				elencaSingoloBrano(brani, i);
+			}
+			i++;
+		}
+		free(titolo);
+		printf("\nCercare un altro brano per Titolo[0] oppure ritornare al Menu di ricerca[1]? ");
+		scanf("%d", &scelta);
+		if (scelta==0) {
+			ricercaBrani(0);
+		} else {
+			menuRicerca();
+		}
+	// Ricerca per Artista
+	} else if (modalita==1) {
+		int c;
+		while ((c = getchar()) != '\n' && c != EOF) { }
+		char *artista = malloc(MAX_CHAR);
+		printf("\nInserisci artista: ");
+		fgets(artista, MAX_CHAR, stdin);
+		strtok(artista, "\n");
+		int i=0;
+		printf("\nTrovate le seguenti occorrenze:\n\n");
+		while(i<numero_brani) {
+			if (strcmp(artista, brani[i].artista)==0) {
+				elencaSingoloBrano(brani, i);
+			}
+			i++;
+		}
+		free(artista);
+		printf("\nCercare un altro brano per Artista[0] oppure ritornare al Menu di ricerca[1]? ");
+		scanf("%d", &scelta);
+		if (scelta==0) {
+			ricercaBrani(1);
+		} else {
+			menuRicerca();
+		}
+	// Ricerca per Album
+	} else if (modalita==2) {
+		int c;
+		while ((c = getchar()) != '\n' && c != EOF) { }
+		char *album = malloc(MAX_CHAR);
+		printf("\nInserisci album: ");
+		fgets(album, MAX_CHAR, stdin);
+		strtok(album, "\n");
+		int i=0;
+		printf("\nTrovate le seguenti occorrenze:\n\n");
+		while(i<numero_brani) {
+			if (strcmp(album, brani[i].album)==0) {
+				elencaSingoloBrano(brani, i);
+			}
+			i++;
+		}
+		free(album);
+		printf("\nCercare un altro brano per Album[0] oppure ritornare al Menu di ricerca[1]? ");
+		scanf("%d", &scelta);
+		if (scelta==0) {
+			ricercaBrani(2);
+		} else {
+			menuRicerca();
+		}
+	} else if (modalita==3) {
+		int c;
+		while ((c = getchar()) != '\n' && c != EOF) { }
+		char *durata = malloc(MAX_CHAR);
+		printf("\nInserisci durata: ");
+		fgets(durata, MAX_CHAR, stdin);
+		strtok(durata, "\n");
+		int i=0;
+		printf("\nTrovate le seguenti occorrenze:\n\n");
+		while(i<numero_brani) {
+			if (strcmp(durata, brani[i].durata)==0) {
+				elencaSingoloBrano(brani, i);
+			}
+			i++;
+		}
+		free(durata);
+		printf("\nCercare un altro brano per Durata[0] oppure ritornare al Menu di ricerca[1]? ");
+		scanf("%d", &scelta);
+		if (scelta==0) {
+			ricercaBrani(3);
+		} else {
+			menuRicerca();
+		}
+	} else if (modalita==4) {
+		int anno=0;
+		printf("\nInserisci anno: ");
+		scanf("%d", &anno);
+		int i=0;
+		printf("\nTrovate le seguenti occorrenze:\n\n");
+		while(i<numero_brani) {
+			if (anno==brani[i].anno) {
+				elencaSingoloBrano(brani, i);
+			}
+			i++;
+		}
+		printf("\nCercare un altro brano per Anno[0] oppure ritornare al Menu di ricerca[1]? ");
+		scanf("%d", &scelta);
+		if (scelta==0) {
+			ricercaBrani(4);
+		} else {
+			menuRicerca();
+		}
+	}
+}
+
+void elencaSingoloBrano(database *brani, int pos) {
+	printf("\nTitolo: %s\n", brani[pos].titolo);
+	printf("Artista: %s\n", brani[pos].artista);
+	printf("Album: %s\n", brani[pos].album);
+	printf("Durata: %s\n", brani[pos].durata);
+	printf("Anno: %d\n", brani[pos].anno);
 }
 
 // Funzione di elencazione di tutti i brani presenti nel database file-based
@@ -146,11 +277,10 @@ void elencaBrani() {
 
 // Funzione per trasferire in memoria il database file-based velocizzando la sua lettura.
 database* ottieniDatabase() {
-	printf("\nOttengo il database");
+	printf("\nOttengo il database...");
 	//Allocazione di memoria
 	database *brani = malloc(sizeof(brani)*1000);
 	FILE* fp=fopen("database.txt", "r"); // Apro database
-	printf(".");
 	char temp[1000]; // Variabile temporanea per ottenere i dati
 	char dati[1000][1000]; // Array temporaneo per trasportare i dati
 	char spaziatore[] = ","; // Il database divide i dati utilizzando lo spaziatore ,
@@ -173,19 +303,17 @@ database* ottieniDatabase() {
 		brani[i].anno = atoi(dati[4]); // Conversione da char a int del valore Anno
 		i++;
 	}
-	printf(".");
 	numero_brani=i; // TODO: Trovare un metodo migliore per far sapere al programma il numero dei brani
 	fclose(fp);
-	printf(". Fatto.\n");
+	printf(" Fatto.\n");
 	return brani;
 }
 
 // Menu principale di Spotifabba
-void menu() {
-	int scelta=-1;
+void menu(int scelta) {
 	do {
 		printf("\n[1] Inserimento brano nel database");
-		printf("\n[2] TODO: Ricerca brano nel database");
+		printf("\n[2] Ricerca brani nel database");
 		printf("\n[3] Mostra i miei brani");
 		printf("\n[4] TODO: Condividi un mio brano");
 		printf("\n[5] TODO: Riproduci un mio brano");
@@ -198,17 +326,49 @@ void menu() {
 	if(scelta==1) {
 		inserimento(0);
 	} else if (scelta==2) {
-		//cercaBrano();
+		menuRicerca();
 	} else if (scelta==3) {
 		elencaBrani();
+		int sotto_scelta=0;
+		printf("\nRitornare al menu principale? [0/1]: ");
+		scanf("%d", &sotto_scelta);
+		if (sotto_scelta==1) {
+			menu(-1);
+		}
 	} else if (scelta==4) {
 		//TODO
 	} else if (scelta==5) {
 		// TODO
-	} else if (scelta==11) {
-		// Da usare per debuggare
 	} else if (scelta==0) {
 		printf("\nUscendo dal programma...\n");
+	} else if (scelta==11) {
+		// DA USARE PER DEBUG
+	}
+}
+
+void menuRicerca() {
+	int ricerca=0;
+	printf("\n===Menu di ricerca===");
+	printf("\n[0] Ricerca per Titolo");
+	printf("\n[1] Ricerca per Artista");
+	printf("\n[2] Ricerca per Album");
+	printf("\n[3] Ricerca per Durata");
+	printf("\n[4] Ricerca per Anno");
+	printf("\n[9] Torna al menu principale");
+	printf("\nInserisci la tua scelta: ");
+	scanf("%d", &ricerca);
+	if (ricerca==0) {
+		ricercaBrani(0);
+	} else if (ricerca==1) {
+		ricercaBrani(1);
+	} else if (ricerca==2) {
+		ricercaBrani(2);
+	} else if (ricerca==3) {
+		ricercaBrani(3);
+	} else if (ricerca==4) {
+		ricercaBrani(4);
+	} else if (ricerca==9) {
+		menu(-1);
 	}
 }
 
