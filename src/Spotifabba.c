@@ -348,10 +348,18 @@ void menu(int scelta) {
 		//TODO
 	} else if (scelta==5) {
 		// TODO
+		#ifdef _WIN32
+			system("example.mp3");
+		#elif __APPLE__
+			system("open example.mp3");
+		#elif __linux__
+			system("vlc example.mp3")
+		#endif
 	} else if (scelta==0) {
 		printf("\nUscendo dal programma...\n");
 	} else if (scelta==11) {
 		// DA USARE PER DEBUG
+
 	}
 }
 
