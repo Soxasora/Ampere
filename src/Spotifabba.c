@@ -1,5 +1,5 @@
 /*
- * Spotifabba 0.0.1 rev.2 - 09.04.2020
+ * Spotifabba 0.0.1 rev.35 - 09.04.2020
  * Copyright (c) 2020, Simone Cervino.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,7 +64,7 @@ int main() {
 
 void inizializzazione() {
 	// Visualizza informazioni su Spotifabba
-	printf("Spotifabba 0.0.1 rev.27\n");
+	printf("Spotifabba 0.0.1 rev.35\n");
 	printf("\nBenvenuto su Spotifabba.");
 	// Crea database se esso non è presente nella cartella.
 	creaDatabaseSeNonEsiste();
