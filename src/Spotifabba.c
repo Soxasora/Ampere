@@ -1,5 +1,5 @@
 /*
- * Spotifabba 0.0.1 rev.35 - 12.04.2020
+ * Spotifabba 0.0.1 rev.37 - 12.04.2020
  * Copyright (c) 2020, Simone Cervino.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,15 +60,18 @@ int main() {
 	menu(-1);
 
 	//TODO: Cambiare in un sistema multipiattaforma.
-	system("PAUSE");
+	printf("Spotifabba terminato.\n");
+	#ifdef _WIN32
+		system("PAUSE");
+	#endif
 	return 0;
 }
 
 void inizializzazione() {
 	// Visualizza informazioni su Spotifabba
-	printf("Spotifabba 0.0.1 rev.35\n");
+	printf("Spotifabba 0.0.1 rev.37\n");
 	printf("\nBenvenuto su Spotifabba.");
-	// Crea database se esso non è presente nella cartella.
+	// Crea database se esso non ï¿½ presente nella cartella.
 	creaDatabaseSeNonEsiste();
 }
 
@@ -117,7 +120,7 @@ void inserimento(int scelta) {
 		inserisciBrano(titolo, artista, album, durata, anno);
 		// Libero la memoria
 		free(titolo); free(artista); free(album); free(durata); free(anno);
-		// Possibilità di scelta da parte dell'utente
+		// Possibilitï¿½ di scelta da parte dell'utente
 		int scelta_2=0;
 		printf("\nVuoi inserire un altro brano? [0/1]: ");
 		scanf("%d", &scelta_2);
@@ -299,7 +302,7 @@ database* ottieniDatabase() {
 		fgets(temp, 1000, fp); // Ottiene la linea
 		char *ptr = strtok(temp, spaziatore); // Imposta lo spaziatore
 		j=0;
-		while(ptr!=NULL) { // Fino a quando il puntatore non ha più niente da trasportare
+		while(ptr!=NULL) { // Fino a quando il puntatore non ha piï¿½ niente da trasportare
 			strcpy(dati[j], ptr); // Copia informazione nel punto i dell'array temporaneo
 			ptr=strtok(NULL, spaziatore); // Passa al prossimo spaziatore
 			j++;
@@ -353,7 +356,7 @@ void menu(int scelta) {
 		#elif __APPLE__
 			system("open example.mp3");
 		#elif __linux__
-			system("vlc example.mp3")
+			system("vlc example.mp3");
 		#endif
 	} else if (scelta==0) {
 		printf("\nUscendo dal programma...\n");
