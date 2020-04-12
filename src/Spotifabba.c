@@ -30,6 +30,8 @@
 #define MAX_CHAR 256
 //#include <gestorefile.h>
 
+// Struttura per mantenere in memoria la Libreria Musicale di Spotifabba
+// TODO: Passare ad allocazione dinamica
 typedef struct libreriaMusicale {
 	char titolo[MAX_CHAR];
 	char artista[MAX_CHAR];
@@ -49,7 +51,7 @@ database* ottieniDatabase();
 void menu(int scelta);
 void menuRicerca();
 
-int numero_brani=0;
+int numero_brani=0; // TODO: Trovare un metodo migliore
 
 int main() {
 	// Inizializza il programma
@@ -71,6 +73,7 @@ void inizializzazione() {
 }
 
 // Funzione di controllo e creazione del database
+// TODO: Creare legenda del database ad inizio file
 void creaDatabaseSeNonEsiste() {
 	FILE* fp;
 	char* file = "database.txt";
@@ -93,6 +96,7 @@ void inserimento(int scelta) {
 		char *album = malloc(MAX_CHAR);
 		char *durata = malloc(MAX_CHAR);
 		char *anno = malloc(MAX_CHAR);
+		// Registrazione informazioni
 		printf("\nInserisci titolo: ");
 		fgets(titolo, MAX_CHAR, stdin); // Al posto di scanf per gestire gli spazi, evitare overflow
 		strtok(titolo, "\n"); // In modo da evitare indesiderati newline
@@ -108,6 +112,8 @@ void inserimento(int scelta) {
 		printf("\nInserisci anno di incisione: ");
 		fgets(anno, MAX_CHAR, stdin);
 		strtok(anno, "\n");
+		// Memorizzo le informazioni direttamente nel file
+		// TODO: Passare ad un sistema esclusivamente struct per poi memorizzare nel file
 		inserisciBrano(titolo, artista, album, durata, anno);
 		// Libero la memoria
 		free(titolo); free(artista); free(album); free(durata); free(anno);
@@ -130,6 +136,7 @@ void inserisciBrano(char titolo[], char artista[], char album[], char durata[], 
 	printf("\nBrano inserito.");
 }
 
+// Funzione di ricerca brani in base alla loro anagrafica
 void ricercaBrani(int modalita) {
 	database *brani = ottieniDatabase();
 	int scelta=0;
@@ -250,6 +257,7 @@ void ricercaBrani(int modalita) {
 	}
 }
 
+// Funzione di elencazione di tutte le informazioni di un brano
 void elencaSingoloBrano(database *brani, int pos) {
 	printf("\nTitolo: %s\n", brani[pos].titolo);
 	printf("Artista: %s\n", brani[pos].artista);
@@ -276,6 +284,7 @@ void elencaBrani() {
 }
 
 // Funzione per trasferire in memoria il database file-based velocizzando la sua lettura.
+// TODO: Rendere disponibile lo struct riempito a tutto il programma per evitare inutili ri-accessi
 database* ottieniDatabase() {
 	printf("\nOttengo il database...");
 	//Allocazione di memoria
@@ -371,21 +380,3 @@ void menuRicerca() {
 		menu(-1);
 	}
 }
-
-//TODO: Creazione di utenti
-/*
-void login() {
-	int scelta=0;
-	printf("Vuoi creare un utente[0] oppure effettuare il login[1]? [0/1]: ");
-	scanf("%d", scelta);
-	if(scelta==0)
-		creazioneUtente();
-	else if(scelta==1)
-
-		printf("\nInserisci nome utente: ");
-}
-
-void creazioneUtente() {
-	printf("Inserisci ");
-}
-*/
