@@ -1,5 +1,5 @@
 /*
- * Spotifabba 0.1 rev.63 - 13.04.2020
+ * Spotifabba 0.1 rev.70 - 13.04.2020
  * Copyright (c) 2020, Simone Cervino.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,8 +27,9 @@
 #ifndef MOTORERICERCA_H_
 #define MOTORERICERCA_H_
 #include "Database.h"
+
 void ricercaBrani(int modalita);
 void elencaSingoloBrano(database *brani, int pos);
-void elencaBrani();
+void elencaTuttiBrani();
 
 #endif /* MOTORERICERCA_H_ */

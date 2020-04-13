@@ -1,5 +1,5 @@
 /*
- * Spotifabba 0.1 rev.63 - 13.04.2020
+ * Spotifabba 0.1 rev.70 - 13.04.2020
  * Copyright (c) 2020, Simone Cervino.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -102,8 +102,9 @@ void inserisciBrano(char titolo[], char artista[], char album[], char durata[], 
 	FILE* fp=fopen("database.txt", "a");
 	fprintf(fp, "\n%s,%s,%s,%s,%s", titolo, artista, album, durata, anno);
 	fclose(fp);
-	printf("\nBrano inserito.");
+	free(brani);
 	brani = ottieniDatabase();
+	printf("\nBrano inserito.");
 }
 
 // Funzione DEV per l'inserimento diretto di un brano
@@ -111,6 +112,7 @@ void inserisciBranoDiretto(char stringa[]) {
 	FILE* fp=fopen("database.txt", "a");
 	fprintf(fp, "%s\n", stringa);
 	fclose(fp);
-	printf("\nBrano inserito.");
+	free(brani);
 	brani = ottieniDatabase();
+	printf("\nBrano inserito.");
 }

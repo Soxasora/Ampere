@@ -1,5 +1,5 @@
 /*
- * Spotifabba 0.1 rev.63 - 13.04.2020
+ * Spotifabba 0.1 rev.70 - 13.04.2020
  * Copyright (c) 2020, Simone Cervino.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,6 +27,7 @@
 #ifndef DATABASE_H_
 #define DATABASE_H_
 #define MAX_CHAR 256
+
 // Struttura per mantenere in memoria la Libreria Musicale di Spotifabba
 // TODO: Passare ad allocazione dinamica
 typedef struct libreriaMusicale {
@@ -37,9 +38,11 @@ typedef struct libreriaMusicale {
 	int anno;
 } database;
 
+// Database struct globale per evitare inutili accessi al database file-based
 database* brani;
 
 void creaDatabaseSeNonEsiste();
 database* ottieniDatabase();
+database* new_ottieniDatabase();
 
 #endif /* DATABASE_H_ */

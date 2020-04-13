@@ -42,7 +42,7 @@ Spotifabba
 *.su
 *.idb
 *.pdb
-*.txt
+#*.txt
 
 # Kernel Module Compile Results
 *.mod*
@@ -52,4 +52,5 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
-/Debug/
+/Debug/src/
+/Debug/Spotifabba.exe

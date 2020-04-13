@@ -1,5 +1,5 @@
 /*
- * Spotifabba 0.1 rev.63 - 13.04.2020
+ * Spotifabba 0.1 rev.70 - 13.04.2020
  * Copyright (c) 2020, Simone Cervino.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -163,18 +163,14 @@ void elencaSingoloBrano(database *brani, int pos) {
 }
 
 // Funzione di elencazione di tutti i brani presenti nel database file-based
-void elencaBrani() {
+void elencaTuttiBrani() {
 	//database *brani = ottieniDatabase();
 
 	printf("Elenco dei brani:\n");
 	int i=0;
 	while (i<numero_brani) {
 		printf("\nBrano n.%d\n", i+1);
-		printf("Titolo: %s\n", brani[i].titolo);
-		printf("Artista: %s\n", brani[i].artista);
-		printf("Album: %s\n", brani[i].album);
-		printf("Durata: %s\n", brani[i].durata);
-		printf("Anno: %d\n", brani[i].anno);
+		elencaSingoloBrano(brani, i);
 		i++;
 	}
 
