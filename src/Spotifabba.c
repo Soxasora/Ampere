@@ -1,5 +1,5 @@
 /*
- * Spotifabba 0.0.1 rev.37 - 12.04.2020
+ * Spotifabba 0.0.1 rev.40 - 13.04.2020
  * Copyright (c) 2020, Simone Cervino.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,11 +44,13 @@ void inizializzazione();
 void creaDatabaseSeNonEsiste();
 void inserimento(int scelta);
 void inserisciBrano(char titolo[], char artista[], char album[], char durata[], char anno[]);
+void inserisciBranoDiretto(char stringa[]);
 void ricercaBrani(int modalita);
 void elencaSingoloBrano(database *brani, int i);
 void elencaBrani();
 database* ottieniDatabase();
 void menu(int scelta);
+void menuDatabase();
 void menuRicerca();
 
 int numero_brani=0; // TODO: Trovare un metodo migliore
@@ -69,7 +71,7 @@ int main() {
 
 void inizializzazione() {
 	// Visualizza informazioni su Spotifabba
-	printf("Spotifabba 0.0.1 rev.37\n");
+	printf("Spotifabba 0.0.1 rev.40\n");
 	printf("\nBenvenuto su Spotifabba.");
 	// Crea database se esso non ï¿½ presente nella cartella.
 	creaDatabaseSeNonEsiste();
@@ -89,7 +91,7 @@ void creaDatabaseSeNonEsiste() {
 
 // Inserimento di informazioni direttamente nel database file-based
 void inserimento(int scelta) {
-	if(scelta==0) { //dunque brano
+	if(scelta==0) { // Inserimento guidato di un brano
 		// Flush per evitare indesiderati comportamenti dell'input
 		int c;
 		while ((c = getchar()) != '\n' && c != EOF) { }
@@ -128,6 +130,27 @@ void inserimento(int scelta) {
 			inserimento(0);
 		else
 			menu(-1);
+	} else if (scelta==1) {
+		// Flush per evitare indesiderati comportamenti dell'input
+		int c;
+		while ((c = getchar()) != '\n' && c != EOF) { }
+		char *stringa = malloc(MAX_CHAR*5); // MAX_CHAR*5 poiché ci sono 5 informazioni alle quali precedentemente abbiamo dato solo un MAX_CHAR
+		printf("\nBenvenuto nell'inserimento diretto di un brano.");
+		printf("\nIl modello per inserire un brano è il seguente:");
+		printf("\nTITOLO,ARTISTA,ALBUM,DUR:ATA,ANNO");
+		printf("\nEsempio: Get Lucky,Daft Punk,Random Access Memories,4:09,2013");
+		printf("\nInserisci ora il tuo brano: ");
+		fgets(stringa, MAX_CHAR*5, stdin);
+		strtok(stringa, "\n");
+		inserisciBranoDiretto(stringa);
+		free(stringa);
+		int scelta_2=0;
+		printf("\nVuoi inserire un altro brano? [0/1]: ");
+		scanf("%d", &scelta_2);
+		if(scelta_2==1)
+			inserimento(0);
+		else
+			menu(-1);
 	}
 }
 
@@ -135,6 +158,14 @@ void inserimento(int scelta) {
 void inserisciBrano(char titolo[], char artista[], char album[], char durata[], char anno[]) {
 	FILE* fp=fopen("database.txt", "a");
 	fprintf(fp, "%s,%s,%s,%s,%s\n", titolo, artista, album, durata, anno);
+	fclose(fp);
+	printf("\nBrano inserito.");
+}
+
+// Funzione DEV per l'inserimento diretto di un brano
+void inserisciBranoDiretto(char stringa[]) {
+	FILE* fp=fopen("database.txt", "a");
+	fprintf(fp, "%s\n", stringa);
 	fclose(fp);
 	printf("\nBrano inserito.");
 }
@@ -324,11 +355,10 @@ database* ottieniDatabase() {
 // Menu principale di Spotifabba
 void menu(int scelta) {
 	do {
-		printf("\n[1] Inserimento brano nel database");
-		printf("\n[2] Ricerca brani nel database");
-		printf("\n[3] Mostra i miei brani");
-		printf("\n[4] TODO: Condividi un mio brano");
-		printf("\n[5] TODO: Riproduci un mio brano");
+		printf("\n[1] Gestisci il database");
+		printf("\n[2] Ricerca nel database");
+		printf("\n[3] TODO: Condividi un brano");
+		printf("\n[4] TODO: Riproduci un brano");
 		printf("\n[0] Esci dal programma");
 		printf("\n[11] DEBUG");
 		printf("\nInserisci la tua scelta: ");
@@ -336,20 +366,12 @@ void menu(int scelta) {
 	} while (scelta==-1);
 
 	if(scelta==1) {
-		inserimento(0);
+		menuDatabase();
 	} else if (scelta==2) {
 		menuRicerca();
 	} else if (scelta==3) {
-		elencaBrani();
-		int sotto_scelta=0;
-		printf("\nRitornare al menu principale? [0/1]: ");
-		scanf("%d", &sotto_scelta);
-		if (sotto_scelta==1) {
-			menu(-1);
-		}
+		// TODO
 	} else if (scelta==4) {
-		//TODO
-	} else if (scelta==5) {
 		// TODO
 		#ifdef _WIN32
 			system("example.mp3");
@@ -366,28 +388,69 @@ void menu(int scelta) {
 	}
 }
 
-void menuRicerca() {
-	int ricerca=0;
-	printf("\n===Menu di ricerca===");
-	printf("\n[0] Ricerca per Titolo");
-	printf("\n[1] Ricerca per Artista");
-	printf("\n[2] Ricerca per Album");
-	printf("\n[3] Ricerca per Durata");
-	printf("\n[4] Ricerca per Anno");
-	printf("\n[9] Torna al menu principale");
+void menuDatabase() {
+	int scelta=0;
+	printf("\n===Menu gestione database===");
+	printf("\n[1] Inserimento brano nel database");
+	printf("\n[2] TODO: Modifica un brano");
+	printf("\n[3] TODO: Cancella un brano");
+	printf("\n[0] Torna al menu principale");
 	printf("\nInserisci la tua scelta: ");
-	scanf("%d", &ricerca);
-	if (ricerca==0) {
+	scanf("%d", &scelta);
+	if (scelta==1) {
+		// TODO: Dargli un menu separato
+		int sotto_scelta=0;
+		printf("\n[1] Inserimento guidato");
+		printf("\n[2] Inserimento diretto per utenti avanzati");
+		printf("\n[0] Ritorna al menu precedente");
+		printf("\nInserisci la tua scelta: ");
+		scanf("%d", &sotto_scelta);
+		if (sotto_scelta==1)
+			inserimento(0);
+		else if (sotto_scelta==2)
+			inserimento(1);
+		else if (sotto_scelta==0)
+			menuDatabase();
+	} else if (scelta==2) {
+		// TODO
+	} else if (scelta==3) {
+		// TODO
+	} else if (scelta==0) {
+		menu(-1);
+	}
+}
+
+void menuRicerca() {
+	int scelta=0;
+	printf("\n===Menu di ricerca===");
+	printf("\n[1] Mostra i miei brani");
+	printf("\n[2] Ricerca per Titolo");
+	printf("\n[3] Ricerca per Artista");
+	printf("\n[4] Ricerca per Album");
+	printf("\n[5] Ricerca per Durata");
+	printf("\n[6] Ricerca per Anno");
+	printf("\n[0] Torna al menu principale");
+	printf("\nInserisci la tua scelta: ");
+	scanf("%d", &scelta);
+	if (scelta==1) {
+		elencaBrani();
+		int sotto_scelta=0;
+		printf("\nRitornare al menu precedente? [0/1]: ");
+		scanf("%d", &sotto_scelta);
+		if (sotto_scelta==1) {
+			menuRicerca();
+		}
+	} else if (scelta==2) {
 		ricercaBrani(0);
-	} else if (ricerca==1) {
+	} else if (scelta==3) {
 		ricercaBrani(1);
-	} else if (ricerca==2) {
+	} else if (scelta==4) {
 		ricercaBrani(2);
-	} else if (ricerca==3) {
+	} else if (scelta==5) {
 		ricercaBrani(3);
-	} else if (ricerca==4) {
+	} else if (scelta==6) {
 		ricercaBrani(4);
-	} else if (ricerca==9) {
+	} else if (scelta==0) {
 		menu(-1);
 	}
 }
