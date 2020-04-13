@@ -1,5 +1,5 @@
 /*
- * Spotifabba 0.1 rev.50 - 13.04.2020
+ * Spotifabba 0.1 rev.63 - 13.04.2020
  * Copyright (c) 2020, Simone Cervino.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,6 +30,7 @@
 #include "Spotifabba.h"
 #include "GestoreFile.h"
 #include "Database.h"
+#include "Utils.h"
 
 // FUNZIONI FILE
 // Inserimento di informazioni direttamente nel database file-based
@@ -72,7 +73,7 @@ void inserimento(int scelta) {
 		if(scelta_2==1)
 			inserimento(0);
 		else
-			menu(-1);
+			menu();
 	} else if (scelta==1) {
 		// Flush per evitare indesiderati comportamenti dell'input
 		int c;
@@ -93,7 +94,7 @@ void inserimento(int scelta) {
 		if(scelta_2==1)
 			inserimento(0);
 		else
-			menu(-1);
+			menu();
 	}
 }
 // Inserimento del brano su base Titolo/Artista/Album/Durata/Anno di incisione
@@ -102,6 +103,7 @@ void inserisciBrano(char titolo[], char artista[], char album[], char durata[], 
 	fprintf(fp, "\n%s,%s,%s,%s,%s", titolo, artista, album, durata, anno);
 	fclose(fp);
 	printf("\nBrano inserito.");
+	brani = ottieniDatabase();
 }
 
 // Funzione DEV per l'inserimento diretto di un brano
@@ -110,4 +112,5 @@ void inserisciBranoDiretto(char stringa[]) {
 	fprintf(fp, "%s\n", stringa);
 	fclose(fp);
 	printf("\nBrano inserito.");
+	brani = ottieniDatabase();
 }

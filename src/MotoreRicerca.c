@@ -1,5 +1,5 @@
 /*
- * Spotifabba 0.1 rev.50 - 13.04.2020
+ * Spotifabba 0.1 rev.63 - 13.04.2020
  * Copyright (c) 2020, Simone Cervino.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,10 +30,11 @@
 #include "Spotifabba.h"
 #include "MotoreRicerca.h"
 #include "Database.h"
+#include "Utils.h"
 
 // Funzione di ricerca brani in base alla loro anagrafica
 void ricercaBrani(int modalita) {
-	database *brani = ottieniDatabase();
+	//database *brani = ottieniDatabase();
 	int scelta=0;
 	if (modalita==0) {
 		// Flush per evitare indesiderati comportamenti dell'input
@@ -163,7 +164,7 @@ void elencaSingoloBrano(database *brani, int pos) {
 
 // Funzione di elencazione di tutti i brani presenti nel database file-based
 void elencaBrani() {
-	database *brani = ottieniDatabase();
+	//database *brani = ottieniDatabase();
 
 	printf("Elenco dei brani:\n");
 	int i=0;
@@ -176,4 +177,5 @@ void elencaBrani() {
 		printf("Anno: %d\n", brani[i].anno);
 		i++;
 	}
+
 }
