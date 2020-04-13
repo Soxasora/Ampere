@@ -1,5 +1,5 @@
 /*
- * Spotifabba 0.1 rev.63 - 13.04.2020
+ * Spotifabba 0.1 rev.70 - 13.04.2020
  * Copyright (c) 2020, Simone Cervino.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,26 +42,25 @@ void creaDatabaseSeNonEsiste() {
 	fclose(fp);
 }
 
-// TODO
 // Funzione per trasferire in memoria il database file-based velocizzando la sua lettura.
 // TODO: Rendere disponibile lo struct riempito a tutto il programma per evitare inutili ri-accessi
 database* ottieniDatabase() {
 	printf("\nOttengo il database...");
 	//TODO: Trovare un metodo migliore per allocare dinamicamente
-	database *brani = malloc((MAX_CHAR*5)*sizeof(brani));
+	database *brani = malloc((MAX_CHAR*5)*sizeof(database));
 	FILE* fp=fopen("database.txt", "r"); // Apro database
-	// TODO: Allora questo, questo è sbagliato ed è da cambiare assolutamente
+	// TODO: Allora questo, questo è da cambiare assolutamente
 	char temp[1000]; // [DA CAMBIARE] Variabile temporanea per ottenere i dati
 	char dati[1000][1000]; // [DA CAMBIARE] Array temporaneo per trasportare i dati
 	char spaziatore[] = ","; // Il database divide i dati utilizzando lo spaziatore ,
 	int i, j;
 	i=0;
-	// TODO: Da cambiare, mai usare !feof
+	// TODO: Trovare metodo migliore se esistente
 	while(!feof(fp)) { // Fino a quando non arriva alla fine del file
 		fgets(temp, 1000, fp); // Ottiene la linea
 		char *ptr = strtok(temp, spaziatore); // Imposta lo spaziatore
 		j=0;
-		while(ptr!=NULL) { // Fino a quando il puntatore non ha piï¿½ niente da trasportare
+		while(ptr!=NULL) { // Fino a quando il puntatore non ha piu' niente da trasportare
 			strcpy(dati[j], ptr); // Copia informazione nel punto i dell'array temporaneo
 			ptr=strtok(NULL, spaziatore); // Passa al prossimo spaziatore
 			j++;
@@ -71,7 +70,6 @@ database* ottieniDatabase() {
 		strcpy(brani[i].artista, dati[1]);
 		strcpy(brani[i].album, dati[2]);
 		strcpy(brani[i].durata, dati[3]);
-		// TODO: Far sparire atoi ed utilizzare funzioni più sicure
 		brani[i].anno = atoi(dati[4]); // Conversione da char a int del valore Anno
 		i++;
 	}

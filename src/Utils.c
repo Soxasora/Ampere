@@ -1,5 +1,5 @@
 /*
- * Spotifabba 0.1 rev.63 - 13.04.2020
+ * Spotifabba 0.1 rev.70 - 13.04.2020
  * Copyright (c) 2020, Simone Cervino.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,12 @@ void info() {
 	printf(" _\\ \\/ _ \\/ _ \\/ __/ / _/ _ `/ _ \\/ _ \\/ _ `/\n");
 	printf("/___/ .__/\\___/\\__/_/_/ \\_,_/_.__/_.__/\\_,_/ \n");
 	printf("   /_/                                       \n");
-	printf("\nSpotifabba 0.0.1 rev.63\n");
+	printf("\nSpotifabba 0.0.1 rev.70\n");
+}
+
+void pulisciBuffer() {
+	int c;
+	while ((c = getchar()) != '\n' && c != EOF) { }
 }
 
 void aspetta() {
@@ -51,7 +56,8 @@ void aspetta() {
 
 // Menu principale di Spotifabba
 void menu() {
-	int scelta;
+	pulisciBuffer();
+	char scelta='0';
 	printf("\n===Menu principale===");
 	printf("\n[1] Gestisci il database");
 	printf("\n[2] Ricerca nel database");
@@ -59,17 +65,17 @@ void menu() {
 	printf("\n[4] TODO: Riproduci un brano");
 	printf("\n[5] Informazioni su Spotifabba");
 	printf("\n[0] Esci dal programma");
-	printf("\n[11] DEBUG");
+	printf("\n[9] DEBUG");
 	printf("\nInserisci la tua scelta: ");
-	scanf("%d", &scelta);
+	scanf("%c", &scelta);
 
-	if(scelta==1) {
+	if(scelta=='1') {
 		menuDatabase();
-	} else if (scelta==2) {
+	} else if (scelta=='2') {
 		menuRicerca();
-	} else if (scelta==3) {
+	} else if (scelta=='3') {
 		// TODO
-	} else if (scelta==4) {
+	} else if (scelta=='4') {
 		// TODO
 		#ifdef _WIN32
 			system("example.mp3");
@@ -78,13 +84,13 @@ void menu() {
 		#elif __linux__
 			system("vlc example.mp3");
 		#endif
-	} else if (scelta==5) {
+	} else if (scelta=='5') {
 		info();
 		aspetta();
 		menu();
-	} else if (scelta==0) {
+	} else if (scelta=='0') {
 		printf("\nUscendo dal programma...\n");
-	} else if (scelta==11) {
+	} else if (scelta=='9') {
 		// DA USARE PER DEBUG
 	} else {
 		printf("\nInserita scelta non riconosciuta, riprovare. ");
@@ -93,21 +99,22 @@ void menu() {
 }
 
 void menuDatabase() {
-	int scelta=0;
+	pulisciBuffer();
+	char scelta='0';
 	printf("\n===Menu gestione database===");
 	printf("\n[1] Inserimento brano nel database");
 	printf("\n[2] TODO: Modifica un brano");
 	printf("\n[3] TODO: Cancella un brano");
 	printf("\n[0] Torna al menu principale");
 	printf("\nInserisci la tua scelta: ");
-	scanf("%d", &scelta);
-	if (scelta==1) {
+	scanf("%c", &scelta);
+	if (scelta=='1') {
 		menuInserimento();
-	} else if (scelta==2) {
+	} else if (scelta=='2') {
 		// TODO
-	} else if (scelta==3) {
+	} else if (scelta=='3') {
 		// TODO
-	} else if (scelta==0) {
+	} else if (scelta=='0') {
 		menu();
 	} else {
 		printf("\nInserita scelta non riconosciuta, riprovare. ");
@@ -116,18 +123,19 @@ void menuDatabase() {
 }
 
 void menuInserimento() {
-	int scelta=0;
+	pulisciBuffer();
+	char scelta='0';
 	printf("\n===Menu Inserimento===");
 	printf("\n[1] Inserimento guidato");
 	printf("\n[2] Inserimento diretto per utenti avanzati");
 	printf("\n[0] Ritorna al menu precedente");
 	printf("\nInserisci la tua scelta: ");
-	scanf("%d", &scelta);
-	if (scelta==1) {
+	scanf("%c", &scelta);
+	if (scelta=='1') {
 		inserimento(0);
-	} else if (scelta==2) {
+	} else if (scelta=='2') {
 		inserimento(1);
-	} else if (scelta==0) {
+	} else if (scelta=='0') {
 		menuDatabase();
 	} else {
 		printf("\nInserita scelta non riconosciuta, riprovare. ");
@@ -136,7 +144,8 @@ void menuInserimento() {
 }
 
 void menuRicerca() {
-	int scelta=0;
+	pulisciBuffer();
+	char scelta='0';
 	printf("\n===Menu di ricerca===");
 	printf("\n[1] Mostra i miei brani");
 	printf("\n[2] Ricerca per Titolo");
@@ -146,22 +155,22 @@ void menuRicerca() {
 	printf("\n[6] Ricerca per Anno");
 	printf("\n[0] Torna al menu principale");
 	printf("\nInserisci la tua scelta: ");
-	scanf("%d", &scelta);
-	if (scelta==1) {
-		elencaBrani();
+	scanf("%c", &scelta);
+	if (scelta=='1') {
+		elencaTuttiBrani();
 		aspetta();
 		menuRicerca();
-	} else if (scelta==2) {
+	} else if (scelta=='2') {
 		ricercaBrani(0);
-	} else if (scelta==3) {
+	} else if (scelta=='3') {
 		ricercaBrani(1);
-	} else if (scelta==4) {
+	} else if (scelta=='4') {
 		ricercaBrani(2);
-	} else if (scelta==5) {
+	} else if (scelta=='5') {
 		ricercaBrani(3);
-	} else if (scelta==6) {
+	} else if (scelta=='6') {
 		ricercaBrani(4);
-	} else if (scelta==0) {
+	} else if (scelta=='0') {
 		menu();
 	} else {
 		printf("\nInserita scelta non riconosciuta, riprovare. ");
