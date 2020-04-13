@@ -48,7 +48,7 @@ void ricercaBrani(int modalita) {
 		printf("\nTrovate le seguenti occorrenze:\n\n");
 		while(i<numero_brani) {
 			if (strcmp(titolo, brani[i].titolo)==0) {
-				elencaSingoloBrano(brani, i);
+				elencaSingoloBrano(i);
 			}
 			i++;
 		}
@@ -72,7 +72,7 @@ void ricercaBrani(int modalita) {
 		printf("\nTrovate le seguenti occorrenze:\n\n");
 		while(i<numero_brani) {
 			if (strcmp(artista, brani[i].artista)==0) {
-				elencaSingoloBrano(brani, i);
+				elencaSingoloBrano(i);
 			}
 			i++;
 		}
@@ -96,7 +96,7 @@ void ricercaBrani(int modalita) {
 		printf("\nTrovate le seguenti occorrenze:\n\n");
 		while(i<numero_brani) {
 			if (strcmp(album, brani[i].album)==0) {
-				elencaSingoloBrano(brani, i);
+				elencaSingoloBrano(i);
 			}
 			i++;
 		}
@@ -119,7 +119,7 @@ void ricercaBrani(int modalita) {
 		printf("\nTrovate le seguenti occorrenze:\n\n");
 		while(i<numero_brani) {
 			if (strcmp(durata, brani[i].durata)==0) {
-				elencaSingoloBrano(brani, i);
+				elencaSingoloBrano(i);
 			}
 			i++;
 		}
@@ -139,7 +139,7 @@ void ricercaBrani(int modalita) {
 		printf("\nTrovate le seguenti occorrenze:\n\n");
 		while(i<numero_brani) {
 			if (anno==brani[i].anno) {
-				elencaSingoloBrano(brani, i);
+				elencaSingoloBrano(i);
 			}
 			i++;
 		}
@@ -154,7 +154,7 @@ void ricercaBrani(int modalita) {
 }
 
 // Funzione di elencazione di tutte le informazioni di un brano
-void elencaSingoloBrano(database *brani, int pos) {
+void elencaSingoloBrano(int pos) {
 	printf("\nTitolo: %s\n", brani[pos].titolo);
 	printf("Artista: %s\n", brani[pos].artista);
 	printf("Album: %s\n", brani[pos].album);
@@ -171,6 +171,14 @@ void elencaTuttiBrani() {
 	while (i<numero_brani) {
 		printf("\nBrano n.%d\n", i+1);
 		elencaSingoloBrano(brani, i);
+		if ((numero_brani+1)>5 && (i+1)%5==0) {
+			char scelta='Y';
+			pulisciBuffer();
+			printf("\nElencare i prossimi 5 brani? [Y/N]: ");
+			scanf("%c", &scelta);
+			if (scelta=='N')
+				menuRicerca();
+		}
 		i++;
 	}
 

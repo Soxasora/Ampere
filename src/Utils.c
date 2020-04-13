@@ -177,3 +177,33 @@ void menuRicerca() {
 		menuRicerca();
 	}
 }
+
+void menuModifica() {
+	pulisciBuffer();
+	char scelta='0';
+	printf("\n===Menu di modifica===");
+	printf("\n[1] Modifica il Titolo");
+	printf("\n[2] Modifica l'Artista");
+	printf("\n[3] Modifica l'Album");
+	printf("\n[4] Modifica la Durata");
+	printf("\n[5] Modifica l'Anno");
+	printf("\n[0] Torna al menu principale");
+	printf("\nInserisci la tua scelta: ");
+	scanf("%c", &scelta);
+	if (scelta=='1') {
+		modifica(1);
+	} else if (scelta=='2') {
+		modifica(2);
+	} else if (scelta=='3') {
+		modifica(3);
+	} else if (scelta=='4') {
+		modifica(4);
+	} else if (scelta=='5') {
+		modifica(5);
+	} else if (scelta=='0') {
+		menu();
+	} else {
+		printf("\nInserita scelta non riconosciuta, riprovare. ");
+		menuModifica();
+	}
+}

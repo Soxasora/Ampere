@@ -30,6 +30,7 @@
 #include "Spotifabba.h"
 #include "GestoreFile.h"
 #include "Database.h"
+#include "MotoreRicerca.h"
 #include "Utils.h"
 
 // FUNZIONI FILE
@@ -116,3 +117,60 @@ void inserisciBranoDiretto(char stringa[]) {
 	brani = ottieniDatabase();
 	printf("\nBrano inserito.");
 }
+
+void modifica(int scelta) {
+	int pos;
+	printf("\n===Sistema di modifica dei brani===");
+	printf("\nScegliere il brano da modificare");
+	aspetta();
+	elencaTuttiBrani();
+	printf("\n\nInserire il numero del brano da modificare: ");
+	scanf("%d", &pos);
+	pos--;
+	printf("\nHai scelto il brano: ");
+	elencaSingoloBrano(pos);
+	modificaSingoloBrano(pos, scelta);
+}
+
+void modificaSingoloBrano(int pos, int modalita) {
+	if (modalita==1) {
+		pulisciBuffer();
+		char *titolo = malloc(MAX_CHAR);
+		printf("\nInserisci nuovo titolo: ");
+		fgets(titolo, MAX_CHAR, stdin); // Al posto di scanf per gestire gli spazi, evitare overflow
+		strtok(titolo, "\n"); // In modo da evitare indesiderati newline
+		strcpy(brani[pos].titolo, titolo);
+		free(titolo);
+	} else if (modalita==2) {
+		pulisciBuffer();
+		char *artista = malloc(MAX_CHAR);
+		printf("\nInserisci nuovo artista: ");
+		fgets(artista, MAX_CHAR, stdin); // Al posto di scanf per gestire gli spazi, evitare overflow
+		strtok(artista, "\n"); // In modo da evitare indesiderati newline
+		strcpy(brani[pos].artista, artista);
+		free(artista);
+	} else if (modalita==3) {
+		pulisciBuffer();
+		char *album = malloc(MAX_CHAR);
+		printf("\nInserisci nuovo album: ");
+		fgets(album, MAX_CHAR, stdin); // Al posto di scanf per gestire gli spazi, evitare overflow
+		strtok(album, "\n"); // In modo da evitare indesiderati newline
+		strcpy(brani[pos].album, album);
+		free(album);
+	} else if (modalita==4) {
+		pulisciBuffer();
+		char *durata = malloc(MAX_CHAR);
+		printf("\nInserisci nuova durata: ");
+		fgets(durata, MAX_CHAR, stdin); // Al posto di scanf per gestire gli spazi, evitare overflow
+		strtok(durata, "\n"); // In modo da evitare indesiderati newline
+		strcpy(brani[pos].durata, durata);
+		free(durata);
+	} else if (modalita==5) {
+		pulisciBuffer();
+		int anno=0;
+		printf("\nInserisci nuovo anno: ");
+		scanf("%d", &anno);
+		brani[pos].anno=anno;
+	}
+}
+//TODO: Ok e ora mettilo nel file se hai il coraggio

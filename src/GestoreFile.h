@@ -30,5 +30,7 @@
 void inserimento(int scelta);
 void inserisciBrano(char titolo[], char artista[], char album[], char durata[], char anno[]);
 void inserisciBranoDiretto(char stringa[]);
+void modifica(int scelta);
+void modificaSingoloBrano(int pos, int modalita);
 
 #endif /* GESTOREFILE_H_ */

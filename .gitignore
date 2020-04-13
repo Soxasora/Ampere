@@ -54,3 +54,4 @@ Mkfile.old
 dkms.conf
 /Debug/src/
 /Debug/Spotifabba.exe
+*.mp3
