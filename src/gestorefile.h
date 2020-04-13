@@ -1,5 +1,5 @@
 /*
- * Spotifabba 0.0.1 rev.2 - 09.04.2020
+ * Spotifabba 0.1 rev.50 - 13.04.2020
  * Copyright (c) 2020, Simone Cervino.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,6 +27,8 @@
 #ifndef GESTOREFILE_H_
 #define GESTOREFILE_H_
 
-
+void inserimento(int scelta);
+void inserisciBrano(char titolo[], char artista[], char album[], char durata[], char anno[]);
+void inserisciBranoDiretto(char stringa[]);
 
 #endif /* GESTOREFILE_H_ */
