@@ -1,6 +1,6 @@
 /*
- * Spotifabba 0.1 rev.84 - 14.04.2020
- * Copyright (c) 2020, Simone Cervino.
+ * FabbAmp 0.1 rev.84 - 14.04.2020
+ * Copyright (c) 2020, Nicolo' Cucinotta, Simone Cervino.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -27,9 +27,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "Spotifabba.h"
 #include "GestoreBrani.h"
 #include "Database.h"
+#include "FabbAmp.h"
 #include "MotoreRicerca.h"
 #include "Utils.h"
 

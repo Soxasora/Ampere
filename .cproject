@@ -16,7 +16,7 @@
 					<folderInfo id="cdt.managedbuild.config.gnu.mingw.exe.debug.632382169." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.exe.debug.209988777" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.exe.debug">
 							<targetPlatform id="cdt.managedbuild.target.gnu.platform.mingw.exe.debug.237801195" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.mingw.exe.debug"/>
-							<builder buildPath="${workspace_loc:/Spotifabba}/Debug" id="cdt.managedbuild.tool.gnu.builder.mingw.base.297827984" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="CDT Internal Builder" superClass="cdt.managedbuild.tool.gnu.builder.mingw.base"/>
+							<builder buildPath="${workspace_loc:/FabbAmp}/Debug" id="cdt.managedbuild.tool.gnu.builder.mingw.base.297827984" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="CDT Internal Builder" superClass="cdt.managedbuild.tool.gnu.builder.mingw.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.exe.debug.883221755" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.exe.debug">
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.508175489" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -61,7 +61,7 @@
 					<folderInfo id="cdt.managedbuild.config.gnu.mingw.exe.release.1975448084." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.exe.release.332262376" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.exe.release">
 							<targetPlatform id="cdt.managedbuild.target.gnu.platform.mingw.exe.release.509570597" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.mingw.exe.release"/>
-							<builder buildPath="${workspace_loc:/Spotifabba}/Release" id="cdt.managedbuild.tool.gnu.builder.mingw.base.322314268" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="CDT Internal Builder" superClass="cdt.managedbuild.tool.gnu.builder.mingw.base"/>
+							<builder buildPath="${workspace_loc:/FabbAmp}/Release" id="cdt.managedbuild.tool.gnu.builder.mingw.base.322314268" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="CDT Internal Builder" superClass="cdt.managedbuild.tool.gnu.builder.mingw.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.exe.release.1582629761" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.exe.release">
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.661429736" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>

@@ -1,6 +1,6 @@
 /*
- * Spotifabba 0.1 rev.84 - 14.04.2020
- * Copyright (c) 2020, Simone Cervino.
+ * FabbAmp 0.1 rev.84 - 14.04.2020
+ * Copyright (c) 2020, Nicolo' Cucinotta, Simone Cervino.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -31,12 +31,12 @@
 #include "GestoreBrani.h"
 
 void info() {
-	printf("   ____          __  _ ___     __   __       \n");
-	printf("  / __/__  ___  / /_(_) _/__ _/ /  / /  ___ _\n");
-	printf(" _\\ \\/ _ \\/ _ \\/ __/ / _/ _ `/ _ \\/ _ \\/ _ `/\n");
-	printf("/___/ .__/\\___/\\__/_/_/ \\_,_/_.__/_.__/\\_,_/ \n");
-	printf("   /_/                                       \n");
-	printf("\nSpotifabba 0.0.1 rev.84\n");
+	printf("   ____     __   __   ___            \n");
+	printf("  / __/__ _/ /  / /  / _ | __ _  ___ \n");
+	printf(" / _// _ `/ _ \\/ _ \\/ __ |/  ' \\/ _ \\\n");
+	printf("/_/  \\_,_/_.__/_.__/_/ |_/_/_/_/ .__/\n");
+	printf("                              /_/    \n");
+	printf("\nFabbAmp 0.0.1 rev.84\n");
 }
 
 void pulisciBuffer() {
@@ -56,6 +56,7 @@ void aspetta() {
 
 int controllaSeFileVuoto() {
 	FILE* fp=fopen("database.txt", "r");
+	// Proof of concept, cambiare in qualcosa di più sicuro
 	int c = fgetc(fp);
 	fclose(fp);
 	if (c == EOF) {
@@ -79,6 +80,7 @@ void backupDatabase(char *file2) {
 		printf("Impossibile creare un database file-based di backup.");
 	}
 
+	// Proof of concept, cambiare in qualcosa di più sicuro
 	c=fgetc(fp);
 	while (c!=EOF) {
 		fputc(c, fp2);
@@ -88,7 +90,7 @@ void backupDatabase(char *file2) {
 	printf("\nBackup del database effettuato.");
 }
 
-// Menu principale di Spotifabba
+// Menu principale di FabbAmp
 void menu() {
 	pulisciBuffer();
 	char scelta='0';
@@ -97,7 +99,7 @@ void menu() {
 	printf("\n[2] Ricerca nel database");
 	printf("\n[3] TODO: Condividi un brano");
 	printf("\n[4] TODO: Riproduci un brano");
-	printf("\n[5] Informazioni su Spotifabba");
+	printf("\n[5] Informazioni su FabbAmp");
 	printf("\n[0] Esci dal programma");
 	printf("\n[9] DEBUG");
 	printf("\nInserisci la tua scelta: ");

@@ -35,7 +35,7 @@
 *.i*86
 *.x86_64
 *.hex
-Spotifabba
+FabbAmp
 
 # Debug files
 *.dSYM/
@@ -53,6 +53,6 @@ Module.symvers
 Mkfile.old
 dkms.conf
 /Debug/src/
-/Debug/Spotifabba.exe
+/Debug/FabbAmp.exe
 *.mp3
 /Debug/

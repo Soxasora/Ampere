@@ -1,6 +1,6 @@
 /*
- * Spotifabba 0.1 rev.84 - 14.04.2020
- * Copyright (c) 2020, Simone Cervino.
+ * FabbAmp 0.1 rev.84 - 14.04.2020
+ * Copyright (c) 2020, Nicolo' Cucinotta, Simone Cervino.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -24,40 +24,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "Spotifabba.h"
-#include "Database.h"
-#include "GestoreBrani.h"
-#include "MotoreRicerca.h"
-#include "Utils.h"
+#ifndef FABBAMP_H_
+#define FABBAMP_H_
 
-int main() {
-	// Inizializza il programma
-	inizializzazione();
-	// Mostra il menu
-	menu();
-	// Esegui le ultime funzioni di aggiornamento prima di chiudere
-	//terminazione();
+int numero_brani; // TODO: Trovare un metodo migliore
+void inizializzazione();
+//void terminazione();
 
-	printf("\nSpotifabba terminato.\n");
-	aspetta();
-	return 0;
-}
-
-void inizializzazione() {
-	// Visualizza informazioni su Spotifabba
-	info();
-	printf("\nBenvenuto su Spotifabba.");
-	// Crea database se esso non e' presente nella cartella.
-	creaDatabaseSeNonEsiste();
-	// Trasferimento in memoria del database file-based
-	brani = ottieniDatabase();
-	aspetta();
-}
-
-/*void terminazione() {
-	aggiornaDatabase();
-}*/
-
+#endif /* FABBAMP_H_ */

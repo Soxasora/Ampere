@@ -1,6 +1,6 @@
 /*
- * Spotifabba 0.1 rev.84 - 14.04.2020
- * Copyright (c) 2020, Simone Cervino.
+ * FabbAmp 0.1 rev.84 - 14.04.2020
+ * Copyright (c) 2020, Nicolo' Cucinotta, Simone Cervino.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -27,9 +27,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "Spotifabba.h"
 #include "GestoreBrani.h"
 #include "Database.h"
+
+#include "FabbAmp.h"
 #include "Utils.h"
 
 // Funzione di controllo e creazione del database
@@ -88,6 +89,7 @@ void aggiornaDatabase() {
 	int i=0;
 	while (i<numero_brani) {
 		char anno[5];
+		// Investigare su sprintf
 		sprintf(anno, "%d", brani[i].anno);
 		inserisciBrano(1, brani[i].titolo, brani[i].artista, brani[i].album, brani[i].durata, anno);
 		i++;

@@ -1,6 +1,6 @@
 /*
- * Spotifabba 0.1 rev.84 - 14.04.2020
- * Copyright (c) 2020, Simone Cervino.
+ * FabbAmp 0.1 rev.84 - 14.04.2020
+ * Copyright (c) 2020, Nicolo' Cucinotta, Simone Cervino.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -28,7 +28,7 @@
 #define DATABASE_H_
 #define MAX_CHAR 256
 
-// Struttura per mantenere in memoria la Libreria Musicale di Spotifabba
+// Struttura per mantenere in memoria la Libreria Musicale di FabbAmp
 // TODO: Passare ad allocazione dinamica
 typedef struct libreriaMusicale {
 	char titolo[MAX_CHAR];
