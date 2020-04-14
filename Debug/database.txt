@@ -3,9 +3,9 @@ Get Lucky,Daft Punk,Random Access Memories,3:33,2013
 One More Time,Daft Punk,Discovery,3:00,2001
 Solo,Frank Ocean,Blonde,3:45,2016
 Snap Out Of It,Arctic Monkeys,AM,3:13,2013
-Dok,Supermercato,Famila,4:20,2020
-Famila,Ipermercato,Famila,4:44,2020
 Fluorescent Adolescent,Arctic Monkeys,Favourite Worst Nightmare,3:29,2007
 Do Me a Favour,Arctic Monkeys,Favourite Worst Nightmare,3:03,2007
 Dreamscape,009 Sound System,Indian guy,4:53,2009
 Veridis Quo,Daft Punk,Discovery,5:45,2001
+All Star,Smash Mouth,Shrek,3:36,1999
+Sweden,C418,Minecraft Alpha,3:36,2009

@@ -1,5 +1,5 @@
 /*
- * Spotifabba 0.1 rev.70 - 13.04.2020
+ * Spotifabba 0.1 rev.84 - 14.04.2020
  * Copyright (c) 2020, Simone Cervino.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,6 +43,6 @@ database* brani;
 
 void creaDatabaseSeNonEsiste();
 database* ottieniDatabase();
-database* new_ottieniDatabase();
+void aggiornaDatabase();
 
 #endif /* DATABASE_H_ */

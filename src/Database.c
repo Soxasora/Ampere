@@ -1,5 +1,5 @@
 /*
- * Spotifabba 0.1 rev.70 - 13.04.2020
+ * Spotifabba 0.1 rev.84 - 14.04.2020
  * Copyright (c) 2020, Simone Cervino.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,6 +28,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "Spotifabba.h"
+#include "GestoreBrani.h"
 #include "Database.h"
 #include "Utils.h"
 
@@ -77,4 +78,21 @@ database* ottieniDatabase() {
 	fclose(fp);
 	printf(" Fatto.\n");
 	return brani;
+}
+
+// Funzione per trasferire su file il database presente in memoria salvando così le modifiche.
+void aggiornaDatabase() {
+	printf("\nSalvando le modifiche effettuate al database...");
+	backupDatabase("temp_db.txt");
+	remove("database.txt");
+	int i=0;
+	while (i<numero_brani) {
+		char anno[5];
+		sprintf(anno, "%d", brani[i].anno);
+		inserisciBrano(1, brani[i].titolo, brani[i].artista, brani[i].album, brani[i].durata, anno);
+		i++;
+	}
+	remove("temp_db.txt");
+	printf("\nModifiche salvate.");
+
 }

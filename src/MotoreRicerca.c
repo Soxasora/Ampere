@@ -1,5 +1,5 @@
 /*
- * Spotifabba 0.1 rev.70 - 13.04.2020
+ * Spotifabba 0.1 rev.84 - 14.04.2020
  * Copyright (c) 2020, Simone Cervino.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -170,14 +170,14 @@ void elencaTuttiBrani() {
 	int i=0;
 	while (i<numero_brani) {
 		printf("\nBrano n.%d\n", i+1);
-		elencaSingoloBrano(brani, i);
+		elencaSingoloBrano(i);
 		if ((numero_brani+1)>5 && (i+1)%5==0) {
 			char scelta='Y';
 			pulisciBuffer();
 			printf("\nElencare i prossimi 5 brani? [Y/N]: ");
 			scanf("%c", &scelta);
 			if (scelta=='N')
-				menuRicerca();
+				break;
 		}
 		i++;
 	}

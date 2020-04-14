@@ -1,5 +1,5 @@
 /*
- * Spotifabba 0.1 rev.70 - 13.04.2020
+ * Spotifabba 0.1 rev.84 - 14.04.2020
  * Copyright (c) 2020, Simone Cervino.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
 #include <string.h>
 #include "Spotifabba.h"
 #include "Database.h"
-#include "GestoreFile.h"
+#include "GestoreBrani.h"
 #include "MotoreRicerca.h"
 #include "Utils.h"
 
@@ -38,9 +38,10 @@ int main() {
 	inizializzazione();
 	// Mostra il menu
 	menu();
+	// Esegui le ultime funzioni di aggiornamento prima di chiudere
+	//terminazione();
 
-	//TODO: Cambiare in un sistema multipiattaforma.
-	printf("Spotifabba terminato.\n");
+	printf("\nSpotifabba terminato.\n");
 	aspetta();
 	return 0;
 }
@@ -55,3 +56,8 @@ void inizializzazione() {
 	brani = ottieniDatabase();
 	aspetta();
 }
+
+/*void terminazione() {
+	aggiornaDatabase();
+}*/
+

@@ -1,5 +1,5 @@
 /*
- * Spotifabba 0.1 rev.70 - 13.04.2020
+ * Spotifabba 0.1 rev.84 - 14.04.2020
  * Copyright (c) 2020, Simone Cervino.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -26,9 +26,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "GestoreFile.h"
 #include "MotoreRicerca.h"
 #include "Utils.h"
+#include "GestoreBrani.h"
 
 void info() {
 	printf("   ____          __  _ ___     __   __       \n");
@@ -36,7 +36,7 @@ void info() {
 	printf(" _\\ \\/ _ \\/ _ \\/ __/ / _/ _ `/ _ \\/ _ \\/ _ `/\n");
 	printf("/___/ .__/\\___/\\__/_/_/ \\_,_/_.__/_.__/\\_,_/ \n");
 	printf("   /_/                                       \n");
-	printf("\nSpotifabba 0.0.1 rev.70\n");
+	printf("\nSpotifabba 0.0.1 rev.84\n");
 }
 
 void pulisciBuffer() {
@@ -52,6 +52,40 @@ void aspetta() {
 		printf("\nPremere qualunque tasto per continuare...");
 		char w = scanf("%c", &w);
 	#endif
+}
+
+int controllaSeFileVuoto() {
+	FILE* fp=fopen("database.txt", "r");
+	int c = fgetc(fp);
+	fclose(fp);
+	if (c == EOF) {
+	    return 1;
+	} else {
+		return 0;
+	}
+}
+
+void backupDatabase(char *file2) {
+	FILE *fp, *fp2;
+	char *file = "database.txt";
+	char c;
+	fp = fopen(file, "r");
+	if (fp==NULL) {
+		printf("Impossibile aprire il database file-based.");
+	}
+
+	fp2 = fopen(file2, "w");
+	if (fp2==NULL) {
+		printf("Impossibile creare un database file-based di backup.");
+	}
+
+	c=fgetc(fp);
+	while (c!=EOF) {
+		fputc(c, fp2);
+		c=fgetc(fp);
+	}
+	fclose(fp); fclose(fp2);
+	printf("\nBackup del database effettuato.");
 }
 
 // Menu principale di Spotifabba
@@ -75,6 +109,7 @@ void menu() {
 		menuRicerca();
 	} else if (scelta=='3') {
 		// TODO
+		menu();
 	} else if (scelta=='4') {
 		// TODO
 		#ifdef _WIN32
@@ -92,6 +127,7 @@ void menu() {
 		printf("\nUscendo dal programma...\n");
 	} else if (scelta=='9') {
 		// DA USARE PER DEBUG
+		menu();
 	} else {
 		printf("\nInserita scelta non riconosciuta, riprovare. ");
 		menu();
@@ -103,8 +139,9 @@ void menuDatabase() {
 	char scelta='0';
 	printf("\n===Menu gestione database===");
 	printf("\n[1] Inserimento brano nel database");
-	printf("\n[2] TODO: Modifica un brano");
+	printf("\n[2] Modifica un brano");
 	printf("\n[3] TODO: Cancella un brano");
+	printf("\n[4] Effettua un backup del database");
 	printf("\n[0] Torna al menu principale");
 	printf("\nInserisci la tua scelta: ");
 	scanf("%c", &scelta);
@@ -112,8 +149,19 @@ void menuDatabase() {
 		menuInserimento();
 	} else if (scelta=='2') {
 		// TODO
+		menuModifica();
 	} else if (scelta=='3') {
 		// TODO
+	} else if (scelta=='4') {
+		pulisciBuffer();
+		char *nome = malloc(MAX_CHAR);
+		printf("\nInserisci nome del backup, inclusa estensione: ");
+		fgets(nome, MAX_CHAR, stdin);
+		strtok(nome, "\n");
+		backupDatabase(nome);
+		free(nome);
+		aspetta();
+		menuDatabase();
 	} else if (scelta=='0') {
 		menu();
 	} else {
@@ -192,14 +240,24 @@ void menuModifica() {
 	scanf("%c", &scelta);
 	if (scelta=='1') {
 		modifica(1);
+		aspetta();
+		menuModifica();
 	} else if (scelta=='2') {
 		modifica(2);
+		aspetta();
+		menuModifica();
 	} else if (scelta=='3') {
 		modifica(3);
+		aspetta();
+		menuModifica();
 	} else if (scelta=='4') {
 		modifica(4);
+		aspetta();
+		menuModifica();
 	} else if (scelta=='5') {
 		modifica(5);
+		aspetta();
+		menuModifica();
 	} else if (scelta=='0') {
 		menu();
 	} else {

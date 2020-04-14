@@ -1,5 +1,5 @@
 /*
- * Spotifabba 0.1 rev.70 - 13.04.2020
+ * Spotifabba 0.1 rev.84 - 14.04.2020
  * Copyright (c) 2020, Simone Cervino.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,10 +30,13 @@
 void info();
 void pulisciBuffer();
 void aspetta();
+int controllaSeFileVuoto();
+void backupDatabase();
 void menu();
 void menuDatabase();
 void menuInserimento();
 void menuRicerca();
+void menuModifica();
 
 
 #endif /* UTILS_H_ */

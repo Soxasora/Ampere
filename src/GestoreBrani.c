@@ -1,5 +1,5 @@
 /*
- * Spotifabba 0.1 rev.70 - 13.04.2020
+ * Spotifabba 0.1 rev.84 - 14.04.2020
  * Copyright (c) 2020, Simone Cervino.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,7 +28,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "Spotifabba.h"
-#include "GestoreFile.h"
+#include "GestoreBrani.h"
 #include "Database.h"
 #include "MotoreRicerca.h"
 #include "Utils.h"
@@ -38,8 +38,7 @@
 void inserimento(int scelta) {
 	if(scelta==0) { // Inserimento guidato di un brano
 		// Flush per evitare indesiderati comportamenti dell'input
-		int c;
-		while ((c = getchar()) != '\n' && c != EOF) { }
+		pulisciBuffer();
 		// Allocazione della memoria
 		char *titolo = malloc(MAX_CHAR);
 		char *artista = malloc(MAX_CHAR);
@@ -64,7 +63,7 @@ void inserimento(int scelta) {
 		strtok(anno, "\n");
 		// Memorizzo le informazioni direttamente nel file
 		// TODO: Passare ad un sistema esclusivamente struct per poi memorizzare nel file
-		inserisciBrano(titolo, artista, album, durata, anno);
+		inserisciBrano(0, titolo, artista, album, durata, anno);
 		// Libero la memoria
 		free(titolo); free(artista); free(album); free(durata); free(anno);
 		// Possibilitï¿½ di scelta da parte dell'utente
@@ -77,8 +76,7 @@ void inserimento(int scelta) {
 			menu();
 	} else if (scelta==1) {
 		// Flush per evitare indesiderati comportamenti dell'input
-		int c;
-		while ((c = getchar()) != '\n' && c != EOF) { }
+		pulisciBuffer();
 		char *stringa = malloc(MAX_CHAR*5); // MAX_CHAR*5 poiché ci sono 5 informazioni alle quali precedentemente abbiamo dato solo un MAX_CHAR
 		printf("\nBenvenuto nell'inserimento diretto di un brano.");
 		printf("\nIl modello per inserire un brano è il seguente:");
@@ -99,19 +97,29 @@ void inserimento(int scelta) {
 	}
 }
 // Inserimento del brano su base Titolo/Artista/Album/Durata/Anno di incisione
-void inserisciBrano(char titolo[], char artista[], char album[], char durata[], char anno[]) {
+void inserisciBrano(int modalita, char titolo[], char artista[], char album[], char durata[], char anno[]) {
 	FILE* fp=fopen("database.txt", "a");
-	fprintf(fp, "\n%s,%s,%s,%s,%s", titolo, artista, album, durata, anno);
+	if (controllaSeFileVuoto()==1) {
+		fprintf(fp, "%s,%s,%s,%s,%s", titolo, artista, album, durata, anno);
+	} else {
+		fprintf(fp, "\n%s,%s,%s,%s,%s", titolo, artista, album, durata, anno);
+	}
 	fclose(fp);
-	free(brani);
-	brani = ottieniDatabase();
-	printf("\nBrano inserito.");
+	if (modalita==0) {
+		free(brani);
+		brani = ottieniDatabase();
+		printf("\nBrano inserito.");
+	}
 }
 
 // Funzione DEV per l'inserimento diretto di un brano
 void inserisciBranoDiretto(char stringa[]) {
 	FILE* fp=fopen("database.txt", "a");
-	fprintf(fp, "%s\n", stringa);
+	if (controllaSeFileVuoto()==1) {
+		fprintf(fp, "%s", stringa);
+	} else {
+		fprintf(fp, "\n%s", stringa);
+	}
 	fclose(fp);
 	free(brani);
 	brani = ottieniDatabase();
@@ -130,6 +138,7 @@ void modifica(int scelta) {
 	printf("\nHai scelto il brano: ");
 	elencaSingoloBrano(pos);
 	modificaSingoloBrano(pos, scelta);
+	aggiornaDatabase();
 }
 
 void modificaSingoloBrano(int pos, int modalita) {
@@ -172,5 +181,7 @@ void modificaSingoloBrano(int pos, int modalita) {
 		scanf("%d", &anno);
 		brani[pos].anno=anno;
 	}
+
+	printf("\nBrano aggiornato. Ecco il risultato:");
+	elencaSingoloBrano(pos);
 }
-//TODO: Ok e ora mettilo nel file se hai il coraggio
