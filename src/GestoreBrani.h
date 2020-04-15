@@ -27,8 +27,9 @@
 #ifndef GESTOREBRANI_H_
 #define GESTOREBRANI_H_
 
-void inserimento(int scelta);
-void inserisciBrano(int modalita, char titolo[], char artista[], char album[], char durata[], char anno[]);
+void inserimentoGuidato();
+void inserisciBranoGuidato(int modalita, char titolo[], char artista[], char album[], char durata[], char anno[]);
+void inserimentoDiretto();
 void inserisciBranoDiretto(char stringa[]);
 void modifica(int scelta);
 void modificaSingoloBrano(int pos, int modalita);

@@ -35,69 +35,48 @@
 
 // FUNZIONI FILE
 // Inserimento di informazioni direttamente nel database file-based
-void inserimento(int scelta) {
-	if(scelta==0) { // Inserimento guidato di un brano
-		// Flush per evitare indesiderati comportamenti dell'input
-		pulisciBuffer();
-		// Allocazione della memoria
-		char *titolo = malloc(MAX_CHAR);
-		char *artista = malloc(MAX_CHAR);
-		char *album = malloc(MAX_CHAR);
-		char *durata = malloc(MAX_CHAR);
-		char *anno = malloc(MAX_CHAR);
-		// Registrazione informazioni
-		printf("\nInserisci titolo: ");
-		fgets(titolo, MAX_CHAR, stdin); // Al posto di scanf per gestire gli spazi, evitare overflow
-		strtok(titolo, "\n"); // In modo da evitare indesiderati newline
-		printf("\nInserisci artista: ");
-		fgets(artista, MAX_CHAR, stdin);
-		strtok(artista, "\n");
-		printf("\nInserisci titolo dell'album: ");
-		fgets(album, MAX_CHAR, stdin);
-		strtok(album, "\n");
-		printf("\nInserisci durata: ");
-		fgets(durata, MAX_CHAR, stdin);
-		strtok(durata, "\n");
-		printf("\nInserisci anno di incisione: ");
-		fgets(anno, MAX_CHAR, stdin);
-		strtok(anno, "\n");
-		// Memorizzo le informazioni direttamente nel file
-		// TODO: Passare ad un sistema esclusivamente struct per poi memorizzare nel file
-		inserisciBrano(0, titolo, artista, album, durata, anno);
-		// Libero la memoria
-		free(titolo); free(artista); free(album); free(durata); free(anno);
-		// Possibilitï¿½ di scelta da parte dell'utente
-		int scelta_2=0;
-		printf("\nVuoi inserire un altro brano? [0/1]: ");
-		scanf("%d", &scelta_2);
-		if(scelta_2==1)
-			inserimento(0);
-		else
-			menu();
-	} else if (scelta==1) {
-		// Flush per evitare indesiderati comportamenti dell'input
-		pulisciBuffer();
-		char *stringa = malloc(MAX_CHAR*5); // MAX_CHAR*5 poiché ci sono 5 informazioni alle quali precedentemente abbiamo dato solo un MAX_CHAR
-		printf("\nBenvenuto nell'inserimento diretto di un brano.");
-		printf("\nIl modello per inserire un brano è il seguente:");
-		printf("\nTITOLO,ARTISTA,ALBUM,DUR:ATA,ANNO");
-		printf("\nEsempio: Get Lucky,Daft Punk,Random Access Memories,4:09,2013");
-		printf("\nInserisci ora il tuo brano: ");
-		fgets(stringa, MAX_CHAR*5, stdin);
-		strtok(stringa, "\n");
-		inserisciBranoDiretto(stringa);
-		free(stringa);
-		int scelta_2=0;
-		printf("\nVuoi inserire un altro brano? [0/1]: ");
-		scanf("%d", &scelta_2);
-		if(scelta_2==1)
-			inserimento(0);
-		else
-			menu();
-	}
+void inserimentoGuidato() {
+	// Flush per evitare indesiderati comportamenti dell'input
+	pulisciBuffer();
+	// Allocazione della memoria
+	char *titolo = malloc(MAX_CHAR);
+	char *artista = malloc(MAX_CHAR);
+	char *album = malloc(MAX_CHAR);
+	char *durata = malloc(MAX_CHAR);
+	char *anno = malloc(MAX_CHAR);
+	// Registrazione informazioni
+	printf("\nInserisci titolo: ");
+	fgets(titolo, MAX_CHAR, stdin); // Al posto di scanf per gestire gli spazi, evitare overflow
+	strtok(titolo, "\n"); // In modo da evitare indesiderati newline
+	printf("\nInserisci artista: ");
+	fgets(artista, MAX_CHAR, stdin);
+	strtok(artista, "\n");
+	printf("\nInserisci titolo dell'album: ");
+	fgets(album, MAX_CHAR, stdin);
+	strtok(album, "\n");
+	printf("\nInserisci durata: ");
+	fgets(durata, MAX_CHAR, stdin);
+	strtok(durata, "\n");
+	printf("\nInserisci anno di incisione: ");
+	fgets(anno, MAX_CHAR, stdin);
+	strtok(anno, "\n");
+	// Memorizzo le informazioni direttamente nel file
+	// TODO: Passare ad un sistema esclusivamente struct per poi memorizzare nel file
+	inserisciBranoGuidato(0, titolo, artista, album, durata, anno);
+	// Libero la memoria
+	free(titolo); free(artista); free(album); free(durata); free(anno);
+	// Possibilitï¿½ di scelta da parte dell'utente
+	int scelta_2=0;
+	printf("\nVuoi inserire un altro brano? [0/1]: ");
+	scanf("%d", &scelta_2);
+	if(scelta_2==1)
+		inserimentoGuidato();
+	else
+		menu();
 }
+
 // Inserimento del brano su base Titolo/Artista/Album/Durata/Anno di incisione
-void inserisciBrano(int modalita, char titolo[], char artista[], char album[], char durata[], char anno[]) {
+void inserisciBranoGuidato(int modalita, char titolo[], char artista[], char album[], char durata[], char anno[]) {
 	FILE* fp=fopen("database.txt", "a");
 	if (controllaSeFileVuoto()==1) {
 		fprintf(fp, "%s,%s,%s,%s,%s", titolo, artista, album, durata, anno);
@@ -110,6 +89,24 @@ void inserisciBrano(int modalita, char titolo[], char artista[], char album[], c
 		brani = ottieniDatabase();
 		printf("\nBrano inserito.");
 	}
+}
+
+void inserimentoDiretto() {
+	// Flush per evitare indesiderati comportamenti dell'input
+	pulisciBuffer();
+	char *stringa = malloc(MAX_CHAR*5); // MAX_CHAR*5 poiché ci sono 5 informazioni alle quali precedentemente abbiamo dato solo un MAX_CHAR
+	printf("\nInserisci ora il tuo brano: ");
+	fgets(stringa, MAX_CHAR*5, stdin);
+	strtok(stringa, "\n");
+	inserisciBranoDiretto(stringa);
+	free(stringa);
+	int scelta_2=0;
+	printf("\nVuoi inserire un altro brano? [0/1]: ");
+	scanf("%d", &scelta_2);
+	if(scelta_2==1)
+		inserimentoDiretto();
+	else
+		menu();
 }
 
 // Funzione DEV per l'inserimento diretto di un brano

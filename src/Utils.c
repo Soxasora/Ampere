@@ -66,6 +66,16 @@ int controllaSeFileVuoto() {
 	}
 }
 
+int conteggiaCaratteriFile(FILE* fp) {
+	int conta=0;
+	char c = fgetc(fp);
+	while (c!=EOF) {
+		c=fgetc(fp);
+		conta++;
+	}
+	return conta;
+}
+
 void backupDatabase(char *file2) {
 	FILE *fp, *fp2;
 	char *file = "database.txt";
@@ -101,7 +111,7 @@ void menu() {
 	printf("\n[4] TODO: Riproduci un brano");
 	printf("\n[5] Informazioni su FabbAmp");
 	printf("\n[0] Esci dal programma");
-	printf("\n[9] DEBUG");
+	printf("\n[9] MENU DEBUG");
 	printf("\nInserisci la tua scelta: ");
 	scanf("%c", &scelta);
 
@@ -129,7 +139,7 @@ void menu() {
 		printf("\nUscendo dal programma...\n");
 	} else if (scelta=='9') {
 		// DA USARE PER DEBUG
-		menu();
+		menuDebug();
 	} else {
 		printf("\nInserita scelta non riconosciuta, riprovare. ");
 		menu();
@@ -140,7 +150,7 @@ void menuDatabase() {
 	pulisciBuffer();
 	char scelta='0';
 	printf("\n===Menu gestione database===");
-	printf("\n[1] Inserimento brano nel database");
+	printf("\n[1] Inserisci un brano nel database");
 	printf("\n[2] Modifica un brano");
 	printf("\n[3] TODO: Cancella un brano");
 	printf("\n[4] Effettua un backup del database");
@@ -148,7 +158,9 @@ void menuDatabase() {
 	printf("\nInserisci la tua scelta: ");
 	scanf("%c", &scelta);
 	if (scelta=='1') {
-		menuInserimento();
+		inserimentoGuidato();
+		aspetta();
+		menuDatabase();
 	} else if (scelta=='2') {
 		// TODO
 		menuModifica();
@@ -169,27 +181,6 @@ void menuDatabase() {
 	} else {
 		printf("\nInserita scelta non riconosciuta, riprovare. ");
 		menuDatabase();
-	}
-}
-
-void menuInserimento() {
-	pulisciBuffer();
-	char scelta='0';
-	printf("\n===Menu Inserimento===");
-	printf("\n[1] Inserimento guidato");
-	printf("\n[2] Inserimento diretto per utenti avanzati");
-	printf("\n[0] Ritorna al menu precedente");
-	printf("\nInserisci la tua scelta: ");
-	scanf("%c", &scelta);
-	if (scelta=='1') {
-		inserimento(0);
-	} else if (scelta=='2') {
-		inserimento(1);
-	} else if (scelta=='0') {
-		menuDatabase();
-	} else {
-		printf("\nInserita scelta non riconosciuta, riprovare. ");
-		menuInserimento();
 	}
 }
 
@@ -265,5 +256,48 @@ void menuModifica() {
 	} else {
 		printf("\nInserita scelta non riconosciuta, riprovare. ");
 		menuModifica();
+	}
+}
+
+
+// DEBUG TOOLBOX Rimuovere a fine progetto
+void menuDebug() {
+	pulisciBuffer();
+	char scelta='0';
+	printf("\n===Menu DEBUG===");
+	printf("\n[1] Conteggia caratteri presenti nel database");
+	printf("\n[2] Trasferisci database da file alla memoria");
+	printf("\n[3] Trasferisci database dalla memoria al file");
+	printf("\n[4] Inserisci un brano in modalità diretta");
+	printf("\n[5] Pulisci buffer stdin");
+	printf("\n[0] Torna al menu principale");
+	printf("\nInserisci la tua scelta: ");
+	scanf("%c", &scelta);
+	if (scelta=='1') {
+		FILE* fp=fopen("database.txt", "r");
+		printf("\n%d caratteri", conteggiaCaratteriFile(fp));
+		fclose(fp);
+		aspetta();
+		menuDebug();
+	} else if (scelta=='2') {
+		brani = ottieniDatabase();
+		aspetta();
+		menuDebug();
+	} else if (scelta=='3') {
+		aggiornaDatabase();
+		aspetta();
+		menuDebug();
+	} else if (scelta=='4') {
+		printf("\nBenvenuto nell'inserimento diretto di un brano.");
+		printf("\nIl modello per inserire un brano è il seguente:");
+		printf("\nTITOLO,ARTISTA,ALBUM,DUR:ATA,ANNO");
+		printf("\nEsempio: Get Lucky,Daft Punk,Random Access Memories,4:09,2013");
+		inserimentoDiretto();
+		aspetta();
+		menuDebug();
+	} else if (scelta=='5') {
+		pulisciBuffer();
+		aspetta();
+		menuDebug();
 	}
 }

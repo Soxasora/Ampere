@@ -49,8 +49,8 @@ void creaDatabaseSeNonEsiste() {
 database* ottieniDatabase() {
 	printf("\nOttengo il database...");
 	//TODO: Trovare un metodo migliore per allocare dinamicamente
-	database *brani = malloc((MAX_CHAR*5)*sizeof(database));
 	FILE* fp=fopen("database.txt", "r"); // Apro database
+	database *brani = malloc((MAX_CHAR*5)*sizeof(database));
 	// TODO: Allora questo, questo è da cambiare assolutamente
 	char temp[1000]; // [DA CAMBIARE] Variabile temporanea per ottenere i dati
 	char dati[1000][1000]; // [DA CAMBIARE] Array temporaneo per trasportare i dati
@@ -91,7 +91,7 @@ void aggiornaDatabase() {
 		char anno[5];
 		// Investigare su sprintf
 		sprintf(anno, "%d", brani[i].anno);
-		inserisciBrano(1, brani[i].titolo, brani[i].artista, brani[i].album, brani[i].durata, anno);
+		inserisciBranoGuidato(1, brani[i].titolo, brani[i].artista, brani[i].album, brani[i].durata, anno);
 		i++;
 	}
 	remove("temp_db.txt");

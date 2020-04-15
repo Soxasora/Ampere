@@ -31,12 +31,14 @@ void info();
 void pulisciBuffer();
 void aspetta();
 int controllaSeFileVuoto();
+int conteggiaCaratteriFile(FILE* fp);
 void backupDatabase();
 void menu();
 void menuDatabase();
 void menuInserimento();
 void menuRicerca();
 void menuModifica();
+void menuDebug();
 
 
 #endif /* UTILS_H_ */
