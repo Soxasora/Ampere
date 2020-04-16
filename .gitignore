@@ -35,7 +35,6 @@
 *.i*86
 *.x86_64
 *.hex
-FabbAmp
 
 # Debug files
 *.dSYM/
@@ -52,7 +51,9 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
-/Debug/src/
-/Debug/FabbAmp.exe
-*.mp3
+
+
+#FabbAmp custom
+FabbAmp
 /Debug/
+/database.txt

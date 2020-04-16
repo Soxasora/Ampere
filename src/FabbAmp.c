@@ -1,6 +1,6 @@
 /*
  * FabbAmp 0.1 rev.84 - 14.04.2020
- * Copyright (c) 2020, Nicolo' Cucinotta, Simone Cervino.
+ * Copyright (c) 2020, Michele Barile, Nicolo' Cucinotta, Simone Cervino.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -38,6 +38,7 @@ int main() {
 	// Inizializza il programma
 	inizializzazione();
 	// Mostra il menu
+	printf("\nPremere invio per andare al menu.");
 	menu();
 	// Esegui le ultime funzioni di aggiornamento prima di chiudere
 	//terminazione();
@@ -55,7 +56,6 @@ void inizializzazione() {
 	creaDatabaseSeNonEsiste();
 	// Trasferimento in memoria del database file-based
 	brani = ottieniDatabase();
-	aspetta();
 }
 
 /*void terminazione() {

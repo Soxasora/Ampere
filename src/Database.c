@@ -1,6 +1,6 @@
 /*
  * FabbAmp 0.1 rev.84 - 14.04.2020
- * Copyright (c) 2020, Nicolo' Cucinotta, Simone Cervino.
+ * Copyright (c) 2020, Michele Barile, Nicolo' Cucinotta, Simone Cervino.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -77,7 +77,7 @@ database* ottieniDatabase() {
 	}
 	numero_brani=i; // TODO: Trovare un metodo migliore per far sapere al programma il numero dei brani
 	fclose(fp);
-	printf(" Fatto.\n");
+	printf(" Fatto.\n%d brani caricati con successo.\n", numero_brani);
 	return brani;
 }
 
