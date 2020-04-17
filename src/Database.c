@@ -1,5 +1,5 @@
 /*
- * FabbAmp 0.1 rev.84 - 14.04.2020
+ * FabbAmp 0.1 rev.99 - 17.04.2020
  * Copyright (c) 2020, Michele Barile, Nicolo' Cucinotta, Simone Cervino.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,7 +50,7 @@ database* ottieniDatabase() {
 	printf("\nOttengo il database...");
 	//TODO: Trovare un metodo migliore per allocare dinamicamente
 	FILE* fp=fopen("database.txt", "r"); // Apro database
-	database *brani = malloc((MAX_CHAR*5)*sizeof(database));
+	database *brani = malloc((MAX_CHAR*7)*sizeof(database));
 	// TODO: Allora questo, questo è da cambiare assolutamente
 	char temp[1000]; // [DA CAMBIARE] Variabile temporanea per ottenere i dati
 	char dati[1000][1000]; // [DA CAMBIARE] Array temporaneo per trasportare i dati
@@ -73,6 +73,8 @@ database* ottieniDatabase() {
 		strcpy(brani[i].album, dati[2]);
 		strcpy(brani[i].durata, dati[3]);
 		brani[i].anno = atoi(dati[4]); // Conversione da char a int del valore Anno
+		brani[i].ascolti = atoi(dati[5]);
+		brani[i].gradimento = atof(dati[6]);
 		i++;
 	}
 	numero_brani=i; // TODO: Trovare un metodo migliore per far sapere al programma il numero dei brani
@@ -88,10 +90,12 @@ void aggiornaDatabase() {
 	remove("database.txt");
 	int i=0;
 	while (i<numero_brani) {
-		char anno[5];
+		char anno[5], ascolti[MAX_CHAR], gradimento[MAX_CHAR];
 		// Investigare su sprintf
 		sprintf(anno, "%d", brani[i].anno);
-		inserisciBranoGuidato(1, brani[i].titolo, brani[i].artista, brani[i].album, brani[i].durata, anno);
+		sprintf(ascolti, "%d", brani[i].ascolti);
+		sprintf(gradimento, "%.1f", brani[i].gradimento);
+		inserisciBranoGuidato(1, brani[i].titolo, brani[i].artista, brani[i].album, brani[i].durata, anno, ascolti, gradimento);
 		i++;
 	}
 	remove("temp_db.txt");

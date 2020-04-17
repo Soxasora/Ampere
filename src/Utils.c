@@ -1,5 +1,5 @@
 /*
- * FabbAmp 0.1 rev.84 - 14.04.2020
+ * FabbAmp 0.1 rev.99 - 17.04.2020
  * Copyright (c) 2020, Michele Barile, Nicolo' Cucinotta, Simone Cervino.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,7 @@ void info() {
 	printf(" / _// _ `/ _ \\/ _ \\/ __ |/  ' \\/ _ \\\n");
 	printf("/_/  \\_,_/_.__/_.__/_/ |_/_/_/_/ .__/\n");
 	printf("                              /_/    \n");
-	printf("\nFabbAmp 0.0.1 rev.84\n");
+	printf("\nFabbAmp 0.0.1 rev.99\n");
 }
 
 void pulisciBuffer() {
@@ -195,6 +195,8 @@ void menuRicerca() {
 	printf("\n[4] Ricerca per Album");
 	printf("\n[5] Ricerca per Durata");
 	printf("\n[6] Ricerca per Anno");
+	printf("\n[7] Ricerca per Ascolti");
+	printf("\n[8] Ricerca per Gradimento");
 	printf("\n[0] Torna al menu principale");
 	printf("\nInserisci la tua scelta: ");
 	scanf("%c", &scelta);
@@ -212,6 +214,10 @@ void menuRicerca() {
 		ricercaBrani(3);
 	} else if (scelta=='6') {
 		ricercaBrani(4);
+	} else if (scelta=='7') {
+		ricercaBrani(5);
+	} else if (scelta=='8') {
+		ricercaBrani(6);
 	} else if (scelta=='0') {
 		menu();
 	} else {
@@ -229,6 +235,8 @@ void menuModifica() {
 	printf("\n[3] Modifica l'Album");
 	printf("\n[4] Modifica la Durata");
 	printf("\n[5] Modifica l'Anno");
+	printf("\n[6] Modifica il numero di ascolti");
+	printf("\n[7] Modifica il gradimento");
 	printf("\n[0] Torna al menu principale");
 	printf("\nInserisci la tua scelta: ");
 	scanf("%c", &scelta);
@@ -250,6 +258,14 @@ void menuModifica() {
 		menuModifica();
 	} else if (scelta=='5') {
 		modifica(5);
+		aspetta();
+		menuModifica();
+	} else if (scelta=='6') {
+		modifica(6);
+		aspetta();
+		menuModifica();
+	} else if (scelta=='7') {
+		modifica(7);
 		aspetta();
 		menuModifica();
 	} else if (scelta=='0') {
@@ -291,8 +307,8 @@ void menuDebug() {
 	} else if (scelta=='4') {
 		printf("\nBenvenuto nell'inserimento diretto di un brano.");
 		printf("\nIl modello per inserire un brano è il seguente:");
-		printf("\nTITOLO,ARTISTA,ALBUM,DUR:ATA,ANNO");
-		printf("\nEsempio: Get Lucky,Daft Punk,Random Access Memories,4:09,2013");
+		printf("\nTITOLO,ARTISTA,ALBUM,DUR:ATA,ANNO,ASCOLTI,GRADI.MENTO");
+		printf("\nEsempio: Get Lucky,Daft Punk,Random Access Memories,4:09,2013,34,5.0");
 		inserimentoDiretto();
 		aspetta();
 		menuDebug();

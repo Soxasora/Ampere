@@ -1,5 +1,5 @@
 /*
- * FabbAmp 0.1 rev.84 - 14.04.2020
+ * FabbAmp 0.1 rev.99 - 17.04.2020
  * Copyright (c) 2020, Michele Barile, Nicolo' Cucinotta, Simone Cervino.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,6 +36,8 @@ typedef struct libreriaMusicale {
 	char album[MAX_CHAR];
 	char durata[MAX_CHAR];
 	int anno;
+	int ascolti;
+	float gradimento;
 } database;
 
 // Database struct globale per evitare inutili accessi al database file-based

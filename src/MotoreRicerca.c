@@ -1,5 +1,5 @@
 /*
- * FabbAmp 0.1 rev.84 - 14.04.2020
+ * FabbAmp 0.1 rev.99 - 17.04.2020
  * Copyright (c) 2020, Michele Barile, Nicolo' Cucinotta, Simone Cervino.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -150,6 +150,44 @@ void ricercaBrani(int modalita) {
 		} else {
 			menuRicerca();
 		}
+	} else if (modalita==5) {
+		int ascolti=0;
+		printf("\nInserisci numero di ascolti: ");
+		scanf("%d", &ascolti);
+		int i=0;
+		printf("\nTrovate le seguenti occorrenze:\n\n");
+		while(i<numero_brani) {
+			if (ascolti==brani[i].ascolti) {
+				elencaSingoloBrano(i);
+			}
+			i++;
+		}
+		printf("\nCercare un altro brano per Ascolti[0] oppure ritornare al Menu di ricerca[1]? ");
+		scanf("%d", &scelta);
+		if (scelta==0) {
+			ricercaBrani(5);
+		} else {
+			menuRicerca();
+		}
+	} else if (modalita==6) {
+		float gradimento=0.0;
+		printf("\nInserisci gradimento: ");
+		scanf("%f", &gradimento);
+		int i=0;
+		printf("\nTrovate le seguenti occorrenze:\n\n");
+		while(i<numero_brani) {
+			if (gradimento==brani[i].gradimento) {
+				elencaSingoloBrano(i);
+			}
+			i++;
+		}
+		printf("\nCercare un altro brano per Gradimento[0] oppure ritornare al Menu di ricerca[1]? ");
+		scanf("%d", &scelta);
+		if (scelta==0) {
+			ricercaBrani(6);
+		} else {
+			menuRicerca();
+		}
 	}
 }
 
@@ -160,6 +198,8 @@ void elencaSingoloBrano(int pos) {
 	printf("Album: %s\n", brani[pos].album);
 	printf("Durata: %s\n", brani[pos].durata);
 	printf("Anno: %d\n", brani[pos].anno);
+	printf("Ascolti: %d\n", brani[pos].ascolti);
+	printf("Gradimento: %.1f stelle\n", brani[pos].gradimento);
 }
 
 // Funzione di elencazione di tutti i brani presenti nel database file-based

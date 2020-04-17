@@ -1,5 +1,5 @@
 /*
- * FabbAmp 0.1 rev.84 - 14.04.2020
+ * FabbAmp 0.1 rev.99 - 17.04.2020
  * Copyright (c) 2020, Michele Barile, Nicolo' Cucinotta, Simone Cervino.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,6 +44,8 @@ void inserimentoGuidato() {
 	char *album = malloc(MAX_CHAR);
 	char *durata = malloc(MAX_CHAR);
 	char *anno = malloc(MAX_CHAR);
+	char *ascolti = malloc(MAX_CHAR);
+	char *gradimento = malloc(MAX_CHAR);
 	// Registrazione informazioni
 	printf("\nInserisci titolo: ");
 	fgets(titolo, MAX_CHAR, stdin); // Al posto di scanf per gestire gli spazi, evitare overflow
@@ -60,11 +62,17 @@ void inserimentoGuidato() {
 	printf("\nInserisci anno di incisione: ");
 	fgets(anno, MAX_CHAR, stdin);
 	strtok(anno, "\n");
+	printf("\nInserisci numero di ascolti: ");
+	fgets(ascolti, MAX_CHAR, stdin);
+	strtok(ascolti, "\n");
+	printf("\nInserisci gradimento: ");
+	fgets(gradimento, MAX_CHAR, stdin);
+	strtok(gradimento, "\n");
 	// Memorizzo le informazioni direttamente nel file
 	// TODO: Passare ad un sistema esclusivamente struct per poi memorizzare nel file
-	inserisciBranoGuidato(0, titolo, artista, album, durata, anno);
+	inserisciBranoGuidato(0, titolo, artista, album, durata, anno, ascolti, gradimento);
 	// Libero la memoria
-	free(titolo); free(artista); free(album); free(durata); free(anno);
+	free(titolo); free(artista); free(album); free(durata); free(anno); free(ascolti); free(gradimento);
 	// Possibilit� di scelta da parte dell'utente
 	int scelta_2=0;
 	printf("\nVuoi inserire un altro brano? [0/1]: ");
@@ -76,12 +84,12 @@ void inserimentoGuidato() {
 }
 
 // Inserimento del brano su base Titolo/Artista/Album/Durata/Anno di incisione
-void inserisciBranoGuidato(int modalita, char titolo[], char artista[], char album[], char durata[], char anno[]) {
+void inserisciBranoGuidato(int modalita, char titolo[], char artista[], char album[], char durata[], char anno[], char ascolti[], char gradimento[]) {
 	FILE* fp=fopen("database.txt", "a");
 	if (controllaSeFileVuoto()==1) {
-		fprintf(fp, "%s,%s,%s,%s,%s", titolo, artista, album, durata, anno);
+		fprintf(fp, "%s,%s,%s,%s,%s,%s,%s", titolo, artista, album, durata, anno, ascolti, gradimento);
 	} else {
-		fprintf(fp, "\n%s,%s,%s,%s,%s", titolo, artista, album, durata, anno);
+		fprintf(fp, "\n%s,%s,%s,%s,%s,%s,%s", titolo, artista, album, durata, anno, ascolti, gradimento);
 	}
 	fclose(fp);
 	if (modalita==0) {
@@ -177,6 +185,18 @@ void modificaSingoloBrano(int pos, int modalita) {
 		printf("\nInserisci nuovo anno: ");
 		scanf("%d", &anno);
 		brani[pos].anno=anno;
+	} else if (modalita==6) {
+		pulisciBuffer();
+		int ascolti=0;
+		printf("\nInserisci nuovo numero di ascolti: ");
+		scanf("%d", &ascolti);
+		brani[pos].ascolti=ascolti;
+	} else if (modalita==7) {
+		pulisciBuffer();
+		float gradimento=0.0;
+		printf("\nInserisci nuovo gradimento: ");
+		scanf("%f", &gradimento);
+		brani[pos].gradimento=gradimento;
 	}
 
 	printf("\nBrano aggiornato. Ecco il risultato:");
