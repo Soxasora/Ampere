@@ -28,6 +28,10 @@
 #define FABBAMP_H_
 
 int numero_brani; // TODO: Trovare un metodo migliore
+
+/**
+ * Effettua le operazioni iniziali per garantire il funzionamento del programma
+ */
 void inizializzazione();
 //void terminazione();
 

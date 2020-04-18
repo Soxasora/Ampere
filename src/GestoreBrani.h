@@ -27,11 +27,34 @@
 #ifndef GESTOREBRANI_H_
 #define GESTOREBRANI_H_
 
+/**
+ * Mostra all'utente una procedura guidata per inserire brani nel database file-based
+ */
 void inserimentoGuidato();
+
+/**
+ * Funzione di supporto a inserimentoGuidato(), effettua le operazioni di inserimento del brano nel database file-based
+ */
 void inserisciBranoGuidato(int modalita, char titolo[], char artista[], char album[], char durata[], char anno[], char ascolti[], char gradimento[]);
+
+/**
+ * Funzione DEV per inserire un brano direttamente e senza procedura guidata
+ */
 void inserimentoDiretto();
+
+/**
+ * Funzione di supporto a inserimentoDiretto(), effettua l'operazione di inserimento del brano nel database file-based
+ */
 void inserisciBranoDiretto(char stringa[]);
+
+/**
+ * Sistema guidato per la modifica di informazioni di un brano
+ */
 void modifica(int scelta);
+
+/**
+ * Funzione di supporto a modifica(), effettua le operazioni di modifica di brani direttamente nello struct globale
+ */
 void modificaSingoloBrano(int pos, int modalita);
 
 #endif /* GESTOREBRANI_H_ */

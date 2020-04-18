@@ -28,8 +28,19 @@
 #define MOTORERICERCA_H_
 #include "Database.h"
 
+/**
+ * Sistema di ricerca dei brani in base alle informazioni memorizzate nello struct globale
+ */
 void ricercaBrani(int modalita);
+
+/**
+ * Funzione di elencazione delle informazioni di un singolo brano
+ */
 void elencaSingoloBrano(int pos);
+
+/**
+ * Funzione di elencazione di tutti i brani e le loro relative informazioni
+ */
 void elencaTuttiBrani();
 
 #endif /* MOTORERICERCA_H_ */

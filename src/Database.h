@@ -43,8 +43,21 @@ typedef struct libreriaMusicale {
 // Database struct globale per evitare inutili accessi al database file-based
 database* brani;
 
+/**
+ * Controlla l'esistenza del database e se esso non esiste, viene creato automaticamente
+ */
 void creaDatabaseSeNonEsiste();
+
+/**
+ * Carica il database file-based in memoria riempiendo, dunque, lo struct globale libreriaMusicale
+ * @return database* brani riempito
+ */
 database* ottieniDatabase();
+
+/**
+ * Salva le modifiche effettuate allo struct in memoria nel database file-based,
+ * effettuando il backup e la riscrittura del database
+ */
 void aggiornaDatabase();
 
 #endif /* DATABASE_H_ */
