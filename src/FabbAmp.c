@@ -1,5 +1,5 @@
 /*
- * FabbAmp 0.1 rev. 105 - 19.04.2020
+ * FabbAmp 0.1 rev. 137 - 19.04.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -34,10 +34,14 @@ void inizializzazione() {
 	// Visualizza informazioni su FabbAmp
 	info();
 	printf("\nBenvenuto su FabbAmp.");
+	printf("\nInizializzazione in corso...");
+	// Carica le lingue disponibili per i brani
+	caricaLingue();
 	// Crea database se esso non e' presente nella cartella.
 	creaDatabaseSeNonEsiste();
 	// Trasferimento in memoria del database file-based
 	brani = ottieniDatabase();
+	printf("\nFabbAmp Pronto.");
 }
 
 /*void terminazione() {

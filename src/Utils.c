@@ -1,5 +1,5 @@
 /*
- * FabbAmp 0.1 rev. 105 - 19.04.2020
+ * FabbAmp 0.1 rev. 137 - 19.04.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -20,7 +20,20 @@ void info() {
 	printf(" / _// _ `/ _ \\/ _ \\/ __ |/  ' \\/ _ \\\n");
 	printf("/_/  \\_,_/_.__/_.__/_/ |_/_/_/_/ .__/\n");
 	printf("                              /_/    \n");
-	printf("\nFabbAmp 0.0.1 rev.105\n");
+	printf("\nFabbAmp 0.1 rev.137\n");
+}
+
+void caricaLingue() {
+	printf("\nCarico le lingue...");
+	strcpy(lingue[0], "Strumentale");
+	strcpy(lingue[1], "Inglese");
+	strcpy(lingue[2], "Italiano");
+	strcpy(lingue[3], "Francese");
+	strcpy(lingue[4], "Spagnolo");
+	strcpy(lingue[5], "Tedesco");
+	strcpy(lingue[6], "Giapponese");
+	strcpy(lingue[7], "Cinese");
+	printf(" Fatto.");
 }
 
 void pulisciBuffer() {
@@ -120,13 +133,6 @@ void menu() {
 		menu();
 	} else if (scelta=='4') {
 		// TODO
-		#ifdef _WIN32
-			system("example.mp3");
-		#elif __APPLE__
-			system("open example.mp3");
-		#elif __linux__
-			system("vlc example.mp3");
-		#endif
 	} else if (scelta=='5') {
 		info();
 		aspetta();
@@ -158,7 +164,6 @@ void menuDatabase() {
 		aspetta();
 		menuDatabase();
 	} else if (scelta=='2') {
-		// TODO
 		menuModifica();
 	} else if (scelta=='3') {
 		// TODO
@@ -182,38 +187,50 @@ void menuDatabase() {
 
 void menuRicerca() {
 	pulisciBuffer();
-	char scelta='0';
+	int scelta=0;
 	printf("\n===Menu di ricerca===");
 	printf("\n[1] Mostra i miei brani");
 	printf("\n[2] Ricerca per Titolo");
 	printf("\n[3] Ricerca per Artista");
-	printf("\n[4] Ricerca per Album");
-	printf("\n[5] Ricerca per Durata");
-	printf("\n[6] Ricerca per Anno");
-	printf("\n[7] Ricerca per Ascolti");
-	printf("\n[8] Ricerca per Gradimento");
+	printf("\n[4] Ricerca per Feat");
+	printf("\n[5] Ricerca per Produttore");
+	printf("\n[6] Ricerca per Scrittore");
+	printf("\n[7] Ricerca per Album");
+	printf("\n[8] Ricerca per Durata");
+	printf("\n[9] Ricerca per Anno");
+	printf("\n[10] Ricerca per Lingua");
+	printf("\n[11] Ricerca per Ascolti");
+	printf("\n[12] Ricerca per Gradimento");
 	printf("\n[0] Torna al menu principale");
 	printf("\nInserisci la tua scelta: ");
-	scanf("%c", &scelta);
-	if (scelta=='1') {
+	scanf("%d", &scelta);
+	if (scelta==1) {
 		elencaTuttiBrani();
 		aspetta();
 		menuRicerca();
-	} else if (scelta=='2') {
+	} else if (scelta==2) {
 		ricercaBrani(0);
-	} else if (scelta=='3') {
+	} else if (scelta==3) {
 		ricercaBrani(1);
-	} else if (scelta=='4') {
+	} else if (scelta==4) {
 		ricercaBrani(2);
-	} else if (scelta=='5') {
+	} else if (scelta==5) {
 		ricercaBrani(3);
-	} else if (scelta=='6') {
+	} else if (scelta==6) {
 		ricercaBrani(4);
-	} else if (scelta=='7') {
+	} else if (scelta==7) {
 		ricercaBrani(5);
-	} else if (scelta=='8') {
+	} else if (scelta==8) {
 		ricercaBrani(6);
-	} else if (scelta=='0') {
+	} else if (scelta==9) {
+		ricercaBrani(7);
+	} else if (scelta==10) {
+		ricercaBrani(8);
+	} else if (scelta==11) {
+		ricercaBrani(9);
+	} else if (scelta==12) {
+		ricercaBrani(10);
+	} else if (scelta==0) {
 		menu();
 	} else {
 		printf("\nInserita scelta non riconosciuta, riprovare. ");
@@ -223,47 +240,67 @@ void menuRicerca() {
 
 void menuModifica() {
 	pulisciBuffer();
-	char scelta='0';
+	int scelta=0;
 	printf("\n===Menu di modifica===");
 	printf("\n[1] Modifica il Titolo");
 	printf("\n[2] Modifica l'Artista");
-	printf("\n[3] Modifica l'Album");
-	printf("\n[4] Modifica la Durata");
-	printf("\n[5] Modifica l'Anno");
-	printf("\n[6] Modifica il numero di ascolti");
-	printf("\n[7] Modifica il gradimento");
+	printf("\n[3] Modifica il Feat");
+	printf("\n[4] Modifica il Produttore");
+	printf("\n[5] Modifica lo Scrittore");
+	printf("\n[6] Modifica l'Album");
+	printf("\n[7] Modifica la Durata");
+	printf("\n[8] Modifica l'Anno");
+	printf("\n[9] Modifica la Lingua");
+	printf("\n[10] Modifica il numero di ascolti");
+	printf("\n[11] Modifica il gradimento");
 	printf("\n[0] Torna al menu principale");
 	printf("\nInserisci la tua scelta: ");
-	scanf("%c", &scelta);
-	if (scelta=='1') {
+	scanf("%d", &scelta);
+	if (scelta==1) {
 		modifica(1);
 		aspetta();
 		menuModifica();
-	} else if (scelta=='2') {
+	} else if (scelta==2) {
 		modifica(2);
 		aspetta();
 		menuModifica();
-	} else if (scelta=='3') {
+	} else if (scelta==3) {
 		modifica(3);
 		aspetta();
 		menuModifica();
-	} else if (scelta=='4') {
+	} else if (scelta==4) {
 		modifica(4);
 		aspetta();
 		menuModifica();
-	} else if (scelta=='5') {
+	} else if (scelta==5) {
 		modifica(5);
 		aspetta();
 		menuModifica();
-	} else if (scelta=='6') {
+	} else if (scelta==6) {
 		modifica(6);
 		aspetta();
 		menuModifica();
-	} else if (scelta=='7') {
+	} else if (scelta==7) {
 		modifica(7);
 		aspetta();
 		menuModifica();
-	} else if (scelta=='0') {
+	} else if (scelta==8) {
+		modifica(8);
+		aspetta();
+		menuModifica();
+	} else if (scelta==9) {
+		modifica(9);
+		aspetta();
+		menuModifica();
+	} else if (scelta==10) {
+		modifica(10);
+		aspetta();
+		menuModifica();
+	} else if (scelta==11) {
+		modifica(11);
+		aspetta();
+		menuModifica();
+	} else if (scelta==0) {
 		menu();
 	} else {
 		printf("\nInserita scelta non riconosciuta, riprovare. ");
@@ -302,8 +339,8 @@ void menuDebug() {
 	} else if (scelta=='4') {
 		printf("\nBenvenuto nell'inserimento diretto di un brano.");
 		printf("\nIl modello per inserire un brano è il seguente:");
-		printf("\nTITOLO,ARTISTA,ALBUM,DUR:ATA,ANNO,ASCOLTI,GRADI.MENTO");
-		printf("\nEsempio: Get Lucky,Daft Punk,Random Access Memories,4:09,2013,34,5.0");
+		printf("\nTITOLO,ARTISTA,FEAT,PRODUTTORE,SCRITTORE,ALBUM,DUR:ATA,ANNO,LINGUA,ASCOLTI,GRADI.MENTO");
+		printf("\nEsempio: Get Lucky,Daft Punk,Pharrell Williams,Daft Punk,Daft Punk,Random Access Memories,4:09,2013,0,34,5.0");
 		inserimentoDiretto();
 		aspetta();
 		menuDebug();

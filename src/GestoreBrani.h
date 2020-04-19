@@ -1,5 +1,5 @@
 /*
- * FabbAmp 0.1 rev. 105 - 19.04.2020
+ * FabbAmp 0.1 rev. 137 - 19.04.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -17,7 +17,7 @@ void inserimentoGuidato();
 /**
  * Funzione di supporto a inserimentoGuidato(), effettua le operazioni di inserimento del brano nel database file-based
  */
-void inserisciBranoGuidato(int modalita, char titolo[], char artista[], char album[], char durata[], char anno[], char ascolti[], char gradimento[]);
+void inserisciBranoGuidato(int modalita, char titolo[], char artista[], char feat[], char produttore[], char scrittore[], char album[], char durata[], char anno[], char lingua[], char ascolti[], char gradimento[]);
 
 /**
  * Funzione DEV per inserire un brano direttamente e senza procedura guidata

@@ -1,5 +1,5 @@
 /*
- * FabbAmp 0.1 rev. 105 - 19.04.2020
+ * FabbAmp 0.1 rev. 137 - 19.04.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -52,11 +52,15 @@ database* ottieniDatabase() {
 		// Blocco di organizzazione dei dati dall'array temporaneo allo struct finale
 		strcpy(brani[i].titolo, dati[0]);
 		strcpy(brani[i].artista, dati[1]);
-		strcpy(brani[i].album, dati[2]);
-		strcpy(brani[i].durata, dati[3]);
-		brani[i].anno = atoi(dati[4]); // Conversione da char a int del valore Anno
-		brani[i].ascolti = atoi(dati[5]);
-		brani[i].gradimento = atof(dati[6]);
+		strcpy(brani[i].feat, dati[2]);
+		strcpy(brani[i].produttore, dati[3]);
+		strcpy(brani[i].scrittore, dati[4]);
+		strcpy(brani[i].album, dati[5]);
+		strcpy(brani[i].durata, dati[6]);
+		brani[i].anno = atoi(dati[7]); // Conversione da char a int del valore Anno
+		brani[i].lingua = atoi(dati[8]);
+		brani[i].ascolti = atoi(dati[9]);
+		brani[i].gradimento = atof(dati[10]);
 		i++;
 	}
 	numero_brani=i; // TODO: Trovare un metodo migliore per far sapere al programma il numero dei brani
@@ -72,12 +76,13 @@ void aggiornaDatabase() {
 	remove("database.txt");
 	int i=0;
 	while (i<numero_brani) {
-		char anno[5], ascolti[MAX_CHAR], gradimento[MAX_CHAR];
+		char anno[5], lingua[3], ascolti[MAX_CHAR], gradimento[MAX_CHAR];
 		// Investigare su sprintf
 		sprintf(anno, "%d", brani[i].anno);
+		sprintf(lingua, "%d", brani[i].lingua);
 		sprintf(ascolti, "%d", brani[i].ascolti);
 		sprintf(gradimento, "%.1f", brani[i].gradimento);
-		inserisciBranoGuidato(1, brani[i].titolo, brani[i].artista, brani[i].album, brani[i].durata, anno, ascolti, gradimento);
+		inserisciBranoGuidato(1, brani[i].titolo, brani[i].artista, brani[i].feat, brani[i].produttore, brani[i].scrittore, brani[i].album, brani[i].durata, anno, lingua, ascolti, gradimento);
 		i++;
 	}
 	remove("temp_db.txt");

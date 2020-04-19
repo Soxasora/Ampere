@@ -1,5 +1,5 @@
 /*
- * FabbAmp 0.1 rev. 105 - 19.04.2020
+ * FabbAmp 0.1 rev. 137 - 19.04.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -15,9 +15,13 @@
 typedef struct libreriaMusicale {
 	char titolo[MAX_CHAR];
 	char artista[MAX_CHAR];
+	char feat[MAX_CHAR];
+	char produttore[MAX_CHAR];
+	char scrittore[MAX_CHAR];
 	char album[MAX_CHAR];
 	char durata[MAX_CHAR];
 	int anno;
+	int lingua;
 	int ascolti;
 	float gradimento;
 } database;
