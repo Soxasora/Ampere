@@ -1,5 +1,5 @@
 /*
- * FabbAmp 0.1 rev.99 - 17.04.2020
+ * FabbAmp 0.1 rev. 105 - 19.04.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -23,6 +23,11 @@ void pulisciBuffer();
  * Macro per rendere portatile la funzione di pausa
  */
 void aspetta();
+
+/**
+ * Macro per rendere portatile la funzione di comparazione di stringhe senza contare maiuscolo e minuscolo
+ */
+int comparaStringhe(const char *s1, const char *s2);
 
 /**
  * Funzione di controllo del contenuto del file

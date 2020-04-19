@@ -1,5 +1,5 @@
 /*
- * FabbAmp 0.1 rev.99 - 17.04.2020
+ * FabbAmp 0.1 rev. 105 - 19.04.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 #include "MotoreRicerca.h"
 #include "Utils.h"
 #include "GestoreBrani.h"
@@ -19,7 +20,7 @@ void info() {
 	printf(" / _// _ `/ _ \\/ _ \\/ __ |/  ' \\/ _ \\\n");
 	printf("/_/  \\_,_/_.__/_.__/_/ |_/_/_/_/ .__/\n");
 	printf("                              /_/    \n");
-	printf("\nFabbAmp 0.0.1 rev.99\n");
+	printf("\nFabbAmp 0.0.1 rev.105\n");
 }
 
 void pulisciBuffer() {
@@ -36,6 +37,17 @@ void aspetta() {
 		printf("\nPremere qualunque tasto per continuare...");
 		char w = scanf("%c", &w);
 	#endif
+}
+
+int comparaStringhe(const char *s1, const char *s2) {
+	int risultato=0;
+	#ifdef _WIN32
+		risultato = _stricmp(s1, s2);
+	#elif __unix__
+		risultato = strcasecmp(s1, s2);
+	#endif
+
+	return risultato;
 }
 
 int controllaSeFileVuoto() {

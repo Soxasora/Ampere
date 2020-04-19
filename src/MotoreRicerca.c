@@ -1,5 +1,5 @@
 /*
- * FabbAmp 0.1 rev.99 - 17.04.2020
+ * FabbAmp 0.1 rev. 105 - 19.04.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -20,8 +20,7 @@ void ricercaBrani(int modalita) {
 	int scelta=0;
 	if (modalita==0) {
 		// Flush per evitare indesiderati comportamenti dell'input
-		int c;
-		while ((c = getchar()) != '\n' && c != EOF) { }
+		pulisciBuffer();
 		char *titolo = malloc(MAX_CHAR);
 		printf("\nInserisci titolo: ");
 		fgets(titolo, MAX_CHAR, stdin);
@@ -29,7 +28,7 @@ void ricercaBrani(int modalita) {
 		int i=0;
 		printf("\nTrovate le seguenti occorrenze:\n\n");
 		while(i<numero_brani) {
-			if (strcmp(titolo, brani[i].titolo)==0) {
+			if (comparaStringhe(titolo, brani[i].titolo)==0) {
 				elencaSingoloBrano(i);
 			}
 			i++;
@@ -44,8 +43,7 @@ void ricercaBrani(int modalita) {
 		}
 	// Ricerca per Artista
 	} else if (modalita==1) {
-		int c;
-		while ((c = getchar()) != '\n' && c != EOF) { }
+		pulisciBuffer();
 		char *artista = malloc(MAX_CHAR);
 		printf("\nInserisci artista: ");
 		fgets(artista, MAX_CHAR, stdin);
@@ -53,7 +51,7 @@ void ricercaBrani(int modalita) {
 		int i=0;
 		printf("\nTrovate le seguenti occorrenze:\n\n");
 		while(i<numero_brani) {
-			if (strcmp(artista, brani[i].artista)==0) {
+			if (comparaStringhe(artista, brani[i].artista)==0) {
 				elencaSingoloBrano(i);
 			}
 			i++;
@@ -68,8 +66,7 @@ void ricercaBrani(int modalita) {
 		}
 	// Ricerca per Album
 	} else if (modalita==2) {
-		int c;
-		while ((c = getchar()) != '\n' && c != EOF) { }
+		pulisciBuffer();
 		char *album = malloc(MAX_CHAR);
 		printf("\nInserisci album: ");
 		fgets(album, MAX_CHAR, stdin);
@@ -77,7 +74,7 @@ void ricercaBrani(int modalita) {
 		int i=0;
 		printf("\nTrovate le seguenti occorrenze:\n\n");
 		while(i<numero_brani) {
-			if (strcmp(album, brani[i].album)==0) {
+			if (comparaStringhe(album, brani[i].album)==0) {
 				elencaSingoloBrano(i);
 			}
 			i++;
@@ -91,8 +88,7 @@ void ricercaBrani(int modalita) {
 			menuRicerca();
 		}
 	} else if (modalita==3) {
-		int c;
-		while ((c = getchar()) != '\n' && c != EOF) { }
+		pulisciBuffer();
 		char *durata = malloc(MAX_CHAR);
 		printf("\nInserisci durata: ");
 		fgets(durata, MAX_CHAR, stdin);
@@ -100,7 +96,7 @@ void ricercaBrani(int modalita) {
 		int i=0;
 		printf("\nTrovate le seguenti occorrenze:\n\n");
 		while(i<numero_brani) {
-			if (strcmp(durata, brani[i].durata)==0) {
+			if (comparaStringhe(durata, brani[i].durata)==0) {
 				elencaSingoloBrano(i);
 			}
 			i++;
@@ -189,8 +185,8 @@ void elencaTuttiBrani() {
 	//database *brani = ottieniDatabase();
 
 	printf("Elenco dei brani:\n");
-	int i=0;
-	while (i<numero_brani) {
+	int i=0; int controllo=0; // Alternativa al break
+	while (i<numero_brani&&controllo!=-1) {
 		printf("\nBrano n.%d\n", i+1);
 		elencaSingoloBrano(i);
 		if ((numero_brani+1)>5 && (i+1)%5==0) {
@@ -198,8 +194,8 @@ void elencaTuttiBrani() {
 			pulisciBuffer();
 			printf("\nElencare i prossimi 5 brani? [Y/N]: ");
 			scanf("%c", &scelta);
-			if (scelta=='N')
-				break;
+			if (scelta=='N'||scelta=='n')
+				controllo=-1;
 		}
 		i++;
 	}
