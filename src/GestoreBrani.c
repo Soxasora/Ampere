@@ -14,6 +14,7 @@
 #include "FabbAmp.h"
 #include "MotoreRicerca.h"
 #include "Utils.h"
+#include "Impostazioni.h"
 
 // FUNZIONI FILE
 // Inserimento di informazioni direttamente nel database file-based
@@ -83,7 +84,7 @@ void inserimentoGuidato() {
 
 // Inserimento del brano su base Titolo/Artista/Album/Durata/Anno di incisione
 void inserisciBranoGuidato(int modalita, char titolo[], char artista[], char feat[], char produttore[], char scrittore[], char album[], char durata[], char anno[], char lingua[], char ascolti[], char gradimento[]) {
-	FILE* fp=fopen("database.txt", "a");
+	FILE* fp=fopen(file_database, "a");
 	if (controllaSeFileVuoto()==1) {
 		fprintf(fp, "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", titolo, artista, album, feat, produttore, scrittore, durata, anno, lingua, ascolti, gradimento);
 	} else {
@@ -117,7 +118,7 @@ void inserimentoDiretto() {
 
 // Funzione DEV per l'inserimento diretto di un brano
 void inserisciBranoDiretto(char stringa[]) {
-	FILE* fp=fopen("database.txt", "a");
+	FILE* fp=fopen(file_database, "a");
 	if (controllaSeFileVuoto()==1) {
 		fprintf(fp, "%s", stringa);
 	} else {

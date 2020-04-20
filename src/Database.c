@@ -11,15 +11,14 @@
 #include <string.h>
 #include "GestoreBrani.h"
 #include "Database.h"
-
 #include "FabbAmp.h"
 #include "Utils.h"
+#include "Impostazioni.h"
 
 // Funzione di controllo e creazione del database
 void creaDatabaseSeNonEsiste() {
 	FILE* fp;
-	char* file = "database.txt";
-	fp=fopen(file, "ab+");
+	fp=fopen(file_database, "ab+");
 	// Se non ha i permessi per scrivere nella cartella:
 	if(fp == NULL)
 		printf("Impossibile aprire e/o creare il database.");
@@ -31,7 +30,7 @@ void creaDatabaseSeNonEsiste() {
 database* ottieniDatabase() {
 	printf("\nOttengo il database...");
 	//TODO: Trovare un metodo migliore per allocare dinamicamente
-	FILE* fp=fopen("database.txt", "r"); // Apro database
+	FILE* fp=fopen(file_database, "r"); // Apro database
 	database *brani = malloc((MAX_CHAR*7)*sizeof(database));
 	// TODO: Allora questo, questo è da cambiare assolutamente
 	char temp[1000]; // [DA CAMBIARE] Variabile temporanea per ottenere i dati
@@ -65,7 +64,7 @@ database* ottieniDatabase() {
 	}
 	numero_brani=i; // TODO: Trovare un metodo migliore per far sapere al programma il numero dei brani
 	fclose(fp);
-	printf(" Fatto.\n%d brani caricati con successo.\n", numero_brani);
+	printf(" Fatto. %d brani caricati con successo.", numero_brani);
 	return brani;
 }
 
@@ -73,7 +72,7 @@ database* ottieniDatabase() {
 void aggiornaDatabase() {
 	printf("\nSalvando le modifiche effettuate al database...");
 	backupDatabase("temp_db.txt");
-	remove("database.txt");
+	remove(file_database);
 	int i=0;
 	while (i<numero_brani) {
 		char anno[5], lingua[3], ascolti[MAX_CHAR], gradimento[MAX_CHAR];

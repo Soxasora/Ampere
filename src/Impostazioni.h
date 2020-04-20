@@ -6,16 +6,24 @@
  * Maggiori informazioni sul copyright su https://github.com/Soxasora/FabbAmp/blob/master/LICENSE
  */
 
-#ifndef FABBAMP_H_
-#define FABBAMP_H_
+#ifndef IMPOSTAZIONI_H_
+#define IMPOSTAZIONI_H_
+#define MAX_TEMP 1000
 #define MAX_CHAR 256
 
-int numero_brani; // TODO: Trovare un metodo migliore
+char *file_database;
+char *dir_testi;
+char *file_lingue;
+char lingue[10][MAX_CHAR];
 
 /**
- * Effettua le operazioni iniziali per garantire il funzionamento del programma
+ * Carica le impostazioni di sistema
  */
-void inizializzazione();
-//void terminazione();
+void caricaImpostazioni();
 
-#endif /* FABBAMP_H_ */
+/**
+ * Carica lingue disponibili per i brani
+ */
+void caricaLingue();
+
+#endif /* IMPOSTAZIONI_H_ */

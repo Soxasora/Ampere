@@ -9,17 +9,10 @@
 #ifndef UTILS_H_
 #define UTILS_H_
 
-char lingue[10][MAX_CHAR];
-
 /**
  * Stampa delle informazioni sul programma
  */
 void info();
-
-/**
- * Carica lingue disponibili per i brani
- */
-void caricaLingue();
 
 /**
  * Pulisce il buffer stdin per evitare comportamenti inaspettati al momento dell'inserimento

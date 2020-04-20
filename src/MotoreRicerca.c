@@ -13,6 +13,7 @@
 #include "Database.h"
 #include "FabbAmp.h"
 #include "Utils.h"
+#include "Impostazioni.h"
 
 // Funzione di ricerca brani in base alla loro anagrafica
 void ricercaBrani(int modalita) {

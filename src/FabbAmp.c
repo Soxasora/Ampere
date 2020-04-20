@@ -15,6 +15,7 @@
 #include "GestoreBrani.h"
 #include "MotoreRicerca.h"
 #include "Utils.h"
+#include "Impostazioni.h"
 
 int main() {
 	// Inizializza il programma
@@ -35,6 +36,8 @@ void inizializzazione() {
 	info();
 	printf("\nBenvenuto su FabbAmp.");
 	printf("\nInizializzazione in corso...");
+	// Carica le impostazioni di FabbAmp
+	caricaImpostazioni();
 	// Carica le lingue disponibili per i brani
 	caricaLingue();
 	// Crea database se esso non e' presente nella cartella.

@@ -13,6 +13,7 @@
 #include "MotoreRicerca.h"
 #include "Utils.h"
 #include "GestoreBrani.h"
+#include "Impostazioni.h"
 
 void info() {
 	printf("   ____     __   __   ___            \n");
@@ -21,19 +22,6 @@ void info() {
 	printf("/_/  \\_,_/_.__/_.__/_/ |_/_/_/_/ .__/\n");
 	printf("                              /_/    \n");
 	printf("\nFabbAmp 0.1 rev.137\n");
-}
-
-void caricaLingue() {
-	printf("\nCarico le lingue...");
-	strcpy(lingue[0], "Strumentale");
-	strcpy(lingue[1], "Inglese");
-	strcpy(lingue[2], "Italiano");
-	strcpy(lingue[3], "Francese");
-	strcpy(lingue[4], "Spagnolo");
-	strcpy(lingue[5], "Tedesco");
-	strcpy(lingue[6], "Giapponese");
-	strcpy(lingue[7], "Cinese");
-	printf(" Fatto.");
 }
 
 void pulisciBuffer() {
@@ -64,7 +52,7 @@ int comparaStringhe(const char *s1, const char *s2) {
 }
 
 int controllaSeFileVuoto() {
-	FILE* fp=fopen("database.txt", "r");
+	FILE* fp=fopen(file_database, "r");
 	// Proof of concept, cambiare in qualcosa di più sicuro
 	int c = fgetc(fp);
 	fclose(fp);
@@ -87,9 +75,8 @@ int conteggiaCaratteriFile(FILE* fp) {
 
 void backupDatabase(char *file2) {
 	FILE *fp, *fp2;
-	char *file = "database.txt";
 	char c;
-	fp = fopen(file, "r");
+	fp = fopen(file_database, "r");
 	if (fp==NULL) {
 		printf("Impossibile aprire il database file-based.");
 	}
@@ -319,11 +306,12 @@ void menuDebug() {
 	printf("\n[3] Trasferisci database dalla memoria al file");
 	printf("\n[4] Inserisci un brano in modalità diretta");
 	printf("\n[5] Pulisci buffer stdin");
+	printf("\n[6] Carica impostazioni");
 	printf("\n[0] Torna al menu principale");
 	printf("\nInserisci la tua scelta: ");
 	scanf("%c", &scelta);
 	if (scelta=='1') {
-		FILE* fp=fopen("database.txt", "r");
+		FILE* fp=fopen(file_database, "r");
 		printf("\n%d caratteri", conteggiaCaratteriFile(fp));
 		fclose(fp);
 		aspetta();
@@ -346,6 +334,10 @@ void menuDebug() {
 		menuDebug();
 	} else if (scelta=='5') {
 		pulisciBuffer();
+		aspetta();
+		menuDebug();
+	} else if (scelta=='6') {
+		caricaImpostazioni();
 		aspetta();
 		menuDebug();
 	} else if (scelta=='0') {

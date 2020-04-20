@@ -55,5 +55,5 @@ dkms.conf
 
 #FabbAmp custom
 FabbAmp
-/Debug/
+/Debug/FabbAmp.exe
 /database.txt
