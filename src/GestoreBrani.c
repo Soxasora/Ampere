@@ -22,6 +22,7 @@ void inserimentoGuidato() {
 	// Flush per evitare indesiderati comportamenti dell'input
 	pulisciBuffer();
 	// Allocazione della memoria
+	char *id = malloc(MAX_CHAR);
 	char *titolo = malloc(MAX_CHAR);
 	char *artista = malloc(MAX_CHAR);
 	char *feat = malloc(MAX_CHAR);
@@ -34,6 +35,7 @@ void inserimentoGuidato() {
 	char *ascolti = malloc(MAX_CHAR);
 	char *gradimento = malloc(MAX_CHAR);
 	// Registrazione informazioni
+	sprintf(id, "%d", trovaUltimoId()+1);
 	printf("\nInserisci titolo: ");
 	fgets(titolo, MAX_CHAR, stdin); // Al posto di scanf per gestire gli spazi, evitare overflow
 	strtok(titolo, "\n"); // In modo da evitare indesiderati newline
@@ -69,9 +71,9 @@ void inserimentoGuidato() {
 	strtok(gradimento, "\n");
 	// Memorizzo le informazioni direttamente nel file
 	// TODO: Passare ad un sistema esclusivamente struct per poi memorizzare nel file
-	inserisciBranoGuidato(0, titolo, artista, feat, produttore, scrittore, album, durata, anno, lingua, ascolti, gradimento);
+	inserisciBranoGuidato(0, id, titolo, artista, feat, produttore, scrittore, album, durata, anno, lingua, ascolti, gradimento);
 	// Libero la memoria
-	free(titolo); free(artista); free(feat); free(produttore); free(scrittore); free(album); free(durata); free(anno); free(lingua); free(ascolti); free(gradimento);
+	free(id); free(titolo); free(artista); free(feat); free(produttore); free(scrittore); free(album); free(durata); free(anno); free(lingua); free(ascolti); free(gradimento);
 	// Possibilitï¿½ di scelta da parte dell'utente
 	int scelta_2=0;
 	printf("\nVuoi inserire un altro brano? [0/1]: ");
@@ -83,12 +85,12 @@ void inserimentoGuidato() {
 }
 
 // Inserimento del brano su base Titolo/Artista/Album/Durata/Anno di incisione
-void inserisciBranoGuidato(int modalita, char titolo[], char artista[], char feat[], char produttore[], char scrittore[], char album[], char durata[], char anno[], char lingua[], char ascolti[], char gradimento[]) {
+void inserisciBranoGuidato(int modalita, char id[], char titolo[], char artista[], char feat[], char produttore[], char scrittore[], char album[], char durata[], char anno[], char lingua[], char ascolti[], char gradimento[]) {
 	FILE* fp=fopen(file_database, "a");
 	if (controllaSeFileVuoto()==1) {
-		fprintf(fp, "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", titolo, artista, album, feat, produttore, scrittore, durata, anno, lingua, ascolti, gradimento);
+		fprintf(fp, "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", id, titolo, artista, album, feat, produttore, scrittore, durata, anno, lingua, ascolti, gradimento);
 	} else {
-		fprintf(fp, "\n%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", titolo, artista, album, feat, produttore, scrittore, durata, anno, lingua, ascolti, gradimento);
+		fprintf(fp, "\n%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", id, titolo, artista, album, feat, produttore, scrittore, durata, anno, lingua, ascolti, gradimento);
 	}
 	fclose(fp);
 	if (modalita==0) {
@@ -101,9 +103,9 @@ void inserisciBranoGuidato(int modalita, char titolo[], char artista[], char fea
 void inserimentoDiretto() {
 	// Flush per evitare indesiderati comportamenti dell'input
 	pulisciBuffer();
-	char *stringa = malloc(MAX_CHAR*11); // MAX_CHAR*5 poiché ci sono 5 informazioni alle quali precedentemente abbiamo dato solo un MAX_CHAR
+	char *stringa = malloc(MAX_CHAR*12); // MAX_CHAR*12 poiché ci sono 12 informazioni alle quali precedentemente abbiamo dato solo un MAX_CHAR
 	printf("\nInserisci ora il tuo brano: ");
-	fgets(stringa, MAX_CHAR*11, stdin);
+	fgets(stringa, MAX_CHAR*12, stdin);
 	strtok(stringa, "\n");
 	inserisciBranoDiretto(stringa);
 	free(stringa);

@@ -1,13 +1,13 @@
-Touch,Daft Punk,Unknown,Unknown,Unknown,Random Access Memories,5:20,2013,1,5,5.0
-Get Lucky,Daft Punk,Unknown,Unknown,Unknown,Random Access Memories,3:33,2013,1,17,4.2
-One More Time,Daft Punk,Unknown,Unknown,Unknown,Discovery,3:00,2001,1,20,3.5
-Solo,Frank Ocean,Unknown,Unknown,Unknown,Blonde,3:45,2016,1,3,4.7
-Snap Out Of It,Arctic Monkeys,Unknown,Unknown,Unknown,AM,3:13,2013,1,34,4.4
-Fluorescent Adolescent,Arctic Monkeys,Unknown,Unknown,Unknown,Favourite Worst Nightmare,3:29,2007,1,15,3.8
-Do Me a Favour,Arctic Monkeys,Unknown,Unknown,Unknown,Favourite Worst Nightmare,3:03,2007,1,6,3.2
-Dreamscape,009 Sound System,Unknown,Unknown,Unknown,Indian guy,4:53,2009,1,48,5.0
-Veridis Quo,Daft Punk,Unknown,Unknown,Unknown,Discovery,5:45,2001,0,2,1.4
-All Star,Smash Mouth,Unknown,Unknown,Unknown,Shrek,3:36,1999,1,101,4.9
-Sweden,C418,Unknown,Unknown,Unknown,Minecraft Alpha,3:36,2009,0,134,5.0
-Fragments of Time,Daft Punk,Unknown,Unknown,Unknown,Random Access Memories,3:33,2013,1,44,4.8
-Stairway To Heaven,Led Zeppelin,Unknown,Unknown,Unknown,Led Zeppelin IV,8:00,1971,1,7,5.0
+0,Touch,Daft Punk,Unknown,Unknown,Unknown,Random Access Memories,5:20,2013,1,5,5.0
+1,Get Lucky,Daft Punk,Unknown,Unknown,Unknown,Random Access Memories,3:33,2013,1,17,4.2
+2,One More Time,Daft Punk,Unknown,Unknown,Unknown,Discovery,3:00,2001,1,20,3.5
+3,Solo,Frank Ocean,Unknown,Unknown,Unknown,Blonde,3:45,2016,1,3,4.7
+4,Snap Out Of It,Arctic Monkeys,Unknown,Unknown,Unknown,AM,3:13,2013,1,34,4.4
+5,Fluorescent Adolescent,Arctic Monkeys,Unknown,Unknown,Unknown,Favourite Worst Nightmare,3:29,2007,1,15,3.8
+6,Do Me a Favour,Arctic Monkeys,Unknown,Unknown,Unknown,Favourite Worst Nightmare,3:03,2007,1,6,3.2
+7,Dreamscape,009 Sound System,Unknown,Unknown,Unknown,Indian guy,4:53,2009,1,48,5.0
+8,Veridis Quo,Daft Punk,Unknown,Unknown,Unknown,Discovery,5:45,2001,0,2,1.4
+9,All Star,Smash Mouth,Unknown,Unknown,Unknown,Shrek,3:36,1999,1,101,4.9
+10,Sweden,C418,Unknown,Unknown,Unknown,Minecraft Alpha,3:36,2009,0,134,5.0
+11,Fragments of Time,Daft Punk,Unknown,Unknown,Unknown,Random Access Memories,3:33,2013,1,44,4.8
+12,Stairway To Heaven,Led Zeppelin,Unknown,Unknown,Unknown,Led Zeppelin IV,8:00,1971,1,7,5.0

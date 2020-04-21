@@ -98,6 +98,18 @@ int conteggiaBrani() {
 	return conteggiaLinee(fp);
 }
 
+int trovaUltimoId() {
+	int nbrani = conteggiaBrani();
+	int i=0, max=0;
+	while(i<nbrani) {
+		if(brani[i].id>max) {
+			max=brani[i].id;
+		}
+		i++;
+	}
+	return max;
+}
+
 void backupDatabase(char *file2) {
 	FILE *fp, *fp2;
 	char c;
@@ -213,6 +225,7 @@ void menuRicerca() {
 	printf("\n[10] Ricerca per Lingua");
 	printf("\n[11] Ricerca per Ascolti");
 	printf("\n[12] Ricerca per Gradimento");
+	printf("\n[13] Ricerca per Identificativo");
 	printf("\n[0] Torna al menu principale");
 	printf("\nInserisci la tua scelta: ");
 	scanf("%d", &scelta);
@@ -242,6 +255,8 @@ void menuRicerca() {
 		ricercaBrani(9);
 	} else if (scelta==12) {
 		ricercaBrani(10);
+	} else if (scelta==13) {
+		ricercaBrani(11);
 	} else if (scelta==0) {
 		menu();
 	} else {

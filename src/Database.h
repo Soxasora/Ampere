@@ -13,6 +13,7 @@
 // Struttura per mantenere in memoria la Libreria Musicale di FabbAmp
 // TODO: Passare ad allocazione dinamica
 typedef struct libreriaMusicale {
+	int id;
 	char titolo[MAX_CHAR];
 	char artista[MAX_CHAR];
 	char feat[MAX_CHAR];

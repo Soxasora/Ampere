@@ -17,7 +17,7 @@ void inserimentoGuidato();
 /**
  * Funzione di supporto a inserimentoGuidato(), effettua le operazioni di inserimento del brano nel database file-based
  */
-void inserisciBranoGuidato(int modalita, char titolo[], char artista[], char feat[], char produttore[], char scrittore[], char album[], char durata[], char anno[], char lingua[], char ascolti[], char gradimento[]);
+void inserisciBranoGuidato(int modalita, char id[], char titolo[], char artista[], char feat[], char produttore[], char scrittore[], char album[], char durata[], char anno[], char lingua[], char ascolti[], char gradimento[]);
 
 /**
  * Funzione DEV per inserire un brano direttamente e senza procedura guidata

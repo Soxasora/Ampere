@@ -49,17 +49,18 @@ database* ottieniDatabase() {
 			j++;
 		}
 		// Blocco di organizzazione dei dati dall'array temporaneo allo struct finale
-		strcpy(brani[i].titolo, dati[0]);
-		strcpy(brani[i].artista, dati[1]);
-		strcpy(brani[i].feat, dati[2]);
-		strcpy(brani[i].produttore, dati[3]);
-		strcpy(brani[i].scrittore, dati[4]);
-		strcpy(brani[i].album, dati[5]);
-		strcpy(brani[i].durata, dati[6]);
-		brani[i].anno = atoi(dati[7]); // Conversione da char a int del valore Anno
-		brani[i].lingua = atoi(dati[8]);
-		brani[i].ascolti = atoi(dati[9]);
-		brani[i].gradimento = atof(dati[10]);
+		brani[i].id = atoi(dati[0]);
+		strcpy(brani[i].titolo, dati[1]);
+		strcpy(brani[i].artista, dati[2]);
+		strcpy(brani[i].feat, dati[3]);
+		strcpy(brani[i].produttore, dati[4]);
+		strcpy(brani[i].scrittore, dati[5]);
+		strcpy(brani[i].album, dati[6]);
+		strcpy(brani[i].durata, dati[7]);
+		brani[i].anno = atoi(dati[8]); // Conversione da char a int del valore Anno
+		brani[i].lingua = atoi(dati[9]);
+		brani[i].ascolti = atoi(dati[10]);
+		brani[i].gradimento = atof(dati[11]);
 		i++;
 	}
 	fclose(fp);
@@ -75,16 +76,16 @@ void aggiornaDatabase() {
 	int i=0;
 	int nbrani=conteggiaBrani();
 	while (i<nbrani) {
-		char anno[5], lingua[3], ascolti[MAX_CHAR], gradimento[MAX_CHAR];
+		char id[MAX_CHAR], anno[5], lingua[3], ascolti[MAX_CHAR], gradimento[MAX_CHAR];
 		// Investigare su sprintf
+		sprintf(id, "%d", brani[i].id);
 		sprintf(anno, "%d", brani[i].anno);
 		sprintf(lingua, "%d", brani[i].lingua);
 		sprintf(ascolti, "%d", brani[i].ascolti);
 		sprintf(gradimento, "%.1f", brani[i].gradimento);
-		inserisciBranoGuidato(1, brani[i].titolo, brani[i].artista, brani[i].feat, brani[i].produttore, brani[i].scrittore, brani[i].album, brani[i].durata, anno, lingua, ascolti, gradimento);
+		inserisciBranoGuidato(1, id, brani[i].titolo, brani[i].artista, brani[i].feat, brani[i].produttore, brani[i].scrittore, brani[i].album, brani[i].durata, anno, lingua, ascolti, gradimento);
 		i++;
 	}
 	remove("temp_db.txt");
 	printf("\nModifiche salvate.");
-
 }

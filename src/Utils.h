@@ -59,6 +59,12 @@ int conteggiaLinee(FILE* fp);
 int conteggiaBrani();
 
 /**
+ * Funzione di ricerca dell'ultimo id
+ * @return ultimo identificativo
+ */
+int trovaUltimoId();
+
+/**
  * Sistema di backup del database attraverso la copia del database file-based principale carattere per carattere
  */
 void backupDatabase(char *file2);

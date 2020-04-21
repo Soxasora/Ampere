@@ -256,12 +256,32 @@ void ricercaBrani(int modalita) {
 		} else {
 			menuRicerca();
 		}
+	} else if (modalita==11) {
+		int id = 0;
+		printf("\nInserisci identificativo: ");
+		scanf("%d", &id);
+		int i=0;
+		printf("\nTrovate le seguenti occorrenze:\n\n");
+		while(i<nbrani) {
+			if (id==brani[i].id) {
+				elencaSingoloBrano(i);
+			}
+			i++;
+		}
+		printf("\nCercare un altro brano per Identificativo[0] oppure ritornare al Menu di ricerca[1]? ");
+		scanf("%d", &scelta);
+		if (scelta==0) {
+			ricercaBrani(11);
+		} else {
+			menuRicerca();
+		}
 	}
 }
 
 // Funzione di elencazione di tutte le informazioni di un brano
 void elencaSingoloBrano(int pos) {
-	printf("\nTitolo: %s\n", brani[pos].titolo);
+	printf("\nIdentificativo: %d\n", brani[pos].id);
+	printf("Titolo: %s\n", brani[pos].titolo);
 	printf("Artista: %s\n", brani[pos].artista);
 	printf("Feat: %s\n", brani[pos].feat);
 	printf("Produttore: %s\n", brani[pos].produttore);
@@ -293,5 +313,4 @@ void elencaTuttiBrani() {
 		}
 		i++;
 	}
-
 }
