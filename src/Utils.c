@@ -1,5 +1,5 @@
 /*
- * FabbAmp 0.1 rev. 137 - 19.04.2020
+ * FabbAmp 0.1 rev. 174 - 21.04.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -21,7 +21,7 @@ void info() {
 	printf(" / _// _ `/ _ \\/ _ \\/ __ |/  ' \\/ _ \\\n");
 	printf("/_/  \\_,_/_.__/_.__/_/ |_/_/_/_/ .__/\n");
 	printf("                              /_/    \n");
-	printf("\nFabbAmp 0.1 rev.137\n");
+	printf("\nFabbAmp 0.1 rev.174\n");
 }
 
 void pulisciBuffer() {
@@ -51,6 +51,14 @@ int comparaStringhe(const char *s1, const char *s2) {
 	return risultato;
 }
 
+char *chiediFile() {
+	pulisciBuffer();
+	char *nome_file = malloc(MAX_CHAR);
+	printf("Inserisci locazione e nome file [esempio\\esempio.extension] da analizzare: ");
+	scanf("%s", nome_file);
+	return nome_file;
+}
+
 int controllaSeFileVuoto() {
 	FILE* fp=fopen(file_database, "r");
 	// Proof of concept, cambiare in qualcosa di più sicuro
@@ -71,6 +79,23 @@ int conteggiaCaratteriFile(FILE* fp) {
 		conta++;
 	}
 	return conta;
+}
+
+int conteggiaLinee(FILE* fp) {
+	int conta=1;
+	char c = fgetc(fp);
+	while (c!=EOF) {
+		c=fgetc(fp);
+		if (c=='\n') {
+			conta++;
+		}
+	}
+	return conta;
+}
+
+int conteggiaBrani() {
+	FILE* fp = fopen(file_database, "r");
+	return conteggiaLinee(fp);
 }
 
 void backupDatabase(char *file2) {
@@ -301,30 +326,38 @@ void menuDebug() {
 	pulisciBuffer();
 	char scelta='0';
 	printf("\n===Menu DEBUG===");
-	printf("\n[1] Conteggia caratteri presenti nel database");
-	printf("\n[2] Trasferisci database da file alla memoria");
-	printf("\n[3] Trasferisci database dalla memoria al file");
-	printf("\n[4] Inserisci un brano in modalità diretta");
-	printf("\n[5] Pulisci buffer stdin");
-	printf("\n[6] Carica impostazioni");
+	printf("\n[1] Conteggia caratteri presenti in un file");
+	printf("\n[2] Conteggia linee presenti in un file");
+	printf("\n[3] Trasferisci database da file alla memoria");
+	printf("\n[4] Trasferisci database dalla memoria al file");
+	printf("\n[5] Inserisci un brano in modalità diretta");
+	printf("\n[6] Pulisci buffer stdin");
+	printf("\n[7] Carica impostazioni");
+	printf("\n[8] Conteggia brani");
 	printf("\n[0] Torna al menu principale");
 	printf("\nInserisci la tua scelta: ");
 	scanf("%c", &scelta);
 	if (scelta=='1') {
-		FILE* fp=fopen(file_database, "r");
+		FILE* fp=fopen(chiediFile(), "r");
 		printf("\n%d caratteri", conteggiaCaratteriFile(fp));
 		fclose(fp);
 		aspetta();
 		menuDebug();
 	} else if (scelta=='2') {
-		brani = ottieniDatabase();
+		FILE* fp=fopen(chiediFile(), "r");
+		printf("\n%d linee", conteggiaLinee(fp));
+		fclose(fp);
 		aspetta();
 		menuDebug();
 	} else if (scelta=='3') {
-		aggiornaDatabase();
+		brani = ottieniDatabase();
 		aspetta();
 		menuDebug();
 	} else if (scelta=='4') {
+		aggiornaDatabase();
+		aspetta();
+		menuDebug();
+	} else if (scelta=='5') {
 		printf("\nBenvenuto nell'inserimento diretto di un brano.");
 		printf("\nIl modello per inserire un brano è il seguente:");
 		printf("\nTITOLO,ARTISTA,FEAT,PRODUTTORE,SCRITTORE,ALBUM,DUR:ATA,ANNO,LINGUA,ASCOLTI,GRADI.MENTO");
@@ -332,12 +365,16 @@ void menuDebug() {
 		inserimentoDiretto();
 		aspetta();
 		menuDebug();
-	} else if (scelta=='5') {
+	} else if (scelta=='6') {
 		pulisciBuffer();
 		aspetta();
 		menuDebug();
-	} else if (scelta=='6') {
+	} else if (scelta=='7') {
 		caricaImpostazioni();
+		aspetta();
+		menuDebug();
+	} else if (scelta=='8') {
+		printf("\n%d brani presenti.", conteggiaBrani());
 		aspetta();
 		menuDebug();
 	} else if (scelta=='0') {

@@ -1,5 +1,5 @@
 /*
- * FabbAmp 0.1 rev. 137 - 19.04.2020
+ * FabbAmp 0.1 rev. 174 - 21.04.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -62,9 +62,8 @@ database* ottieniDatabase() {
 		brani[i].gradimento = atof(dati[10]);
 		i++;
 	}
-	numero_brani=i; // TODO: Trovare un metodo migliore per far sapere al programma il numero dei brani
 	fclose(fp);
-	printf(" Fatto. %d brani caricati con successo.", numero_brani);
+	printf(" Fatto. %d brani caricati con successo.", i);
 	return brani;
 }
 
@@ -74,7 +73,8 @@ void aggiornaDatabase() {
 	backupDatabase("temp_db.txt");
 	remove(file_database);
 	int i=0;
-	while (i<numero_brani) {
+	int nbrani=conteggiaBrani();
+	while (i<nbrani) {
 		char anno[5], lingua[3], ascolti[MAX_CHAR], gradimento[MAX_CHAR];
 		// Investigare su sprintf
 		sprintf(anno, "%d", brani[i].anno);

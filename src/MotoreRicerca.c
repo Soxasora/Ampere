@@ -1,5 +1,5 @@
 /*
- * FabbAmp 0.1 rev. 137 - 19.04.2020
+ * FabbAmp 0.1 rev. 174 - 21.04.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -19,6 +19,7 @@
 void ricercaBrani(int modalita) {
 	//database *brani = ottieniDatabase();
 	int scelta=0;
+	int nbrani = conteggiaBrani();
 	if (modalita==0) {
 		// Flush per evitare indesiderati comportamenti dell'input
 		pulisciBuffer();
@@ -28,7 +29,7 @@ void ricercaBrani(int modalita) {
 		strtok(titolo, "\n");
 		int i=0;
 		printf("\nTrovate le seguenti occorrenze:\n\n");
-		while(i<numero_brani) {
+		while(i<nbrani) {
 			if (comparaStringhe(titolo, brani[i].titolo)==0) {
 				elencaSingoloBrano(i);
 			}
@@ -51,7 +52,7 @@ void ricercaBrani(int modalita) {
 		strtok(artista, "\n");
 		int i=0;
 		printf("\nTrovate le seguenti occorrenze:\n\n");
-		while(i<numero_brani) {
+		while(i<nbrani) {
 			if (comparaStringhe(artista, brani[i].artista)==0) {
 				elencaSingoloBrano(i);
 			}
@@ -73,7 +74,7 @@ void ricercaBrani(int modalita) {
 		strtok(feat, "\n");
 		int i=0;
 		printf("\nTrovate le seguenti occorrenze:\n\n");
-		while(i<numero_brani) {
+		while(i<nbrani) {
 			if (comparaStringhe(feat, brani[i].feat)==0) {
 				elencaSingoloBrano(i);
 			}
@@ -95,7 +96,7 @@ void ricercaBrani(int modalita) {
 		strtok(produttore, "\n");
 		int i=0;
 		printf("\nTrovate le seguenti occorrenze:\n\n");
-		while(i<numero_brani) {
+		while(i<nbrani) {
 			if (comparaStringhe(produttore, brani[i].produttore)==0) {
 				elencaSingoloBrano(i);
 			}
@@ -117,7 +118,7 @@ void ricercaBrani(int modalita) {
 		strtok(scrittore, "\n");
 		int i=0;
 		printf("\nTrovate le seguenti occorrenze:\n\n");
-		while(i<numero_brani) {
+		while(i<nbrani) {
 			if (comparaStringhe(scrittore, brani[i].scrittore)==0) {
 				elencaSingoloBrano(i);
 			}
@@ -140,7 +141,7 @@ void ricercaBrani(int modalita) {
 		strtok(album, "\n");
 		int i=0;
 		printf("\nTrovate le seguenti occorrenze:\n\n");
-		while(i<numero_brani) {
+		while(i<nbrani) {
 			if (comparaStringhe(album, brani[i].album)==0) {
 				elencaSingoloBrano(i);
 			}
@@ -162,7 +163,7 @@ void ricercaBrani(int modalita) {
 		strtok(durata, "\n");
 		int i=0;
 		printf("\nTrovate le seguenti occorrenze:\n\n");
-		while(i<numero_brani) {
+		while(i<nbrani) {
 			if (comparaStringhe(durata, brani[i].durata)==0) {
 				elencaSingoloBrano(i);
 			}
@@ -182,7 +183,7 @@ void ricercaBrani(int modalita) {
 		scanf("%d", &anno);
 		int i=0;
 		printf("\nTrovate le seguenti occorrenze:\n\n");
-		while(i<numero_brani) {
+		while(i<nbrani) {
 			if (anno==brani[i].anno) {
 				elencaSingoloBrano(i);
 			}
@@ -203,7 +204,7 @@ void ricercaBrani(int modalita) {
 		strtok(lingua, "\n");
 		int i=0;
 		printf("\nTrovate le seguenti occorrenze:\n\n");
-		while(i<numero_brani) {
+		while(i<nbrani) {
 			if (comparaStringhe(lingua, lingue[brani[i].lingua])==0) {
 				elencaSingoloBrano(i);
 			}
@@ -223,7 +224,7 @@ void ricercaBrani(int modalita) {
 		scanf("%d", &ascolti);
 		int i=0;
 		printf("\nTrovate le seguenti occorrenze:\n\n");
-		while(i<numero_brani) {
+		while(i<nbrani) {
 			if (ascolti==brani[i].ascolti) {
 				elencaSingoloBrano(i);
 			}
@@ -242,7 +243,7 @@ void ricercaBrani(int modalita) {
 		scanf("%f", &gradimento);
 		int i=0;
 		printf("\nTrovate le seguenti occorrenze:\n\n");
-		while(i<numero_brani) {
+		while(i<nbrani) {
 			if (gradimento==brani[i].gradimento) {
 				elencaSingoloBrano(i);
 			}
@@ -276,13 +277,13 @@ void elencaSingoloBrano(int pos) {
 // Funzione di elencazione di tutti i brani presenti nel database file-based
 void elencaTuttiBrani() {
 	//database *brani = ottieniDatabase();
-
 	printf("Elenco dei brani:\n");
 	int i=0; int controllo=0; // Alternativa al break
-	while (i<numero_brani&&controllo!=-1) {
+	int nbrani = conteggiaBrani();
+	while (i<nbrani&&controllo!=-1) {
 		printf("\nBrano n.%d\n", i+1);
 		elencaSingoloBrano(i);
-		if ((numero_brani+1)>5 && (i+1)%5==0) {
+		if ((nbrani+1)>5 && (i+1)%5==0) {
 			char scelta='Y';
 			pulisciBuffer();
 			printf("\nElencare i prossimi 5 brani? [Y/N]: ");

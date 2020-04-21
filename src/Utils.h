@@ -1,5 +1,5 @@
 /*
- * FabbAmp 0.1 rev. 137 - 19.04.2020
+ * FabbAmp 0.1 rev. 174 - 21.04.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -30,6 +30,11 @@ void aspetta();
 int comparaStringhe(const char *s1, const char *s2);
 
 /**
+ * Macro di richiesta input nome file
+ */
+char *chiediFile();
+
+/**
  * Funzione di controllo del contenuto del file
  * @return 0 se il file contiene informazioni, 1 se il file è vuoto
  */
@@ -40,6 +45,18 @@ int controllaSeFileVuoto();
  * @return numero di caratteri presenti nel file
  */
 int conteggiaCaratteriFile(FILE* fp);
+
+/**
+ * Funzione di conteggio delle linee presenti nel file
+ * @return numero di linee presenti nel file
+ */
+int conteggiaLinee(FILE* fp);
+
+/**
+ * Funzione di conteggio dei brani presenti nel database file based
+ * @return numero di brani presenti nel database file based
+ */
+int conteggiaBrani();
 
 /**
  * Sistema di backup del database attraverso la copia del database file-based principale carattere per carattere
