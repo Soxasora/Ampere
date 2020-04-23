@@ -1,13 +1,13 @@
 /*
- * Ampere 0.1 rev. 180 - 23.04.2020
+ * Ampere 0.1 rev. 234 - 23.04.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
  * Maggiori informazioni sul copyright su https://github.com/Soxasora/Ampere/blob/master/LICENSE
  */
 
-#ifndef GESTOREBRANI_H_
-#define GESTOREBRANI_H_
+#ifndef GESTORE_GESTOREBRANI_H_
+#define GESTORE_GESTOREBRANI_H_
 
 /**
  * Mostra all'utente una procedura guidata per inserire brani nel database file-based
@@ -39,4 +39,4 @@ void modifica(int scelta);
  */
 void modificaSingoloBrano(int pos, int modalita);
 
-#endif /* GESTOREBRANI_H_ */
+#endif /* GESTORE_GESTOREBRANI_H_ */

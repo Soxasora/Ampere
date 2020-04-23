@@ -1,18 +1,24 @@
 /*
- * Ampere 0.1 rev. 180 - 23.04.2020
+ * Ampere 0.1 rev. 234 - 23.04.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
  * Maggiori informazioni sul copyright su https://github.com/Soxasora/Ampere/blob/master/LICENSE
  */
 
-#ifndef UTILS_H_
-#define UTILS_H_
+#ifndef SYS_UTILS_H_
+#define SYS_UTILS_H_
 
 /**
  * Stampa delle informazioni sul programma
  */
 void info();
+
+
+/**
+ * Ottiene l'input di una stringa con fallback "N/A"
+ */
+char* inputStringaSicuro(char stringa[]);
 
 /**
  * Pulisce il buffer stdin per evitare comportamenti inaspettati al momento dell'inserimento
@@ -65,6 +71,12 @@ int conteggiaBrani();
 int trovaUltimoId();
 
 /**
+ * Funzione di conversione da stringa a intero della lingua
+ * @return id della lingua
+ */
+int linguaNumerica(char linguaStringa[]);
+
+/**
  * Sistema di backup del database attraverso la copia del database file-based principale carattere per carattere
  */
 void backupDatabase(char *file2);
@@ -95,4 +107,4 @@ void menuModifica();
 void menuDebug();
 
 
-#endif /* UTILS_H_ */
+#endif /* SYS_UTILS_H_ */

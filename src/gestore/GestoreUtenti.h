@@ -6,14 +6,9 @@
  * Maggiori informazioni sul copyright su https://github.com/Soxasora/Ampere/blob/master/LICENSE
  */
 
-#ifndef AMPERE_H_
-#define AMPERE_H_
-#define MAX_CHAR 256
+#ifndef GESTORE_GESTOREUTENTI_H_
+#define GESTORE_GESTOREUTENTI_H_
 
-/**
- * Effettua le operazioni iniziali per garantire il funzionamento del programma
- */
-void inizializzazione();
-//void terminazione();
+// TODO
 
-#endif /* AMPERE_H_ */
+#endif /* GESTOREUTENTI_H_ */

@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 180 - 23.04.2020
+ * Ampere 0.1 rev. 234 - 23.04.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -9,12 +9,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "GestoreBrani.h"
-#include "Ampere.h"
-#include "Database.h"
-#include "MotoreRicerca.h"
-#include "Utils.h"
-#include "Impostazioni.h"
+#include "../gestore/GestoreBrani.h"
+#include "../Ampere.h"
+#include "../gestore/Database.h"
+#include "../ricerca/MotoreRicerca.h"
+#include "../sys/Utils.h"
+#include "../sys/Impostazioni.h"
 
 // FUNZIONI FILE
 // Inserimento di informazioni direttamente nel database file-based
@@ -37,38 +37,29 @@ void inserimentoGuidato() {
 	// Registrazione informazioni
 	sprintf(id, "%d", trovaUltimoId()+1);
 	printf("\nInserisci titolo: ");
-	fgets(titolo, MAX_CHAR, stdin); // Al posto di scanf per gestire gli spazi, evitare overflow
-	strtok(titolo, "\n"); // In modo da evitare indesiderati newline
+	titolo = inputStringaSicuro(titolo);
 	printf("\nInserisci artista: ");
-	fgets(artista, MAX_CHAR, stdin);
-	strtok(artista, "\n");
+	artista = inputStringaSicuro(artista);
 	printf("\nInserisci feat: ");
-	fgets(feat, MAX_CHAR, stdin);
-	strtok(feat, "\n");
+	feat = inputStringaSicuro(feat);
 	printf("\nInserisci produttore: ");
-	fgets(produttore, MAX_CHAR, stdin);
-	strtok(produttore, "\n");
+	produttore = inputStringaSicuro(produttore);
 	printf("\nInserisci scrittore: ");
-	fgets(scrittore, MAX_CHAR, stdin);
-	strtok(scrittore, "\n");
+	scrittore = inputStringaSicuro(scrittore);
 	printf("\nInserisci titolo dell'album: ");
-	fgets(album, MAX_CHAR, stdin);
-	strtok(album, "\n");
+	album = inputStringaSicuro(album);
 	printf("\nInserisci durata: ");
-	fgets(durata, MAX_CHAR, stdin);
-	strtok(durata, "\n");
+	durata = inputStringaSicuro(durata);
 	printf("\nInserisci anno di incisione: ");
-	fgets(anno, MAX_CHAR, stdin);
-	strtok(anno, "\n");
+	anno = inputStringaSicuro(anno);
 	printf("\nInserisci lingua del brano: ");
 	fgets(lingua, MAX_CHAR, stdin);
 	strtok(lingua, "\n");
+	sprintf(lingua, "%d", linguaNumerica(lingua));
 	printf("\nInserisci numero di ascolti: ");
-	fgets(ascolti, MAX_CHAR, stdin);
-	strtok(ascolti, "\n");
+	ascolti = inputStringaSicuro(ascolti);
 	printf("\nInserisci gradimento: ");
-	fgets(gradimento, MAX_CHAR, stdin);
-	strtok(gradimento, "\n");
+	gradimento = inputStringaSicuro(gradimento);
 	// Memorizzo le informazioni direttamente nel file
 	// TODO: Passare ad un sistema esclusivamente struct per poi memorizzare nel file
 	inserisciBranoGuidato(0, id, titolo, artista, feat, produttore, scrittore, album, durata, anno, lingua, ascolti, gradimento);
@@ -88,9 +79,9 @@ void inserimentoGuidato() {
 void inserisciBranoGuidato(int modalita, char id[], char titolo[], char artista[], char feat[], char produttore[], char scrittore[], char album[], char durata[], char anno[], char lingua[], char ascolti[], char gradimento[]) {
 	FILE* fp=fopen(file_database, "a");
 	if (controllaSeFileVuoto()==1) {
-		fprintf(fp, "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", id, titolo, artista, album, feat, produttore, scrittore, durata, anno, lingua, ascolti, gradimento);
+		fprintf(fp, "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", id, titolo, artista, feat, produttore, scrittore, album, durata, anno, lingua, ascolti, gradimento);
 	} else {
-		fprintf(fp, "\n%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", id, titolo, artista, album, feat, produttore, scrittore, durata, anno, lingua, ascolti, gradimento);
+		fprintf(fp, "\n%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", id, titolo, artista, feat, produttore, scrittore, album, durata, anno, lingua, ascolti, gradimento);
 	}
 	fclose(fp);
 	if (modalita==0) {

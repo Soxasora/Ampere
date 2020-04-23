@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 180 - 23.04.2020
+ * Ampere 0.1 rev. 234 - 23.04.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -10,10 +10,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <strings.h>
-#include "MotoreRicerca.h"
-#include "Utils.h"
-#include "GestoreBrani.h"
-#include "Impostazioni.h"
+#include "../ricerca/MotoreRicerca.h"
+#include "../sys/Utils.h"
+#include "../gestore/GestoreBrani.h"
+#include "../sys/Impostazioni.h"
 
 void info() {
 	printf("    ___                                 \n");
@@ -22,7 +22,19 @@ void info() {
 	printf(" / ___ |/ / / / / / /_/ /  __/ /  /  __/\n");
 	printf("/_/  |_/_/ /_/ /_/ .___/\\___/_/   \\___/ \n");
 	printf("                /_/                     \n");
-	printf("\nAmpere 0.1 rev.180\n");
+	printf("\nAmpere 0.1 rev. 234 - 23.04.2020\n");
+	printf("\nGruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino");
+	printf("\nProgetto universitario di gruppo intento alla creazione di un gestore dati per la musica\n");
+}
+
+char* inputStringaSicuro(char stringa[]) {
+	//char* stringa = malloc(MAX_CHAR);
+	fgets(stringa, MAX_CHAR, stdin);
+	strtok(stringa, "\n");
+	if (stringa[0]=='\n') {
+		stringa = "N/A";
+	}
+	return stringa;
 }
 
 void pulisciBuffer() {
@@ -95,13 +107,17 @@ int conteggiaLinee(FILE* fp) {
 }
 
 int conteggiaBrani() {
+	int nbrani=0;
 	FILE* fp = fopen(file_database, "r");
-	return conteggiaLinee(fp);
+	nbrani = conteggiaLinee(fp);
+	fclose(fp);
+	return nbrani;
 }
 
 int trovaUltimoId() {
 	int nbrani = conteggiaBrani();
-	int i=0, max=0;
+	int i=0;
+	int max=0;
 	while(i<nbrani) {
 		if(brani[i].id>max) {
 			max=brani[i].id;
@@ -109,6 +125,20 @@ int trovaUltimoId() {
 		i++;
 	}
 	return max;
+}
+
+int linguaNumerica(char linguaStringa[]) {
+	int i=0, n_lingue=0, n_lingua=0;
+	FILE* fp = fopen(file_lingue, "r");
+	n_lingue = conteggiaLinee(fp);
+	while (i<n_lingue) {
+		if (comparaStringhe(linguaStringa, lingue[i])==0) {
+			n_lingua=i;
+		}
+		i++;
+	}
+	fclose(fp);
+	return n_lingua;
 }
 
 void backupDatabase(char *file2) {
@@ -340,7 +370,7 @@ void menuModifica() {
 // DEBUG TOOLBOX Rimuovere a fine progetto
 void menuDebug() {
 	pulisciBuffer();
-	char scelta='0';
+	int scelta=0;
 	printf("\n===Menu DEBUG===");
 	printf("\n[1] Conteggia caratteri presenti in un file");
 	printf("\n[2] Conteggia linee presenti in un file");
@@ -350,30 +380,31 @@ void menuDebug() {
 	printf("\n[6] Pulisci buffer stdin");
 	printf("\n[7] Carica impostazioni");
 	printf("\n[8] Conteggia brani");
+	printf("\n[99] Tutto quello che vuoi che sia");
 	printf("\n[0] Torna al menu principale");
 	printf("\nInserisci la tua scelta: ");
-	scanf("%c", &scelta);
-	if (scelta=='1') {
+	scanf("%d", &scelta);
+	if (scelta==1) {
 		FILE* fp=fopen(chiediFile(), "r");
 		printf("\n%d caratteri", conteggiaCaratteriFile(fp));
 		fclose(fp);
 		aspetta();
 		menuDebug();
-	} else if (scelta=='2') {
+	} else if (scelta==2) {
 		FILE* fp=fopen(chiediFile(), "r");
 		printf("\n%d linee", conteggiaLinee(fp));
 		fclose(fp);
 		aspetta();
 		menuDebug();
-	} else if (scelta=='3') {
+	} else if (scelta==3) {
 		brani = ottieniDatabase();
 		aspetta();
 		menuDebug();
-	} else if (scelta=='4') {
+	} else if (scelta==4) {
 		aggiornaDatabase();
 		aspetta();
 		menuDebug();
-	} else if (scelta=='5') {
+	} else if (scelta==5) {
 		printf("\nBenvenuto nell'inserimento diretto di un brano.");
 		printf("\nIl modello per inserire un brano è il seguente:");
 		printf("\nTITOLO,ARTISTA,FEAT,PRODUTTORE,SCRITTORE,ALBUM,DUR:ATA,ANNO,LINGUA,ASCOLTI,GRADI.MENTO");
@@ -381,19 +412,21 @@ void menuDebug() {
 		inserimentoDiretto();
 		aspetta();
 		menuDebug();
-	} else if (scelta=='6') {
+	} else if (scelta==6) {
 		pulisciBuffer();
 		aspetta();
 		menuDebug();
-	} else if (scelta=='7') {
+	} else if (scelta==7) {
 		caricaImpostazioni();
 		aspetta();
 		menuDebug();
-	} else if (scelta=='8') {
+	} else if (scelta==8) {
 		printf("\n%d brani presenti.", conteggiaBrani());
 		aspetta();
 		menuDebug();
-	} else if (scelta=='0') {
+	} else if (scelta==99) {
+		printf("\nID del primo brano: %d", brani[0].id);
+	} else if (scelta==0) {
 		menu();
 	} else {
 		printf("\nInserita scelta non riconosciuta, riprovare. ");

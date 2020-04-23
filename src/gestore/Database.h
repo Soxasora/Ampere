@@ -1,13 +1,13 @@
 /*
- * Ampere 0.1 rev. 180 - 23.04.2020
+ * Ampere 0.1 rev. 234 - 23.04.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
  * Maggiori informazioni sul copyright su https://github.com/Soxasora/Ampere/blob/master/LICENSE
  */
 
-#ifndef DATABASE_H_
-#define DATABASE_H_
+#ifndef GESTORE_DATABASE_H_
+#define GESTORE_DATABASE_H_
 #define MAX_CHAR 256
 
 // Struttura per mantenere in memoria la Libreria Musicale di Ampere
@@ -31,9 +31,9 @@ typedef struct libreriaMusicale {
 database* brani;
 
 /**
- * Controlla l'esistenza del database e se esso non esiste, viene creato automaticamente
+ * Creazione del database
  */
-void creaDatabaseSeNonEsiste();
+void creaDatabase();
 
 /**
  * Carica il database file-based in memoria riempiendo, dunque, lo struct globale libreriaMusicale
@@ -47,4 +47,4 @@ database* ottieniDatabase();
  */
 void aggiornaDatabase();
 
-#endif /* DATABASE_H_ */
+#endif /* GESTORE_DATABASE_H_ */

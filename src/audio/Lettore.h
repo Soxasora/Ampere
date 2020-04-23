@@ -6,14 +6,9 @@
  * Maggiori informazioni sul copyright su https://github.com/Soxasora/Ampere/blob/master/LICENSE
  */
 
-#ifndef AMPERE_H_
-#define AMPERE_H_
-#define MAX_CHAR 256
+#ifndef AUDIO_LETTORE_H_
+#define AUDIO_LETTORE_H_
 
-/**
- * Effettua le operazioni iniziali per garantire il funzionamento del programma
- */
-void inizializzazione();
-//void terminazione();
+//TODO
 
-#endif /* AMPERE_H_ */
+#endif /* AUDIO_LETTORE_H_ */

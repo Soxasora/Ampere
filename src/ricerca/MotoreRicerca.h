@@ -1,14 +1,14 @@
 /*
- * Ampere 0.1 rev. 180 - 23.04.2020
+ * Ampere 0.1 rev. 234 - 23.04.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
  * Maggiori informazioni sul copyright su https://github.com/Soxasora/Ampere/blob/master/LICENSE
  */
 
-#ifndef MOTORERICERCA_H_
-#define MOTORERICERCA_H_
-#include "Database.h"
+#ifndef RICERCA_MOTORERICERCA_H_
+#define RICERCA_MOTORERICERCA_H_
+#include "../gestore/Database.h"
 
 /**
  * Sistema di ricerca dei brani in base alle informazioni memorizzate nello struct globale
@@ -25,4 +25,4 @@ void elencaSingoloBrano(int pos);
  */
 void elencaTuttiBrani();
 
-#endif /* MOTORERICERCA_H_ */
+#endif /* RICERCA_MOTORERICERCA_H_ */

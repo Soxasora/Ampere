@@ -6,14 +6,6 @@
  * Maggiori informazioni sul copyright su https://github.com/Soxasora/Ampere/blob/master/LICENSE
  */
 
-#ifndef AMPERE_H_
-#define AMPERE_H_
-#define MAX_CHAR 256
+// TODO
 
-/**
- * Effettua le operazioni iniziali per garantire il funzionamento del programma
- */
-void inizializzazione();
-//void terminazione();
 
-#endif /* AMPERE_H_ */

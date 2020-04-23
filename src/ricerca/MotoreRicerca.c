@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 180 - 23.04.2020
+ * Ampere 0.1 rev. 234 - 23.04.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -9,11 +9,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "MotoreRicerca.h"
-#include "Ampere.h"
-#include "Database.h"
-#include "Utils.h"
-#include "Impostazioni.h"
+#include "../ricerca/MotoreRicerca.h"
+#include "../Ampere.h"
+#include "../gestore/Database.h"
+#include "../sys/Utils.h"
+#include "../sys/Impostazioni.h"
 
 // Funzione di ricerca brani in base alla loro anagrafica
 void ricercaBrani(int modalita) {
@@ -298,7 +298,8 @@ void elencaSingoloBrano(int pos) {
 void elencaTuttiBrani() {
 	//database *brani = ottieniDatabase();
 	printf("Elenco dei brani:\n");
-	int i=0; int controllo=0; // Alternativa al break
+	int i=0;
+	int controllo=0; // Alternativa al break
 	int nbrani = conteggiaBrani();
 	while (i<nbrani&&controllo!=-1) {
 		printf("\nBrano n.%d\n", i+1);

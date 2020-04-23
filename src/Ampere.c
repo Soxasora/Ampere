@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 180 - 23.04.2020
+ * Ampere 0.1 rev. 234 - 23.04.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -10,11 +10,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include "Ampere.h"
-#include "Database.h"
-#include "GestoreBrani.h"
-#include "MotoreRicerca.h"
-#include "Utils.h"
-#include "Impostazioni.h"
+#include "gestore/Database.h"
+#include "gestore/GestoreBrani.h"
+#include "ricerca/MotoreRicerca.h"
+#include "sys/Utils.h"
+#include "sys/Impostazioni.h"
 
 int main() {
 	// Inizializza il programma
@@ -34,13 +34,11 @@ void inizializzazione() {
 	printf("\nBenvenuto su Ampere.");
 	printf("\nInizializzazione in corso...");
 	printf("\n----------------------------------------");
-	// Carica le impostazioni di Ampere
+	// Carica le impostazioni di Ampere e se non le trova, le crea
 	caricaImpostazioni();
-	// Carica le lingue disponibili per i brani
+	// Carica le lingue disponibili per i brani e se non le trova, le crea
 	caricaLingue();
-	// Crea database se esso non e' presente nella cartella.
-	creaDatabaseSeNonEsiste();
-	// Trasferimento in memoria del database file-based
+	// Trasferimento in memoria del database file-based e se non lo trova, lo crea
 	brani = ottieniDatabase();
 	printf("\n----------------------------------------");
 	printf("\nAmpere Pronto.");
