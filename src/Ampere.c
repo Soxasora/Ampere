@@ -1,15 +1,15 @@
 /*
- * FabbAmp 0.1 rev. 175 - 22.04.2020
+ * Ampere 0.1 rev. 180 - 23.04.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
- * Maggiori informazioni sul copyright su https://github.com/Soxasora/FabbAmp/blob/master/LICENSE
+ * Maggiori informazioni sul copyright su https://github.com/Soxasora/Ampere/blob/master/LICENSE
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "FabbAmp.h"
+#include "Ampere.h"
 #include "Database.h"
 #include "GestoreBrani.h"
 #include "MotoreRicerca.h"
@@ -23,18 +23,18 @@ int main() {
 	printf("\nPremere invio per andare al menu.");
 	menu();
 
-	printf("\nFabbAmp terminato.\n");
+	printf("\nAmpere terminato.\n");
 	aspetta();
 	return 0;
 }
 
 void inizializzazione() {
-	// Visualizza informazioni su FabbAmp
+	// Visualizza informazioni su Ampere
 	info();
-	printf("\nBenvenuto su FabbAmp.");
+	printf("\nBenvenuto su Ampere.");
 	printf("\nInizializzazione in corso...");
 	printf("\n----------------------------------------");
-	// Carica le impostazioni di FabbAmp
+	// Carica le impostazioni di Ampere
 	caricaImpostazioni();
 	// Carica le lingue disponibili per i brani
 	caricaLingue();
@@ -43,6 +43,6 @@ void inizializzazione() {
 	// Trasferimento in memoria del database file-based
 	brani = ottieniDatabase();
 	printf("\n----------------------------------------");
-	printf("\nFabbAmp Pronto.");
+	printf("\nAmpere Pronto.");
 }
 

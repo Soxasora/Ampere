@@ -1,9 +1,9 @@
 /*
- * FabbAmp 0.1 rev. 175 - 22.04.2020
+ * Ampere 0.1 rev. 180 - 23.04.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
- * Maggiori informazioni sul copyright su https://github.com/Soxasora/FabbAmp/blob/master/LICENSE
+ * Maggiori informazioni sul copyright su https://github.com/Soxasora/Ampere/blob/master/LICENSE
  */
 
 #include <stdio.h>
@@ -16,12 +16,13 @@
 #include "Impostazioni.h"
 
 void info() {
-	printf("   ____     __   __   ___            \n");
-	printf("  / __/__ _/ /  / /  / _ | __ _  ___ \n");
-	printf(" / _// _ `/ _ \\/ _ \\/ __ |/  ' \\/ _ \\\n");
-	printf("/_/  \\_,_/_.__/_.__/_/ |_/_/_/_/ .__/\n");
-	printf("                              /_/    \n");
-	printf("\nFabbAmp 0.1 rev.175\n");
+	printf("    ___                                 \n");
+	printf("   /   |  ____ ___  ____  ___  ________ \n");
+	printf("  / /| | / __ `__ \\/ __ \\/ _ \\/ ___/ _ \\\n");
+	printf(" / ___ |/ / / / / / /_/ /  __/ /  /  __/\n");
+	printf("/_/  |_/_/ /_/ /_/ .___/\\___/_/   \\___/ \n");
+	printf("                /_/                     \n");
+	printf("\nAmpere 0.1 rev.180\n");
 }
 
 void pulisciBuffer() {
@@ -133,7 +134,7 @@ void backupDatabase(char *file2) {
 	printf("\nBackup del database effettuato.");
 }
 
-// Menu principale di FabbAmp
+// Menu principale di Ampere
 void menu() {
 	pulisciBuffer();
 	char scelta='0';
@@ -142,7 +143,7 @@ void menu() {
 	printf("\n[2] Ricerca nel database");
 	printf("\n[3] TODO: Condividi un brano");
 	printf("\n[4] TODO: Riproduci un brano");
-	printf("\n[5] Informazioni su FabbAmp");
+	printf("\n[5] Informazioni su Ampere");
 	printf("\n[0] Esci dal programma");
 	printf("\n[9] MENU DEBUG");
 	printf("\nInserisci la tua scelta: ");
