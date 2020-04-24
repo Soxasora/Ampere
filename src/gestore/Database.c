@@ -78,7 +78,9 @@ void aggiornaDatabase() {
 	backupDatabase("temp_db.txt");
 	remove(file_database);
 	int i=0;
-	int nbrani=conteggiaBrani();
+	FILE* fp = fopen("temp_db.txt", "r");
+	int nbrani=conteggiaLinee(fp);
+	fclose(fp);
 	while (i<nbrani) {
 		char id[MAX_CHAR], anno[5], lingua[3], ascolti[MAX_CHAR], gradimento[MAX_CHAR];
 		// Investigare su sprintf

@@ -203,10 +203,12 @@ void modificaSingoloBrano(int pos, int modalita) {
 		brani[pos].anno=anno;
 	} else if (modalita==9) {
 		pulisciBuffer();
-		int lingua=0;
+		char *lingua = malloc(MAX_CHAR);
 		printf("\nInserisci nuova lingua: ");
-		scanf("%d", &lingua);
-		brani[pos].lingua=lingua;
+		fgets(lingua, MAX_CHAR, stdin); // Al posto di scanf per gestire gli spazi, evitare overflow
+		strtok(lingua, "\n"); // In modo da evitare indesiderati newline
+		brani[pos].lingua=linguaNumerica(lingua);
+		free(lingua);
 	} else if (modalita==10) {
 		pulisciBuffer();
 		int ascolti=0;
