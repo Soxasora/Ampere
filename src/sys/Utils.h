@@ -14,6 +14,7 @@
  */
 void info();
 
+void creaCartella(char nome[]);
 
 /**
  * Ottiene l'input di una stringa con fallback "N/A"

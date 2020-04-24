@@ -9,7 +9,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+// WINDOWS
 #include <strings.h>
+#include <io.h>
+// UNIX
+#include <sys/stat.h>
+#include <unistd.h>
+// Header Ampere
 #include "../ricerca/MotoreRicerca.h"
 #include "../sys/Utils.h"
 #include "../gestore/GestoreBrani.h"
@@ -25,6 +31,22 @@ void info() {
 	printf("\nAmpere 0.1 rev. 234 - 23.04.2020\n");
 	printf("\nGruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino");
 	printf("\nProgetto universitario di gruppo intento alla creazione di un gestore dati per la musica\n");
+}
+
+void creaCartella(char nome[]) {
+	#ifdef _WIN32
+		int risultato=0;
+		risultato = mkdir(nome);
+		if(risultato!=0)
+			printf("\nLa cartella '%s' esiste gia' oppure e' impossibile crearla", nome);
+	#elif __linux__
+		struct stat st = {0};
+		if (stat(nome, &st) == -1) {
+			mkdir(nome, 0700);
+		} else {
+			printf("\nLa cartella '%s' esiste gia'", nome);
+		}
+	#endif
 }
 
 char* inputStringaSicuro(char stringa[]) {
@@ -115,16 +137,20 @@ int conteggiaBrani() {
 }
 
 int trovaUltimoId() {
-	int nbrani = conteggiaBrani();
-	int i=0;
-	int max=0;
-	while(i<nbrani) {
-		if(brani[i].id>max) {
-			max=brani[i].id;
+	if(controllaSeFileVuoto()==0) {
+		int nbrani = conteggiaBrani();
+		int i=0;
+		int max=0;
+		while(i<nbrani) {
+			if(brani[i].id>max) {
+				max=brani[i].id;
+			}
+			i++;
 		}
-		i++;
+		return max;
+	} else {
+		return 0;
 	}
-	return max;
 }
 
 int linguaNumerica(char linguaStringa[]) {

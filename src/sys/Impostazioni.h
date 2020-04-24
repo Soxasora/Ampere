@@ -11,6 +11,7 @@
 #define MAX_TEMP 1000
 #define MAX_CHAR 256
 #define MAX_LINGUE 512
+
 #define file_impostazioni "sistema\\impostazioni.ini"
 
 char *file_database;
@@ -19,9 +20,9 @@ char *file_lingue;
 char lingue[MAX_LINGUE][MAX_CHAR];
 
 /**
- * Crea le impostazioni in modalita' guidata
+ * Impostazione guidata di Ampere
  */
-void creaImpostazioni();
+void setup();
 
 /**
  * Carica le impostazioni di sistema

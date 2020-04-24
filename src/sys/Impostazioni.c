@@ -11,25 +11,30 @@
 #include "../sys/Utils.h"
 #include "../sys/Impostazioni.h"
 
-void creaImpostazioni() {
-	printf("\nPer poter garantire il funzionamento, se non sono gia' presenti, crea le seguenti cartelle, dove si trova Ampere: ");
-	printf("\n\"sistema\"");
-	printf("\n\"libreria\"");
-	printf("\n\"testi\" all'interno dell'appena creata \"libreria\"");
-	aspetta();
+void setup() {
+	printf("\nSembra che manchi qualche pezzo, procediamo all'impostazione guidata...");
+	printf("\n\nPer poter garantire il funzionamento di Ampere, procediamo alla creazione delle cartelle di sistema mancanti: ");
+	printf("\nEventuali file o cartelle già esistenti, non verranno sovrascritti.");
+	printf("\nPremi invio per continuare, altrimenti (CTRL+C)/(CTRL+Z) per terminare Ampere.");
+	creaCartella("sistema");
 	char *posizione_database = malloc(MAX_TEMP);
 	char *posizione_testi = malloc(MAX_TEMP);
 	char *posizione_lingue = malloc(MAX_TEMP);
 	pulisciBuffer();
-	printf("\n\nInserire la posizione in cui si trova il database file-based (es. libreria\\brani.txt): ");
+	printf("\n\nInserire la cartella in cui si trovera' il database file-based (es. libreria): ");
 	fgets(posizione_database, MAX_TEMP, stdin); // Al posto di scanf per gestire gli spazi, evitare overflow
 	strtok(posizione_database, "\n"); // In modo da evitare indesiderati newline
-	printf("\nInserire la posizione in cui si trova la cartella dei testi (es. libreria\\testi): ");
+	creaCartella(posizione_database);
+	strcat(posizione_database, "\\libreria.txt"); // Prepara il programma all'inclusione del database file-based
+	printf("\nInserire la cartella in cui si trovera' cartella dei testi (es. libreria\\testi): ");
 	fgets(posizione_testi, MAX_TEMP, stdin); // Al posto di scanf per gestire gli spazi, evitare overflow
 	strtok(posizione_testi, "\n"); // In modo da evitare indesiderati newline
-	printf("\nInserire la posizione in cui si trova la lista delle lingue (es. sistema\\lingue.ini): ");
+	creaCartella(posizione_testi);
+	printf("\nInserire la cartella in cui si trovera' la lista delle lingue (es. sistema): ");
 	fgets(posizione_lingue, MAX_TEMP, stdin); // Al posto di scanf per gestire gli spazi, evitare overflow
 	strtok(posizione_lingue, "\n"); // In modo da evitare indesiderati newline
+	creaCartella(posizione_lingue);
+	strcat(posizione_lingue, "\\lingue.ini");
 	FILE* fp = fopen(file_impostazioni, "a");
 	fprintf(fp, "%s\n%s\n%s", posizione_database, posizione_testi, posizione_lingue);
 	fclose(fp);
@@ -63,7 +68,7 @@ void caricaImpostazioni() {
 		printf(" Fatto. %d impostazioni caricate con successo.", i);
 	} else if (fp==NULL) {
 		printf("\n/!\\ Impostazioni non trovate, procedo alla creazione...");
-		creaImpostazioni();
+		setup();
 	}
 }
 
