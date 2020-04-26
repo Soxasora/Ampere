@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 234 - 23.04.2020
+ * Ampere 0.1 rev. 420 - 26.04.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -53,8 +53,7 @@ void inserimentoGuidato() {
 	printf("\nInserisci anno di incisione: ");
 	anno = inputStringaSicuro(anno);
 	printf("\nInserisci lingua del brano: ");
-	fgets(lingua, MAX_CHAR, stdin);
-	strtok(lingua, "\n");
+	lingua = inputStringaSicuro(lingua);
 	sprintf(lingua, "%d", linguaNumerica(lingua));
 	printf("\nInserisci numero di ascolti: ");
 	ascolti = inputStringaSicuro(ascolti);
@@ -78,7 +77,7 @@ void inserimentoGuidato() {
 // Inserimento del brano su base Titolo/Artista/Album/Durata/Anno di incisione
 void inserisciBranoGuidato(int modalita, char id[], char titolo[], char artista[], char feat[], char produttore[], char scrittore[], char album[], char durata[], char anno[], char lingua[], char ascolti[], char gradimento[]) {
 	FILE* fp=fopen(file_database, "a");
-	if (controllaSeFileVuoto()==1) {
+	if (controllaSeDatabaseVuoto()==1) {
 		fprintf(fp, "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", id, titolo, artista, feat, produttore, scrittore, album, durata, anno, lingua, ascolti, gradimento);
 	} else {
 		fprintf(fp, "\n%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", id, titolo, artista, feat, produttore, scrittore, album, durata, anno, lingua, ascolti, gradimento);
@@ -112,7 +111,7 @@ void inserimentoDiretto() {
 // Funzione DEV per l'inserimento diretto di un brano
 void inserisciBranoDiretto(char stringa[]) {
 	FILE* fp=fopen(file_database, "a");
-	if (controllaSeFileVuoto()==1) {
+	if (controllaSeDatabaseVuoto()==1) {
 		fprintf(fp, "%s", stringa);
 	} else {
 		fprintf(fp, "\n%s", stringa);
@@ -143,56 +142,49 @@ void modificaSingoloBrano(int pos, int modalita) {
 		pulisciBuffer();
 		char *titolo = malloc(MAX_CHAR);
 		printf("\nInserisci nuovo titolo: ");
-		fgets(titolo, MAX_CHAR, stdin); // Al posto di scanf per gestire gli spazi, evitare overflow
-		strtok(titolo, "\n"); // In modo da evitare indesiderati newline
+		titolo = inputStringaSicuro(titolo);
 		strcpy(brani[pos].titolo, titolo);
 		free(titolo);
 	} else if (modalita==2) {
 		pulisciBuffer();
 		char *artista = malloc(MAX_CHAR);
 		printf("\nInserisci nuovo artista: ");
-		fgets(artista, MAX_CHAR, stdin); // Al posto di scanf per gestire gli spazi, evitare overflow
-		strtok(artista, "\n"); // In modo da evitare indesiderati newline
+		artista = inputStringaSicuro(artista);
 		strcpy(brani[pos].artista, artista);
 		free(artista);
 	} else if (modalita==3) {
 		pulisciBuffer();
 		char *feat = malloc(MAX_CHAR);
 		printf("\nInserisci nuovo feat: ");
-		fgets(feat, MAX_CHAR, stdin); // Al posto di scanf per gestire gli spazi, evitare overflow
-		strtok(feat, "\n"); // In modo da evitare indesiderati newline
+		feat = inputStringaSicuro(feat);
 		strcpy(brani[pos].feat, feat);
 		free(feat);
 	} else if (modalita==4) {
 		pulisciBuffer();
 		char *produttore = malloc(MAX_CHAR);
 		printf("\nInserisci nuovo produttore: ");
-		fgets(produttore, MAX_CHAR, stdin); // Al posto di scanf per gestire gli spazi, evitare overflow
-		strtok(produttore, "\n"); // In modo da evitare indesiderati newline
+		produttore = inputStringaSicuro(produttore);
 		strcpy(brani[pos].produttore, produttore);
 		free(produttore);
 	} else if (modalita==5) {
 		pulisciBuffer();
 		char *scrittore = malloc(MAX_CHAR);
 		printf("\nInserisci nuovo scrittore: ");
-		fgets(scrittore, MAX_CHAR, stdin); // Al posto di scanf per gestire gli spazi, evitare overflow
-		strtok(scrittore, "\n"); // In modo da evitare indesiderati newline
+		scrittore = inputStringaSicuro(scrittore);
 		strcpy(brani[pos].scrittore, scrittore);
 		free(scrittore);
 	} else if (modalita==6) {
 		pulisciBuffer();
 		char *album = malloc(MAX_CHAR);
 		printf("\nInserisci nuovo album: ");
-		fgets(album, MAX_CHAR, stdin); // Al posto di scanf per gestire gli spazi, evitare overflow
-		strtok(album, "\n"); // In modo da evitare indesiderati newline
+		album = inputStringaSicuro(album);
 		strcpy(brani[pos].album, album);
 		free(album);
 	} else if (modalita==7) {
 		pulisciBuffer();
 		char *durata = malloc(MAX_CHAR);
 		printf("\nInserisci nuova durata: ");
-		fgets(durata, MAX_CHAR, stdin); // Al posto di scanf per gestire gli spazi, evitare overflow
-		strtok(durata, "\n"); // In modo da evitare indesiderati newline
+		durata = inputStringaSicuro(durata);
 		strcpy(brani[pos].durata, durata);
 		free(durata);
 	} else if (modalita==8) {
@@ -205,8 +197,7 @@ void modificaSingoloBrano(int pos, int modalita) {
 		pulisciBuffer();
 		char *lingua = malloc(MAX_CHAR);
 		printf("\nInserisci nuova lingua: ");
-		fgets(lingua, MAX_CHAR, stdin); // Al posto di scanf per gestire gli spazi, evitare overflow
-		strtok(lingua, "\n"); // In modo da evitare indesiderati newline
+		lingua = inputStringaSicuro(lingua);
 		brani[pos].lingua=linguaNumerica(lingua);
 		free(lingua);
 	} else if (modalita==10) {
@@ -225,4 +216,32 @@ void modificaSingoloBrano(int pos, int modalita) {
 
 	printf("\nBrano aggiornato. Ecco il risultato:");
 	elencaSingoloBrano(pos);
+}
+
+void cancella() {
+	int id = 0, controllo = 0;
+	char scelta = 'N';
+	while (controllo!=-1) {
+		printf("\nInserisci id del brano da cancellare: ");
+		scanf("%d", &id);
+		elencaSingoloBrano(trovaPosizioneBranoId(id));
+		pulisciBuffer();
+		printf("\nConfermi che il brano da cancellare e' questo? [Y/N]: ");
+		scanf("%c", &scelta);
+		if (scelta=='Y'||scelta=='y') {
+			cancellaSingoloBrano(trovaPosizioneBranoId(id));
+			aggiornaDatabase();
+			controllo=-1;
+		}
+	}
+}
+
+void cancellaSingoloBrano(int pos) {
+	int nbrani = conteggiaBrani();
+	int i = pos;
+	while (i<nbrani-1) {
+		brani[i] = brani[i+1];
+		i++;
+	}
+	brani[nbrani-1].id=0;
 }

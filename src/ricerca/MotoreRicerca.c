@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 234 - 23.04.2020
+ * Ampere 0.1 rev. 420 - 26.04.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -40,8 +40,6 @@ void ricercaBrani(int modalita) {
 		scanf("%d", &scelta);
 		if (scelta==0) {
 			ricercaBrani(0);
-		} else {
-			menuRicerca();
 		}
 	// Ricerca per Artista
 	} else if (modalita==1) {
@@ -63,8 +61,6 @@ void ricercaBrani(int modalita) {
 		scanf("%d", &scelta);
 		if (scelta==0) {
 			ricercaBrani(1);
-		} else {
-			menuRicerca();
 		}
 	} else if (modalita==2) {
 		pulisciBuffer();
@@ -85,8 +81,6 @@ void ricercaBrani(int modalita) {
 		scanf("%d", &scelta);
 		if (scelta==0) {
 			ricercaBrani(2);
-		} else {
-			menuRicerca();
 		}
 	} else if (modalita==3) {
 		pulisciBuffer();
@@ -107,8 +101,6 @@ void ricercaBrani(int modalita) {
 		scanf("%d", &scelta);
 		if (scelta==0) {
 			ricercaBrani(3);
-		} else {
-			menuRicerca();
 		}
 	} else if (modalita==4) {
 		pulisciBuffer();
@@ -129,8 +121,6 @@ void ricercaBrani(int modalita) {
 		scanf("%d", &scelta);
 		if (scelta==0) {
 			ricercaBrani(4);
-		} else {
-			menuRicerca();
 		}
 	// Ricerca per Album
 	} else if (modalita==5) {
@@ -152,8 +142,6 @@ void ricercaBrani(int modalita) {
 		scanf("%d", &scelta);
 		if (scelta==0) {
 			ricercaBrani(5);
-		} else {
-			menuRicerca();
 		}
 	} else if (modalita==6) {
 		pulisciBuffer();
@@ -174,8 +162,6 @@ void ricercaBrani(int modalita) {
 		scanf("%d", &scelta);
 		if (scelta==0) {
 			ricercaBrani(6);
-		} else {
-			menuRicerca();
 		}
 	} else if (modalita==7) {
 		int anno=0;
@@ -193,8 +179,6 @@ void ricercaBrani(int modalita) {
 		scanf("%d", &scelta);
 		if (scelta==0) {
 			ricercaBrani(7);
-		} else {
-			menuRicerca();
 		}
 	} else if (modalita==8) {
 		pulisciBuffer();
@@ -205,7 +189,7 @@ void ricercaBrani(int modalita) {
 		int i=0;
 		printf("\nTrovate le seguenti occorrenze:\n\n");
 		while(i<nbrani) {
-			if (comparaStringhe(lingua, lingue[brani[i].lingua])==0) {
+			if (linguaNumerica(lingua)==brani[i].lingua) {
 				elencaSingoloBrano(i);
 			}
 			i++;
@@ -215,8 +199,6 @@ void ricercaBrani(int modalita) {
 		scanf("%d", &scelta);
 		if (scelta==0) {
 			ricercaBrani(8);
-		} else {
-			menuRicerca();
 		}
 	} else if (modalita==9) {
 		int ascolti=0;
@@ -234,8 +216,6 @@ void ricercaBrani(int modalita) {
 		scanf("%d", &scelta);
 		if (scelta==0) {
 			ricercaBrani(9);
-		} else {
-			menuRicerca();
 		}
 	} else if (modalita==10) {
 		float gradimento=0.0;
@@ -249,31 +229,21 @@ void ricercaBrani(int modalita) {
 			}
 			i++;
 		}
-		printf("\nCercare un altro brano per Gradimento[0] oppure ritornare al Menu di ricerca[1]? ");
+		printf("\nCercare un altro brano per Gradimento [0] oppure ritornare al Menu di ricerca [1]? ");
 		scanf("%d", &scelta);
 		if (scelta==0) {
 			ricercaBrani(10);
-		} else {
-			menuRicerca();
 		}
 	} else if (modalita==11) {
 		int id = 0;
 		printf("\nInserisci identificativo: ");
 		scanf("%d", &id);
-		int i=0;
 		printf("\nTrovate le seguenti occorrenze:\n\n");
-		while(i<nbrani) {
-			if (id==brani[i].id) {
-				elencaSingoloBrano(i);
-			}
-			i++;
-		}
+		elencaSingoloBrano(trovaPosizioneBranoId(id));
 		printf("\nCercare un altro brano per Identificativo[0] oppure ritornare al Menu di ricerca[1]? ");
 		scanf("%d", &scelta);
 		if (scelta==0) {
 			ricercaBrani(11);
-		} else {
-			menuRicerca();
 		}
 	}
 }
@@ -301,17 +271,21 @@ void elencaTuttiBrani() {
 	int i=0;
 	int controllo=0; // Alternativa al break
 	int nbrani = conteggiaBrani();
-	while (i<nbrani&&controllo!=-1) {
-		printf("\nBrano n.%d\n", i+1);
-		elencaSingoloBrano(i);
-		if ((nbrani+1)>5 && (i+1)%5==0) {
-			char scelta='Y';
-			pulisciBuffer();
-			printf("\nElencare i prossimi 5 brani? [Y/N]: ");
-			scanf("%c", &scelta);
-			if (scelta=='N'||scelta=='n')
-				controllo=-1;
+	if (nbrani==0) {
+		printf("\nNessun brano presente nel database, aggiungi!");
+	} else {
+		while (i<nbrani&&controllo!=-1) {
+			printf("\nBrano n.%d\n", i+1);
+			elencaSingoloBrano(i);
+			if ((nbrani+1)>5 && (i+1)%5==0) {
+				char scelta='Y';
+				pulisciBuffer();
+				printf("\nElencare i prossimi 5 brani? [Y/N]: ");
+				scanf("%c", &scelta);
+				if (scelta=='N'||scelta=='n')
+					controllo=-1;
+			}
+			i++;
 		}
-		i++;
 	}
 }

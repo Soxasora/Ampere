@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 234 - 23.04.2020
+ * Ampere 0.1 rev. 420 - 26.04.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -45,7 +45,7 @@ char *chiediFile();
  * Funzione di controllo del contenuto del file
  * @return 0 se il file contiene informazioni, 1 se il file è vuoto
  */
-int controllaSeFileVuoto();
+int controllaSeDatabaseVuoto();
 
 /**
  * Funzione di conteggio dei caratteri presenti nel file
@@ -60,8 +60,8 @@ int conteggiaCaratteriFile(FILE* fp);
 int conteggiaLinee(FILE* fp);
 
 /**
- * Funzione di conteggio dei brani presenti nel database file based
- * @return numero di brani presenti nel database file based
+ * Funzione di conteggio dei brani presenti nel database struct
+ * @return numero di brani presenti nel database struct
  */
 int conteggiaBrani();
 
@@ -70,6 +70,12 @@ int conteggiaBrani();
  * @return ultimo identificativo
  */
 int trovaUltimoId();
+
+/**
+ * Funzione di ricerca della posizione nella quale si trova l'id specificato
+ * @return posizione del brano in base all'id
+ */
+int trovaPosizioneBranoId(int id);
 
 /**
  * Funzione di conversione da stringa a intero della lingua

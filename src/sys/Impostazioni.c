@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 234 - 23.04.2020
+ * Ampere 0.1 rev. 420 - 26.04.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -14,7 +14,7 @@
 void setup() {
 	printf("\nSembra che manchi qualche pezzo, procediamo all'impostazione guidata...");
 	printf("\n\nPer poter garantire il funzionamento di Ampere, procediamo alla creazione delle cartelle di sistema mancanti: ");
-	printf("\nEventuali file o cartelle già esistenti, non verranno sovrascritti.");
+	printf("\nEventuali file o cartelle gia' esistenti, non verranno sovrascritti.");
 	printf("\nPremi invio per continuare, altrimenti (CTRL+C)/(CTRL+Z) per terminare Ampere.");
 	creaCartella("sistema");
 	char *posizione_database = malloc(MAX_TEMP);

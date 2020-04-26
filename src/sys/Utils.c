@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 234 - 23.04.2020
+ * Ampere 0.1 rev. 420 - 26.04.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -28,7 +28,7 @@ void info() {
 	printf(" / ___ |/ / / / / / /_/ /  __/ /  /  __/\n");
 	printf("/_/  |_/_/ /_/ /_/ .___/\\___/_/   \\___/ \n");
 	printf("                /_/                     \n");
-	printf("\nAmpere 0.1 rev. 234 - 23.04.2020\n");
+	printf("\nAmpere 0.1 rev. 420 - 26.04.2020\n");
 	printf("\nGruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino");
 	printf("\nProgetto universitario di gruppo intento alla creazione di un gestore dati per la musica\n");
 }
@@ -94,7 +94,7 @@ char *chiediFile() {
 	return nome_file;
 }
 
-int controllaSeFileVuoto() {
+int controllaSeDatabaseVuoto() {
 	FILE* fp=fopen(file_database, "r");
 	// Proof of concept, cambiare in qualcosa di più sicuro
 	int c = fgetc(fp);
@@ -129,18 +129,19 @@ int conteggiaLinee(FILE* fp) {
 }
 
 int conteggiaBrani() {
-	int nbrani=0;
-	FILE* fp = fopen(file_database, "r");
-	nbrani = conteggiaLinee(fp);
-	fclose(fp);
-	return nbrani;
+	int i = 0;
+	while (brani[i].id!=0) {
+		i++;
+	}
+	return i;
 }
 
 int trovaUltimoId() {
-	if(controllaSeFileVuoto()==0) {
+	if(controllaSeDatabaseVuoto()==1) {
+		return 0;
+	} else {
 		int nbrani = conteggiaBrani();
-		int i=0;
-		int max=0;
+		int i=0, max=0;
 		while(i<nbrani) {
 			if(brani[i].id>max) {
 				max=brani[i].id;
@@ -148,9 +149,19 @@ int trovaUltimoId() {
 			i++;
 		}
 		return max;
-	} else {
-		return 0;
 	}
+}
+
+int trovaPosizioneBranoId(int id) {
+	int nbrani = conteggiaBrani();
+	int pos = 0, i=0;
+	while (i<nbrani) {
+		if (brani[i].id == id) {
+			pos = i;
+		}
+		i++;
+	}
+	return pos;
 }
 
 int linguaNumerica(char linguaStringa[]) {
@@ -235,7 +246,7 @@ void menuDatabase() {
 	printf("\n===Menu gestione database===");
 	printf("\n[1] Inserisci un brano nel database");
 	printf("\n[2] Modifica un brano");
-	printf("\n[3] TODO: Cancella un brano");
+	printf("\n[3] Cancella un brano");
 	printf("\n[4] Effettua un backup del database");
 	printf("\n[0] Torna al menu principale");
 	printf("\nInserisci la tua scelta: ");
@@ -247,7 +258,9 @@ void menuDatabase() {
 	} else if (scelta=='2') {
 		menuModifica();
 	} else if (scelta=='3') {
-		// TODO
+		cancella();
+		aspetta();
+		menuDatabase();
 	} else if (scelta=='4') {
 		pulisciBuffer();
 		char *nome = malloc(MAX_CHAR);
@@ -292,28 +305,52 @@ void menuRicerca() {
 		menuRicerca();
 	} else if (scelta==2) {
 		ricercaBrani(0);
+		aspetta();
+		menuRicerca();
 	} else if (scelta==3) {
 		ricercaBrani(1);
+		aspetta();
+		menuRicerca();
 	} else if (scelta==4) {
 		ricercaBrani(2);
+		aspetta();
+		menuRicerca();
 	} else if (scelta==5) {
 		ricercaBrani(3);
+		aspetta();
+		menuRicerca();
 	} else if (scelta==6) {
 		ricercaBrani(4);
+		aspetta();
+		menuRicerca();
 	} else if (scelta==7) {
 		ricercaBrani(5);
+		aspetta();
+		menuRicerca();
 	} else if (scelta==8) {
 		ricercaBrani(6);
+		aspetta();
+		menuRicerca();
 	} else if (scelta==9) {
 		ricercaBrani(7);
+		aspetta();
+		menuRicerca();
 	} else if (scelta==10) {
 		ricercaBrani(8);
+		aspetta();
+		menuRicerca();
 	} else if (scelta==11) {
 		ricercaBrani(9);
+		aspetta();
+		menuRicerca();
 	} else if (scelta==12) {
 		ricercaBrani(10);
+		aspetta();
+		menuRicerca();
 	} else if (scelta==13) {
 		ricercaBrani(11);
+		aspetta();
+		menuRicerca();
 	} else if (scelta==0) {
 		menu();
 	} else {
@@ -447,11 +484,11 @@ void menuDebug() {
 		aspetta();
 		menuDebug();
 	} else if (scelta==8) {
-		printf("\n%d brani presenti.", conteggiaBrani());
+		printf("\n%d brani presenti nello struct.", conteggiaBrani());
 		aspetta();
 		menuDebug();
 	} else if (scelta==99) {
-		printf("\nID del primo brano: %d", brani[0].id);
+		printf("\n%d", controllaSeDatabaseVuoto());
 	} else if (scelta==0) {
 		menu();
 	} else {
