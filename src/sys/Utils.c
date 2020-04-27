@@ -204,7 +204,7 @@ void backupDatabase(char *file2) {
 // Menu principale di Ampere
 void menu() {
 	pulisciBuffer();
-	char scelta='0';
+	int scelta=0;
 	printf("\n===Menu principale===");
 	printf("\n[1] Gestisci il database");
 	printf("\n[2] Ricerca nel database");
@@ -214,24 +214,23 @@ void menu() {
 	printf("\n[0] Esci dal programma");
 	printf("\n[9] MENU DEBUG");
 	printf("\nInserisci la tua scelta: ");
-	scanf("%c", &scelta);
-
-	if(scelta=='1') {
+	scanf("%d", &scelta);
+	if(scelta==1) {
 		menuDatabase();
-	} else if (scelta=='2') {
+	} else if (scelta==2) {
 		menuRicerca();
-	} else if (scelta=='3') {
+	} else if (scelta==3) {
 		// TODO
 		menu();
-	} else if (scelta=='4') {
+	} else if (scelta==4) {
 		// TODO
-	} else if (scelta=='5') {
+	} else if (scelta==5) {
 		info();
 		aspetta();
 		menu();
-	} else if (scelta=='0') {
+	} else if (scelta==0) {
 		printf("\nUscendo dal programma...\n");
-	} else if (scelta=='9') {
+	} else if (scelta==9) {
 		// DA USARE PER DEBUG
 		menuDebug();
 	} else {
@@ -242,26 +241,27 @@ void menu() {
 
 void menuDatabase() {
 	pulisciBuffer();
-	char scelta='0';
+	int scelta=0;
 	printf("\n===Menu gestione database===");
 	printf("\n[1] Inserisci un brano nel database");
 	printf("\n[2] Modifica un brano");
 	printf("\n[3] Cancella un brano");
 	printf("\n[4] Effettua un backup del database");
+	printf("\n[5] Cancella l'intera libreria musicale");
 	printf("\n[0] Torna al menu principale");
 	printf("\nInserisci la tua scelta: ");
-	scanf("%c", &scelta);
-	if (scelta=='1') {
+	scanf("%d", &scelta);
+	if (scelta==1) {
 		inserimentoGuidato();
 		aspetta();
 		menuDatabase();
-	} else if (scelta=='2') {
+	} else if (scelta==2) {
 		menuModifica();
-	} else if (scelta=='3') {
+	} else if (scelta==3) {
 		cancella();
 		aspetta();
 		menuDatabase();
-	} else if (scelta=='4') {
+	} else if (scelta==4) {
 		pulisciBuffer();
 		char *nome = malloc(MAX_CHAR);
 		printf("\nInserisci nome del backup, inclusa estensione: ");
@@ -271,7 +271,11 @@ void menuDatabase() {
 		free(nome);
 		aspetta();
 		menuDatabase();
-	} else if (scelta=='0') {
+	} else if (scelta==5) {
+		cancellaLibreria();
+		aspetta();
+		menuDatabase();
+	} else if (scelta==0) {
 		menu();
 	} else {
 		printf("\nInserita scelta non riconosciuta, riprovare. ");

@@ -49,4 +49,14 @@ void cancella();
  */
 void cancellaSingoloBrano(int pos);
 
+/**
+ * Sistema guidato per la cancellazione di tutti i brani presenti nel database
+ */
+void cancellaLibreria();
+
+/**
+ * Funzione di supporto a cancellaLibreria(), effettua le operazioni di cancellazione di tutti i brani;
+ */
+void cancellaTuttiBrani();
+
 #endif /* GESTORE_GESTOREBRANI_H_ */

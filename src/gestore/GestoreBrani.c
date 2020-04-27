@@ -245,3 +245,38 @@ void cancellaSingoloBrano(int pos) {
 	}
 	brani[nbrani-1].id=0;
 }
+
+void cancellaLibreria() {
+	int controllo=0;
+	char scelta='N';
+	while (controllo!=-1) {
+		pulisciBuffer();
+		printf("\nStai per cancellare la tua intera libreria musicale, sei sicuro? [Y/N]: ");
+		scanf("%c", &scelta);
+		if (scelta=='Y'||scelta=='y') {
+			pulisciBuffer();
+			printf("\nVorresti effettuare un backup prima di procedere? [Y/N]: ");
+			scanf("%c", &scelta);
+			if (scelta=='Y'||scelta=='y') {
+				pulisciBuffer();
+				char* nome_backup = malloc(MAX_CHAR);
+				printf("\nInserisci il file con estensione del backup (es. backup.txt): ");
+				nome_backup = inputStringaSicuro(nome_backup);
+				backupDatabase(nome_backup);
+				free(nome_backup);
+			}
+			printf("\nCancellazione in corso...");
+			cancellaTuttiBrani();
+			printf("\nCancellazione effettuata con successo.");
+			controllo=-1;
+		} else {
+			printf("\nCancellazione annullata.");
+			controllo=-1;
+		}
+	}
+}
+
+void cancellaTuttiBrani() {
+	remove(file_database);
+	creaDatabase();
+}

@@ -35,6 +35,7 @@ database* ottieniDatabase() {
 	} else {
 		if (controllaSeDatabaseVuoto()==0) {
 			database *brani = malloc((MAX_CHAR*7)*sizeof(database));
+			//database *brani = malloc((MAX_CHAR*7)*sizeof(database));
 			// TODO: Allora questo, questo è da cambiare assolutamente
 			char temp[1000]; // [DA CAMBIARE] Variabile temporanea per ottenere i dati
 			char dati[1000][1000]; // [DA CAMBIARE] Array temporaneo per trasportare i dati
@@ -70,8 +71,10 @@ database* ottieniDatabase() {
 			printf(" Fatto. %d brani caricati con successo.", i);
 			return brani;
 		} else {
+			database *brani = malloc((MAX_CHAR*7)*sizeof(database));
 			fclose(fp);
 			printf(" Fatto. Nessun brano presente nel database file-based.");
+			return brani;
 		}
 	}
 	fclose(fp);
