@@ -278,5 +278,10 @@ void cancellaLibreria() {
 
 void cancellaTuttiBrani() {
 	remove(file_database);
+	int i=0;
+	while(i<conteggiaBrani()) {
+		brani[i].id=0;
+		i++;
+	}
 	creaDatabase();
 }

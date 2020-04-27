@@ -71,10 +71,8 @@ database* ottieniDatabase() {
 			printf(" Fatto. %d brani caricati con successo.", i);
 			return brani;
 		} else {
-			database *brani = malloc((MAX_CHAR*7)*sizeof(database));
 			fclose(fp);
 			printf(" Fatto. Nessun brano presente nel database file-based.");
-			return brani;
 		}
 	}
 	fclose(fp);
