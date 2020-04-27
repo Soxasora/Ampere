@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 420 - 26.04.2020
+ * Ampere 0.1 rev. 501 - 27.04.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -34,17 +34,16 @@ database* ottieniDatabase() {
 		creaDatabase();
 	} else {
 		if (controllaSeDatabaseVuoto()==0) {
-			database *brani = malloc((MAX_CHAR*7)*sizeof(database));
-			//database *brani = malloc((MAX_CHAR*7)*sizeof(database));
+			database *brani = malloc((MAX_CHAR*MAX_CHAR)*sizeof(database));
 			// TODO: Allora questo, questo è da cambiare assolutamente
-			char temp[1000]; // [DA CAMBIARE] Variabile temporanea per ottenere i dati
-			char dati[1000][1000]; // [DA CAMBIARE] Array temporaneo per trasportare i dati
+			char temp[MAX_TEMP]; // [DA CAMBIARE] Variabile temporanea per ottenere i dati
+			char dati[MAX_TEMP][MAX_TEMP]; // [DA CAMBIARE] Array temporaneo per trasportare i dati
 			char spaziatore[] = ","; // Il database divide i dati utilizzando lo spaziatore ,
 			int i, j;
 			i=0;
 			// TODO: Trovare metodo migliore se esistente
 			while(!feof(fp)) { // Fino a quando non arriva alla fine del file
-				fgets(temp, 1000, fp); // Ottiene la linea
+				fgets(temp, MAX_TEMP, fp); // Ottiene la linea
 				char *ptr = strtok(temp, spaziatore); // Imposta lo spaziatore
 				j=0;
 				while(ptr!=NULL) { // Fino a quando il puntatore non ha piu' niente da trasportare

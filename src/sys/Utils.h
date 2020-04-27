@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 420 - 26.04.2020
+ * Ampere 0.1 rev. 501 - 27.04.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -8,6 +8,7 @@
 
 #ifndef SYS_UTILS_H_
 #define SYS_UTILS_H_
+#include "../sys/Impostazioni.h"
 
 /**
  * Stampa delle informazioni sul programma
@@ -81,7 +82,11 @@ int trovaPosizioneBranoId(int id);
  * Funzione di conversione da stringa a intero della lingua
  * @return id della lingua
  */
-int linguaNumerica(char linguaStringa[]);
+//int linguaNumerica(char linguaStringa[]);
+
+int posizioneLinguaDaStringa(char linguaStringa[]);
+
+int posizioneLinguaDaId(int id);
 
 /**
  * Sistema di backup del database attraverso la copia del database file-based principale carattere per carattere

@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 420 - 26.04.2020
+ * Ampere 0.1 rev. 501 - 27.04.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -17,7 +17,13 @@
 char *file_database;
 char *dir_testi;
 char *file_lingue;
-char lingue[MAX_LINGUE][MAX_CHAR];
+
+typedef struct lingueSistema {
+	int id;
+	char nome_umano[MAX_CHAR];
+} lingua;
+
+lingua* lingue;
 
 /**
  * Impostazione guidata di Ampere
@@ -37,6 +43,6 @@ void creaLingue();
 /**
  * Carica lingue disponibili per i brani
  */
-void caricaLingue();
+lingua* caricaLingue();
 
 #endif /* SYS_IMPOSTAZIONI_H_ */

@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 420 - 26.04.2020
+ * Ampere 0.1 rev. 501 - 27.04.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -74,19 +74,19 @@ void caricaImpostazioni() {
 
 void creaLingue() {
 	FILE* fp = fopen(file_lingue, "a");
-	int n_lingue=0, i=0;
+	int n_lingue=0, i=1;
 	char *lingua = malloc(MAX_CHAR);
 	printf("Quante lingue vorresti inserire? ");
 	scanf("%d", &n_lingue);
+	n_lingue++;
 	pulisciBuffer();
 	while (i<n_lingue) {
-		printf("\nInserisci lingua %d: ", i);
-		fgets(lingua, MAX_CHAR, stdin); // Al posto di scanf per gestire gli spazi, evitare overflow
-		strtok(lingua, "\n"); // In modo da evitare indesiderati newline
+		printf("\nInserisci lingua con id %d: ", i);
+		lingua = inputStringaSicuro(lingua);
 		if (i==n_lingue-1) {
-			fprintf(fp, "%s", lingua);
+			fprintf(fp, "%d,%s", i, lingua);
 		} else {
-			fprintf(fp, "%s\n", lingua);
+			fprintf(fp, "%d,%s\n", i, lingua);
 		}
 		i++;
 	}
@@ -96,22 +96,38 @@ void creaLingue() {
 	caricaLingue();
 }
 
-void caricaLingue() {
+lingua* caricaLingue() {
 	printf("\nCarico le lingue...");
 	FILE* fp = fopen(file_lingue, "r");
 	if (fp!=NULL) {
-		int i=0;
+		lingua *lingue = malloc((MAX_CHAR*MAX_CHAR)*sizeof(lingua)); //malloc((MAX_CHAR*7)*sizeof(database));
+		int i=0, j=0;
 		char temp[MAX_TEMP];
+		char dati[MAX_TEMP][MAX_TEMP];
+		char spaziatore[]=",";
+		i=0;
 		while(!feof(fp)) {
 			fgets(temp, MAX_TEMP, fp);
 			strtok(temp, "\n");
-			strcpy(lingue[i], temp);
+			char *ptr = strtok(temp, spaziatore);
+			j=0;
+			while (ptr!=NULL) {
+				strcpy(dati[j], ptr);
+				ptr=strtok(NULL, spaziatore);
+				j++;
+			}
+			lingue[i].id = atoi(dati[0]);
+			strcpy(lingue[i].nome_umano, dati[1]);
 			i++;
 		}
 		fclose(fp);
 		printf(" Fatto. %d lingue caricate con successo.", i);
+		return lingue;
 	} else if (fp==NULL) {
+		fclose(fp);
 		printf("\n/!\\ Lingue non trovate, procedo alla creazione...");
 		creaLingue();
 	}
+	fclose(fp);
+	return lingue;
 }

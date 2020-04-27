@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 420 - 26.04.2020
+ * Ampere 0.1 rev. 501 - 27.04.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -54,7 +54,7 @@ void inserimentoGuidato() {
 	anno = inputStringaSicuro(anno);
 	printf("\nInserisci lingua del brano: ");
 	lingua = inputStringaSicuro(lingua);
-	sprintf(lingua, "%d", linguaNumerica(lingua));
+	sprintf(lingua, "%d", lingue[posizioneLinguaDaStringa(lingua)].id);
 	printf("\nInserisci numero di ascolti: ");
 	ascolti = inputStringaSicuro(ascolti);
 	printf("\nInserisci gradimento: ");
@@ -198,7 +198,7 @@ void modificaSingoloBrano(int pos, int modalita) {
 		char *lingua = malloc(MAX_CHAR);
 		printf("\nInserisci nuova lingua: ");
 		lingua = inputStringaSicuro(lingua);
-		brani[pos].lingua=linguaNumerica(lingua);
+		brani[pos].lingua=lingue[posizioneLinguaDaStringa(lingua)].id;
 		free(lingua);
 	} else if (modalita==10) {
 		pulisciBuffer();

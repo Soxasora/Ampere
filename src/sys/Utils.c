@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 420 - 26.04.2020
+ * Ampere 0.1 rev. 501 - 27.04.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -16,6 +16,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 // Header Ampere
+#include "../gestore/Database.h"
 #include "../ricerca/MotoreRicerca.h"
 #include "../sys/Utils.h"
 #include "../gestore/GestoreBrani.h"
@@ -28,7 +29,7 @@ void info() {
 	printf(" / ___ |/ / / / / / /_/ /  __/ /  /  __/\n");
 	printf("/_/  |_/_/ /_/ /_/ .___/\\___/_/   \\___/ \n");
 	printf("                /_/                     \n");
-	printf("\nAmpere 0.1 rev. 420 - 26.04.2020\n");
+	printf("\nAmpere 0.1 rev. 501 - 27.04.2020\n");
 	printf("\nGruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino");
 	printf("\nProgetto universitario di gruppo intento alla creazione di un gestore dati per la musica\n");
 }
@@ -136,6 +137,14 @@ int conteggiaBrani() {
 	return i;
 }
 
+int conteggiaLingue() {
+	int i = 0;
+	while (lingue[i].id!=0) {
+		i++;
+	}
+	return i;
+}
+
 int trovaUltimoId() {
 	if(controllaSeDatabaseVuoto()==1) {
 		return 0;
@@ -154,28 +163,56 @@ int trovaUltimoId() {
 
 int trovaPosizioneBranoId(int id) {
 	int nbrani = conteggiaBrani();
-	int pos = 0, i=0;
-	while (i<nbrani) {
+	int pos = 0, i=0, controllo=0;
+	while (i<nbrani&&controllo!=-1) {
 		if (brani[i].id == id) {
 			pos = i;
+			controllo=-1;
 		}
 		i++;
 	}
 	return pos;
 }
 
-int linguaNumerica(char linguaStringa[]) {
-	int i=0, n_lingue=0, n_lingua=0;
-	FILE* fp = fopen(file_lingue, "r");
-	n_lingue = conteggiaLinee(fp);
-	while (i<n_lingue) {
-		if (comparaStringhe(linguaStringa, lingue[i])==0) {
-			n_lingua=i;
+//int linguaNumerica(char linguaStringa[]) {
+//	int i=0, n_lingue=0, n_lingua=0;
+//	FILE* fp = fopen(file_lingue, "r");
+//	n_lingue = conteggiaLinee(fp);
+//	while (i<n_lingue) {
+//		if (comparaStringhe(linguaStringa, lingue[i])==0) {
+//			n_lingua=i;
+//		}
+//		i++;
+//	}
+//	fclose(fp);
+//	return n_lingua;
+//}
+
+int posizioneLinguaDaStringa(char linguaStringa[]) {
+	int nlingue = conteggiaLingue();
+	int pos=0, i = 0, controllo=0;
+	while (i<nlingue&&controllo!=-1) {
+		if (comparaStringhe(lingue[i].nome_umano, linguaStringa)==0) {
+			pos = i;
+			controllo=-1;
 		}
 		i++;
 	}
-	fclose(fp);
-	return n_lingua;
+
+	return pos;
+}
+
+int posizioneLinguaDaId(int id) {
+	int nlingue = conteggiaLingue();
+	int pos=0, i=0, controllo=0;
+	while (i<nlingue&&controllo!=-1) {
+		if (id==lingue[i].id) {
+			pos = i;
+			controllo=-1;
+		}
+		i++;
+	}
+	return pos;
 }
 
 void backupDatabase(char *file2) {
