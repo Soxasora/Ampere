@@ -9,6 +9,21 @@
 #ifndef GESTORE_DATABASE_H_
 #define GESTORE_DATABASE_H_
 #include "../sys/Impostazioni.h"
+#include "Brani.h"
+#include "Artisti.h"
+#include "Albums.h"
+#include "Generi.h"
+#include "Playlists.h"
+#include "Utenti.h"
+
+typedef struct database_locale {
+	struct brani brano;
+	struct artisti artista;
+	struct albums album;
+	struct generi genere;
+	struct playlists playlist;
+	struct utenti utente;
+} db;
 
 // Struttura per mantenere in memoria la Libreria Musicale di Ampere
 typedef struct libreriaMusicale {

@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../gestore/GestoreBrani.h"
-#include "../gestore/Database.h"
+#include "../database/Database.h"
 #include "../Ampere.h"
 #include "../sys/Utils.h"
 #include "../sys/Impostazioni.h"
@@ -21,6 +21,43 @@ void creaDatabase() {
 	fclose(fp);
 	printf("\nDatabase creato da zero, ti conviene inserire dei brani! Riprendo...");
 	ottieniDatabase();
+}
+
+db* new_ottieniDatabase() {
+	printf("\nOttengo il database...");
+	db database;
+	//TODO
+	//TODO
+	//TODO
+	//TODO
+	//TODO
+	return database;
+}
+
+db* ottieniBrani(db database) {
+	printf("\nOttengo i brani...");
+	FILE* fp=fopen(file_database, "r");
+	if (fp==NULL) {
+		printf("\n/!\\ Database file-based non trovato, procedo alla creazione...");
+		creaDatabase();
+	} else {
+		*database.brano = malloc((MAX_CHAR*MAX_CHAR)*sizeof(database.brano));
+		char temp[MAX_TEMP];
+		char dati[MAX_TEMP][MAX_TEMP];
+		char spaziatore[] = ",";
+		int i=0, j=0;
+		while(!feof(fp)) {
+			fgets(temp, MAX_TEMP, fp);
+			char *ptr = strtok(temp, spaziatore);
+			j=0;
+			while(ptr!=NULL) {
+				strcpy(dati[j], ptr);
+				ptr=strtok(NULL, spaziatore);
+				j++;
+			}
+			//TODO
+		}
+	}
 }
 
 // Funzione per trasferire in memoria il database file-based velocizzando la sua lettura.
