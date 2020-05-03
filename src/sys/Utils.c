@@ -212,7 +212,7 @@ void menuRicerca() {
 	if (scelta==1) {
 		mostraTuttiBrani();
 		aspetta();
-		menuDatabase();
+		menuRicerca();
 	} else if (scelta==2) {
 		//TODO
 	} else if (scelta==3) {
@@ -225,6 +225,6 @@ void menuRicerca() {
 		menu();
 	} else {
 		printf("\nInserita scelta non riconosciuta, riprovare. ");
-		menuDatabase();
+		menuRicerca();
 	}
 }

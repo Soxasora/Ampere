@@ -12,5 +12,7 @@ void inserimentoAlbumGuidato();
 int creaAlbumGuidato(char titolo_album[]);
 int creaAlbumSeNonEsiste(char titolo_album[]);
 int inserisciAlbum(char titolo[], int anno);
+void inserisciAlbumSuFile(char id[], char titolo[], char anno[]);
+void inserisciCollezioneSuFile(char idalbum[], char idbrano[]);
 
 #endif /* SRC_GESTORI_GESTOREALBUM_H_ */

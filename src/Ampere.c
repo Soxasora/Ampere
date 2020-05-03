@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "Ampere.h"
+#include "gestori/GestoreFile.h"
 #include "database/Database.h"
 #include "sys/Utils.h"
 #include "sys/Impostazioni.h"
@@ -20,6 +21,7 @@ int main() {
 
 	menu();
 
+	terminazione();
 	system("PAUSE");
 	return 0;
 }
@@ -31,4 +33,8 @@ void inizializzazione() {
 	os = rivelaOS();
 	// Ottengo il database e tutti i sotto database con esso
 	db = ottieniDatabase();
+}
+
+void terminazione() {
+	salvaModificheSuFile();
 }

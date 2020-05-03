@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../database/Database.h"
+#include "../sys/Utils.h"
 #include "../sys/Impostazioni.h"
 
 database ottieniDatabase() {
@@ -26,7 +27,6 @@ database ottieniDatabase() {
 	associaAlbum();
 	associaGeneri();
 	associaPlaylist();
-	ottieniPreferitiDagliUtenti();
 	printf("\nDatabase caricato con successo.");
 	return db;
 }
@@ -50,6 +50,7 @@ void ottieniBrani() {
 				j++;
 			}
 			db.brano[i].id = atoi(dati[0]);
+			strtok(dati[1], "\n");
 			strcpy(db.brano[i].titolo,dati[1]);
 			db.brano[i].durata = atoi(dati[2]);
 			db.brano[i].album = atoi(dati[3]);
@@ -83,6 +84,7 @@ void ottieniAlbums() {
 				j++;
 			}
 			db.album[i].id = atoi(dati[0]);
+			strtok(dati[1], "\n");
 			strcpy(db.album[i].titolo,dati[1]);
 			db.album[i].anno = atoi(dati[2]);
 			i++;
@@ -113,6 +115,9 @@ void ottieniArtisti() {
 				j++;
 			}
 			db.artista[i].id = atoi(dati[0]);
+			strtok(dati[1], "\n");
+			strtok(dati[2], "\n");
+			strtok(dati[3], "\n");
 			strcpy(db.artista[i].nome,dati[1]);
 			strcpy(db.artista[i].cognome,dati[2]);
 			strcpy(db.artista[i].nomearte,dati[3]);
@@ -144,6 +149,7 @@ void ottieniGeneri() {
 				j++;
 			}
 			db.genere[i].id = atoi(dati[0]);
+			strtok(dati[1], "\n");
 			strcpy(db.genere[i].nome,dati[1]);
 			i++;
 		}
@@ -174,6 +180,8 @@ void ottieniPlaylists() {
 			}
 			db.playlist[i].id = atoi(dati[0]);
 			db.playlist[i].idUtente = atoi(dati[1]);
+			strtok(dati[2], "\n");
+			strtok(dati[3], "\n");
 			strcpy(db.playlist[i].nome,dati[2]);
 			strcpy(db.playlist[i].descrizione,dati[3]);
 			i++;
@@ -203,6 +211,8 @@ void ottieniUtenti() {
 				j++;
 			}
 			db.utente[i].id = atoi(dati[0]);
+			strtok(dati[1], "\n");
+			strtok(dati[2], "\n");
 			strcpy(db.utente[i].username,dati[1]);
 			strcpy(db.utente[i].password,dati[2]);
 			i++;
@@ -327,34 +337,5 @@ void associaPlaylist() {
 		printf(" Fatto. %d associazioni brano-playlist effettuate.", i);
 	} else {
 		printf(" Nessuna associazione brano-playlist da effettuare.");
-	}
-}
-
-void ottieniPreferitiDagliUtenti() {
-	printf("\nOttengo i brani preferiti dagli utenti...");
-	db.utenteBrano = malloc((MAX_CHAR*MAX_CHAR)*sizeof(db.utenteBrano));
-	if (controllaSeFileVuoto(file_preferiti)==0) {
-		FILE* fp=fopen(file_preferiti, "r");
-		char temp[MAX_TEMP];
-		char dati[MAX_TEMP][MAX_TEMP];
-		char spaziatore[] = ",";
-		int i=0, j=0;
-		while(!feof(fp)) {
-			fgets(temp, MAX_TEMP, fp);
-			char *ptr = strtok(temp, spaziatore);
-			j=0;
-			while(ptr!=NULL) {
-				strcpy(dati[j], ptr);
-				ptr=strtok(NULL, spaziatore);
-				j++;
-			}
-			db.utenteBrano[i].idUtente = atoi(dati[0]);
-			db.utenteBrano[i].idBrano = atoi(dati[1]);
-			i++;
-		}
-		fclose(fp);
-		printf(" Fatto. %d brani preferiti ottenuti.", i);
-	} else {
-		printf(" Nessun brano preferito trovato.");
 	}
 }

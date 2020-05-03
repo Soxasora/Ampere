@@ -9,5 +9,6 @@
 #define SRC_AMPERE_H_
 
 void inizializzazione();
+void terminazione();
 
 #endif /* SRC_AMPERE_H_ */

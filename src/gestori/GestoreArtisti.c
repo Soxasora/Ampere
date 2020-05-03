@@ -25,7 +25,7 @@ int creaArtistaGuidato(char nomearte[]) {
 	int id=0;
 	char *nome = malloc(MAX_CHAR);
 	char *cognome = malloc(MAX_CHAR);
-	printf("\nSembra che quest'artista non esiste nel database, inseriamolo.");
+	printf("\nSembra che quest'artista non esista nel database, inseriamolo.");
 	printf("\n===[Inserimento guidato di un artista]===");
 	printf("\nInserisci nome dell'artista: ");
 	nome = inputStringaSicuro(nome);
@@ -39,6 +39,7 @@ int creaArtistaGuidato(char nomearte[]) {
 int creaArtistaSeNonEsiste(char nomearte[]) {
 	int id=0, i=0, n=contaNelDatabase(2), controllo=0;
 	while (i<n&&controllo!=-1) {
+		printf("\n%s", db.artista[i].nomearte);
 		if (comparaStringhe(db.artista[i].nomearte, nomearte)==0) {
 			id = db.artista[i].id;
 			printf("\nArtista presente nel database.");
@@ -48,6 +49,7 @@ int creaArtistaSeNonEsiste(char nomearte[]) {
 	}
 	if (controllo!=-1) {
 		id = creaArtistaGuidato(nomearte);
+		printf("\nArtista inserito, continuiamo...");
 	}
 	return id;
 }
@@ -59,4 +61,24 @@ int inserisciArtista(char nome[], char cognome[], char nomearte[]) {
 	strcpy(db.artista[n].cognome,cognome);
 	strcpy(db.artista[n].nomearte,nomearte);
 	return db.artista[n].id;
+}
+
+void inserisciArtistiSuFile(char id[], char nome[], char cognome[], char nomearte[]) {
+	FILE* fp=fopen(file_artisti, "a");
+	if (controllaSeFileVuoto(file_artisti)==1) {
+		fprintf(fp, "%s,%s,%s,%s", id, nome, cognome, nomearte);
+	} else {
+		fprintf(fp, "\n%s,%s,%s,%s", id, nome, cognome, nomearte);
+	}
+	fclose(fp);
+}
+
+void inserisciAssociazioneArtistiSuFile(char idbrano[], char idartista[]) {
+	FILE* fp=fopen(file_associazioneartisti, "a");
+	if (controllaSeFileVuoto(file_associazioneartisti)==1) {
+		fprintf(fp, "%s,%s", idbrano, idartista);
+	} else {
+		fprintf(fp, "\n%s,%s", idbrano, idartista);
+	}
+	fclose(fp);
 }

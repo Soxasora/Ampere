@@ -19,7 +19,6 @@
 #define file_playlists "database\\playlists.txt"
 	#define file_raccolta "database\\raccolta.txt"
 #define file_utenti "database\\utenti.txt"
-	#define file_preferiti "database\\preferiti.txt"
 
 int os;
 

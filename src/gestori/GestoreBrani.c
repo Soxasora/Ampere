@@ -44,6 +44,7 @@ void inserimentoBranoGuidato() {
 	scanf("%d", &ascolti);
 	inserisciBrano(titolo, id_artista, id_album, durata, anno, ascolti);
 	free(titolo); free(artista); free(album);
+	printf("\n\nBrano Inserito.");
 }
 
 void inserisciBrano(char titolo[], int id_artista, int id_album, int durata, int anno, int ascolti) {
@@ -52,6 +53,7 @@ void inserisciBrano(char titolo[], int id_artista, int id_album, int durata, int
 	db.brano[n].id = trovaUltimoId(0)+1;
 	strcpy(db.brano[n].titolo,titolo);
 	db.brano[n].durata = durata;
+	db.brano[n].album = id_album;
 	db.brano[n].anno = anno;
 	db.brano[n].ascolti = ascolti;
 
@@ -62,5 +64,15 @@ void inserisciBrano(char titolo[], int id_artista, int id_album, int durata, int
 	db.artistaBrano[n_artista_brano].idArtista = id_artista;
 	db.albumBrano[n_album_brano].idAlbum = id_album;
 	db.albumBrano[n_album_brano].idBrano = db.brano[n].id;
+}
+
+void inserisciBranoSuFile(char id[], char titolo[], char durata[], char id_album[], char anno[], char ascolti[]) {
+	FILE* fp=fopen(file_brani, "a");
+	if (controllaSeFileVuoto(file_brani)==1) {
+		fprintf(fp, "%s,%s,%s,%s,%s,%s", id, titolo, durata, id_album, anno, ascolti);
+	} else {
+		fprintf(fp, "\n%s,%s,%s,%s,%s,%s", id, titolo, durata, id_album, anno, ascolti);
+	}
+	fclose(fp);
 }
 
