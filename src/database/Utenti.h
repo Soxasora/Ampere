@@ -15,5 +15,10 @@ typedef struct utenti {
 	char password[MAX_CHAR];
 };
 
+typedef struct preferiti {
+	int idUtente;
+	int idBrano;
+};
+
 
 #endif /* DATABASE_UTENTI_H_ */

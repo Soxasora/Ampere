@@ -15,9 +15,7 @@ typedef struct brani {
 	int durata;
 	int album;
 	int anno;
-	char testo[MAX_CHAR];
 	int ascolti;
-	int voti;
 };
 
 #endif /* DATABASE_BRANI_H_ */

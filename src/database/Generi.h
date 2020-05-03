@@ -14,4 +14,9 @@ typedef struct generi {
 	char nome[MAX_CHAR];
 };
 
+typedef struct tipoBrano {
+	int idBrano;
+	int idGenere;
+};
+
 #endif /* DATABASE_GENERI_H_ */

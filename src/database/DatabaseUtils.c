@@ -1,0 +1,168 @@
+/*
+ * DatabaseUtils.c
+ *
+ *  Created on: 2 mag 2020
+ *      Author: Simone
+ */
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "../database/DatabaseUtils.h"
+#include "../database/Database.h"
+#include "../sys/Utils.h"
+#include "../sys/Impostazioni.h"
+
+/**
+ * Le modalità sono le seguenti:
+ * 0: Brano
+ * 1: Album
+ * 2: Artista
+ * 3: Genere
+ * 4: Playlist
+ */
+
+int contaNelDatabase(int modalita) {
+	int i=0;
+
+	if (modalita==0) { // Brano
+		while(db.brano[i].id!=0) {
+			i++;
+		}
+	} else if (modalita==1) { // Conta Album
+		while(db.album[i].id!=0) {
+			i++;
+		}
+	} else if (modalita==2) { // Conta Artisti
+		while(db.artista[i].id!=0) {
+			i++;
+		}
+	} else if (modalita==3) { // Conta Generi
+		while(db.genere[i].id!=0) {
+			i++;
+		}
+	} else if (modalita==4) { // Conta Playlist
+		while(db.playlist[i].id!=0) {
+			i++;
+		}
+	} else if (modalita==5) { // Conta associazioniArtisti
+		while(db.artistaBrano[i].idBrano!=0) {
+			i++;
+		}
+	} else if (modalita==6) { // Conta collezione
+		while(db.albumBrano[i].idAlbum!=0) {
+			i++;
+		}
+	}
+
+	return i;
+}
+
+int trovaUltimoId(int modalita) {
+	int i=0, n=0, max=0;
+	n = contaNelDatabase(modalita);
+	if (modalita==0) {
+		if (controllaSeFileVuoto(file_brani)==0) {
+			while(i<n) {
+				if (db.brano[i].id>max) {
+					max=db.brano[i].id;
+				}
+				i++;
+			}
+		} else {
+			i=0;
+		}
+	} else if (modalita==1) {
+		if (controllaSeFileVuoto(file_albums)==0) {
+			while(i<n) {
+				if (db.album[i].id>max) {
+					max=db.album[i].id;
+				}
+				i++;
+			}
+		} else {
+			i=0;
+		}
+	} else if (modalita==2) {
+		if (controllaSeFileVuoto(file_artisti)==0) {
+			while(i<n) {
+				if (db.artista[i].id>max) {
+					max=db.artista[i].id;
+				}
+				i++;
+			}
+		} else {
+			i=0;
+		}
+	} else if (modalita==3) {
+		if (controllaSeFileVuoto(file_generi)==0) {
+			while(i<n) {
+				if (db.genere[i].id>max) {
+					max=db.genere[i].id;
+				}
+				i++;
+			}
+		} else {
+			i=0;
+		}
+	} else if (modalita==4) {
+		if (controllaSeFileVuoto(file_playlists)==0) {
+			while(i<n) {
+				if (db.playlist[i].id>max) {
+					max=db.playlist[i].id;
+				}
+				i++;
+			}
+		} else {
+			i=0;
+		}
+	}
+	return i;
+}
+
+int ottieniPosDaID(int modalita, int id) {
+	int pos=0, i=0, controllo=0, n=0;
+	n = contaNelDatabase(modalita);
+	if (modalita==0) { // Brano
+		while(i<n&&controllo!=-1) {
+			if (db.brano[i].id == id) {
+				pos=i;
+				controllo=-1;
+			}
+			i++;
+		}
+	} else if (modalita==1) { // Album
+		while(i<n&&controllo!=-1) {
+			if (db.album[i].id == id) {
+				pos=i;
+				controllo=-1;
+			}
+			i++;
+		}
+	} else if (modalita==2) { // Artisti
+		while(i<n&&controllo!=-1) {
+			if (db.artista[i].id == id) {
+				pos=i;
+				controllo=-1;
+			}
+			i++;
+		}
+	} else if (modalita==3) { // Generi
+		while(i<n&&controllo!=-1) {
+			if (db.genere[i].id == id) {
+				pos=i;
+				controllo=-1;
+			}
+			i++;
+		}
+	} else if (modalita==4) { // Playlist
+		while(i<n&&controllo!=-1) {
+			if (db.playlist[i].id == id) {
+				pos=i;
+				controllo=-1;
+			}
+			i++;
+		}
+	}
+
+	return pos;
+}

@@ -17,48 +17,35 @@
 #include "Utenti.h"
 
 typedef struct database_locale {
-	struct brani brano;
-	struct artisti artista;
-	struct albums album;
-	struct generi genere;
-	struct playlists playlist;
-	struct utenti utente;
-} db;
-
-// Struttura per mantenere in memoria la Libreria Musicale di Ampere
-typedef struct libreriaMusicale {
-	int id;
-	char titolo[MAX_CHAR];
-	char artista[MAX_CHAR];
-	char feat[MAX_CHAR];
-	char produttore[MAX_CHAR];
-	char scrittore[MAX_CHAR];
-	char album[MAX_CHAR];
-	char durata[MAX_CHAR];
-	int anno;
-	int lingua;
-	int ascolti;
-	float gradimento;
+	struct brani* brano;
+	struct artisti* artista;
+		struct associazioneArtisti* artistaBrano;
+	struct albums* album;
+		struct collezione* albumBrano;
+	struct generi* genere;
+		struct tipoBrano* branoGenere;
+	struct playlists* playlist;
+		struct raccolta* playlistBrano;
+	struct utenti* utente;
+		struct preferiti* utenteBrano;
 } database;
 
-// Database struct globale per evitare inutili accessi al database file-based
-database* brani;
+database db;
 
 /**
- * Creazione del database
+ * TODO spiegazione di questo blocco
  */
-void creaDatabase();
-
-/**
- * Carica il database file-based in memoria riempiendo, dunque, lo struct globale libreriaMusicale
- * @return database* brani riempito
- */
-database* ottieniDatabase();
-
-/**
- * Salva le modifiche effettuate allo struct in memoria nel database file-based,
- * effettuando il backup e la riscrittura del database
- */
-void aggiornaDatabase();
+database ottieniDatabase();
+void ottieniBrani();
+void ottieniAlbums();
+void ottieniArtisti();
+void ottieniGeneri();
+void ottieniPlaylists();
+void ottieniUtenti();
+void associaArtisti();
+void associaAlbum();
+void associaGeneri();
+void associaPlaylist();
+void ottieniPreferitiDagliUtenti();
 
 #endif /* GESTORE_DATABASE_H_ */

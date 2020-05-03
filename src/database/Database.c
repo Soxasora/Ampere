@@ -9,39 +9,33 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../gestore/GestoreBrani.h"
 #include "../database/Database.h"
-#include "../Ampere.h"
-#include "../sys/Utils.h"
 #include "../sys/Impostazioni.h"
 
-// Funzione di controllo e creazione del database
-void creaDatabase() {
-	FILE* fp = fopen(file_database, "ab+");
-	fclose(fp);
-	printf("\nDatabase creato da zero, ti conviene inserire dei brani! Riprendo...");
-	ottieniDatabase();
+database ottieniDatabase() {
+	printf("\nOttengo il db...");
+	// Blocco ottenimenti
+	ottieniBrani();
+	ottieniAlbums();
+	ottieniArtisti();
+	ottieniGeneri();
+	ottieniPlaylists();
+	ottieniUtenti();
+	// Blocco associazioni
+	associaArtisti();
+	associaAlbum();
+	associaGeneri();
+	associaPlaylist();
+	ottieniPreferitiDagliUtenti();
+	printf("\nDatabase caricato con successo.");
+	return db;
 }
 
-db* new_ottieniDatabase() {
-	printf("\nOttengo il database...");
-	db database;
-	//TODO
-	//TODO
-	//TODO
-	//TODO
-	//TODO
-	return database;
-}
-
-db* ottieniBrani(db database) {
+void ottieniBrani() {
 	printf("\nOttengo i brani...");
-	FILE* fp=fopen(file_database, "r");
-	if (fp==NULL) {
-		printf("\n/!\\ Database file-based non trovato, procedo alla creazione...");
-		creaDatabase();
-	} else {
-		*database.brano = malloc((MAX_CHAR*MAX_CHAR)*sizeof(database.brano));
+	db.brano = malloc((MAX_CHAR*MAX_CHAR)*sizeof(db.brano));
+	if (controllaSeFileVuoto(file_brani)==0) {
+		FILE* fp=fopen(file_brani, "r");
 		char temp[MAX_TEMP];
 		char dati[MAX_TEMP][MAX_TEMP];
 		char spaziatore[] = ",";
@@ -55,84 +49,312 @@ db* ottieniBrani(db database) {
 				ptr=strtok(NULL, spaziatore);
 				j++;
 			}
-			//TODO
+			db.brano[i].id = atoi(dati[0]);
+			strcpy(db.brano[i].titolo,dati[1]);
+			db.brano[i].durata = atoi(dati[2]);
+			db.brano[i].album = atoi(dati[3]);
+			db.brano[i].anno = atoi(dati[4]);
+			db.brano[i].ascolti = atoi(dati[5]);
+			i++;
 		}
-	}
-}
-
-// Funzione per trasferire in memoria il database file-based velocizzando la sua lettura.
-// TODO: Rendere disponibile lo struct riempito a tutto il programma per evitare inutili ri-accessi
-database* ottieniDatabase() {
-	printf("\nOttengo il database...");
-	//TODO: Trovare un metodo migliore per allocare dinamicamente
-	FILE* fp=fopen(file_database, "r"); // Apro database
-	if (fp==NULL) {
-		printf("\n/!\\ Database file-based non trovato, procedo alla creazione...");
-		creaDatabase();
+		fclose(fp);
+		printf(" Fatto. %d brani caricati con successo.", i);
 	} else {
-		if (controllaSeDatabaseVuoto()==0) {
-			database *brani = malloc((MAX_CHAR*MAX_CHAR)*sizeof(database));
-			// TODO: Allora questo, questo è da cambiare assolutamente
-			char temp[MAX_TEMP]; // [DA CAMBIARE] Variabile temporanea per ottenere i dati
-			char dati[MAX_TEMP][MAX_TEMP]; // [DA CAMBIARE] Array temporaneo per trasportare i dati
-			char spaziatore[] = ","; // Il database divide i dati utilizzando lo spaziatore ,
-			int i, j;
-			i=0;
-			// TODO: Trovare metodo migliore se esistente
-			while(!feof(fp)) { // Fino a quando non arriva alla fine del file
-				fgets(temp, MAX_TEMP, fp); // Ottiene la linea
-				char *ptr = strtok(temp, spaziatore); // Imposta lo spaziatore
-				j=0;
-				while(ptr!=NULL) { // Fino a quando il puntatore non ha piu' niente da trasportare
-					strcpy(dati[j], ptr); // Copia informazione nel punto i dell'array temporaneo
-					ptr=strtok(NULL, spaziatore); // Passa al prossimo spaziatore
-					j++;
-				}
-				// Blocco di organizzazione dei dati dall'array temporaneo allo struct finale
-				brani[i].id = atoi(dati[0]);
-				strcpy(brani[i].titolo, dati[1]);
-				strcpy(brani[i].artista, dati[2]);
-				strcpy(brani[i].feat, dati[3]);
-				strcpy(brani[i].produttore, dati[4]);
-				strcpy(brani[i].scrittore, dati[5]);
-				strcpy(brani[i].album, dati[6]);
-				strcpy(brani[i].durata, dati[7]);
-				brani[i].anno = atoi(dati[8]); // Conversione da char a int del valore Anno
-				brani[i].lingua = atoi(dati[9]);
-				brani[i].ascolti = atoi(dati[10]);
-				brani[i].gradimento = atof(dati[11]);
-				i++;
-			}
-			fclose(fp);
-			printf(" Fatto. %d brani caricati con successo.", i);
-			return brani;
-		} else {
-			fclose(fp);
-			printf(" Fatto. Nessun brano presente nel database file-based.");
-		}
+		printf(" Nessun brano da caricare.");
 	}
-	fclose(fp);
-	return brani;
 }
 
-// Funzione per trasferire su file il database presente in memoria salvando così le modifiche.
-void aggiornaDatabase() {
-	printf("\nSalvando le modifiche effettuate al database...");
-	backupDatabase("temp_db.txt");
-	remove(file_database);
-	int i=0;
-	int nbrani=conteggiaBrani();
-	while (i<nbrani) {
-		char id[MAX_CHAR], anno[5], lingua[3], ascolti[MAX_CHAR], gradimento[MAX_CHAR];
-		// Investigare su sprintf
-		sprintf(id, "%d", brani[i].id);
-		sprintf(anno, "%d", brani[i].anno);
-		sprintf(lingua, "%d", brani[i].lingua);
-		sprintf(ascolti, "%d", brani[i].ascolti);
-		sprintf(gradimento, "%.1f", brani[i].gradimento);
-		inserisciBranoGuidato(1, id, brani[i].titolo, brani[i].artista, brani[i].feat, brani[i].produttore, brani[i].scrittore, brani[i].album, brani[i].durata, anno, lingua, ascolti, gradimento);
-		i++;
+void ottieniAlbums() {
+	printf("\nOttengo gli album...");
+	db.album = malloc((MAX_CHAR*MAX_CHAR)*sizeof(db.album));
+	if (controllaSeFileVuoto(file_albums)==0) {
+		FILE* fp=fopen(file_albums, "r");
+		char temp[MAX_TEMP];
+		char dati[MAX_TEMP][MAX_TEMP];
+		char spaziatore[] = ",";
+		int i=0, j=0;
+		while(!feof(fp)) {
+			fgets(temp, MAX_TEMP, fp);
+			char *ptr = strtok(temp, spaziatore);
+			j=0;
+			while(ptr!=NULL) {
+				strcpy(dati[j], ptr);
+				ptr=strtok(NULL, spaziatore);
+				j++;
+			}
+			db.album[i].id = atoi(dati[0]);
+			strcpy(db.album[i].titolo,dati[1]);
+			db.album[i].anno = atoi(dati[2]);
+			i++;
+		}
+		fclose(fp);
+		printf(" Fatto. %d album caricati con successo.", i);
+	} else {
+		printf(" Nessun album da caricare.");
 	}
-	remove("temp_db.txt");
-	printf("\nModifiche salvate.");
+}
+
+void ottieniArtisti() {
+	printf("\nOttengo gli artisti...");
+	db.artista = malloc((MAX_CHAR*MAX_CHAR)*sizeof(db.artista));
+	if (controllaSeFileVuoto(file_artisti)==0) {
+		FILE* fp=fopen(file_artisti, "r");
+		char temp[MAX_TEMP];
+		char dati[MAX_TEMP][MAX_TEMP];
+		char spaziatore[] = ",";
+		int i=0, j=0;
+		while(!feof(fp)) {
+			fgets(temp, MAX_TEMP, fp);
+			char *ptr = strtok(temp, spaziatore);
+			j=0;
+			while(ptr!=NULL) {
+				strcpy(dati[j], ptr);
+				ptr=strtok(NULL, spaziatore);
+				j++;
+			}
+			db.artista[i].id = atoi(dati[0]);
+			strcpy(db.artista[i].nome,dati[1]);
+			strcpy(db.artista[i].cognome,dati[2]);
+			strcpy(db.artista[i].nomearte,dati[3]);
+			i++;
+		}
+		fclose(fp);
+		printf(" Fatto. %d artisti caricati con successo.", i);
+	} else {
+		printf(" Nessun artista da caricare.");
+	}
+}
+
+void ottieniGeneri() {
+	printf("\nOttengo i generi...");
+	db.genere = malloc((MAX_CHAR*MAX_CHAR)*sizeof(db.genere));
+	if (controllaSeFileVuoto(file_generi)==0) {
+		FILE* fp=fopen(file_generi, "r");
+		char temp[MAX_TEMP];
+		char dati[MAX_TEMP][MAX_TEMP];
+		char spaziatore[] = ",";
+		int i=0, j=0;
+		while(!feof(fp)) {
+			fgets(temp, MAX_TEMP, fp);
+			char *ptr = strtok(temp, spaziatore);
+			j=0;
+			while(ptr!=NULL) {
+				strcpy(dati[j], ptr);
+				ptr=strtok(NULL, spaziatore);
+				j++;
+			}
+			db.genere[i].id = atoi(dati[0]);
+			strcpy(db.genere[i].nome,dati[1]);
+			i++;
+		}
+		fclose(fp);
+		printf(" Fatto. %d generi caricati con successo.", i);
+	} else {
+		printf(" Nessun genere da caricare.");
+	}
+}
+
+void ottieniPlaylists() {
+	printf("\nOttengo le playlist...");
+	db.playlist = malloc((MAX_CHAR*MAX_CHAR)*sizeof(db.playlist));
+	if (controllaSeFileVuoto(file_playlists)==0) {
+		FILE* fp=fopen(file_playlists, "r");
+		char temp[MAX_TEMP];
+		char dati[MAX_TEMP][MAX_TEMP];
+		char spaziatore[] = ",";
+		int i=0, j=0;
+		while(!feof(fp)) {
+			fgets(temp, MAX_TEMP, fp);
+			char *ptr = strtok(temp, spaziatore);
+			j=0;
+			while(ptr!=NULL) {
+				strcpy(dati[j], ptr);
+				ptr=strtok(NULL, spaziatore);
+				j++;
+			}
+			db.playlist[i].id = atoi(dati[0]);
+			db.playlist[i].idUtente = atoi(dati[1]);
+			strcpy(db.playlist[i].nome,dati[2]);
+			strcpy(db.playlist[i].descrizione,dati[3]);
+			i++;
+		}
+		fclose(fp);
+		printf(" Fatto. %d playlist caricate con successo.", i);
+	} else {
+		printf(" Nessuna playlist da caricare.");
+	}
+}
+void ottieniUtenti() {
+	printf("\nOttengo gli utenti...");
+	db.utente = malloc((MAX_CHAR*MAX_CHAR)*sizeof(db.utente));
+	if (controllaSeFileVuoto(file_utenti)==0) {
+		FILE* fp=fopen(file_utenti, "r");
+		char temp[MAX_TEMP];
+		char dati[MAX_TEMP][MAX_TEMP];
+		char spaziatore[] = ",";
+		int i=0, j=0;
+		while(!feof(fp)) {
+			fgets(temp, MAX_TEMP, fp);
+			char *ptr = strtok(temp, spaziatore);
+			j=0;
+			while(ptr!=NULL) {
+				strcpy(dati[j], ptr);
+				ptr=strtok(NULL, spaziatore);
+				j++;
+			}
+			db.utente[i].id = atoi(dati[0]);
+			strcpy(db.utente[i].username,dati[1]);
+			strcpy(db.utente[i].password,dati[2]);
+			i++;
+		}
+		fclose(fp);
+		printf(" Fatto. %d utenti caricati con successo.", i);
+	} else {
+		printf(" Nessun utente da caricare.");
+	}
+}
+
+void associaArtisti() {
+	printf("\nAssocio i brani agli artisti...");
+	db.artistaBrano = malloc((MAX_CHAR*MAX_CHAR)*sizeof(db.artistaBrano));
+	if (controllaSeFileVuoto(file_associazioneartisti)==0) {
+		FILE* fp=fopen(file_associazioneartisti, "r");
+		char temp[MAX_TEMP];
+		char dati[MAX_TEMP][MAX_TEMP];
+		char spaziatore[] = ",";
+		int i=0, j=0;
+		while(!feof(fp)) {
+			fgets(temp, MAX_TEMP, fp);
+			char *ptr = strtok(temp, spaziatore);
+			j=0;
+			while(ptr!=NULL) {
+				strcpy(dati[j], ptr);
+				ptr=strtok(NULL, spaziatore);
+				j++;
+			}
+			db.artistaBrano[i].idBrano = atoi(dati[0]);
+			db.artistaBrano[i].idArtista = atoi(dati[1]);
+			i++;
+		}
+		fclose(fp);
+		printf(" Fatto. %d associazioni brano-artista effettuate.", i);
+	} else {
+		printf(" Nessuna associazione brano-artista da effettuare.");
+	}
+}
+
+void associaAlbum() {
+	printf("\nAssocio i brani agli album...");
+	db.albumBrano = malloc((MAX_CHAR*MAX_CHAR)*sizeof(db.albumBrano));
+	if (controllaSeFileVuoto(file_collezione)==0) {
+		FILE* fp=fopen(file_collezione, "r");
+		char temp[MAX_TEMP];
+		char dati[MAX_TEMP][MAX_TEMP];
+		char spaziatore[] = ",";
+		int i=0, j=0;
+		while(!feof(fp)) {
+			fgets(temp, MAX_TEMP, fp);
+			char *ptr = strtok(temp, spaziatore);
+			j=0;
+			while(ptr!=NULL) {
+				strcpy(dati[j], ptr);
+				ptr=strtok(NULL, spaziatore);
+				j++;
+			}
+			db.albumBrano[i].idAlbum = atoi(dati[0]);
+			db.albumBrano[i].idBrano = atoi(dati[1]);
+			i++;
+		}
+		fclose(fp);
+		printf(" Fatto. %d associazioni brano-album effettuate.", i);
+	} else {
+		printf(" Nessuna associazione brano-album da effettuare.");
+	}
+}
+
+void associaGeneri() {
+	printf("\nAssocio i generi ai brani...");
+	db.branoGenere = malloc((MAX_CHAR*MAX_CHAR)*sizeof(db.branoGenere));
+	if (controllaSeFileVuoto(file_tipobrano)==0) {
+		FILE* fp=fopen(file_tipobrano, "r");
+		char temp[MAX_TEMP];
+		char dati[MAX_TEMP][MAX_TEMP];
+		char spaziatore[] = ",";
+		int i=0, j=0;
+		while(!feof(fp)) {
+			fgets(temp, MAX_TEMP, fp);
+			char *ptr = strtok(temp, spaziatore);
+			j=0;
+			while(ptr!=NULL) {
+				strcpy(dati[j], ptr);
+				ptr=strtok(NULL, spaziatore);
+				j++;
+			}
+			db.branoGenere[i].idBrano = atoi(dati[0]);
+			db.branoGenere[i].idGenere = atoi(dati[1]);
+			i++;
+		}
+		fclose(fp);
+		printf(" Fatto. %d associazioni genere-brano effettuate.", i);
+	} else {
+		printf(" Nessuna associazione genere-brano da effettuare.");
+	}
+}
+
+void associaPlaylist() {
+	printf("\nAssocio i brani alle playlist...");
+	db.playlistBrano = malloc((MAX_CHAR*MAX_CHAR)*sizeof(db.playlistBrano));
+	if (controllaSeFileVuoto(file_raccolta)==0) {
+		FILE* fp=fopen(file_raccolta, "r");
+		char temp[MAX_TEMP];
+		char dati[MAX_TEMP][MAX_TEMP];
+		char spaziatore[] = ",";
+		int i=0, j=0;
+		while(!feof(fp)) {
+			fgets(temp, MAX_TEMP, fp);
+			char *ptr = strtok(temp, spaziatore);
+			j=0;
+			while(ptr!=NULL) {
+				strcpy(dati[j], ptr);
+				ptr=strtok(NULL, spaziatore);
+				j++;
+			}
+			db.playlistBrano[i].idPlaylist = atoi(dati[0]);
+			db.playlistBrano[i].idBrano = atoi(dati[1]);
+			i++;
+		}
+		fclose(fp);
+		printf(" Fatto. %d associazioni brano-playlist effettuate.", i);
+	} else {
+		printf(" Nessuna associazione brano-playlist da effettuare.");
+	}
+}
+
+void ottieniPreferitiDagliUtenti() {
+	printf("\nOttengo i brani preferiti dagli utenti...");
+	db.utenteBrano = malloc((MAX_CHAR*MAX_CHAR)*sizeof(db.utenteBrano));
+	if (controllaSeFileVuoto(file_preferiti)==0) {
+		FILE* fp=fopen(file_preferiti, "r");
+		char temp[MAX_TEMP];
+		char dati[MAX_TEMP][MAX_TEMP];
+		char spaziatore[] = ",";
+		int i=0, j=0;
+		while(!feof(fp)) {
+			fgets(temp, MAX_TEMP, fp);
+			char *ptr = strtok(temp, spaziatore);
+			j=0;
+			while(ptr!=NULL) {
+				strcpy(dati[j], ptr);
+				ptr=strtok(NULL, spaziatore);
+				j++;
+			}
+			db.utenteBrano[i].idUtente = atoi(dati[0]);
+			db.utenteBrano[i].idBrano = atoi(dati[1]);
+			i++;
+		}
+		fclose(fp);
+		printf(" Fatto. %d brani preferiti ottenuti.", i);
+	} else {
+		printf(" Nessun brano preferito trovato.");
+	}
 }

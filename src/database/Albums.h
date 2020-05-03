@@ -15,5 +15,9 @@ typedef struct albums {
 	int anno;
 };
 
+typedef struct collezione {
+	int idAlbum;
+	int idBrano;
+};
 
 #endif /* DATABASE_ALBUMS_H_ */

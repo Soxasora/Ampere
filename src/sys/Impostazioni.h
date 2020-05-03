@@ -1,48 +1,36 @@
 /*
- * Ampere 0.1 rev. 501 - 27.04.2020
- * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
- * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
- * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
- * Maggiori informazioni sul copyright su https://github.com/Soxasora/Ampere/blob/master/LICENSE
+ * Impostazioni.h
+ *
+ *  Created on: 2 mag 2020
+ *      Author: soxas
  */
 
-#ifndef SYS_IMPOSTAZIONI_H_
-#define SYS_IMPOSTAZIONI_H_
+#ifndef SRC_SYS_IMPOSTAZIONI_H_
+#define SRC_SYS_IMPOSTAZIONI_H_
 #define MAX_TEMP 1000
 #define MAX_CHAR 256
-#define MAX_LINGUE 512
+#define file_brani "database\\brani.txt"
+#define file_albums "database\\albums.txt"
+	#define file_associazioneartisti "database\\associazioneartisti.txt"
+#define file_artisti "database\\artisti.txt"
+	#define file_collezione "database\\collezione.txt"
+#define file_generi "database\\generi.txt"
+	#define file_tipobrano "database\\tipobrano.txt"
+#define file_playlists "database\\playlists.txt"
+	#define file_raccolta "database\\raccolta.txt"
+#define file_utenti "database\\utenti.txt"
+	#define file_preferiti "database\\preferiti.txt"
 
-#define file_impostazioni "sistema\\impostazioni.ini"
+int os;
 
-char *file_database;
-char *dir_testi;
-char *file_lingue;
+int rivelaOS();
 
-typedef struct lingueSistema {
-	int id;
-	char nome_umano[MAX_CHAR];
-} lingua;
+//char *file_brani;
+//char *file_albums;
+//char *file_artisti;
+//char *file_generi;
+//char *file_playlists;
+//char *file_utenti;
 
-lingua* lingue;
 
-/**
- * Impostazione guidata di Ampere
- */
-void setup();
-
-/**
- * Carica le impostazioni di sistema
- */
-void caricaImpostazioni();
-
-/**
- * Crea il file delle lingue e guida l'inserimento
- */
-void creaLingue();
-
-/**
- * Carica lingue disponibili per i brani
- */
-lingua* caricaLingue();
-
-#endif /* SYS_IMPOSTAZIONI_H_ */
+#endif /* SRC_SYS_IMPOSTAZIONI_H_ */

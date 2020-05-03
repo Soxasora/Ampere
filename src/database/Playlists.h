@@ -16,4 +16,9 @@ typedef struct playlists {
 	char descrizione[MAX_CHAR];
 };
 
+typedef struct raccolta {
+	int idPlaylist;
+	int idBrano;
+};
+
 #endif /* DATABASE_PLAYLISTS_H_ */

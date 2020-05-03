@@ -16,5 +16,10 @@ typedef struct artisti {
 	char nomearte[MAX_CHAR];
 };
 
+typedef struct associazioneArtisti {
+	int idBrano;
+	int idArtista;
+};
+
 
 #endif /* DATABASE_ARTISTI_H_ */
