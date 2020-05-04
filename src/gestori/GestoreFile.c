@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../gestori/GestoreUtenti.h"
 #include "../gestori/GestoreBrani.h"
 #include "../gestori/GestoreArtisti.h"
 #include "../gestori/GestoreAlbum.h"
@@ -25,7 +26,7 @@ void salvaModificheSuFile() {
 	salvaAlbumSuFile();
 	salvaArtistiSuFile();
 	salvaGeneriSuFile();
-
+	salvaUtentiSuFile();
 	// Blocco associazioni
 	salvaCollezioneSuFile();
 	salvaAssociazioniArtistiSuFile();
@@ -34,12 +35,10 @@ void salvaModificheSuFile() {
 
 //	backupFile("temp_playlists.txt", file_playlists);
 //	backupFile("temp_raccolta.txt", file_raccolta);
-//	backupFile("temp_utenti.txt", file_utenti);
 
 
 //	remove(file_playlists);
 //	remove(file_raccolta);
-//	remove(file_utenti);
 	printf("\nSalvato.");
 }
 
@@ -110,6 +109,28 @@ void salvaGeneriSuFile() {
 	}
 	remove("temp_generi.txt");
 	printf(" Generi salvati.");
+}
+
+void salvaUtentiSuFile() {
+	printf("\nSalvando gli utenti...");
+	backupFile(file_utenti, "temp_utenti.txt");
+	remove(file_utenti);
+	int i=0;
+	int n=contaNelDatabase(-1);
+	while(i<n) {
+		char id[MAX_CHAR];
+		char admin[MAX_CHAR];
+		sprintf(id, "%d", db.utente[i].id);
+		if (db.utente[i].admin==true) {
+			strcpy(admin,"true");
+		} else {
+			strcpy(admin,"false");
+		}
+		inserisciUtenteSuFile(id, db.utente[i].username, db.utente[i].password, admin);
+		i++;
+	}
+	remove("temp_utenti.txt");
+	printf(" Utenti salvati.");
 }
 
 //BLOCCO ASSOCIAZIONI

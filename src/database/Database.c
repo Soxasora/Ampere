@@ -213,8 +213,14 @@ void ottieniUtenti() {
 			db.utente[i].id = atoi(dati[0]);
 			strtok(dati[1], "\n");
 			strtok(dati[2], "\n");
+			strtok(dati[3], "\n");
 			strcpy(db.utente[i].username,dati[1]);
 			strcpy(db.utente[i].password,dati[2]);
+			if(comparaStringhe(dati[3],"true")==0) {
+				db.utente[i].admin = true;
+			} else {
+				db.utente[i].admin = false;
+			}
 			i++;
 		}
 		fclose(fp);

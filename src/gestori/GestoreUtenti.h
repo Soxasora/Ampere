@@ -6,16 +6,18 @@
  * Maggiori informazioni sul copyright su https://github.com/Soxasora/Ampere/blob/master/LICENSE
  */
 
-#ifndef DATABASE_UTENTI_H_
-#define DATABASE_UTENTI_H_
 #include <stdbool.h>
 #include "../sys/Impostazioni.h"
 
-struct utenti {
-	int id;
-	char username[MAX_CHAR];
-	char password[MAX_CHAR];
-	bool admin;
-};
+#ifndef GESTORI_GESTOREUTENTI_H_
+#define GESTORI_GESTOREUTENTI_H_
 
-#endif /* DATABASE_UTENTI_H_ */
+bool isAdmin();
+void login();
+int controllaDatiUtente(char username[], char password[]);
+void registrazioneUtente();
+void inserisciUtente(char username[], char password[]);
+bool controllaEsistenzaUtente(char username[]);
+void inserisciUtenteSuFile(char id[], char username[], char password[], char admin[]);
+
+#endif /* GESTORI_GESTOREUTENTI_H_ */

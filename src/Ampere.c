@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "Ampere.h"
+#include "gestori/GestoreUtenti.h"
 #include "gestori/GestoreFile.h"
 #include "database/Database.h"
 #include "sys/Menu.h"
@@ -19,7 +20,7 @@
 int main() {
 
 	inizializzazione();
-
+	menuLogin();
 	menu();
 
 	terminazione();

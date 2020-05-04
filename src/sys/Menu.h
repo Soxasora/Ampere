@@ -9,6 +9,7 @@
 #ifndef SYS_MENU_H_
 #define SYS_MENU_H_
 
+void menuLogin();
 void menu();
 void menuDatabase();
 void menuRicerca();

@@ -16,17 +16,24 @@
 
 /**
  * Le modalità sono le seguenti:
+ * -1: Utente
  * 0: Brano
  * 1: Album
  * 2: Artista
  * 3: Genere
  * 4: Playlist
+ * 5: Associazione artista-brano
+ * 6: Associazione album-brano
+ * 7: Associazione genere-brano
  */
 
 int contaNelDatabase(int modalita) {
 	int i=0;
-
-	if (modalita==0) { // Brano
+	if (modalita==-1) {
+		while(db.utente[i].id!=0) {
+			i++;
+		}
+	} else if (modalita==0) { // Brano
 		while(db.brano[i].id!=0) {
 			i++;
 		}
@@ -66,7 +73,18 @@ int contaNelDatabase(int modalita) {
 int trovaUltimoId(int modalita) {
 	int i=0, n=0, max=0;
 	n = contaNelDatabase(modalita);
-	if (modalita==0) {
+	if (modalita==-1) {
+		if (controllaSeFileVuoto(file_utenti)==0) {
+			while(i<n) {
+				if (db.utente[i].id>max) {
+					max=db.utente[i].id;
+				}
+				i++;
+			}
+		} else {
+			max=0;
+		}
+	} else if (modalita==0) {
 		if (controllaSeFileVuoto(file_brani)==0) {
 			while(i<n) {
 				if (db.brano[i].id>max) {
@@ -75,7 +93,7 @@ int trovaUltimoId(int modalita) {
 				i++;
 			}
 		} else {
-			i=0;
+			max=0;
 		}
 	} else if (modalita==1) {
 		if (controllaSeFileVuoto(file_albums)==0) {
@@ -86,7 +104,7 @@ int trovaUltimoId(int modalita) {
 				i++;
 			}
 		} else {
-			i=0;
+			max=0;
 		}
 	} else if (modalita==2) {
 		if (controllaSeFileVuoto(file_artisti)==0) {
@@ -97,7 +115,7 @@ int trovaUltimoId(int modalita) {
 				i++;
 			}
 		} else {
-			i=0;
+			max=0;
 		}
 	} else if (modalita==3) {
 		if (controllaSeFileVuoto(file_generi)==0) {
@@ -108,7 +126,7 @@ int trovaUltimoId(int modalita) {
 				i++;
 			}
 		} else {
-			i=0;
+			max=0;
 		}
 	} else if (modalita==4) {
 		if (controllaSeFileVuoto(file_playlists)==0) {
@@ -119,16 +137,25 @@ int trovaUltimoId(int modalita) {
 				i++;
 			}
 		} else {
-			i=0;
+			max=0;
 		}
 	}
-	return i;
+	return max;
 }
 
 int ottieniPosDaID(int modalita, int id) {
 	int pos=0, i=0, controllo=0, n=0;
 	n = contaNelDatabase(modalita);
-	if (modalita==0) { // Brano
+	if (modalita==-1) { // Utente
+		while(i<n&&controllo!=-1) {
+			if (db.utente[i].id == id) {
+				printf("\nUtente trovato: %s", db.utente[i].username);
+				pos=i;
+				controllo=-1;
+			}
+			i++;
+		}
+	} else if (modalita==0) { // Brano
 		while(i<n&&controllo!=-1) {
 			if (db.brano[i].id == id) {
 				pos=i;
@@ -184,7 +211,7 @@ int ottieniPosDaID(int modalita, int id) {
 			}
 			i++;
 		}
-	} else if (modalita==7) {
+	} else if (modalita==7) { // Associazione genere-brano
 		while(i<n&&controllo!=-1) {
 			if (db.branoGenere[i].idBrano==id) {
 				pos = i;

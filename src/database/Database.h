@@ -27,7 +27,7 @@ typedef struct database_locale {
 	struct playlists* playlist;
 		struct raccolta* playlistBrano;
 	struct utenti* utente;
-		struct preferiti* utenteBrano;
+	int utente_connesso;
 } database;
 
 database db;

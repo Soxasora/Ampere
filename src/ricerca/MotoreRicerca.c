@@ -102,3 +102,7 @@ void mostraBraniGenere() {
 	}
 	free(genere);
 }
+
+void cercaUtente() {
+
+}

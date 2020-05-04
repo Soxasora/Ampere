@@ -9,15 +9,33 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../gestori/GestoreUtenti.h"
 #include "../gestori/GestoreBrani.h"
 #include "../gestori/GestoreAlbum.h"
 #include "../gestori/GestoreArtisti.h"
 #include "../gestori/GestoreGeneri.h"
 #include "../ricerca/MotoreRicerca.h"
+#include "../database/Database.h"
 #include "../database/DatabaseUtils.h"
 #include "../sys/Utils.h"
 #include "../sys/Menu.h"
 #include "../sys/Impostazioni.h"
+
+void menuLogin() {
+	pulisciBuffer();
+	int scelta=0;
+	printf("\nDesideri effettuare il login[0] o registrarti[1] ad Ampere? ");
+	scanf("%d", &scelta);
+	pulisciBuffer();
+	if (scelta==0) {
+		login();
+	} else {
+		registrazioneUtente();
+	}
+
+	int pos = ottieniPosDaID(-1, db.utente_connesso);
+	printf("\nUtente: %s", db.utente[pos].username);
+}
 
 // Nuovo Menu di Ampere
 void menu() {

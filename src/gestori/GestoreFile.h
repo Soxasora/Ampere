@@ -14,6 +14,7 @@ void salvaBraniSuFile();
 void salvaAlbumSuFile();
 void salvaArtistiSuFile();
 void salvaGeneriSuFile();
+void salvaUtentiSuFile();
 // Associazioni
 void salvaCollezioneSuFile();
 void salvaAssociazioniArtistiSuFile();
