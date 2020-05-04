@@ -1,9 +1,11 @@
 /*
- * DatabaseUtils.c
- *
- *  Created on: 2 mag 2020
- *      Author: Simone
+ * Ampere 0.0.1 rev. 1000 - 02.05.2020
+ * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
+ * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
+ * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
+ * Maggiori informazioni sul copyright su https://github.com/Soxasora/XX/blob/master/LICENSE
  */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -50,6 +52,10 @@ int contaNelDatabase(int modalita) {
 		}
 	} else if (modalita==6) { // Conta collezione
 		while(db.albumBrano[i].idAlbum!=0) {
+			i++;
+		}
+	} else if (modalita==7) { // Conta tipi brano
+		while(db.branoGenere[i].idBrano!=0) {
 			i++;
 		}
 	}
@@ -158,6 +164,30 @@ int ottieniPosDaID(int modalita, int id) {
 		while(i<n&&controllo!=-1) {
 			if (db.playlist[i].id == id) {
 				pos=i;
+				controllo=-1;
+			}
+			i++;
+		}
+	} else if (modalita==5) { // Associazione artista-brano
+		while(i<n&&controllo!=-1) {
+			if (db.artistaBrano[i].idBrano==id) {
+				pos = i;
+				controllo=-1;
+			}
+			i++;
+		}
+	} else if (modalita==6) { //Associazione album-brano
+		while(i<n&&controllo!=-1) {
+			if (db.albumBrano[i].idBrano==id) {
+				pos = i;
+				controllo=-1;
+			}
+			i++;
+		}
+	} else if (modalita==7) {
+		while(i<n&&controllo!=-1) {
+			if (db.branoGenere[i].idBrano==id) {
+				pos = i;
 				controllo=-1;
 			}
 			i++;

@@ -6,20 +6,14 @@
  * Maggiori informazioni sul copyright su https://github.com/Soxasora/XX/blob/master/LICENSE
  */
 
-#ifndef DATABASE_PLAYLISTS_H_
-#define DATABASE_PLAYLISTS_H_
-#include "../sys/Impostazioni.h"
+#ifndef GESTORI_GESTOREGENERI_H_
+#define GESTORI_GESTOREGENERI_H_
 
-typedef struct playlists {
-	int id;
-	int idUtente;
-	char nome[MAX_CHAR];
-	char descrizione[MAX_CHAR];
-};
+void inserimentoGenereGuidato();
+int creaGenereGuidato(char nome[]);
+int creaGenereSeNonEsiste(char nome[]);
+int inserisciGenere(char nome[]);
+void inserisciGenereSuFile(char id[], char nome[]);
+void inserisciTipiBraniSuFile(char idbrano[], char idgenere[]);
 
-typedef struct raccolta {
-	int idPlaylist;
-	int idBrano;
-};
-
-#endif /* DATABASE_PLAYLISTS_H_ */
+#endif /* GESTORI_GESTOREGENERI_H_ */

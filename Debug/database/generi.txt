@@ -3,3 +3,5 @@
 3,Nu Metal
 4,Dance
 5,Disco
+6,Trap
+7,Funk

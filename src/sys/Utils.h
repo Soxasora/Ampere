@@ -1,8 +1,9 @@
 /*
- * Utils.h
- *
- *  Created on: 2 mag 2020
- *      Author: soxas
+ * Ampere 0.0.1 rev. 1000 - 02.05.2020
+ * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
+ * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
+ * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
+ * Maggiori informazioni sul copyright su https://github.com/Soxasora/XX/blob/master/LICENSE
  */
 
 #ifndef SRC_SYS_UTILS_H_
@@ -17,8 +18,5 @@ char *chiediFile();
 void pulisciBuffer();
 int controllaSeFileVuoto(char *file);
 void backupFile(char *file1, char *file2);
-void menu();
-void menuDatabase();
-void menuRicerca();
 
 #endif /* SRC_SYS_UTILS_H_ */

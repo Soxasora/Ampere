@@ -1,9 +1,11 @@
 /*
- * GestoreArtisti.c
- *
- *  Created on: 3 mag 2020
- *      Author: Simone
+ * Ampere 0.0.1 rev. 1000 - 02.05.2020
+ * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
+ * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
+ * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
+ * Maggiori informazioni sul copyright su https://github.com/Soxasora/XX/blob/master/LICENSE
  */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -55,6 +57,7 @@ int creaArtistaSeNonEsiste(char nomearte[]) {
 }
 
 int inserisciArtista(char nome[], char cognome[], char nomearte[]) {
+	db_modificato=1;
 	int n=contaNelDatabase(2);
 	db.artista[n].id = trovaUltimoId(2)+1;
 	strcpy(db.artista[n].nome,nome);

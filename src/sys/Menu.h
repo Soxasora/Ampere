@@ -6,20 +6,11 @@
  * Maggiori informazioni sul copyright su https://github.com/Soxasora/XX/blob/master/LICENSE
  */
 
-#ifndef DATABASE_PLAYLISTS_H_
-#define DATABASE_PLAYLISTS_H_
-#include "../sys/Impostazioni.h"
+#ifndef SYS_MENU_H_
+#define SYS_MENU_H_
 
-typedef struct playlists {
-	int id;
-	int idUtente;
-	char nome[MAX_CHAR];
-	char descrizione[MAX_CHAR];
-};
+void menu();
+void menuDatabase();
+void menuRicerca();
 
-typedef struct raccolta {
-	int idPlaylist;
-	int idBrano;
-};
-
-#endif /* DATABASE_PLAYLISTS_H_ */
+#endif /* SYS_MENU_H_ */

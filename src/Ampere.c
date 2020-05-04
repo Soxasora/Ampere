@@ -12,6 +12,7 @@
 #include "Ampere.h"
 #include "gestori/GestoreFile.h"
 #include "database/Database.h"
+#include "sys/Menu.h"
 #include "sys/Utils.h"
 #include "sys/Impostazioni.h"
 
@@ -36,5 +37,7 @@ void inizializzazione() {
 }
 
 void terminazione() {
-	salvaModificheSuFile();
+	if (db_modificato==1) {
+		salvaModificheSuFile();
+	}
 }

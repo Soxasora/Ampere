@@ -1,15 +1,18 @@
 /*
- * GestoreFile.c
- *
- *  Created on: 3 mag 2020
- *      Author: Simone
+ * Ampere 0.0.1 rev. 1000 - 02.05.2020
+ * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
+ * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
+ * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
+ * Maggiori informazioni sul copyright su https://github.com/Soxasora/XX/blob/master/LICENSE
  */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "../gestori/GestoreBrani.h"
 #include "../gestori/GestoreArtisti.h"
 #include "../gestori/GestoreAlbum.h"
+#include "../gestori/GestoreGeneri.h"
 #include "../gestori/GestoreFile.h"
 #include "../database/DatabaseUtils.h"
 #include "../database/Database.h"
@@ -21,23 +24,23 @@ void salvaModificheSuFile() {
 	salvaBraniSuFile();
 	salvaAlbumSuFile();
 	salvaArtistiSuFile();
+	salvaGeneriSuFile();
 
 	// Blocco associazioni
 	salvaCollezioneSuFile();
 	salvaAssociazioniArtistiSuFile();
+	salvaTipiBraniSuFile();
 
-//	backupFile("temp_generi.txt", file_generi);
-//	backupFile("temp_tipobrano.txt", file_tipobrano);
+
 //	backupFile("temp_playlists.txt", file_playlists);
 //	backupFile("temp_raccolta.txt", file_raccolta);
 //	backupFile("temp_utenti.txt", file_utenti);
 
 
-//	remove(file_generi);
-//	remove(file_tipobrano);
 //	remove(file_playlists);
 //	remove(file_raccolta);
 //	remove(file_utenti);
+	printf("\nSalvato.");
 }
 
 void salvaBraniSuFile() {
@@ -57,7 +60,7 @@ void salvaBraniSuFile() {
 		i++;
 	}
 	remove("temp_brani.txt");
-	printf("\nBrani salvati.");
+	printf(" Brani salvati.");
 }
 
 void salvaAlbumSuFile() {
@@ -74,7 +77,7 @@ void salvaAlbumSuFile() {
 		i++;
 	}
 	remove("temp_albums.txt");
-	printf("\nAlbum salvati.");
+	printf(" Album salvati.");
 }
 
 void salvaArtistiSuFile() {
@@ -90,7 +93,23 @@ void salvaArtistiSuFile() {
 		i++;
 	}
 	remove("temp_artisti.txt");
-	printf("\nArtisti salvati.");
+	printf(" Artisti salvati.");
+}
+
+void salvaGeneriSuFile() {
+	printf("\nSalvando i generi...");
+	backupFile(file_generi, "temp_generi.txt");
+	remove(file_generi);
+	int i=0;
+	int n=contaNelDatabase(3);
+	while (i<n) {
+		char id[MAX_CHAR];
+		sprintf(id, "%d", db.genere[i].id);
+		inserisciGenereSuFile(id, db.genere[i].nome);
+		i++;
+	}
+	remove("temp_generi.txt");
+	printf(" Generi salvati.");
 }
 
 //BLOCCO ASSOCIAZIONI
@@ -109,7 +128,7 @@ void salvaCollezioneSuFile() {
 		i++;
 	}
 	remove("temp_collezione.txt");
-	printf("Associazioni album-brano salvate.");
+	printf(" Associazioni album-brano salvate.");
 }
 
 void salvaAssociazioniArtistiSuFile() {
@@ -126,5 +145,22 @@ void salvaAssociazioniArtistiSuFile() {
 		i++;
 	}
 	remove("temp_associazioneartisti.txt");
-	printf("Associazioni artista-brano salvate.");
+	printf(" Associazioni artista-brano salvate.");
+}
+
+void salvaTipiBraniSuFile() {
+	printf("\nSalvando le associazioni genere-brano su file...");
+	backupFile(file_tipobrano, "temp_tipobrano.txt");
+	remove(file_tipobrano);
+	int i=0;
+	int n=contaNelDatabase(7);
+	while(i<n) {
+		char idBrano[MAX_CHAR], idGenere[MAX_CHAR];
+		sprintf(idBrano, "%d", db.branoGenere[i].idBrano);
+		sprintf(idGenere, "%d", db.branoGenere[i].idGenere);
+		inserisciTipiBraniSuFile(idBrano, idGenere);
+		i++;
+	}
+	remove("temp_tipobrano.txt");
+	printf(" Associazioni genere-brano salvate.");
 }
