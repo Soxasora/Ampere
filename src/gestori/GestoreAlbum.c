@@ -1,9 +1,9 @@
 /*
- * Ampere 0.0.1 rev. 1000 - 02.05.2020
+ * Ampere 0.1 rev. 1250 - 04.05.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
- * Maggiori informazioni sul copyright su https://github.com/Soxasora/XX/blob/master/LICENSE
+ * Maggiori informazioni sul copyright su https://github.com/Soxasora/Ampere/blob/master/LICENSE
  */
 
 #include <stdio.h>
@@ -36,18 +36,12 @@ int creaAlbumGuidato(char titolo_album[]) {
 }
 
 int creaAlbumSeNonEsiste(char titolo_album[]) {
-	int id=0, i=0, n=contaNelDatabase(1), controllo=0;
-	while (i<n&&controllo!=-1) {
-		if (comparaStringhe(db.album[i].titolo, titolo_album)==0) {
-			id = db.album[i].id;
-			printf("\nAlbum presente nel database.");
-			controllo=-1;
-		}
-		i++;
-	}
-	if (controllo!=-1) {
+	int id = controlloEsistenzaAlbum(titolo_album);
+	if (id==0) {
 		id = creaAlbumGuidato(titolo_album);
 		printf("\nAlbum inserito, continuiamo...");
+	} else {
+		printf("\nAlbum esistente.");
 	}
 	return id;
 }
@@ -79,4 +73,16 @@ void inserisciCollezioneSuFile(char idalbum[], char idbrano[]) {
 		fprintf(fp, "\n%s,%s", idalbum, idbrano);
 	}
 	fclose(fp);
+}
+
+int controlloEsistenzaAlbum(char album[]) {
+	int id=0, i=0, n=contaNelDatabase(1), controllo=0;
+	while (i<n&&controllo!=-1) {
+		if (comparaStringhe(db.album[i].titolo, album)==0) {
+			id = db.album[i].id;
+			controllo=-1;
+		}
+		i++;
+	}
+	return id;
 }

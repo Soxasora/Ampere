@@ -1,9 +1,9 @@
 /*
- * Ampere 0.0.1 rev. 1000 - 02.05.2020
+ * Ampere 0.1 rev. 1250 - 04.05.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
- * Maggiori informazioni sul copyright su https://github.com/Soxasora/XX/blob/master/LICENSE
+ * Maggiori informazioni sul copyright su https://github.com/Soxasora/Ampere/blob/master/LICENSE
  */
 
 #include <stdio.h>
@@ -32,18 +32,12 @@ int creaGenereGuidato(char nome[]) {
 }
 
 int creaGenereSeNonEsiste(char nome[]) {
-	int id=0, i=0, n=contaNelDatabase(3), controllo=0;
-	while (i<n&&controllo!=-1) {
-		if (comparaStringhe(db.genere[i].nome, nome)==0) {
-			id = db.genere[i].id;
-			printf("\nGenere presente nel database.");
-			controllo=-1;
-		}
-		i++;
-	}
-	if (controllo!=-1) {
+	int id = controlloEsistenzaGenere(nome);
+	if (id==0) {
 		id = creaGenereGuidato(nome);
 		printf("\nGenere inserito, continuiamo...");
+	} else {
+		printf("\nGenere esistente.");
 	}
 	return id;
 }
@@ -74,4 +68,16 @@ void inserisciTipiBraniSuFile(char idbrano[], char idgenere[]) {
 		fprintf(fp, "\n%s,%s", idbrano, idgenere);
 	}
 	fclose(fp);
+}
+
+int controlloEsistenzaGenere(char genere[]) {
+	int id=0, i=0, n=contaNelDatabase(3), controllo=0;
+	while (i<n&&controllo!=-1) {
+		if (comparaStringhe(db.genere[i].nome, genere)==0) {
+			id = db.genere[i].id;
+			controllo=-1;
+		}
+		i++;
+	}
+	return id;
 }
