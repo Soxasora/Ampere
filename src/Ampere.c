@@ -20,11 +20,12 @@
 int main() {
 
 	inizializzazione();
+	printf("\nPremi invio per continuare.");
 	menuLogin();
 	menu();
 
 	terminazione();
-	system("PAUSE");
+	aspetta();
 	return 0;
 }
 

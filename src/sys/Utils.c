@@ -128,7 +128,6 @@ void backupFile(char *file1, char *file2) {
 			fputc(c, fp2);
 			c=fgetc(fp);
 		}
-		printf("\nBackup del database effettuato.");
 	}
 	fclose(fp); fclose(fp2);
 }

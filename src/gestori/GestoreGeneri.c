@@ -16,8 +16,8 @@
 #include "../sys/Impostazioni.h"
 
 void inserimentoGenereGuidato() {
-	char *nome = malloc(MAX_CHAR);
 	pulisciBuffer();
+	char *nome = malloc(MAX_CHAR);
 	printf("\nInserisci nome del genere: ");
 	nome = inputStringaSicuro(nome);
 	creaGenereSeNonEsiste(nome);

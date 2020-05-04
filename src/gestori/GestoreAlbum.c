@@ -16,6 +16,7 @@
 #include "../sys/Impostazioni.h"
 
 void inserimentoAlbumGuidato() {
+	pulisciBuffer();
 	char *titolo = malloc(MAX_CHAR);
 	printf("\nInserisci titolo dell'album: ");
 	titolo = inputStringaSicuro(titolo);

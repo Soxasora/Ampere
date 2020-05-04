@@ -149,7 +149,6 @@ int ottieniPosDaID(int modalita, int id) {
 	if (modalita==-1) { // Utente
 		while(i<n&&controllo!=-1) {
 			if (db.utente[i].id == id) {
-				printf("\nUtente trovato: %s", db.utente[i].username);
 				pos=i;
 				controllo=-1;
 			}
@@ -222,4 +221,38 @@ int ottieniPosDaID(int modalita, int id) {
 	}
 
 	return pos;
+}
+
+void backupDatabase() {
+	pulisciBuffer();
+	char *nome_backup = malloc(MAX_CHAR);
+	char *percorso_backup = malloc(MAX_CHAR);
+	creaCartella("backup");
+	// Inserire sistema di ottenimento automatico della data
+	printf("\nInserire il nome della cartella del nuovo backup (es. 05052020): ");
+	nome_backup = inputStringaSicuro(nome_backup);
+	sprintf(percorso_backup, "backup\\%s", nome_backup);
+	creaCartella(percorso_backup);
+	printf("\nBackup del database in corso...");
+	sprintf(percorso_backup, "backup\\%s\\brani.txt", nome_backup);
+	backupFile(file_brani, percorso_backup);
+	sprintf(percorso_backup, "backup\\%s\\albums.txt", nome_backup);
+	backupFile(file_albums, percorso_backup);
+	sprintf(percorso_backup, "backup\\%s\\associazioneartisti.txt", nome_backup);
+	backupFile(file_associazioneartisti, percorso_backup);
+	sprintf(percorso_backup, "backup\\%s\\artisti.txt", nome_backup);
+	backupFile(file_artisti, percorso_backup);
+	sprintf(percorso_backup, "backup\\%s\\collezione.txt", nome_backup);
+	backupFile(file_collezione, percorso_backup);
+	sprintf(percorso_backup, "backup\\%s\\generi.txt", nome_backup);
+	backupFile(file_generi, percorso_backup);
+	sprintf(percorso_backup, "backup\\%s\\tipobrano.txt", nome_backup);
+	backupFile(file_tipobrano, percorso_backup);
+	sprintf(percorso_backup, "backup\\%s\\playlists.txt", nome_backup);
+	backupFile(file_playlists, percorso_backup);
+	sprintf(percorso_backup, "backup\\%s\\raccolta.txt", nome_backup);
+	backupFile(file_raccolta, percorso_backup);
+	sprintf(percorso_backup, "backup\\%s\\utenti.txt", nome_backup);
+	backupFile(file_utenti, percorso_backup);
+	printf(" Backup effettuato.");
 }

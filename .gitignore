@@ -56,7 +56,7 @@ dkms.conf
 # Ampere custom
 Ampere
 /Debug/Ampere.exe
-/database.txt
+/Debug/backup
 
 ### Eclipse ###
 .metadata

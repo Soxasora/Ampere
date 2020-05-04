@@ -24,6 +24,8 @@ bool isAdmin() {
 }
 
 void login() {
+	printf("\nEntra su Ampere con il tuo account.");
+	pulisciBuffer();
 	int controllo=0, id=0;
 	char *username = malloc(MAX_CHAR);
 	char *password = malloc(MAX_CHAR);
@@ -57,6 +59,7 @@ int controllaDatiUtente(char username[], char password[]) {
 }
 
 void registrazioneUtente() {
+	pulisciBuffer();
 	int controllo=0;
 	char *username = malloc(MAX_CHAR);
 	char *password = malloc(MAX_CHAR);

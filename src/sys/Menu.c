@@ -32,25 +32,30 @@ void menuLogin() {
 	} else {
 		registrazioneUtente();
 	}
-
-	int pos = ottieniPosDaID(-1, db.utente_connesso);
-	printf("\nUtente: %s", db.utente[pos].username);
 }
 
 // Nuovo Menu di Ampere
 void menu() {
 	pulisciBuffer();
 	int scelta=0;
-	printf("\n===[Menu Principale]===");
-	printf("\n[1] OK Menu Database");
-	printf("\n[2] OK Menu di Ricerca");
+	printf("\n===[AMPERE: Menu Principale]===");
+	printf("\nUtente connesso: %s", db.utente[ottieniPosDaID(-1, db.utente_connesso)].username);
+	printf("\nRuolo utente: ");
+	if (isAdmin()==true) {
+		printf("Amministratore");
+	} else {
+		printf("Utente normale");
+	}
+	printf("\n[1] Menu di Ricerca");
+	if (isAdmin()==true)
+		printf("\n[9] [ADMIN] Menu Manipolazione Database");
 	printf("\n[0] Esci dal programma");
 	printf("\nInserisci la tua scelta: ");
 	scanf("%d", &scelta);
 	if (scelta==1) {
-		menuDatabase();
-	} else if (scelta==2) {
 		menuRicerca();
+	} else if (scelta==9) {
+		menuDatabase();
 	} else if (scelta==0) {
 		printf("\nUscendo dal programma...\n");
 	} else {
@@ -62,19 +67,19 @@ void menu() {
 void menuDatabase() {
 	pulisciBuffer();
 	int scelta=0;
-	printf("\n===[Menu Database]===");
+	printf("\n===[AMPERE: Menu Database]===");
 	// Creare sottomenu di inserimento
-	printf("\n[1] OK Inserisci un brano nel database");
-	printf("\n[2] OK Inserisci un artista nel database");
-	printf("\n[3] OK Inserisci un album nel database");
-	printf("\n[4] OK Inserisci un genere nel database");
+	printf("\n[1] Inserisci un brano nel database");
+	printf("\n[2] Inserisci un artista nel database");
+	printf("\n[3] Inserisci un album nel database");
+	printf("\n[4] Inserisci un genere nel database");
 	// Creare sottomenu di modifica
 	printf("\n[4] TODO Modifica un brano");
 	// Creare sottomenu di cancellazione
 	printf("\n[5] TODO Cancella un brano");
 	printf("\n[6] TODO Cancella l'intera libreria musicale");
 	// Creare sottomenu di backup
-	printf("\n[7] TODO Effettua un backup del database");
+	printf("\n[7] Effettua un backup del database");
 	printf("\n[0] Ritorna al menu principale");
 	printf("\nInserisci la tua scelta: ");
 	scanf("%d", &scelta);
@@ -96,6 +101,12 @@ void menuDatabase() {
 		menuDatabase();
 	} else if (scelta==5) {
 		//TODO
+	} else if (scelta==6) {
+		//TODO
+	} else if (scelta==7) {
+		backupDatabase();
+		aspetta();
+		menuDatabase();
 	} else if (scelta==0) {
 		menu();
 	} else {
@@ -108,11 +119,11 @@ void menuRicerca() {
 	pulisciBuffer();
 	int scelta=0;
 	printf("\n===[Menu Ricerca]===");
-	printf("\n[1] OK Mostra tutti i brani");
+	printf("\n[1] Mostra tutti i brani");
 	printf("\n[2] TODO Ricerca per Titolo");
 	printf("\n[3] TODO Ricerca per Artista");
-	printf("\n[4] OK Ricerca per Album");
-	printf("\n[5] OK Ricerca per Genere");
+	printf("\n[4] Ricerca per Album");
+	printf("\n[5] Ricerca per Genere");
 	printf("\n[0] Ritorna al menu principale");
 	printf("\nInserisci la tua scelta: ");
 	scanf("%d", &scelta);

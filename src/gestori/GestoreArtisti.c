@@ -16,6 +16,7 @@
 #include "../sys/Impostazioni.h"
 
 void inserimentoArtistaGuidato() {
+	pulisciBuffer();
 	char *nomearte = malloc(MAX_CHAR);
 	printf("\nInserisci nome d'arte dell'artista: ");
 	nomearte = inputStringaSicuro(nomearte);

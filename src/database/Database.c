@@ -196,6 +196,7 @@ void ottieniUtenti() {
 	printf("\nOttengo gli utenti...");
 	db.utente = malloc((MAX_CHAR*MAX_CHAR)*sizeof(db.utente));
 	if (controllaSeFileVuoto(file_utenti)==0) {
+		printf("Prova");
 		FILE* fp=fopen(file_utenti, "r");
 		char temp[MAX_TEMP];
 		char dati[MAX_TEMP][MAX_TEMP];
