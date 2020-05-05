@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../gestori/GestoreFile.h"
 #include "../database/DatabaseUtils.h"
 #include "../database/Database.h"
 #include "../sys/Utils.h"
@@ -255,4 +256,52 @@ void backupDatabase() {
 	sprintf(percorso_backup, "backup\\%s\\utenti.txt", nome_backup);
 	backupFile(file_utenti, percorso_backup);
 	printf(" Backup effettuato.");
+	free(nome_backup); free(percorso_backup);
+}
+
+void ripristinaDatabase() {
+	pulisciBuffer();
+	char *nome_backup = malloc(MAX_CHAR);
+	char *percorso_backup = malloc(MAX_CHAR);
+	printf("\nInserire il nome del backup dal quale ripristinare il database (es. 05052020): ");
+	nome_backup = inputStringaSicuro(nome_backup);
+	sprintf(percorso_backup, "backup\\%s\\brani.txt", nome_backup);
+	FILE* fp=fopen(percorso_backup, "r");
+	if (fp==NULL) {
+		perror("Impossibile continuare con il ripristino, motivazione: ");
+		fclose(fp);
+	} else {
+		fclose(fp);
+		char scelta='N';
+		printf("\nSicuro di voler continuare con il ripristino? [Y/N]: ");
+		scanf("%c", &scelta);
+		if (scelta=='Y') {
+			printf("\nRipristino del database in corso...");
+			cancellaDatabaseFile();
+			sprintf(percorso_backup, "backup\\%s\\brani.txt", nome_backup);
+			backupFile(percorso_backup, file_brani);
+			sprintf(percorso_backup, "backup\\%s\\albums.txt", nome_backup);
+			backupFile(percorso_backup, file_albums);
+			sprintf(percorso_backup, "backup\\%s\\associazioneartisti.txt", nome_backup);
+			backupFile(percorso_backup, file_associazioneartisti);
+			sprintf(percorso_backup, "backup\\%s\\artisti.txt", nome_backup);
+			backupFile(percorso_backup, file_artisti);
+			sprintf(percorso_backup, "backup\\%s\\collezione.txt", nome_backup);
+			backupFile(percorso_backup, file_collezione);
+			sprintf(percorso_backup, "backup\\%s\\generi.txt", nome_backup);
+			backupFile(percorso_backup, file_generi);
+			sprintf(percorso_backup, "backup\\%s\\tipobrano.txt", nome_backup);
+			backupFile(percorso_backup, file_tipobrano);
+			sprintf(percorso_backup, "backup\\%s\\playlists.txt", nome_backup);
+			backupFile(percorso_backup, file_playlists);
+			sprintf(percorso_backup, "backup\\%s\\raccolta.txt", nome_backup);
+			backupFile(percorso_backup, file_raccolta);
+			sprintf(percorso_backup, "backup\\%s\\utenti.txt", nome_backup);
+			backupFile(percorso_backup, file_utenti);
+			db = ottieniDatabase();
+			printf(" Ripristino dal backup %s effettuato.", nome_backup);
+		} else {
+			printf("\nUscendo dal ripristino...");
+		}
+	}
 }

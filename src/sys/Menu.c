@@ -80,6 +80,7 @@ void menuDatabase() {
 	printf("\n[6] TODO Cancella l'intera libreria musicale");
 	// Creare sottomenu di backup
 	printf("\n[7] Effettua un backup del database");
+	printf("\n[8] Effettua un ripristino del database da un backup");
 	printf("\n[0] Ritorna al menu principale");
 	printf("\nInserisci la tua scelta: ");
 	scanf("%d", &scelta);
@@ -105,6 +106,10 @@ void menuDatabase() {
 		//TODO
 	} else if (scelta==7) {
 		backupDatabase();
+		aspetta();
+		menuDatabase();
+	} else if (scelta==8) {
+		ripristinaDatabase();
 		aspetta();
 		menuDatabase();
 	} else if (scelta==0) {

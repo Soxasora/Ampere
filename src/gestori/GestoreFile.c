@@ -20,6 +20,19 @@
 #include "../sys/Utils.h"
 #include "../sys/Impostazioni.h"
 
+void cancellaDatabaseFile() {
+	remove(file_brani);
+	remove(file_albums);
+	remove(file_associazioneartisti);
+	remove(file_artisti);
+	remove(file_collezione);
+	remove(file_generi);
+	remove(file_tipobrano);
+	remove(file_playlists);
+	remove(file_raccolta);
+	remove(file_utenti);
+}
+
 void salvaModificheSuFile() {
 	printf("\nSalvando tutte le modifiche effettuate al database, su file...");
 	salvaBraniSuFile();

@@ -13,5 +13,6 @@ int contaNelDatabase(int modalita);
 int trovaUltimoId(int modalita);
 int ottieniPosDaID(int modalita, int id);
 void backupDatabase();
+void ripristinaDatabase();
 
 #endif /* SRC_DATABASE_DATABASEUTILS_H_ */

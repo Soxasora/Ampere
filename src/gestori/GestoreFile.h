@@ -9,6 +9,7 @@
 #ifndef GESTORI_GESTOREFILE_H_
 #define GESTORI_GESTOREFILE_H_
 
+void cancellaDatabaseFile();
 void salvaModificheSuFile();
 void salvaBraniSuFile();
 void salvaAlbumSuFile();
