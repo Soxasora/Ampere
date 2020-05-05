@@ -9,6 +9,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../ricerca/MotoreRicerca.h"
+#include "../gestori/GestoreFile.h"
 #include "../gestori/GestoreBrani.h"
 #include "../gestori/GestoreArtisti.h"
 #include "../gestori/GestoreAlbum.h"
@@ -86,5 +88,63 @@ void inserisciBranoSuFile(char id[], char titolo[], char durata[], char id_album
 		fprintf(fp, "\n%s,%s,%s,%s,%s,%s", id, titolo, durata, id_album, anno, ascolti);
 	}
 	fclose(fp);
+}
+
+void modificaBrano() {
+	int id=0, modalita=0;
+	char scelta='N';
+	mostraTuttiBrani();
+	printf("\n\nInserire l'identificativo del brano da modificare: ");
+	scanf("%d", &id);
+	printf("\nHai scelto il brano:");
+	mostraSingoloBrano(id);
+	pulisciBuffer();
+	printf("\nSicuro di voler continuare? [Y/N]: ");
+	scanf("%c", &scelta);
+	if (scelta=='Y'||scelta=='y') {
+		printf("\n===[Sistema di modifica brani]===");
+		printf("\n[1] Modifica il Titolo");
+		printf("\n[2] Modifica la Durata");
+		printf("\n[3] Modifica l'Anno");
+		printf("\n[4] Modifica gli Ascolti");
+		printf("\n[5] Modifica l'album d'appartenenza");
+		printf("\n[0] Esci");
+		printf("\nInserisci la tua scelta: ");
+		scanf("%d", &modalita);
+		if (modalita!=0) {
+			modificaSingoloBrano(modalita, id);
+			db_modificato = 1;
+		}
+	}
+}
+
+void modificaSingoloBrano(int modalita, int id) {
+	pulisciBuffer();
+	int pos = ottieniPosDaID(0, id);
+	if (modalita==1) {
+		char *titolo = malloc(MAX_CHAR);
+		printf("\nInserisci nuovo titolo: ");
+		titolo = inputStringaSicuro(titolo);
+		strcpy(db.brano[pos].titolo, titolo);
+		free(titolo);
+	} else if (modalita==2) {
+		int durata=0;
+		printf("\nInserisci nuova durata (in secondi): ");
+		scanf("%d", &durata);
+		db.brano[pos].durata = durata;
+	} else if (modalita==3) {
+		int anno=0;
+		printf("\nInserisci nuovo anno: ");
+		scanf("%d", &anno);
+		db.brano[pos].anno = anno;
+	} else if (modalita==4) {
+		int ascolti=0;
+		printf("\nInserisci nuovi ascolti: ");
+		scanf("%d", &ascolti);
+		db.brano[pos].durata = ascolti;
+	}
+
+	printf("\nBrano aggiornato, ecco il risultato:\n");
+	mostraSingoloBrano(id);
 }
 

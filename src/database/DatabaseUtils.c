@@ -275,7 +275,7 @@ void ripristinaDatabase() {
 		char scelta='N';
 		printf("\nSicuro di voler continuare con il ripristino? [Y/N]: ");
 		scanf("%c", &scelta);
-		if (scelta=='Y') {
+		if (scelta=='Y'||scelta=='y') {
 			printf("\nRipristino del database in corso...");
 			cancellaDatabaseFile();
 			sprintf(percorso_backup, "backup\\%s\\brani.txt", nome_backup);

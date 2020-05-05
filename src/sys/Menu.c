@@ -74,13 +74,13 @@ void menuDatabase() {
 	printf("\n[3] Inserisci un album nel database");
 	printf("\n[4] Inserisci un genere nel database");
 	// Creare sottomenu di modifica
-	printf("\n[4] TODO Modifica un brano");
+	printf("\n[5] Modifica un brano");
 	// Creare sottomenu di cancellazione
-	printf("\n[5] TODO Cancella un brano");
-	printf("\n[6] TODO Cancella l'intera libreria musicale");
+	printf("\n[6] TODO Cancella un brano");
+	printf("\n[7] TODO Cancella l'intera libreria musicale");
 	// Creare sottomenu di backup
-	printf("\n[7] Effettua un backup del database");
-	printf("\n[8] Effettua un ripristino del database da un backup");
+	printf("\n[8] Effettua un backup del database");
+	printf("\n[9] Effettua un ripristino del database da un backup");
 	printf("\n[0] Ritorna al menu principale");
 	printf("\nInserisci la tua scelta: ");
 	scanf("%d", &scelta);
@@ -101,14 +101,18 @@ void menuDatabase() {
 		aspetta();
 		menuDatabase();
 	} else if (scelta==5) {
-		//TODO
+		modificaBrano();
+		aspetta();
+		menuDatabase();
 	} else if (scelta==6) {
 		//TODO
 	} else if (scelta==7) {
+		//TODO
+	} else if (scelta==8) {
 		backupDatabase();
 		aspetta();
 		menuDatabase();
-	} else if (scelta==8) {
+	} else if (scelta==9) {
 		ripristinaDatabase();
 		aspetta();
 		menuDatabase();

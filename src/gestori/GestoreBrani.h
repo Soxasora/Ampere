@@ -12,5 +12,7 @@
 void inserimentoBranoGuidato();
 void inserisciBrano(char titolo[], int id_artista, int id_album, int id_genere, int durata, int anno, int ascolti);
 void inserisciBranoSuFile(char id[], char titolo[], char durata[], char id_album[], char anno[], char ascolti[]);
+void modificaBrano();
+void modificaSingoloBrano(int modalita, int id);
 
 #endif /* SRC_GESTORI_GESTOREBRANI_H_ */

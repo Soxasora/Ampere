@@ -3,6 +3,6 @@
 3,One More Time,210,2,2001,223
 4,Fragments Of Time,180,1,2013,453
 5,Solo,193,3,2016,3233
-6,Harder Better Faster Stronger,217,2,2001,332
+6,Harder Better Faster Stronger,300,2,2001,332
 7,no14,176,4,2019,7485
 8,Instant Crush,340,1,2013,332
