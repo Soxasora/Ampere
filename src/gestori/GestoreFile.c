@@ -34,7 +34,6 @@ void cancellaDatabaseFile() {
 }
 
 void salvaModificheSuFile() {
-	printf("\nSalvando tutte le modifiche effettuate al database, su file...");
 	salvaBraniSuFile();
 	salvaAlbumSuFile();
 	salvaArtistiSuFile();
@@ -52,11 +51,11 @@ void salvaModificheSuFile() {
 
 //	remove(file_playlists);
 //	remove(file_raccolta);
-	printf("\nSalvato.");
+	if (isAdmin())
+		printf("\nSalvate tutte le modifiche effettuate al database su file.");
 }
 
 void salvaBraniSuFile() {
-	printf("\nSalvando i brani...");
 	backupFile(file_brani, "temp_brani.txt");
 	remove(file_brani);
 	int i=0;
@@ -72,11 +71,11 @@ void salvaBraniSuFile() {
 		i++;
 	}
 	remove("temp_brani.txt");
-	printf(" Brani salvati.");
+	if (isAdmin())
+		printf("\nBrani salvati.");
 }
 
 void salvaAlbumSuFile() {
-	printf("\nSalvando gli album...");
 	backupFile(file_albums, "temp_albums.txt");
 	remove(file_albums);
 	int i=0;
@@ -89,11 +88,11 @@ void salvaAlbumSuFile() {
 		i++;
 	}
 	remove("temp_albums.txt");
-	printf(" Album salvati.");
+	if (isAdmin())
+		printf("\nAlbum salvati.");
 }
 
 void salvaArtistiSuFile() {
-	printf("\nSalvando gli artisti...");
 	backupFile(file_artisti, "temp_artisti.txt");
 	remove(file_artisti);
 	int i=0;
@@ -105,11 +104,11 @@ void salvaArtistiSuFile() {
 		i++;
 	}
 	remove("temp_artisti.txt");
-	printf(" Artisti salvati.");
+	if (isAdmin())
+		printf("\nArtisti salvati.");
 }
 
 void salvaGeneriSuFile() {
-	printf("\nSalvando i generi...");
 	backupFile(file_generi, "temp_generi.txt");
 	remove(file_generi);
 	int i=0;
@@ -121,11 +120,11 @@ void salvaGeneriSuFile() {
 		i++;
 	}
 	remove("temp_generi.txt");
-	printf(" Generi salvati.");
+	if (isAdmin())
+		printf("\nGeneri salvati.");
 }
 
 void salvaUtentiSuFile() {
-	printf("\nSalvando gli utenti...");
 	backupFile(file_utenti, "temp_utenti.txt");
 	remove(file_utenti);
 	int i=0;
@@ -143,13 +142,13 @@ void salvaUtentiSuFile() {
 		i++;
 	}
 	remove("temp_utenti.txt");
-	printf(" Utenti salvati.");
+	if (isAdmin())
+		printf("\nUtenti salvati.");
 }
 
 //BLOCCO ASSOCIAZIONI
 
 void salvaCollezioneSuFile() {
-	printf("\nSalvando le associazioni album-brano su file...");
 	backupFile(file_collezione, "temp_collezione.txt");
 	remove(file_collezione);
 	int i=0;
@@ -162,11 +161,11 @@ void salvaCollezioneSuFile() {
 		i++;
 	}
 	remove("temp_collezione.txt");
-	printf(" Associazioni album-brano salvate.");
+	if (isAdmin())
+		printf("\nAssociazioni album-brano salvate.");
 }
 
 void salvaAssociazioniArtistiSuFile() {
-	printf("\nSalvando le associazioni artista-brano su file...");
 	backupFile(file_associazioneartisti, "temp_associazioneartisti.txt");
 	remove(file_associazioneartisti);
 	int i=0;
@@ -179,11 +178,11 @@ void salvaAssociazioniArtistiSuFile() {
 		i++;
 	}
 	remove("temp_associazioneartisti.txt");
-	printf(" Associazioni artista-brano salvate.");
+	if (isAdmin())
+		printf("\nAssociazioni artista-brano salvate.");
 }
 
 void salvaTipiBraniSuFile() {
-	printf("\nSalvando le associazioni genere-brano su file...");
 	backupFile(file_tipobrano, "temp_tipobrano.txt");
 	remove(file_tipobrano);
 	int i=0;
@@ -196,5 +195,6 @@ void salvaTipiBraniSuFile() {
 		i++;
 	}
 	remove("temp_tipobrano.txt");
-	printf(" Associazioni genere-brano salvate.");
+	if (isAdmin())
+		printf("\nAssociazioni genere-brano salvate.");
 }

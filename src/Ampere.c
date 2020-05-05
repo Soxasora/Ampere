@@ -20,8 +20,8 @@
 int main() {
 
 	inizializzazione();
+
 	printf("\nPremi invio per continuare.");
-	menuLogin();
 	menu();
 
 	terminazione();
@@ -32,10 +32,22 @@ int main() {
 void inizializzazione() {
 	// Mostra info su Ampere
 	info();
+	printf("\nBenvenuto su Ampere.");
+	printf("\nInizializzazione in corso...");
+	printf("\n----------------------------------------");
 	// Rilevo il sistema operativo in uso al momento dell'esecuzione del programma
 	os = rivelaOS();
+
+	// Ottengo il database degli utenti prima di caricare completamente il database
+	db = ottieniDatabaseParziale();
+
+	printf("\nPremi invio per continuare.");
+	menuLogin();
+
 	// Ottengo il database e tutti i sotto database con esso
 	db = ottieniDatabase();
+	printf("\n----------------------------------------");
+	printf("\nAmpere Pronto.");
 }
 
 void terminazione() {

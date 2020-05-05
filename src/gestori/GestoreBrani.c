@@ -113,7 +113,6 @@ void modificaBrano() {
 		scanf("%d", &modalita);
 		if (modalita!=0) {
 			modificaSingoloBrano(modalita, id);
-			db_modificato = 1;
 		}
 	}
 }
@@ -143,8 +142,69 @@ void modificaSingoloBrano(int modalita, int id) {
 		scanf("%d", &ascolti);
 		db.brano[pos].durata = ascolti;
 	}
-
+	db_modificato = 1;
 	printf("\nBrano aggiornato, ecco il risultato:\n");
 	mostraSingoloBrano(id);
+}
+
+void cancellaBrano() {
+	int id=0;
+	char scelta='N';
+	mostraTuttiBrani();
+	printf("\n\nInserire l'identificativo del brano da cancellare: ");
+	scanf("%d", &id);
+	printf("\nHai scelto il brano:");
+	mostraSingoloBrano(id);
+	pulisciBuffer();
+	printf("\nSicuro di voler continuare? [Y/N]: ");
+	scanf("%c", &scelta);
+	if (scelta=='Y'||scelta=='y') {
+		cancellaSingoloBrano(id);
+	}
+}
+
+void cancellaSingoloBrano(int id) {
+	int n = contaNelDatabase(0);
+	int i = ottieniPosDaID(0, id);
+	while (i<n-1) {
+		db.brano[i] = db.brano[i+1];
+		i++;
+	}
+	db.brano[n-1].id = 0;
+
+	cancellaAssociazioniBrano(id);
+
+	db_modificato=1;
+	printf("\nBrano cancellato.");
+}
+
+void cancellaAssociazioniBrano(int id) {
+	//Cancella Associazioni
+	int n = contaNelDatabase(5);
+	int i = ottieniPosDaID(5, id);
+	while (i<n-1) {
+		db.artistaBrano[i] = db.artistaBrano[i+1];
+		i++;
+	}
+	db.artistaBrano[n-1].idBrano = 0;
+	db.artistaBrano[n-1].idArtista = 0;
+
+	n = contaNelDatabase(6);
+	i = ottieniPosDaID(6, id);
+	while (i<n-1) {
+		db.albumBrano[i] = db.albumBrano[i+1];
+		i++;
+	}
+	db.albumBrano[n-1].idBrano = 0;
+	db.albumBrano[n-1].idAlbum = 0;
+
+	n = contaNelDatabase(7);
+	i = ottieniPosDaID(7, id);
+	while (i<n-1) {
+		db.branoGenere[i] = db.branoGenere[i+1];
+		i++;
+	}
+	db.branoGenere[n-1].idBrano = 0;
+	db.branoGenere[n-1].idGenere = 0;
 }
 

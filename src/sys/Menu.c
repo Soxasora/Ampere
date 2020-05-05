@@ -22,11 +22,10 @@
 #include "../sys/Impostazioni.h"
 
 void menuLogin() {
-	pulisciBuffer();
 	int scelta=0;
+	pulisciBuffer();
 	printf("\nDesideri effettuare il login[0] o registrarti[1] ad Ampere? ");
 	scanf("%d", &scelta);
-	pulisciBuffer();
 	if (scelta==0) {
 		login();
 	} else {
@@ -76,7 +75,7 @@ void menuDatabase() {
 	// Creare sottomenu di modifica
 	printf("\n[5] Modifica un brano");
 	// Creare sottomenu di cancellazione
-	printf("\n[6] TODO Cancella un brano");
+	printf("\n[6] Cancella un brano");
 	printf("\n[7] TODO Cancella l'intera libreria musicale");
 	// Creare sottomenu di backup
 	printf("\n[8] Effettua un backup del database");
@@ -105,7 +104,9 @@ void menuDatabase() {
 		aspetta();
 		menuDatabase();
 	} else if (scelta==6) {
-		//TODO
+		cancellaBrano();
+		aspetta();
+		menuDatabase();
 	} else if (scelta==7) {
 		//TODO
 	} else if (scelta==8) {

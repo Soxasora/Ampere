@@ -37,6 +37,7 @@ int db_modificato;
 /**
  * TODO spiegazione di questo blocco
  */
+database ottieniDatabaseParziale();
 database ottieniDatabase();
 void ottieniBrani();
 void ottieniAlbums();

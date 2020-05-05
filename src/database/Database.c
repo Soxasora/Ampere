@@ -9,30 +9,34 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../gestori/GestoreUtenti.h"
 #include "../database/Database.h"
 #include "../sys/Utils.h"
 #include "../sys/Impostazioni.h"
 
+database ottieniDatabaseParziale() {
+	ottieniUtenti();
+	return db;
+}
+
 database ottieniDatabase() {
-	printf("\nOttengo il db...");
 	// Blocco ottenimenti
 	ottieniBrani();
 	ottieniAlbums();
 	ottieniArtisti();
 	ottieniGeneri();
 	ottieniPlaylists();
-	ottieniUtenti();
 	// Blocco associazioni
 	associaArtisti();
 	associaAlbum();
 	associaGeneri();
 	associaPlaylist();
-	printf("\nDatabase caricato con successo.");
+	if (isAdmin())
+		printf("\nDatabase caricato con successo.");
 	return db;
 }
 
 void ottieniBrani() {
-	printf("\nOttengo i brani...");
 	db.brano = malloc((MAX_CHAR*MAX_CHAR)*sizeof(db.brano));
 	if (controllaSeFileVuoto(file_brani)==0) {
 		FILE* fp=fopen(file_brani, "r");
@@ -59,14 +63,15 @@ void ottieniBrani() {
 			i++;
 		}
 		fclose(fp);
-		printf(" Fatto. %d brani caricati con successo.", i);
+		if (isAdmin())
+			printf("\n%d Brani caricati con successo.", i);
 	} else {
-		printf(" Nessun brano da caricare.");
+		if (isAdmin())
+			printf("\nNessun brano da caricare.");
 	}
 }
 
 void ottieniAlbums() {
-	printf("\nOttengo gli album...");
 	db.album = malloc((MAX_CHAR*MAX_CHAR)*sizeof(db.album));
 	if (controllaSeFileVuoto(file_albums)==0) {
 		FILE* fp=fopen(file_albums, "r");
@@ -90,14 +95,15 @@ void ottieniAlbums() {
 			i++;
 		}
 		fclose(fp);
-		printf(" Fatto. %d album caricati con successo.", i);
+		if (isAdmin())
+			printf("\n%d Album caricati con successo.", i);
 	} else {
-		printf(" Nessun album da caricare.");
+		if (isAdmin())
+			printf("\nNessun album da caricare.");
 	}
 }
 
 void ottieniArtisti() {
-	printf("\nOttengo gli artisti...");
 	db.artista = malloc((MAX_CHAR*MAX_CHAR)*sizeof(db.artista));
 	if (controllaSeFileVuoto(file_artisti)==0) {
 		FILE* fp=fopen(file_artisti, "r");
@@ -124,14 +130,15 @@ void ottieniArtisti() {
 			i++;
 		}
 		fclose(fp);
-		printf(" Fatto. %d artisti caricati con successo.", i);
+		if (isAdmin())
+			printf("\n%d Artisti caricati con successo.", i);
 	} else {
-		printf(" Nessun artista da caricare.");
+		if (isAdmin())
+			printf("\nNessun artista da caricare.");
 	}
 }
 
 void ottieniGeneri() {
-	printf("\nOttengo i generi...");
 	db.genere = malloc((MAX_CHAR*MAX_CHAR)*sizeof(db.genere));
 	if (controllaSeFileVuoto(file_generi)==0) {
 		FILE* fp=fopen(file_generi, "r");
@@ -154,14 +161,15 @@ void ottieniGeneri() {
 			i++;
 		}
 		fclose(fp);
-		printf(" Fatto. %d generi caricati con successo.", i);
+		if (isAdmin())
+			printf("\n%d Generi caricati con successo.", i);
 	} else {
-		printf(" Nessun genere da caricare.");
+		if (isAdmin())
+			printf("\nNessun genere da caricare.");
 	}
 }
 
 void ottieniPlaylists() {
-	printf("\nOttengo le playlist...");
 	db.playlist = malloc((MAX_CHAR*MAX_CHAR)*sizeof(db.playlist));
 	if (controllaSeFileVuoto(file_playlists)==0) {
 		FILE* fp=fopen(file_playlists, "r");
@@ -187,16 +195,16 @@ void ottieniPlaylists() {
 			i++;
 		}
 		fclose(fp);
-		printf(" Fatto. %d playlist caricate con successo.", i);
+		if (isAdmin())
+			printf("\n%d Playlist caricate con successo.", i);
 	} else {
-		printf(" Nessuna playlist da caricare.");
+		if (isAdmin())
+			printf("\nNessuna playlist da caricare.");
 	}
 }
 void ottieniUtenti() {
-	printf("\nOttengo gli utenti...");
 	db.utente = malloc((MAX_CHAR*MAX_CHAR)*sizeof(db.utente));
 	if (controllaSeFileVuoto(file_utenti)==0) {
-		printf("Prova");
 		FILE* fp=fopen(file_utenti, "r");
 		char temp[MAX_TEMP];
 		char dati[MAX_TEMP][MAX_TEMP];
@@ -225,14 +233,13 @@ void ottieniUtenti() {
 			i++;
 		}
 		fclose(fp);
-		printf(" Fatto. %d utenti caricati con successo.", i);
+		printf("\n%d Utenti caricati con successo.", i);
 	} else {
-		printf(" Nessun utente da caricare.");
+		printf("\nNessun utente da caricare.");
 	}
 }
 
 void associaArtisti() {
-	printf("\nAssocio i brani agli artisti...");
 	db.artistaBrano = malloc((MAX_CHAR*MAX_CHAR)*sizeof(db.artistaBrano));
 	if (controllaSeFileVuoto(file_associazioneartisti)==0) {
 		FILE* fp=fopen(file_associazioneartisti, "r");
@@ -254,14 +261,15 @@ void associaArtisti() {
 			i++;
 		}
 		fclose(fp);
-		printf(" Fatto. %d associazioni brano-artista effettuate.", i);
+		if (isAdmin())
+			printf("\n%d Associazioni brano-artista effettuate.", i);
 	} else {
-		printf(" Nessuna associazione brano-artista da effettuare.");
+		if (isAdmin())
+			printf("\nNessuna associazione brano-artista da effettuare.");
 	}
 }
 
 void associaAlbum() {
-	printf("\nAssocio i brani agli album...");
 	db.albumBrano = malloc((MAX_CHAR*MAX_CHAR)*sizeof(db.albumBrano));
 	if (controllaSeFileVuoto(file_collezione)==0) {
 		FILE* fp=fopen(file_collezione, "r");
@@ -283,14 +291,15 @@ void associaAlbum() {
 			i++;
 		}
 		fclose(fp);
-		printf(" Fatto. %d associazioni brano-album effettuate.", i);
+		if (isAdmin())
+			printf("\n%d associazioni brano-album effettuate.", i);
 	} else {
-		printf(" Nessuna associazione brano-album da effettuare.");
+		if (isAdmin())
+			printf("\nNessuna associazione brano-album da effettuare.");
 	}
 }
 
 void associaGeneri() {
-	printf("\nAssocio i generi ai brani...");
 	db.branoGenere = malloc((MAX_CHAR*MAX_CHAR)*sizeof(db.branoGenere));
 	if (controllaSeFileVuoto(file_tipobrano)==0) {
 		FILE* fp=fopen(file_tipobrano, "r");
@@ -312,14 +321,15 @@ void associaGeneri() {
 			i++;
 		}
 		fclose(fp);
-		printf(" Fatto. %d associazioni genere-brano effettuate.", i);
+		if (isAdmin())
+			printf("\n%d Associazioni genere-brano effettuate.", i);
 	} else {
-		printf(" Nessuna associazione genere-brano da effettuare.");
+		if (isAdmin())
+			printf("\nNessuna associazione genere-brano da effettuare.");
 	}
 }
 
 void associaPlaylist() {
-	printf("\nAssocio i brani alle playlist...");
 	db.playlistBrano = malloc((MAX_CHAR*MAX_CHAR)*sizeof(db.playlistBrano));
 	if (controllaSeFileVuoto(file_raccolta)==0) {
 		FILE* fp=fopen(file_raccolta, "r");
@@ -341,8 +351,10 @@ void associaPlaylist() {
 			i++;
 		}
 		fclose(fp);
-		printf(" Fatto. %d associazioni brano-playlist effettuate.", i);
+		if (isAdmin())
+			printf("\n%d Associazioni brano-playlist effettuate.", i);
 	} else {
-		printf(" Nessuna associazione brano-playlist da effettuare.");
+		if (isAdmin())
+			printf("\nNessuna associazione brano-playlist da effettuare.");
 	}
 }
