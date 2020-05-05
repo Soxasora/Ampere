@@ -9,6 +9,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../ricerca/MotoreRicerca.h"
+#include "../gestori/GestoreUtenti.h"
+#include "../gestori/GestoreBrani.h"
+#include "../gestori/GestoreAlbum.h"
+#include "../gestori/GestoreArtisti.h"
 #include "../gestori/GestoreGeneri.h"
 #include "../database/Database.h"
 #include "../database/DatabaseUtils.h"
@@ -80,4 +85,78 @@ int controlloEsistenzaGenere(char genere[]) {
 		i++;
 	}
 	return id;
+}
+
+void modificaGenere() {
+	int id=0, modalita=0;
+	char scelta='N';
+	mostraTuttiGeneri();
+	printf("\n\nInserire l'identificativo del genere da modificare: ");
+	scanf("%d", &id);
+	printf("\nHai scelto il genere:");
+	mostraSingoloGenere(id);
+	pulisciBuffer();
+	printf("\nSicuro di voler continuare? [Y/N]: ");
+	scanf("%c", &scelta);
+	if (scelta=='Y'||scelta=='n') {
+		printf("\n===[Sistema di modifica genere]===");
+		printf("\n[1] Modifica il Nome");
+		printf("\n[0] Esci");
+		printf("\nInserisci la tua scelta");
+		if (modalita!=0) {
+			modificaSingoloGenere(id);
+		}
+	}
+}
+
+void modificaSingoloGenere(int id) {
+	pulisciBuffer();
+	int pos = ottieniPosDaID(3,id);
+	char *nome = malloc(MAX_CHAR);
+	printf("\nInserisci nuovo nome: ");
+	nome = inputStringaSicuro(nome);
+	strcpy(db.genere[pos].nome, nome);
+	free(nome);
+	db_modificato=1;
+	printf("\nGenere aggiornato, ecco il risultato:\n");
+	mostraSingoloGenere(id);
+}
+
+void cancellaGenere() {
+	int id=0;
+	char scelta='N';
+	mostraTuttiGeneri();
+	printf("\n\nInserire l'identificativo del genere da cancellare: ");
+	scanf("%d", &id);
+	printf("\nHai scelto il genere: ");
+	mostraSingoloGenere(id);
+	pulisciBuffer();
+	printf("\nSicuro di voler continuare? Cancellera' anche i brani collegati ad esso. [Y/N]: ");
+	scanf("%c", &scelta);
+	if (scelta=='Y'||scelta=='y') {
+		cancellaSingoloGenere(id);
+	}
+}
+
+void cancellaSingoloGenere(int id) {
+	printf("prova1");
+	int n=contaNelDatabase(3);
+	int i=ottieniPosDaID(3, id);
+	while(i<n-1) {
+		db.genere[i] = db.genere[i+1];
+		i++;
+	}
+	db.genere[n-1].id = 0;
+	printf("prova2");
+	int nbrani=contaNelDatabase(7);
+	i=0;
+	printf("prova3");
+	while (i<nbrani) {
+		if(db.branoGenere[i].idGenere==id) {
+			cancellaSingoloBrano(db.branoGenere[i].idBrano);
+		}
+		i++;
+	}
+	db_modificato=1;
+	printf("\nGenere cancellato.");
 }

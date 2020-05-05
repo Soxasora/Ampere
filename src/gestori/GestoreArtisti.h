@@ -13,7 +13,12 @@ void inserimentoArtistaGuidato();
 int creaArtistaGuidato(char nomearte[]);
 int creaArtistaSeNonEsiste(char artista[]);
 int inserisciArtista(char nome[], char cognome[], char nomearte[]);
+int controlloEsistenzaArtista(char nomearte[]);
 void inserisciArtistiSuFile(char id[], char nome[], char cognome[], char nomearte[]);
 void inserisciAssociazioneArtistiSuFile(char idbrano[], char idartista[]);
+void modificaArtista();
+void modificaSingoloArtista(int modalita, int id);
+void cancellaArtista();
+void cancellaSingoloArtista(int id);
 
 #endif /* SRC_GESTORI_GESTOREARTISTI_H_ */

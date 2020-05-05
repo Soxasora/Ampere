@@ -9,11 +9,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../ricerca/MotoreRicerca.h"
+#include "../gestori/GestoreUtenti.h"
+#include "../gestori/GestoreBrani.h"
 #include "../gestori/GestoreAlbum.h"
+#include "../gestori/GestoreArtisti.h"
+#include "../gestori/GestoreGeneri.h"
 #include "../database/Database.h"
 #include "../database/DatabaseUtils.h"
 #include "../sys/Utils.h"
 #include "../sys/Impostazioni.h"
+
+
 
 void inserimentoAlbumGuidato() {
 	pulisciBuffer();
@@ -86,4 +93,84 @@ int controlloEsistenzaAlbum(char album[]) {
 		i++;
 	}
 	return id;
+}
+
+void modificaAlbum() {
+	int id=0, modalita=0;
+	char scelta='N';
+	mostraTuttiAlbum();
+	printf("\n\nInserire l'identificativo dell'album da modificare: ");
+	scanf("%d", &id);
+	printf("\nHai scelto l'album:");
+	mostraSingoloAlbum(id);
+	pulisciBuffer();
+	printf("\nSicuro di voler continuare? [Y/N]: ");
+	scanf("%c", &scelta);
+	if (scelta=='Y'||scelta=='n') {
+		printf("\n===[Sistema di modifica album]===");
+		printf("\n[1] Modifica il Titolo");
+		printf("\n[2] Modificare l'anno di uscita");
+		printf("\n[0] Esci");
+		printf("\nInserisci la tua scelta");
+		if (modalita!=0) {
+			modificaSingoloAlbum(modalita, id);
+		}
+	}
+}
+
+void modificaSingoloAlbum(int modalita, int id) {
+	pulisciBuffer();
+	int pos = ottieniPosDaID(1,id);
+	if (modalita==1) {
+		char *titolo = malloc(MAX_CHAR);
+		printf("\nInserisci nuovo titolo: ");
+		titolo = inputStringaSicuro(titolo);
+		strcpy(db.album[pos].titolo, titolo);
+		free(titolo);
+	} else if (modalita==2) {
+		int anno=0;
+		printf("\nInserisci nuovo anno: ");
+		scanf("%d", &anno);
+		db.album[pos].anno=anno;
+	}
+	db_modificato=1;
+	printf("\nAlbum aggiornato, ecco il risultato:\n");
+	mostraSingoloAlbum(id);
+}
+
+void cancellaAlbum() {
+	int id=0;
+	char scelta='N';
+	mostraTuttiAlbum();
+	printf("\n\nInserire l'identificativo dell'album da cancellare: ");
+	scanf("%d", &id);
+	printf("\nHai scelto l'album: ");
+	mostraSingoloAlbum(id);
+	pulisciBuffer();
+	printf("\nSicuro di voler continuare? Cancellera' anche i brani collegati ad esso. [Y/N]: ");
+	scanf("%c", &scelta);
+	if (scelta=='Y'||scelta=='y') {
+		cancellaSingoloAlbum(id);
+	}
+}
+
+void cancellaSingoloAlbum(int id) {
+	int n=contaNelDatabase(1);
+	int i=ottieniPosDaID(1, id);
+	while(i<n-1) {
+		db.album[i] = db.album[i+1];
+		i++;
+	}
+	db.album[n-1].id = 0;
+
+	int nbrani=contaNelDatabase(6);
+	i=0;
+	while (i<nbrani) {
+		if(db.albumBrano[i].idAlbum==id) {
+			cancellaSingoloBrano(db.albumBrano[i].idBrano);
+		}
+		i++;
+	}
+	db_modificato=1;
+	printf("\nAlbum cancellato.");
 }

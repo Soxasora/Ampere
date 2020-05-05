@@ -11,6 +11,13 @@
 
 void mostraSingoloBrano(int pos);
 void mostraTuttiBrani();
+void mostraSingoloAlbum();
+void mostraTuttiAlbum();
+void mostraSingoloArtista();
+void mostraTuttiArtisti();
+void mostraSingoloGenere();
+void mostraTuttiGeneri();
+void mostraBraniArtista();
 void mostraBraniAlbum();
 void mostraBraniGenere();
 

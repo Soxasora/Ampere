@@ -166,12 +166,13 @@ void cancellaBrano() {
 void cancellaSingoloBrano(int id) {
 	int n = contaNelDatabase(0);
 	int i = ottieniPosDaID(0, id);
+	printf("prova4");
 	while (i<n-1) {
 		db.brano[i] = db.brano[i+1];
 		i++;
 	}
 	db.brano[n-1].id = 0;
-
+	printf("prova5");
 	cancellaAssociazioniBrano(id);
 
 	db_modificato=1;
@@ -182,13 +183,14 @@ void cancellaAssociazioniBrano(int id) {
 	//Cancella Associazioni
 	int n = contaNelDatabase(5);
 	int i = ottieniPosDaID(5, id);
+	printf("prova7");
 	while (i<n-1) {
 		db.artistaBrano[i] = db.artistaBrano[i+1];
 		i++;
 	}
 	db.artistaBrano[n-1].idBrano = 0;
 	db.artistaBrano[n-1].idArtista = 0;
-
+	printf("prova8");
 	n = contaNelDatabase(6);
 	i = ottieniPosDaID(6, id);
 	while (i<n-1) {
@@ -197,7 +199,7 @@ void cancellaAssociazioniBrano(int id) {
 	}
 	db.albumBrano[n-1].idBrano = 0;
 	db.albumBrano[n-1].idAlbum = 0;
-
+	printf("prova9");
 	n = contaNelDatabase(7);
 	i = ottieniPosDaID(7, id);
 	while (i<n-1) {
@@ -206,5 +208,6 @@ void cancellaAssociazioniBrano(int id) {
 	}
 	db.branoGenere[n-1].idBrano = 0;
 	db.branoGenere[n-1].idGenere = 0;
+	printf("prova10");
 }
 

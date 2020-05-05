@@ -16,5 +16,9 @@ int inserisciAlbum(char titolo[], int anno);
 void inserisciAlbumSuFile(char id[], char titolo[], char anno[]);
 void inserisciCollezioneSuFile(char idalbum[], char idbrano[]);
 int controlloEsistenzaAlbum(char album[]);
+void modificaAlbum();
+void modificaSingoloAlbum(int modalita, int id);
+void cancellaAlbum();
+void cancellaSingoloAlbum(int id);
 
 #endif /* SRC_GESTORI_GESTOREALBUM_H_ */

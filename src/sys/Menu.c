@@ -74,12 +74,18 @@ void menuDatabase() {
 	printf("\n[4] Inserisci un genere nel database");
 	// Creare sottomenu di modifica
 	printf("\n[5] Modifica un brano");
+	printf("\n[6] Modifica un artista");
+	printf("\n[7] Modifica un album");
+	printf("\n[8] Modifica un genere");
 	// Creare sottomenu di cancellazione
-	printf("\n[6] Cancella un brano");
-	printf("\n[7] TODO Cancella l'intera libreria musicale");
+	printf("\n[9] Cancella un brano");
+	printf("\n[10] Cancella un artista");
+	printf("\n[11] Cancella un album");
+	printf("\n[12] Cancella un genere");
+	printf("\n[13] TODO Cancella l'intera libreria musicale");
 	// Creare sottomenu di backup
-	printf("\n[8] Effettua un backup del database");
-	printf("\n[9] Effettua un ripristino del database da un backup");
+	printf("\n[14] Effettua un backup del database");
+	printf("\n[15] Effettua un ripristino del database da un backup");
 	printf("\n[0] Ritorna al menu principale");
 	printf("\nInserisci la tua scelta: ");
 	scanf("%d", &scelta);
@@ -104,16 +110,40 @@ void menuDatabase() {
 		aspetta();
 		menuDatabase();
 	} else if (scelta==6) {
-		cancellaBrano();
+		modificaArtista();
 		aspetta();
 		menuDatabase();
 	} else if (scelta==7) {
-		//TODO
+		modificaAlbum();
+		aspetta();
+		menuDatabase();
 	} else if (scelta==8) {
-		backupDatabase();
+		modificaGenere();
 		aspetta();
 		menuDatabase();
 	} else if (scelta==9) {
+		cancellaBrano();
+		aspetta();
+		menuDatabase();
+	} else if (scelta==10) {
+		cancellaArtista();
+		aspetta();
+		menuDatabase();
+	} else if (scelta==11) {
+		cancellaAlbum();
+		aspetta();
+		menuDatabase();
+	} else if (scelta==12) {
+		cancellaGenere();
+		aspetta();
+		menuDatabase();
+	} else if (scelta==13) {
+		//TODO
+	} else if (scelta==14) {
+		backupDatabase();
+		aspetta();
+		menuDatabase();
+	} else if (scelta==15) {
 		ripristinaDatabase();
 		aspetta();
 		menuDatabase();
@@ -130,10 +160,14 @@ void menuRicerca() {
 	int scelta=0;
 	printf("\n===[Menu Ricerca]===");
 	printf("\n[1] Mostra tutti i brani");
-	printf("\n[2] TODO Ricerca per Titolo");
-	printf("\n[3] TODO Ricerca per Artista");
-	printf("\n[4] Ricerca per Album");
-	printf("\n[5] Ricerca per Genere");
+	printf("\n[2] Mostra tutti gli artisti");
+	printf("\n[3] Mostra tutti gli album");
+	printf("\n[4] Mostra tutti i generi");
+
+	printf("\n[5] TODO Ricerca per Titolo");
+	printf("\n[6] Ricerca per Artista");
+	printf("\n[7] Ricerca per Album");
+	printf("\n[8] Ricerca per Genere");
 	printf("\n[0] Ritorna al menu principale");
 	printf("\nInserisci la tua scelta: ");
 	scanf("%d", &scelta);
@@ -142,14 +176,28 @@ void menuRicerca() {
 		aspetta();
 		menuRicerca();
 	} else if (scelta==2) {
-		//TODO
+		mostraTuttiArtisti();
+		aspetta();
+		menuRicerca();
 	} else if (scelta==3) {
-		//TODO
+		mostraTuttiAlbum();
+		aspetta();
+		menuRicerca();
 	} else if (scelta==4) {
-		mostraBraniAlbum();
+		mostraTuttiGeneri();
 		aspetta();
 		menuRicerca();
 	} else if (scelta==5) {
+		//TODO
+	} else if (scelta==6) {
+		mostraBraniArtista();
+		aspetta();
+		menuRicerca();
+	} else if (scelta==7) {
+		mostraBraniAlbum();
+		aspetta();
+		menuRicerca();
+	} else if (scelta==8) {
 		mostraBraniGenere();
 		aspetta();
 		menuRicerca();

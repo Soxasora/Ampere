@@ -9,8 +9,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../gestori/GestoreGeneri.h"
+#include "../gestori/GestoreUtenti.h"
+#include "../gestori/GestoreBrani.h"
 #include "../gestori/GestoreAlbum.h"
+#include "../gestori/GestoreArtisti.h"
+#include "../gestori/GestoreGeneri.h"
+#include "../ricerca/MotoreRicerca.h"
 #include "../database/Database.h"
 #include "../database/DatabaseUtils.h"
 #include "../sys/Utils.h"
@@ -57,6 +61,116 @@ void mostraTuttiBrani() {
 	}
 }
 
+void mostraSingoloAlbum(int id) {
+	int posalbum = ottieniPosDaID(1, id);
+	printf("\nIdentificativo: %d", db.album[posalbum].id);
+	printf("\nTitolo: %s", db.album[posalbum].titolo);
+	printf("\nAnno di uscita: %d", db.album[posalbum].anno);
+}
+
+void mostraTuttiAlbum() {
+	int i=0, nalbum=contaNelDatabase(1), controllo=0;
+	if (nalbum==0) {
+		printf("\nNessun album presente nel database.");
+	} else {
+		while(i<nalbum&&controllo!=-1) {
+			printf("\n");
+			mostraSingoloAlbum(db.album[i].id);
+			if ((nalbum+1)>5 && (i+1)%5==0) {
+				char scelta='Y';
+				pulisciBuffer();
+				printf("\nElencare i prossimi 5 album? [Y/N]: ");
+				scanf("%c", &scelta);
+				if(scelta=='N'||scelta=='n') {
+					controllo=-1;
+				}
+			}
+			i++;
+		}
+	}
+}
+
+void mostraSingoloArtista(int id) {
+	int posartista = ottieniPosDaID(2, id);
+	printf("\nIdentificativo: %d", db.artista[posartista].id);
+	printf("\nNome: %s", db.artista[posartista].nome);
+	printf("\nCognome: %s", db.artista[posartista].cognome);
+	printf("\nNome d'arte: %s", db.artista[posartista].nomearte);
+}
+
+void mostraTuttiArtisti() {
+	int i=0, nartisti=contaNelDatabase(2), controllo=0;
+	if (nartisti==0) {
+		printf("\nNessun artista presente nel database.");
+	} else {
+		while(i<nartisti&&controllo!=-1) {
+			printf("\n");
+			mostraSingoloArtista(db.artista[i].id);
+			if ((nartisti+1)>5 && (i+1)%5==0) {
+				char scelta='Y';
+				pulisciBuffer();
+				printf("\nElencare i prossimi 5 artisti? [Y/N]: ");
+				scanf("%c", &scelta);
+				if(scelta=='N'||scelta=='n') {
+					controllo=-1;
+				}
+			}
+			i++;
+		}
+	}
+}
+
+void mostraSingoloGenere(int id) {
+	int posgenere = ottieniPosDaID(3, id);
+	printf("\nIdentificativo: %d", db.genere[posgenere].id);
+	printf("\nNome: %s", db.genere[posgenere].nome);
+}
+
+void mostraTuttiGeneri() {
+	int i=0, ngeneri=contaNelDatabase(3), controllo=0;
+	if (ngeneri==0) {
+		printf("\nNessun genere presente nel database.");
+	} else {
+		while(i<ngeneri&&controllo!=-1) {
+			printf("\n");
+			mostraSingoloGenere(db.genere[i].id);
+			if ((ngeneri+1)>5 && (i+1)%5==0) {
+				char scelta='Y';
+				pulisciBuffer();
+				printf("\nElencare i prossimi 5 generi? [Y/N]: ");
+				scanf("%c", &scelta);
+				if(scelta=='N'||scelta=='n') {
+					controllo=-1;
+				}
+			}
+			i++;
+		}
+	}
+}
+
+void mostraBraniArtista() {
+	int id=0;
+	char *nomearte = malloc(MAX_CHAR);
+	pulisciBuffer();
+	printf("\nInserisci nome d'arte dell'artista: ");
+	nomearte = inputStringaSicuro(nomearte);
+	id = controlloEsistenzaArtista(nomearte);
+	if (id==0) {
+		printf("\nArtista non esistente");
+	} else {
+		int i=0, n=contaNelDatabase(5);
+		printf("Artista: %s", nomearte);
+		while(i<n) {
+			if (db.artistaBrano[i].idArtista==id) {
+				printf("\n");
+				mostraSingoloBrano(db.artistaBrano[i].idBrano);
+			}
+			i++;
+		}
+	}
+	free(nomearte);
+}
+
 void mostraBraniAlbum() {
 	int id=0;
 	char *album = malloc(MAX_CHAR);
@@ -69,7 +183,7 @@ void mostraBraniAlbum() {
 	} else {
 		int i=0, n=contaNelDatabase(6);
 		printf("Album: %s", album);
-		while (i<n) {
+		while(i<n) {
 			if (db.albumBrano[i].idAlbum==id) {
 				printf("\n");
 				mostraSingoloBrano(db.albumBrano[i].idBrano);

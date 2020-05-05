@@ -16,5 +16,8 @@ int inserisciGenere(char nome[]);
 void inserisciGenereSuFile(char id[], char nome[]);
 void inserisciTipiBraniSuFile(char idbrano[], char idgenere[]);
 int controlloEsistenzaGenere(char genere[]);
-
+void modificaGenere();
+void modificaSingoloGenere(int id);
+void cancellaGenere();
+void cancellaSingoloGenere(int id);
 #endif /* GESTORI_GESTOREGENERI_H_ */
