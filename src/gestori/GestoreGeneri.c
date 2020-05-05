@@ -154,6 +154,7 @@ void cancellaSingoloGenere(int id) {
 	while (i<nbrani) {
 		if(db.branoGenere[i].idGenere==id) {
 			cancellaSingoloBrano(db.branoGenere[i].idBrano);
+			i=-1;
 		}
 		i++;
 	}

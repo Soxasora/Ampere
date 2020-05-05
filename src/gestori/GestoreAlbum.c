@@ -168,6 +168,7 @@ void cancellaSingoloAlbum(int id) {
 	while (i<nbrani) {
 		if(db.albumBrano[i].idAlbum==id) {
 			cancellaSingoloBrano(db.albumBrano[i].idBrano);
+			i=-1;
 		}
 		i++;
 	}

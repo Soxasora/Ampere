@@ -179,6 +179,7 @@ void cancellaSingoloArtista(int id) {
 	while (i<nbrani) {
 		if(db.artistaBrano[i].idArtista==id) {
 			cancellaSingoloBrano(db.artistaBrano[i].idBrano);
+			i=-1;
 		}
 		i++;
 	}
