@@ -148,6 +148,111 @@ void mostraTuttiGeneri() {
 	}
 }
 
+/*
+ * 0 == per Artista
+ * 1 == per Album
+ * 2 == per Genere
+ */
+void mostraInfo(int modalita) {
+	if (modalita==0) {
+		char *nome = malloc(MAX_CHAR);
+		char *cognome = malloc(MAX_CHAR);
+		char *nomearte = malloc(MAX_CHAR);
+		pulisciBuffer();
+		printf("\n[Premi invio per saltare] Inserisci il nome dell'artista da ricercare: ");
+		nome = inputStringaSicuro(nome);
+		if (comparaStringhe(nome, "N/A")==0)
+			nome = "unknown";
+		printf("\n[Premi invio per saltare] Inserisci il cognome dell'artista da ricercare: ");
+		cognome = inputStringaSicuro(cognome);
+		if (comparaStringhe(cognome, "N/A")==0)
+			cognome = "unknown";
+		printf("\n[Premi invio per saltare] Inserisci il nome d'arte dell'artista da ricercare: ");
+		nomearte = inputStringaSicuro(nomearte);
+		if (comparaStringhe(nomearte, "N/A")==0)
+			nomearte = "unknown";
+		int i=0, n=contaNelDatabase(2);
+		while (i<n) {
+			if (comparaStringhe(db.artista[i].nome,nome)==0
+				||comparaStringhe(db.artista[i].cognome, cognome)==0
+				||comparaStringhe(db.artista[i].nomearte, nomearte)==0) {
+				printf("\n");
+				mostraSingoloArtista(db.artista[i].id);
+			}
+			i++;
+		}
+		free(nome); free(cognome); free(nomearte);
+	} else if (modalita==1) {
+		char *titolo = malloc(MAX_CHAR);
+		int anno=0;
+		pulisciBuffer();
+		printf("\n[Premi invio per saltare] Inserisci il titolo dell'album da ricercare: ");
+		titolo = inputStringaSicuro(titolo);
+		if (comparaStringhe(titolo, "N/A")==0)
+			titolo = "unknown";
+		printf("\n[0 per saltare] Inserisci l'anno di uscita dell'album da ricercare: ");
+		scanf("%d", &anno);
+		int i=0, n=contaNelDatabase(1);
+		while(i<n) {
+			if (comparaStringhe(db.album[i].titolo, titolo)==0||db.album[i].anno == anno) {
+				printf("\n");
+				mostraSingoloAlbum(db.album[i].id);
+			}
+			i++;
+		}
+		free(titolo);
+	} else if (modalita==2) {
+		char *nome = malloc(MAX_CHAR);
+		pulisciBuffer();
+		printf("\nInserisci il nome del genere: ");
+		nome = inputStringaSicuro(nome);
+		int i=0, n=contaNelDatabase(3);
+		while (i<n) {
+			if (comparaStringhe(db.genere[i].nome, nome)==0) {
+				printf("\n");
+				mostraSingoloGenere(db.genere[i].id);
+			}
+			i++;
+		}
+		free(nome);
+	}
+}
+
+/*
+ * 0 == per Titolo
+ * 1 == per Anno
+ */
+void mostraBrani(int modalita) {
+	if (modalita==0) {
+		char *titolo = malloc(MAX_CHAR);
+		pulisciBuffer();
+		printf("\nInserisci il titolo del brano da ricercare: ");
+		titolo = inputStringaSicuro(titolo);
+		int i=0, n=contaNelDatabase(0);
+		while (i<n) {
+			if (comparaStringhe(db.brano[i].titolo,titolo)==0) {
+				printf("\n");
+				mostraSingoloBrano(db.brano[i].id);
+			}
+			i++;
+		}
+		free(titolo);
+	} else if (modalita==1) {
+		int anno = 0;
+		pulisciBuffer();
+		printf("\nInserisci l'anno di uscita del brano da ricercare: ");
+		scanf("%d", &anno);
+		int i=0, n=contaNelDatabase(0);
+		while (i<n) {
+			if (db.brano[i].anno == anno) {
+				printf("\n");
+				mostraSingoloBrano(db.brano[i].id);
+			}
+			i++;
+		}
+	}
+}
+
 void mostraBraniArtista() {
 	int id=0;
 	char *nomearte = malloc(MAX_CHAR);

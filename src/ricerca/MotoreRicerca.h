@@ -9,14 +9,16 @@
 #ifndef SRC_RICERCA_MOTORERICERCA_H_
 #define SRC_RICERCA_MOTORERICERCA_H_
 
-void mostraSingoloBrano(int pos);
+void mostraSingoloBrano(int id);
 void mostraTuttiBrani();
-void mostraSingoloAlbum();
+void mostraSingoloAlbum(int id);
 void mostraTuttiAlbum();
-void mostraSingoloArtista();
+void mostraSingoloArtista(int id);
 void mostraTuttiArtisti();
-void mostraSingoloGenere();
+void mostraSingoloGenere(int id);
 void mostraTuttiGeneri();
+void mostraInfo(int modalita);
+void mostraBrani(int modalita);
 void mostraBraniArtista();
 void mostraBraniAlbum();
 void mostraBraniGenere();

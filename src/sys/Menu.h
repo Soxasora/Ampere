@@ -12,6 +12,12 @@
 void menuLogin();
 void menu();
 void menuDatabase();
+void menuDBInserimento();
+void menuDBModifica();
+void menuDBCancella();
 void menuRicerca();
+void menuRicercaInfo();
+void menuRicercaBraniCriterio();
+void menuRicercaInfoCriterio();
 
 #endif /* SYS_MENU_H_ */
