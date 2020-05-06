@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 1250 - 04.05.2020
+ * Ampere 0.1 rev. 2040 - 06.05.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -20,7 +20,7 @@
 int main() {
 
 	inizializzazione();
-
+	infoUtenteConnesso();
 	printf("\nPremi invio per continuare.");
 	menu();
 
@@ -47,7 +47,7 @@ void inizializzazione() {
 	// Ottengo il database e tutti i sotto database con esso
 	db = ottieniDatabase();
 	printf("\n----------------------------------------");
-	printf("\nAmpere Pronto.");
+	printf("\nAmpere Pronto.\n");
 }
 
 void terminazione() {
