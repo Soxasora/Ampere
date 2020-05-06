@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 2040 - 06.05.2020
+ * Ampere 0.1 rev. 2223 - 06.05.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../gestori/GestorePlaylist.h"
 #include "../gestori/GestoreUtenti.h"
 #include "../gestori/GestoreBrani.h"
 #include "../gestori/GestoreAlbum.h"
@@ -39,7 +40,9 @@ void menu() {
 	pulisciBuffer();
 	int scelta=0;
 	printf("\n===[AMPERE: Menu Principale]===");
-	printf("\n[1] Menu di Ricerca");
+	printf("\n[1] Ricerca nel database");
+	printf("\n[2] La mia libreria musicale");
+	printf("\n[3] TODO Gestisci il tuo account");
 	if (isAdmin()==true)
 		printf("\n[9] Menu Manipolazione Database");
 	printf("\n[0] Esci dal programma");
@@ -47,13 +50,63 @@ void menu() {
 	scanf("%d", &scelta);
 	if (scelta==1) {
 		menuRicerca();
+	} else if (scelta==2) {
+		menuPlaylist();
+	} else if (scelta==3) {
+		//TODO
 	} else if (scelta==9) {
-		menuDatabase();
+		if (isAdmin())
+			menuDatabase();
+		else
+			printf("\nNon puoi accedere a questa funzione in quanto utente normale.");
 	} else if (scelta==0) {
 		printf("\nUscendo dal programma...\n");
 	} else {
 		printf("\nInserita scelta non riconosciuta, riprovare. ");
 		menu();
+	}
+}
+
+void menuPlaylist() {
+	pulisciBuffer();
+	int scelta=0;
+	printf("\n===[Menu Playlist]===");
+	printf("\n[1] TODO I miei brani");
+	printf("\n[2] Le mie playlist");
+	printf("\n[3] Crea playlist");
+	printf("\n[4] Inserisci brani in una playlist");
+	printf("\n[5] Modifica playlist");
+	printf("\n[6] Cancella playlist");
+	printf("\n[0] Ritorna al menu precedente");
+	printf("\nInserisci la tua scelta: ");
+	scanf("%d", &scelta);
+	if (scelta==1) {
+		//TODO
+	} else if (scelta==2) {
+		mostraPlaylistUtente(0,db.utente_connesso);
+		aspetta();
+		menuPlaylist();
+	} else if (scelta==3) {
+		creaPlaylistGuidato();
+		aspetta();
+		menuPlaylist();
+	} else if (scelta==4) {
+		inserimentoBraniPlaylistGuidato();
+		aspetta();
+		menuPlaylist();
+	} else if (scelta==5) {
+		modificaPlaylist();
+		aspetta();
+		menuPlaylist();
+	} else if (scelta==6) {
+		cancellaPlaylist();
+		aspetta();
+		menuPlaylist();
+	} else if (scelta==0) {
+		menu();
+	} else {
+		printf("\nInserita scelta non riconosciuta, riprovare. ");
+		menuPlaylist();
 	}
 }
 
@@ -134,6 +187,8 @@ void menuDBModifica() {
 	printf("\n[2] Modifica un artista");
 	printf("\n[3] Modifica un album");
 	printf("\n[4] Modifica un genere");
+	printf("\n[5] Modifica una playlist");
+	printf("\n[6] TODO Modifica un utente");
 	printf("\n[0] Ritorna al menu precedente");
 	printf("\nInserisci la tua scelta: ");
 	scanf("%d", &scelta);
@@ -153,6 +208,12 @@ void menuDBModifica() {
 		modificaGenere();
 		aspetta();
 		menuDBModifica();
+	} else if (scelta==5) {
+		modificaPlaylist();
+		aspetta();
+		menuDBModifica();
+	} else if (scelta==6) {
+		//TODO
 	} else if (scelta==0) {
 		menuDatabase();
 	} else {
@@ -169,6 +230,8 @@ void menuDBCancella() {
 	printf("\n[2] Cancella un artista");
 	printf("\n[3] Cancella un album");
 	printf("\n[4] Cancella un genere");
+	printf("\n[5] Cancella una playlist");
+	printf("\n[6] TODO Cancella un utente");
 	printf("\n[0] Ritorna al menu precedente");
 	printf("\nInserisci la tua scelta: ");
 	scanf("%d", &scelta);
@@ -188,6 +251,12 @@ void menuDBCancella() {
 		cancellaGenere();
 		aspetta();
 		menuDBCancella();
+	} else if (scelta==5) {
+		cancellaPlaylist();
+		aspetta();
+		menuDBCancella();
+	} else if (scelta==6) {
+		//TODO
 	} else if (scelta==0) {
 		menuDatabase();
 	} else {
@@ -203,7 +272,7 @@ void menuRicerca() {
 	printf("\n[1] Mostra tutte le info in base ad un criterio");
 	printf("\n[2] Ricerca brani in base ad un criterio");
 	printf("\n[3] Ricerca info in base ad un criterio");
-	printf("\n[4] TEST Ricerca Generale");
+	printf("\n[4] WIP Ricerca Generale");
 	printf("\n[0] Ritorna al menu principale");
 	printf("\nInserisci la tua scelta: ");
 	scanf("%d", &scelta);
@@ -239,6 +308,12 @@ void menuRicercaInfo() {
 	printf("\n[2] Mostra info su tutti gli artisti");
 	printf("\n[3] Mostra info su tutti gli album");
 	printf("\n[4] Mostra info su tutti i generi");
+	if (isAdmin()) {
+		printf("\n[6] Mostra info su tutte le playlist");
+		printf("\n[7] TODO Mostra info su tutti gli utenti");
+	} else {
+		printf("\n[5] Mostra info su tutte le tue playlist");
+	}
 	printf("\n[0] Ritorna al menu precedente");
 	printf("\nInserisci la tua scelta: ");
 	scanf("%d", &scelta);
@@ -258,6 +333,24 @@ void menuRicercaInfo() {
 		mostraTuttiGeneri();
 		aspetta();
 		menuRicercaInfo();
+	} else if (scelta==5) {
+		mostraPlaylistUtente(0, db.utente_connesso);
+		aspetta();
+		menuRicercaInfo();
+	} else if (scelta==6) {
+		if (isAdmin()) {
+			mostraTuttePlaylist(0);
+			aspetta();
+			menuRicercaInfo();
+		} else {
+			printf("\nNon puoi accedere a questa funzione in quanto utente normale.");
+		}
+	} else if (scelta==7) {
+		if (isAdmin()) {
+			//TODO
+		} else {
+			printf("\nNon puoi accedere a questa funzione in quanto utente normale.");
+		}
 	} else if (scelta==0) {
 		menuRicerca();
 	} else {
@@ -313,6 +406,10 @@ void menuRicercaInfoCriterio() {
 	printf("\n[1] Ricerca info su un Artista");
 	printf("\n[2] Ricerca info su un Album");
 	printf("\n[3] Ricerca info su un Genere");
+	if (isAdmin()) {
+		printf("\n[4] Ricerca info su una playlist");
+		printf("\n[5] Ricerca info su un Utente");
+	}
 	printf("\n[0] Ritorna al menu precedente");
 	printf("\nInserisci la tua scelta: ");
 	scanf("%d", &scelta);
@@ -328,6 +425,18 @@ void menuRicercaInfoCriterio() {
 		mostraInfo(2);
 		aspetta();
 		menuRicercaInfoCriterio();
+	} else if (scelta==4) {
+		if (isAdmin()) {
+			//TODO
+		} else {
+			printf("\nNon puoi accedere a questa funzione in quanto utente normale.");
+		}
+	} else if (scelta==5) {
+		if (isAdmin()) {
+			//TODO
+		} else {
+			printf("\nNon puoi accedere a questa funzione in quanto utente normale.");
+		}
 	} else if (scelta==0) {
 		menuRicerca();
 	} else {

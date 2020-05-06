@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 2040 - 06.05.2020
+ * Ampere 0.1 rev. 2223 - 06.05.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../gestori/GestorePlaylist.h"
 #include "../gestori/GestoreUtenti.h"
 #include "../gestori/GestoreBrani.h"
 #include "../gestori/GestoreArtisti.h"
@@ -38,19 +39,13 @@ void salvaModificheSuFile() {
 	salvaAlbumSuFile();
 	salvaArtistiSuFile();
 	salvaGeneriSuFile();
+	salvaPlaylistSuFile();
 	salvaUtentiSuFile();
 	// Blocco associazioni
 	salvaCollezioneSuFile();
 	salvaAssociazioniArtistiSuFile();
 	salvaTipiBraniSuFile();
-
-
-//	backupFile("temp_playlists.txt", file_playlists);
-//	backupFile("temp_raccolta.txt", file_raccolta);
-
-
-//	remove(file_playlists);
-//	remove(file_raccolta);
+	salvaRaccoltaSuFile();
 	if (isAdmin())
 		printf("\nSalvate tutte le modifiche effettuate al database su file.");
 }
@@ -122,6 +117,24 @@ void salvaGeneriSuFile() {
 	remove("temp_generi.txt");
 	if (isAdmin())
 		printf("\nGeneri salvati.");
+}
+
+void salvaPlaylistSuFile() {
+	backupFile(file_playlists, "temp_playlists.txt");
+	remove(file_playlists);
+	int i=0;
+	int n=contaNelDatabase(4);
+	while (i<n) {
+		char id[MAX_CHAR];
+		char idUtente[MAX_CHAR];
+		sprintf(id, "%d", db.playlist[i].id);
+		sprintf(idUtente, "%d", db.playlist[i].idUtente);
+		inserisciPlaylistSuFile(id, idUtente, db.playlist[i].nome, db.playlist[i].descrizione);
+		i++;
+	}
+	remove("temp_playlists.txt");
+	if (isAdmin())
+		printf("\nPlaylist salvate.");
 }
 
 void salvaUtentiSuFile() {
@@ -197,4 +210,22 @@ void salvaTipiBraniSuFile() {
 	remove("temp_tipobrano.txt");
 	if (isAdmin())
 		printf("\nAssociazioni genere-brano salvate.");
+}
+
+void salvaRaccoltaSuFile() {
+	backupFile(file_raccolta, "temp_raccolta.txt");
+	remove(file_raccolta);
+	int i=0;
+	int n=contaNelDatabase(8);
+	while(i<n) {
+		char idPlaylist[MAX_CHAR];
+		char idBrano[MAX_CHAR];
+		sprintf(idPlaylist, "%d", db.playlistBrano[i].idPlaylist);
+		sprintf(idBrano, "%d", db.playlistBrano[i].idBrano);
+		inserisciRaccoltaSuFile(idPlaylist, idBrano);
+		i++;
+	}
+	remove("temp_raccolta.txt");
+	if (isAdmin())
+		printf("\nAssociazioni playlist-brano salvate.");
 }

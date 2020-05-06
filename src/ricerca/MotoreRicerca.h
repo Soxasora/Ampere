@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 2040 - 06.05.2020
+ * Ampere 0.1 rev. 2223 - 06.05.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -17,6 +17,9 @@ void mostraSingoloArtista(int id);
 void mostraTuttiArtisti();
 void mostraSingoloGenere(int id);
 void mostraTuttiGeneri();
+void mostraSingolaPlaylist(int modalita, int id);
+void mostraPlaylistUtente(int modalita, int idUtente);
+void mostraTuttePlaylist(int modalita);
 void mostraInfo(int modalita);
 void mostraBrani(int modalita);
 void mostraBraniArtista();

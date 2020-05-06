@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 2040 - 06.05.2020
+ * Ampere 0.1 rev. 2223 - 06.05.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -145,6 +145,51 @@ void mostraTuttiGeneri() {
 			}
 			i++;
 		}
+	}
+}
+
+void mostraSingolaPlaylist(int modalita, int id) {
+	int posplaylist = ottieniPosDaID(4,id);
+	int posutente = ottieniPosDaID(-1,db.playlist[posplaylist].idUtente);
+	printf("\nIdentificativo: %d", db.playlist[posplaylist].id);
+	printf("\nAutore: %s", db.utente[posutente].username);
+	printf("\nNome: %s", db.playlist[posplaylist].nome);
+	printf("\nDescrizione: %s", db.playlist[posplaylist].descrizione);
+	if (modalita!=-1) {
+		char scelta='y';
+		pulisciBuffer();
+		printf("\nMostrare i brani della playlist? [Y/N]");
+		scanf("%c", &scelta);
+		if (scelta=='Y'||scelta=='y') {
+			int i=0, n=contaNelDatabase(8);
+			while (i<n) {
+				if (db.playlistBrano[i].idPlaylist==id) {
+					printf("\n");
+					mostraSingoloBrano(db.playlistBrano[i].idBrano);
+				}
+				i++;
+			}
+		}
+	}
+}
+
+void mostraPlaylistUtente(int modalita, int idUtente) {
+	int i=0, n=contaNelDatabase(4);
+	while (i<n) {
+		if (db.playlist[i].idUtente==idUtente) {
+			printf("\n");
+			mostraSingolaPlaylist(modalita,db.playlist[i].id);
+		}
+		i++;
+	}
+}
+
+void mostraTuttePlaylist(int modalita) {
+	int i=0, n=contaNelDatabase(4);
+	while (i<n) {
+		printf("\n");
+		mostraSingolaPlaylist(modalita,db.playlist[i].id);
+		i++;
 	}
 }
 

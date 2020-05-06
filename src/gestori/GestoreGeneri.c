@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 2040 - 06.05.2020
+ * Ampere 0.1 rev. 2223 - 06.05.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -98,7 +98,7 @@ void modificaGenere() {
 	pulisciBuffer();
 	printf("\nSicuro di voler continuare? [Y/N]: ");
 	scanf("%c", &scelta);
-	if (scelta=='Y'||scelta=='n') {
+	if (scelta=='Y'||scelta=='y') {
 		printf("\n===[Sistema di modifica genere]===");
 		printf("\n[1] Modifica il Nome");
 		printf("\n[0] Esci");
