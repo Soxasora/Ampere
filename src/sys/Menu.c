@@ -14,6 +14,7 @@
 #include "../gestori/GestoreAlbum.h"
 #include "../gestori/GestoreArtisti.h"
 #include "../gestori/GestoreGeneri.h"
+#include "../ricerca/RicercaGenerale.h"
 #include "../ricerca/MotoreRicerca.h"
 #include "../database/Database.h"
 #include "../database/DatabaseUtils.h"
@@ -202,6 +203,7 @@ void menuRicerca() {
 	printf("\n[1] Mostra tutte le info in base ad un criterio");
 	printf("\n[2] Ricerca brani in base ad un criterio");
 	printf("\n[3] Ricerca info in base ad un criterio");
+	printf("\n[4] TEST Ricerca Generale");
 	printf("\n[0] Ritorna al menu principale");
 	printf("\nInserisci la tua scelta: ");
 	scanf("%d", &scelta);
@@ -215,6 +217,10 @@ void menuRicerca() {
 		menuRicerca();
 	} else if (scelta==3) {
 		menuRicercaInfoCriterio();
+		aspetta();
+		menuRicerca();
+	} else if (scelta==4) {
+		eseguiRicerca();
 		aspetta();
 		menuRicerca();
 	} else if (scelta==0) {
