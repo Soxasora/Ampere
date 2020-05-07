@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 2223 - 06.05.2020
+ * Ampere 0.1 rev. 2377 - 07.05.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -54,13 +54,14 @@ int contaBraniPlaylist(int idPlaylist) {
 	return conta;
 }
 
-void inserisciPlaylist(int idUtente, char nome[], char descrizione[]) {
+void inserisciPlaylist(int idUtente, char nome[], char descrizione[], bool pubblica) {
 	db_modificato=1;
 	int n=contaNelDatabase(4);
 	db.playlist[n].id = trovaUltimoId(4)+1;
 	db.playlist[n].idUtente = idUtente;
 	strcpy(db.playlist[n].nome, nome);
 	strcpy(db.playlist[n].descrizione, descrizione);
+	db.playlist[n].pubblica = pubblica;
 }
 
 void inserisciBraniPlaylist(int idPlaylist, int idBrano) {
@@ -75,13 +76,22 @@ void creaPlaylistGuidato() {
 	int idUtente = db.utente_connesso;
 	char *nome = malloc(MAX_CHAR);
 	char *descrizione = malloc(MAX_CHAR);
+	int pubblica=0;
+	bool bpubblica=false;
 	printf("\n===[Creazione guidata di una playlist]===");
 	pulisciBuffer();
 	printf("\nInserisci nome della playlist: ");
 	nome = inputStringaSicuro(nome);
 	printf("\nInserisci descrizione della playlist: ");
 	descrizione = inputStringaSicuro(descrizione);
-	inserisciPlaylist(idUtente, nome, descrizione);
+	printf("\nLa playlist e' privata[0] o pubblica[1]? ");
+	scanf("%d", &pubblica);
+	if (pubblica==0) {
+		bpubblica=false;
+	} else {
+		bpubblica=true;
+	}
+	inserisciPlaylist(idUtente, nome, descrizione, bpubblica);
 	printf("\nVuoi inserire brani nella tua playlist? [Y/N]: ");
 	scanf("%c", &scelta);
 	if (scelta=='Y'||scelta=='y') {
@@ -145,12 +155,12 @@ void inserimentoBraniPlaylistGuidato() {
 
 }
 
-void inserisciPlaylistSuFile(char id[], char idUtente[], char nome[], char descrizione[]) {
+void inserisciPlaylistSuFile(char id[], char idUtente[], char nome[], char descrizione[], char pubblica[]) {
 	FILE* fp=fopen(file_playlists,"a");
 	if (controllaSeFileVuoto(file_playlists)==1) {
-		fprintf(fp, "%s,%s,%s,%s", id, idUtente, nome, descrizione);
+		fprintf(fp, "%s,%s,%s,%s,%s", id, idUtente, nome, descrizione, pubblica);
 	} else {
-		fprintf(fp, "\n%s,%s,%s,%s", id, idUtente, nome, descrizione);
+		fprintf(fp, "\n%s,%s,%s,%s,%s", id, idUtente, nome, descrizione, pubblica);
 	}
 	fclose(fp);
 }
@@ -188,8 +198,9 @@ void modificaPlaylist() {
 		printf("\n===[Sistema di modifica playlist]===");
 		printf("\n[1] Modifica il nome");
 		printf("\n[2] Modifica la descrizione");
+		printf("\n[3] Modifica la privacy");
 		if (isAdmin())
-			printf("\n[3] Modifica l'autore della playlist");
+			printf("\n[4] Modifica l'autore della playlist");
 		printf("\n[0] Esci");
 		printf("\nInserisci la scelta: ");
 		scanf("%d", &modalita);
@@ -214,6 +225,26 @@ void modificaSingolaPlaylist(int modalita, int id) {
 		descrizione = inputStringaSicuro(descrizione);
 		strcpy(db.playlist[pos].descrizione, descrizione);
 		free(descrizione);
+	} else if (modalita==3) {
+		int pubblica=0;
+		bool bpubblica=false;
+		printf("\nPlaylist privata[0] o pubblica[1]? ");
+		scanf("%d", &pubblica);
+		if (pubblica==0) {
+			bpubblica=false;
+		} else {
+			bpubblica=true;
+		}
+		db.playlist[pos].pubblica = bpubblica;
+	} else if (modalita==4) {
+		if (isAdmin()) {
+			int idutente=0;
+			printf("\nInserisci id del nuovo autore: ");
+			scanf("%d", &idutente);
+			db.playlist[pos].idUtente = idutente;
+		} else {
+			printf("\nNon puoi accedere a questa funzione in quanto utente normale.");
+		}
 	}
 	db_modificato=1;
 	printf("Playlist aggiornata, ecco il risultato:\n");
