@@ -20,6 +20,8 @@ void mostraTuttiGeneri();
 void mostraSingolaPlaylist(int modalita, int id);
 void mostraPlaylistUtente(int modalita, int idUtente);
 void mostraTuttePlaylist(int modalita);
+void mostraSingoloUtente(int modalita, int id);
+void mostraTuttiUtenti();
 void mostraInfo(int modalita);
 void mostraBrani(int modalita);
 void mostraBraniArtista();

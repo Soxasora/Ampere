@@ -10,6 +10,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include "../ricerca/MotoreRicerca.h"
+#include "../gestori/GestorePlaylist.h"
 #include "../gestori/GestoreUtenti.h"
 #include "../database/Database.h"
 #include "../database/DatabaseUtils.h"
@@ -69,7 +71,7 @@ void login() {
 int controllaDatiUtente(char username[], char password[]) {
 	int n = contaNelDatabase(-1), i=0, controllo=0, id=0;
 	while (i<n&&controllo!=-1) {
-		if (comparaStringhe(db.utente[i].username, username)==0 && comparaStringhe(db.utente[i].password, password)==0) {
+		if (comparaStringhe(db.utente[i].username, username)==0 && strcmp(db.utente[i].password, password)==0) {
 			id = db.utente[i].id;
 			controllo=-1;
 		}
@@ -99,6 +101,19 @@ void registrazioneUtente() {
 		}
 	}
 	login();
+	free(username); free(password);
+}
+
+void inserimentoUtenteGuidato() {
+	char *username = malloc(MAX_CHAR);
+	char *password = malloc(MAX_CHAR);
+	printf("\nInserisci username: ");
+	username = inputStringaSicuro(username);
+	printf("\nInserisci password: ");
+	password = inputStringaSicuro(password);
+	inserisciUtente(username, password);
+	free(username); free(password);
+	printf("\nUtente inserito.");
 }
 
 void inserisciUtente(char username[], char password[]) {
@@ -130,5 +145,130 @@ void inserisciUtenteSuFile(char id[], char username[], char password[], char adm
 		fprintf(fp, "\n%s,%s,%s,%s", id, username, password, admin);
 	}
 	fclose(fp);
+}
+
+void modificaUtente() {
+	int id=0, modalita=0;
+	char scelta='N';
+	if (isAdmin()) {
+		mostraTuttiUtenti();
+		printf("\nInserisci id dell'utente da modificare: ");
+		scanf("%d", &id);
+		printf("\nHai scelto l'utente");
+		mostraSingoloUtente(0, id);
+	} else {
+		mostraSingoloUtente(1,db.utente_connesso);
+		id = db.utente_connesso;
+	}
+	pulisciBuffer();
+	printf("\nSicuro di voler continuare? [Y/N]: ");
+	scanf("%c", &scelta);
+	if (scelta=='Y'||scelta=='y') {
+		printf("\n===[Sistema di modifica utente]===");
+		printf("\n[1] Modifica l'username");
+		printf("\n[2] Modifica la password");
+		if (isAdmin())
+			printf("\n[3] Modifica il ruolo");
+		printf("\n[0] Esci");
+		printf("\nInserisci la tua scelta: ");
+		scanf("%d", &modalita);
+		if (modalita!=0) {
+			modificaSingoloUtente(modalita, id);
+		}
+	}
+}
+
+void modificaSingoloUtente(int modalita, int id) {
+	db_modificato=1;
+	pulisciBuffer();
+	int pos = ottieniPosDaID(-1, id);
+	if (modalita==1) {
+		char *username = malloc(MAX_CHAR);
+		printf("\nInserisci nuovo username: ");
+		username = inputStringaSicuro(username);
+		strcpy(db.utente[pos].username, username);
+		free(username);
+	} else if (modalita==2) {
+		char *password_vecchia = malloc(MAX_CHAR);
+		strcpy(password_vecchia, "null");
+		char *password = malloc(MAX_CHAR);
+		strcpy(password, "null");
+		char *password2 = malloc(MAX_CHAR);
+		strcpy(password2, "null2");
+		if (!isAdmin()) {
+			while (strcmp(password_vecchia, db.utente[pos].password)!=0) {
+				printf("\nInserisci password attuale: ");
+				password_vecchia = inputStringaSicuro(password_vecchia);
+				if (strcmp(password_vecchia, db.utente[pos].password)!=0)
+					printf("\nLa password attuale non è corretta! Riprova\n");
+			}
+		}
+		while (strcmp(password,password2)!=0) {
+			printf("\nInserisci nuova password: ");
+			password=inputStringaSicuro(password);
+			printf("\nInserisci nuovamente la nuova password: ");
+			password2=inputStringaSicuro(password2);
+			if (strcmp(password,password2)!=0) {
+				printf("\nLe due password non combaciano! Riprova\n");
+			}
+		}
+		strcpy(db.utente[pos].password,password);
+		free(password_vecchia); free(password); free(password2);
+	} else if (modalita==3) {
+		if (isAdmin()) {
+			int ruolo=1;
+			printf("\nAmministratore[0] oppure Utente normale[1]? ");
+			scanf("%d", &ruolo);
+			if (ruolo==0) {
+				db.utente[pos].admin=true;
+			} else if (ruolo==1) {
+				db.utente[pos].admin=false;
+			}
+		} else {
+			printf("\nNon puoi accedere a questa funzione in quanto utente normale.");
+		}
+	}
+}
+
+void cancellaUtente() {
+	int id=0;
+	char scelta='N';
+	if (isAdmin()) {
+		mostraTuttiUtenti();
+		printf("\nInserisci id dell'utente: ");
+		scanf("%d", &id);
+		printf("\nHai scelto l'utente: ");
+		mostraSingoloUtente(0, id);
+	} else {
+		id = db.utente_connesso;
+		mostraSingoloUtente(0, id);
+	}
+	pulisciBuffer();
+	printf("\nSicuro di voler continuare? [Y/N]: ");
+	scanf("%c", &scelta);
+	if (scelta=='Y'||scelta=='y') {
+		cancellaSingoloUtente(id);
+	}
+}
+
+void cancellaSingoloUtente(int id) {
+	int n=contaNelDatabase(-1);
+	int i=ottieniPosDaID(-1, id);
+	while (i<n-1) {
+		db.utente[i] = db.utente[i+1];
+		i++;
+	}
+	db.utente[n-1].id = 0;
+
+	int nplaylist=contaNelDatabase(4);
+	i=0;
+	while (i<nplaylist) {
+		if (db.playlist[i].idUtente==id) {
+			cancellaSingolaPlaylist(db.playlist[i].id);
+			i=-1;
+		}
+		i++;
+	}
+	db_modificato=1;
 }
 

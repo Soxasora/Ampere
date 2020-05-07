@@ -11,6 +11,7 @@
 
 void menuLogin();
 void menu();
+void menuAccount();
 void menuPlaylist();
 void menuDatabase();
 void menuDBInserimento();

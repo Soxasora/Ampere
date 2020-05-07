@@ -223,6 +223,51 @@ void mostraTuttePlaylist(int modalita) {
 	}
 }
 
+void mostraSingoloUtente(int modalita, int idUtente) {
+	int posutente = ottieniPosDaID(-1, idUtente);
+	char* ruolo = malloc(20);
+	if (isGivenUserAdmin(idUtente)==true) {
+		ruolo="Amministratore";
+	} else {
+		ruolo="Utente normale";
+	}
+	printf("\nIdentificativo: %d", db.utente[posutente].id);
+	printf("\nUsername: %s", db.utente[posutente].username);
+	if (isAdmin()) {
+		if (modalita==1)
+			printf("\nPassword: %s", db.utente[posutente].password);
+		else
+			printf("\nPassword: *REDATTO*");
+	} else {
+		printf("\nPassword: *REDATTO*");
+	}
+	printf("\nRuolo: %s", ruolo);
+	free(ruolo);
+}
+
+void mostraTuttiUtenti() {
+	int i=0, n=contaNelDatabase(-1), controllo=0, modalita=0;
+	pulisciBuffer();
+	while(modalita<0||modalita>1) {
+		printf("\nMostrare anche le password degli utenti? [0/1]: ");
+		scanf("%d", &modalita);
+	}
+	while (i<n&&controllo!=-1) {
+		printf("\n");
+		mostraSingoloUtente(modalita,db.utente[i].id);
+		if ((n+1)>5 && (i+1)%5==0) {
+			char scelta='Y';
+			//pulisciBuffer();
+			printf("\nElencare i prossimi 5 utenti? [Y/N]: ");
+			scanf("%c", &scelta);
+			if(scelta=='N'||scelta=='n') {
+				controllo=-1;
+			}
+		}
+		i++;
+	}
+}
+
 /*
  * 0 == per Artista
  * 1 == per Album

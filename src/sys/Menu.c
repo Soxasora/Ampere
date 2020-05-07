@@ -22,6 +22,7 @@
 #include "../sys/Utils.h"
 #include "../sys/Menu.h"
 #include "../sys/Impostazioni.h"
+#include "../Ampere.h"
 
 void menuLogin() {
 	int scelta=0;
@@ -42,7 +43,7 @@ void menu() {
 	printf("\n===[AMPERE: Menu Principale]===");
 	printf("\n[1] Ricerca nel database");
 	printf("\n[2] La mia libreria musicale");
-	printf("\n[3] TODO Gestisci il tuo account");
+	printf("\n[3] Gestisci il tuo account");
 	if (isAdmin()==true)
 		printf("\n[9] Menu Manipolazione Database");
 	printf("\n[0] Esci dal programma");
@@ -53,7 +54,7 @@ void menu() {
 	} else if (scelta==2) {
 		menuPlaylist();
 	} else if (scelta==3) {
-		//TODO
+		menuAccount();
 	} else if (scelta==9) {
 		if (isAdmin())
 			menuDatabase();
@@ -64,6 +65,33 @@ void menu() {
 	} else {
 		printf("\nInserita scelta non riconosciuta, riprovare. ");
 		menu();
+	}
+}
+
+void menuAccount() {
+	pulisciBuffer();
+	int scelta=0;
+	printf("\n===[Menu Account]===");
+	printf("\n[1] Modifica il tuo account");
+	printf("\n[2] Cancella il tuo account");
+	printf("\n[0] Ritorna al menu precedente");
+	printf("\nInserisci la tua scelta: ");
+	scanf("%d", &scelta);
+	if (scelta==1) {
+		modificaUtente();
+		aspetta();
+		menuAccount();
+	} else if (scelta==2) {
+		cancellaUtente();
+		aspetta();
+		printf("\nUscendo dal programma...\n");
+		terminazione();
+		exit(0);
+	} else if (scelta==0) {
+		menu();
+	} else {
+		printf("\nInserita scelta non riconosciuta, riprovare. ");
+		menuAccount();
 	}
 }
 
@@ -152,6 +180,7 @@ void menuDBInserimento() {
 	printf("\n[2] Inserisci un artista");
 	printf("\n[3] Inserisci un album");
 	printf("\n[4] Inserisci un genere");
+	printf("\n[5] Inserisci un utente");
 	printf("\n[0] Ritorna al menu precedente");
 	printf("\nInserisci la tua scelta: ");
 	scanf("%d", &scelta);
@@ -171,6 +200,10 @@ void menuDBInserimento() {
 		inserimentoGenereGuidato();
 		aspetta();
 		menuDBInserimento();
+	} else if (scelta==5) {
+		inserimentoUtenteGuidato();
+		aspetta();
+		menuDBInserimento();
 	} else if (scelta==0) {
 		menuDatabase();
 	} else {
@@ -188,7 +221,7 @@ void menuDBModifica() {
 	printf("\n[3] Modifica un album");
 	printf("\n[4] Modifica un genere");
 	printf("\n[5] Modifica una playlist");
-	printf("\n[6] TODO Modifica un utente");
+	printf("\n[6] Modifica un utente");
 	printf("\n[0] Ritorna al menu precedente");
 	printf("\nInserisci la tua scelta: ");
 	scanf("%d", &scelta);
@@ -213,7 +246,9 @@ void menuDBModifica() {
 		aspetta();
 		menuDBModifica();
 	} else if (scelta==6) {
-		//TODO
+		modificaUtente();
+		aspetta();
+		menuDBModifica();
 	} else if (scelta==0) {
 		menuDatabase();
 	} else {
@@ -231,7 +266,7 @@ void menuDBCancella() {
 	printf("\n[3] Cancella un album");
 	printf("\n[4] Cancella un genere");
 	printf("\n[5] Cancella una playlist");
-	printf("\n[6] TODO Cancella un utente");
+	printf("\n[6] Cancella un utente");
 	printf("\n[0] Ritorna al menu precedente");
 	printf("\nInserisci la tua scelta: ");
 	scanf("%d", &scelta);
@@ -256,7 +291,9 @@ void menuDBCancella() {
 		aspetta();
 		menuDBCancella();
 	} else if (scelta==6) {
-		//TODO
+		cancellaUtente();
+		aspetta();
+		menuDBCancella();
 	} else if (scelta==0) {
 		menuDatabase();
 	} else {

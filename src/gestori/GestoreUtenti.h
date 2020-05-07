@@ -18,8 +18,13 @@ void infoUtenteConnesso();
 void login();
 int controllaDatiUtente(char username[], char password[]);
 void registrazioneUtente();
+void inserimentoUtenteGuidato();
 void inserisciUtente(char username[], char password[]);
 bool controllaEsistenzaUtente(char username[]);
 void inserisciUtenteSuFile(char id[], char username[], char password[], char admin[]);
+void modificaUtente();
+void modificaSingoloUtente(int modalita, int id);
+void cancellaUtente();
+void cancellaSingoloUtente(int id);
 
 #endif /* GESTORI_GESTOREUTENTI_H_ */
