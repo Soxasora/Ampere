@@ -22,6 +22,38 @@
 #include "../sys/Utils.h"
 #include "../sys/Impostazioni.h"
 
+bool isUserPlaylist(int idPlaylist, int idUtente) {
+	int posplaylist=ottieniPosDaID(4, idPlaylist);
+	bool risultato=false;
+	if (db.playlist[posplaylist].idUtente==idUtente)
+		risultato=true;
+	else
+		risultato=false;
+	return risultato;
+}
+
+int contaPlaylistUtente(int idUtente) {
+	int i=0, n=contaNelDatabase(4), conta=0;
+	while (i<n) {
+		if (db.playlist[i].idUtente==idUtente) {
+			conta++;
+		}
+		i++;
+	}
+	return conta;
+}
+
+int contaBraniPlaylist(int idPlaylist) {
+	int i=0, n=contaNelDatabase(8), conta=0;
+	while (i<n) {
+		if (db.playlistBrano[i].idPlaylist==idPlaylist) {
+			conta++;
+		}
+		i++;
+	}
+	return conta;
+}
+
 void inserisciPlaylist(int idUtente, char nome[], char descrizione[]) {
 	db_modificato=1;
 	int n=contaNelDatabase(4);
@@ -64,8 +96,12 @@ void inserimentoBraniPlaylistGuidato() {
 	printf("\n===[Inserimento guidato di brani in una playlist]===");
 	printf("\nScegli la playlist da modificare: ");
 	mostraPlaylistUtente(-1,db.utente_connesso);
-	printf("\nInserisci id della playlist: ");
-	scanf("%d", &id);
+	while (isUserPlaylist(id, db.utente_connesso)==false) {
+		printf("\nInserisci id della playlist: ");
+		scanf("%d", &id);
+		if (isUserPlaylist(id, db.utente_connesso)==false)
+			printf("\nL'identificativo che hai dato punta ad una playlist che non ti appartiene, riprova.");
+	}
 	printf("\nInserisci fino a %d brani nella playlist %s", nbrani, db.playlist[ottieniPosDaID(4,id)].nome);
 	while (n<=0||n>nbrani) {
 		printf("\nQuanti brani vuoi inserire? ");
@@ -74,7 +110,8 @@ void inserimentoBraniPlaylistGuidato() {
 	int idbrani[n];
 	i=0;
 	while (i<n) {
-		printf("Cercare per titolo[0], anno[1], artista[2], album[3], genere[4]?");
+		branoscelto=0;
+		printf("Cercare per titolo[0], anno[1], artista[2], album[3], genere[4], oppure vuoi già inserire un id[5]? ");
 		scanf("%d", &scelta);
 		if (scelta==0) {
 			mostraBrani(0);
@@ -87,9 +124,14 @@ void inserimentoBraniPlaylistGuidato() {
 		} else if (scelta==4) {
 			mostraBraniGenere();
 		}
-		printf("\nInserire id del brano da inserire nella playlist: ");
-		scanf("%d", &branoscelto);
-		idbrani[i] = branoscelto;
+		while (ottieniPosDaID(0,branoscelto)==-1) {
+			printf("\nInserire id del brano da inserire nella playlist: ");
+			scanf("%d", &branoscelto);
+			if (ottieniPosDaID(0,branoscelto)==-1) {
+				printf("\nBrano non trovato, riprova");
+			}
+			idbrani[i] = branoscelto;
+		}
 		i++;
 	}
 
@@ -131,8 +173,12 @@ void modificaPlaylist() {
 	} else {
 		mostraPlaylistUtente(-1, db.utente_connesso);
 	}
-	printf("\n\nInserire l'identificativo della playlist da modificare: ");
-	scanf("%d", &id);
+	while (isUserPlaylist(id, db.utente_connesso)==false||!isAdmin()) {
+		printf("\nInserisci id della playlist da modificare: ");
+		scanf("%d", &id);
+		if (isUserPlaylist(id, db.utente_connesso)==false)
+			printf("\nL'identificativo che hai dato punta ad una playlist che non ti appartiene, riprova.");
+	}
 	printf("\nHai scelto la playlist");
 	mostraSingolaPlaylist(-1, id);
 	pulisciBuffer();
@@ -145,6 +191,7 @@ void modificaPlaylist() {
 		if (isAdmin())
 			printf("\n[3] Modifica l'autore della playlist");
 		printf("\n[0] Esci");
+		printf("\nInserisci la scelta: ");
 		scanf("%d", &modalita);
 		if (modalita!=0) {
 			modificaSingolaPlaylist(modalita, id);
@@ -181,8 +228,12 @@ void cancellaPlaylist() {
 	} else {
 		mostraPlaylistUtente(-1, db.utente_connesso);
 	}
-	printf("\n\nInserire l'identificativo della playlist: ");
-	scanf("%d", &id);
+	while (isUserPlaylist(id, db.utente_connesso)==false||!isAdmin()) {
+		printf("\nInserisci id della playlist: ");
+		scanf("%d", &id);
+		if (isUserPlaylist(id, db.utente_connesso)==false)
+			printf("\nL'identificativo che hai dato punta ad una playlist che non ti appartiene, riprova.");
+	}
 	printf("\nHai scelto la playlist: ");
 	mostraSingolaPlaylist(-1, id);
 	pulisciBuffer();
@@ -201,10 +252,22 @@ void cancellaSingolaPlaylist(int id) {
 		i++;
 	}
 	db.playlist[n-1].id = 0;
-	cancellaAssociazioniPlaylist(id);
+
+	int nassociazioni = contaNelDatabase(8);
+	i=0;
+	while (i<nassociazioni) {
+		if (db.playlistBrano[i].idPlaylist==id) {
+			cancellaAssociazionePlaylist(id);
+			i=-1;
+		}
+		i++;
+	}
+
+	db_modificato=1;
+	printf("\nPlaylist cancellata.");
 }
 
-void cancellaAssociazioniPlaylist(int id) {
+void cancellaAssociazionePlaylist(int id) {
 	int n=contaNelDatabase(8);
 	int i=ottieniPosDaID(8, id);
 	while (i<n-1) {
@@ -214,5 +277,4 @@ void cancellaAssociazioniPlaylist(int id) {
 	db.playlistBrano[n-1].idPlaylist = 0;
 	db.playlistBrano[n-1].idBrano = 0;
 	db_modificato=1;
-	printf("\nPlaylist cancellata.");
 }

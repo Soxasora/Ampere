@@ -157,6 +157,8 @@ int ottieniPosDaID(int modalita, int id) {
 			if (db.utente[i].id == id) {
 				pos=i;
 				controllo=-1;
+			} else {
+				pos=-1;
 			}
 			i++;
 		}
@@ -165,6 +167,8 @@ int ottieniPosDaID(int modalita, int id) {
 			if (db.brano[i].id == id) {
 				pos=i;
 				controllo=-1;
+			} else {
+				pos=-1;
 			}
 			i++;
 		}
@@ -173,6 +177,8 @@ int ottieniPosDaID(int modalita, int id) {
 			if (db.album[i].id == id) {
 				pos=i;
 				controllo=-1;
+			} else {
+				pos=-1;
 			}
 			i++;
 		}
@@ -181,6 +187,8 @@ int ottieniPosDaID(int modalita, int id) {
 			if (db.artista[i].id == id) {
 				pos=i;
 				controllo=-1;
+			} else {
+				pos=-1;
 			}
 			i++;
 		}
@@ -189,6 +197,8 @@ int ottieniPosDaID(int modalita, int id) {
 			if (db.genere[i].id == id) {
 				pos=i;
 				controllo=-1;
+			} else {
+				pos=-1;
 			}
 			i++;
 		}
@@ -197,6 +207,8 @@ int ottieniPosDaID(int modalita, int id) {
 			if (db.playlist[i].id == id) {
 				pos=i;
 				controllo=-1;
+			} else {
+				pos=-1;
 			}
 			i++;
 		}
@@ -205,6 +217,8 @@ int ottieniPosDaID(int modalita, int id) {
 			if (db.artistaBrano[i].idBrano==id) {
 				pos = i;
 				controllo=-1;
+			} else {
+				pos=-1;
 			}
 			i++;
 		}
@@ -213,6 +227,8 @@ int ottieniPosDaID(int modalita, int id) {
 			if (db.albumBrano[i].idBrano==id) {
 				pos = i;
 				controllo=-1;
+			} else {
+				pos=-1;
 			}
 			i++;
 		}
@@ -221,6 +237,8 @@ int ottieniPosDaID(int modalita, int id) {
 			if (db.branoGenere[i].idBrano==id) {
 				pos = i;
 				controllo=-1;
+			} else {
+				pos=-1;
 			}
 			i++;
 		}
@@ -229,6 +247,8 @@ int ottieniPosDaID(int modalita, int id) {
 			if (db.playlistBrano[i].idPlaylist==id) {
 				pos=i;
 				controllo=-1;
+			} else {
+				pos=-1;
 			}
 		}
 	}

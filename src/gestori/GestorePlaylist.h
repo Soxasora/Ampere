@@ -6,9 +6,13 @@
  * Maggiori informazioni sul copyright su https://github.com/Soxasora/Ampere/blob/master/LICENSE
  */
 
+#include <stdbool.h>
 #ifndef GESTORI_GESTOREPLAYLIST_H_
 #define GESTORI_GESTOREPLAYLIST_H_
 
+bool isUserPlaylist(int idPlaylist, int idUtente);
+int contaPlaylistUtente(int idUtente);
+int contaBraniPlaylist(int idPlaylist);
 void inserisciPlaylist(int idUtente, char nome[], char descrizione[]);
 void inserisciBraniPlaylist(int idPlaylist, int idBrano);
 void creaPlaylistGuidato();
@@ -19,5 +23,5 @@ void modificaPlaylist();
 void modificaSingolaPlaylist(int modalita, int id);
 void cancellaPlaylist();
 void cancellaSingolaPlaylist(int id);
-void cancellaAssociazioniPlaylist(int id);
+void cancellaAssociazionePlaylist(int id);
 #endif /* GESTORI_GESTOREPLAYLIST_H_ */

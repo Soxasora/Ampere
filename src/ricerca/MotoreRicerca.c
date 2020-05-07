@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../gestori/GestorePlaylist.h"
 #include "../gestori/GestoreUtenti.h"
 #include "../gestori/GestoreBrani.h"
 #include "../gestori/GestoreAlbum.h"
@@ -161,11 +162,21 @@ void mostraSingolaPlaylist(int modalita, int id) {
 		printf("\nMostrare i brani della playlist? [Y/N]");
 		scanf("%c", &scelta);
 		if (scelta=='Y'||scelta=='y') {
-			int i=0, n=contaNelDatabase(8);
-			while (i<n) {
+			int i=0, j=0, n=contaNelDatabase(8), controllo=0, nbraniplaylist=(contaBraniPlaylist(id));
+			while (i<n&&controllo!=-1) {
 				if (db.playlistBrano[i].idPlaylist==id) {
 					printf("\n");
 					mostraSingoloBrano(db.playlistBrano[i].idBrano);
+					if ((nbraniplaylist+1)>5 && (j+1)%5==0) {
+						char scelta='Y';
+						pulisciBuffer();
+						printf("\nElencare i prossimi 5 brani? [Y/N]: ");
+						scanf("%c", &scelta);
+						if(scelta=='N'||scelta=='n') {
+							controllo=-1;
+						}
+					}
+					j++;
 				}
 				i++;
 			}
@@ -174,21 +185,40 @@ void mostraSingolaPlaylist(int modalita, int id) {
 }
 
 void mostraPlaylistUtente(int modalita, int idUtente) {
-	int i=0, n=contaNelDatabase(4);
-	while (i<n) {
+	int i=0, j=0, n=contaNelDatabase(4), nplaylistutente=contaPlaylistUtente(idUtente), controllo=0;
+	while (i<n && controllo!=-1) {
 		if (db.playlist[i].idUtente==idUtente) {
 			printf("\n");
 			mostraSingolaPlaylist(modalita,db.playlist[i].id);
+			if ((nplaylistutente+1)>5 && (j+1)%5==0) {
+				char scelta='Y';
+				pulisciBuffer();
+				printf("\nElencare le prossime 5 playlist? [Y/N]: ");
+				scanf("%c", &scelta);
+				if(scelta=='N'||scelta=='n') {
+					controllo=-1;
+				}
+			}
+			j++;
 		}
 		i++;
 	}
 }
 
 void mostraTuttePlaylist(int modalita) {
-	int i=0, n=contaNelDatabase(4);
-	while (i<n) {
+	int i=0, n=contaNelDatabase(4), controllo=0;
+	while (i<n&&controllo!=-1) {
 		printf("\n");
 		mostraSingolaPlaylist(modalita,db.playlist[i].id);
+		if ((n+1)>5 && (i+1)%5==0) {
+			char scelta='Y';
+			pulisciBuffer();
+			printf("\nElencare le prossime 5 playlist? [Y/N]: ");
+			scanf("%c", &scelta);
+			if(scelta=='N'||scelta=='n') {
+				controllo=-1;
+			}
+		}
 		i++;
 	}
 }

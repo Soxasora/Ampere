@@ -50,5 +50,6 @@ void associaAlbum();
 void associaGeneri();
 void associaPlaylist();
 void ottieniPreferitiDagliUtenti();
+void inizializzaDatabase(int modalita);
 
 #endif /* GESTORE_DATABASE_H_ */

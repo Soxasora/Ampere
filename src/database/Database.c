@@ -66,6 +66,7 @@ void ottieniBrani() {
 		if (isAdmin())
 			printf("\n%d Brani caricati con successo.", i);
 	} else {
+		inizializzaDatabase(0);
 		if (isAdmin())
 			printf("\nNessun brano da caricare.");
 	}
@@ -98,6 +99,7 @@ void ottieniAlbums() {
 		if (isAdmin())
 			printf("\n%d Album caricati con successo.", i);
 	} else {
+		inizializzaDatabase(1);
 		if (isAdmin())
 			printf("\nNessun album da caricare.");
 	}
@@ -133,6 +135,7 @@ void ottieniArtisti() {
 		if (isAdmin())
 			printf("\n%d Artisti caricati con successo.", i);
 	} else {
+		inizializzaDatabase(2);
 		if (isAdmin())
 			printf("\nNessun artista da caricare.");
 	}
@@ -164,6 +167,7 @@ void ottieniGeneri() {
 		if (isAdmin())
 			printf("\n%d Generi caricati con successo.", i);
 	} else {
+		inizializzaDatabase(3);
 		if (isAdmin())
 			printf("\nNessun genere da caricare.");
 	}
@@ -198,6 +202,7 @@ void ottieniPlaylists() {
 		if (isAdmin())
 			printf("\n%d Playlist caricate con successo.", i);
 	} else {
+		inizializzaDatabase(4);
 		if (isAdmin())
 			printf("\nNessuna playlist da caricare.");
 	}
@@ -235,6 +240,7 @@ void ottieniUtenti() {
 		fclose(fp);
 		printf("\n%d Utenti caricati con successo.", i);
 	} else {
+		inizializzaDatabase(-1);
 		printf("\nNessun utente da caricare.");
 	}
 }
@@ -264,6 +270,7 @@ void associaArtisti() {
 		if (isAdmin())
 			printf("\n%d Associazioni brano-artista effettuate.", i);
 	} else {
+		inizializzaDatabase(5);
 		if (isAdmin())
 			printf("\nNessuna associazione brano-artista da effettuare.");
 	}
@@ -294,6 +301,7 @@ void associaAlbum() {
 		if (isAdmin())
 			printf("\n%d associazioni brano-album effettuate.", i);
 	} else {
+		inizializzaDatabase(6);
 		if (isAdmin())
 			printf("\nNessuna associazione brano-album da effettuare.");
 	}
@@ -324,6 +332,7 @@ void associaGeneri() {
 		if (isAdmin())
 			printf("\n%d Associazioni genere-brano effettuate.", i);
 	} else {
+		inizializzaDatabase(7);
 		if (isAdmin())
 			printf("\nNessuna associazione genere-brano da effettuare.");
 	}
@@ -354,7 +363,65 @@ void associaPlaylist() {
 		if (isAdmin())
 			printf("\n%d Associazioni brano-playlist effettuate.", i);
 	} else {
+		inizializzaDatabase(8);
 		if (isAdmin())
 			printf("\nNessuna associazione brano-playlist da effettuare.");
+	}
+}
+
+/**
+ * Le modalità sono le seguenti:
+ * -1: Utente
+ * 0: Brano
+ * 1: Album
+ * 2: Artista
+ * 3: Genere
+ * 4: Playlist
+ * 5: Associazione artista-brano
+ * 6: Associazione album-brano
+ * 7: Associazione genere-brano
+ * 8: Associazione playlist-brano
+ */
+void inizializzaDatabase(int modalita) {
+	if (modalita==-1) {
+		db.utente[0].id = 0;
+		strcpy(db.utente[0].username,"0");
+		strcpy(db.utente[0].password,"0");
+		db.utente[0].admin = false;
+	} else if (modalita==0) {
+		db.brano[0].id = 0;
+		strcpy(db.brano[0].titolo,"0");
+		db.brano[0].durata = 0;
+		db.brano[0].anno = 0;
+		db.brano[0].ascolti = 0;
+	} else if (modalita==1) {
+		db.album[0].id = 0;
+		strcpy(db.album[0].titolo,"0");
+		db.album[0].anno = 0;
+	} else if (modalita==2) {
+		db.artista[0].id = 0;
+		strcpy(db.artista[0].nome,"0");
+		strcpy(db.artista[0].cognome,"0");
+		strcpy(db.artista[0].nomearte,"0");
+	} else if (modalita==3) {
+		db.genere[0].id = 0;
+		strcpy(db.genere[0].nome,"0");
+	} else if (modalita==4) {
+		db.playlist[0].id = 0;
+		db.playlist[0].idUtente = 0;
+		strcpy(db.playlist[0].nome,"0");
+		strcpy(db.playlist[0].descrizione,"0");
+	} else if (modalita==5) {
+		db.artistaBrano[0].idArtista = 0;
+		db.artistaBrano[0].idBrano = 0;
+	} else if (modalita==6) {
+		db.albumBrano[0].idAlbum = 0;
+		db.albumBrano[0].idBrano = 0;
+	} else if (modalita==7) {
+		db.branoGenere[0].idGenere = 0;
+		db.branoGenere[0].idBrano = 0;
+	} else if (modalita==8) {
+		db.playlistBrano[0].idPlaylist = 0;
+		db.playlistBrano[0].idBrano = 0;
 	}
 }
