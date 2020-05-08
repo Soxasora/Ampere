@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 2377 - 07.05.2020
+ * Ampere 0.1 rev. 2420 - 08.05.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -10,12 +10,24 @@
 #define DATABASE_ALBUMS_H_
 #include "../sys/Impostazioni.h"
 
+/**
+ * Struttura 'album' contenente
+ * id: Identificativo dell'album
+ * titolo: Titolo dell'album
+ * anno: Anno di uscita dell'album
+ */
 struct albums {
 	int id;
 	char titolo[MAX_CHAR];
 	int anno;
 };
 
+/**
+ * E' una struttura che serve a collegare i brani agli album
+ * Struttura 'collezione' contenente
+ * idAlbum: Identificativo dell'album
+ * idBrano: Identificativo del brano
+ */
 struct collezione {
 	int idAlbum;
 	int idBrano;

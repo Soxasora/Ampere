@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 2377 - 07.05.2020
+ * Ampere 0.1 rev. 2420 - 08.05.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -30,7 +30,7 @@ void info() {
 	printf(" / ___ |/ / / / / / /_/ /  __/ /  /  __/\n");
 	printf("/_/  |_/_/ /_/ /_/ .___/\\___/_/   \\___/ \n");
 	printf("                /_/                     \n");
-	printf("\nAmpere 0.1 rev. 2377 - 07.05.2020\n");
+	printf("\nAmpere 0.1 rev. 2420 - 08.05.2020\n");
 	printf("\nGruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino");
 	printf("\nProgetto universitario di gruppo intento alla creazione di un gestore dati per la musica\n");
 }
@@ -42,6 +42,27 @@ void aspetta() {
 	} else {
 		printf("\nPremere qualunque tasto per continuare...");
 		char w = scanf("%c", &w);
+	}
+}
+
+void cercaSuWikipedia(char interrogazione[]) {
+	char *comando = malloc(MAX_TEMP);
+	int i=0;
+	while(i<strlen(interrogazione)) {
+		if (interrogazione[i]==' ') {
+			interrogazione[i]='+';
+		}
+		i++;
+	}
+	if (os==0) {
+		sprintf(comando, "start https://it.wikipedia.org/w/index.php?search=%s", interrogazione);
+		int a = system(comando);
+	} else if (os==1||os==3) {
+		sprintf(comando, "firefox https://it.wikipedia.org/w/index.php?search=%s", interrogazione);
+		int a = system(comando);
+	} else if (os==2) {
+		sprintf(comando, "open https://it.wikipedia.org/w/index.php?search=%s", interrogazione);
+		int a = system(comando);
 	}
 }
 
