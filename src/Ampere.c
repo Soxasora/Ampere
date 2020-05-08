@@ -18,18 +18,19 @@
 #include "sys/Impostazioni.h"
 
 int main() {
-
-	inizializzazione();
-	infoUtenteConnesso();
-	printf("\nPremi invio per continuare.");
-	menu();
-
-	terminazione();
+	int esito=0;
+	esito = inizializzazione();
+	if (esito==0) {
+		infoUtenteConnesso();
+		printf("\nPremi invio per continuare.");
+		menu();
+		terminazione();
+	}
 	aspetta();
 	return 0;
 }
 
-void inizializzazione() {
+int inizializzazione() {
 	// Mostra info su Ampere
 	info();
 	printf("\nBenvenuto su Ampere.");
@@ -37,17 +38,23 @@ void inizializzazione() {
 	printf("\n----------------------------------------");
 	// Rilevo il sistema operativo in uso al momento dell'esecuzione del programma
 	os = rivelaOS();
+	int esito=0;
+	esito = creaDatabaseSeNonEsiste();
+	if (esito!=0) {
+		printf("\nSi e' verificato un errore interno. Sto chiudendo Ampere...");
+	} else {
+		// Ottengo il database degli utenti prima di caricare completamente il database
+		db = ottieniDatabaseParziale();
 
-	// Ottengo il database degli utenti prima di caricare completamente il database
-	db = ottieniDatabaseParziale();
+		printf("\nPremi invio per continuare.");
+		menuLogin();
 
-	printf("\nPremi invio per continuare.");
-	menuLogin();
-
-	// Ottengo il database e tutti i sotto database con esso
-	db = ottieniDatabase();
-	printf("\n----------------------------------------");
-	printf("\nAmpere Pronto.\n");
+		// Ottengo il database e tutti i sotto database con esso
+		db = ottieniDatabase();
+		printf("\n\nAmpere Pronto.");
+		printf("\n----------------------------------------\n");
+	}
+	return esito;
 }
 
 void terminazione() {

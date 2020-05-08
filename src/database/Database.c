@@ -11,8 +11,46 @@
 #include <string.h>
 #include "../gestori/GestoreUtenti.h"
 #include "../database/Database.h"
+#include "../sys/Errore.h"
 #include "../sys/Utils.h"
 #include "../sys/Impostazioni.h"
+
+int creaDatabaseSeNonEsiste() {
+	int esito=0;
+	creaCartella(cartella_database, true);
+	FILE* fp = fopen(file_brani, "a");
+	if (fp==NULL) esito=-1;
+	fclose(fp);
+	fp = fopen(file_albums, "a");
+	if (fp==NULL) esito=-1;
+	fclose(fp);
+	fp = fopen(file_associazioneartisti, "a");
+	if (fp==NULL) esito=-1;
+	fclose(fp);
+	fp = fopen(file_artisti, "a");
+	if (fp==NULL) esito=-1;
+	fclose(fp);
+	fp = fopen(file_collezione, "a");
+	if (fp==NULL) esito=-1;
+	fclose(fp);
+	fp = fopen(file_generi, "a");
+	if (fp==NULL) esito=-1;
+	fclose(fp);
+	fp = fopen(file_tipobrano, "a");
+	if (fp==NULL) esito=-1;
+	fclose(fp);
+	fp = fopen(file_playlists, "a");
+	if (fp==NULL) esito=-1;
+	fclose(fp);
+	fp = fopen(file_raccolta, "a");
+	if (fp==NULL) esito=-1;
+	fclose(fp);
+	fp = fopen(file_utenti, "a");
+	if (fp==NULL) esito=-1;
+	fclose(fp);
+	creaCartella(cartella_testi, true);
+	return esito;
+}
 
 database ottieniDatabaseParziale() {
 	ottieniUtenti();

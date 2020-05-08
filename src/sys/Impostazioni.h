@@ -10,6 +10,8 @@
 #define SRC_SYS_IMPOSTAZIONI_H_
 #define MAX_TEMP 1000
 #define MAX_CHAR 256
+#define cartella_database "database"
+#define cartella_testi "database\\testi"
 #define file_brani "database\\brani.txt"
 #define file_albums "database\\albums.txt"
 	#define file_associazioneartisti "database\\associazioneartisti.txt"

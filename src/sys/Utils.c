@@ -45,18 +45,28 @@ void aspetta() {
 	}
 }
 
-void creaCartella(char nome[]) {
+void creaCartella(char nome[], bool silenzioso) {
 	#ifdef _WIN32
 		int risultato=0;
 		risultato = _mkdir(nome);
-		if(risultato!=0)
-			printf("\nLa cartella '%s' esiste gia' oppure e' impossibile crearla", nome);
+		if(risultato!=0) {
+			if (!silenzioso) {
+				printf("\nLa cartella '%s' esiste gia' oppure e' impossibile crearla", nome);
+			}
+		}
 	#elif __unix__
 		struct stat st = {0};
 		if (stat(nome, &st) == -1) {
-			mkdir(nome, 0700);
+			risultato = mkdir(nome, 0700);
+			if (risultato!=0) {
+				if (!silenzioso) {
+					printf("\nE' impossibile creare la cartella '%s'", nome);
+				}
+			}
 		} else {
-			printf("\nLa cartella '%s' esiste gia'", nome);
+			if (!silenzioso) {
+				printf("\nLa cartella '%s' esiste gia'", nome);
+			}
 		}
 	#endif
 }

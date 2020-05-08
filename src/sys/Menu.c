@@ -311,7 +311,8 @@ void menuRicerca() {
 	printf("\n[3] Ricerca info in base ad un criterio");
 	printf("\n[4] Mostra le playlist pubbliche");
 	printf("\n[5] Mostra le playlist pubbliche ed i loro brani");
-	printf("\n[6] WIP Ricerca Generale");
+	printf("\n[6] Mostra testo di un brano");
+	printf("\n[7] WIP Ricerca Generale");
 	printf("\n[0] Ritorna al menu principale");
 	printf("\nInserisci la tua scelta: ");
 	scanf("%d", &scelta);
@@ -336,6 +337,10 @@ void menuRicerca() {
 		aspetta();
 		menuRicerca();
 	} else if (scelta==6) {
+		apriTestoDaRicerca();
+		aspetta();
+		menuRicerca();
+	} else if (scelta==7) {
 		eseguiRicerca();
 		aspetta();
 		menuRicerca();

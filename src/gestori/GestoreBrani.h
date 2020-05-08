@@ -17,5 +17,8 @@ void modificaSingoloBrano(int modalita, int id);
 void cancellaBrano();
 void cancellaSingoloBrano(int id);
 void cancellaAssociazioniBrano(int id);
+void apriTesto(int idBrano);
+void apriTestoDaRicerca();
+void apriTestoDaID();
 
 #endif /* SRC_GESTORI_GESTOREBRANI_H_ */

@@ -260,12 +260,12 @@ void backupDatabase() {
 	pulisciBuffer();
 	char *nome_backup = malloc(MAX_CHAR);
 	char *percorso_backup = malloc(MAX_CHAR);
-	creaCartella("backup");
+	creaCartella("backup", false);
 	// Inserire sistema di ottenimento automatico della data
 	printf("\nInserire il nome della cartella del nuovo backup (es. 05052020): ");
 	nome_backup = inputStringaSicuro(nome_backup);
 	sprintf(percorso_backup, "backup\\%s", nome_backup);
-	creaCartella(percorso_backup);
+	creaCartella(percorso_backup, false);
 	printf("\nBackup del database in corso...");
 	sprintf(percorso_backup, "backup\\%s\\brani.txt", nome_backup);
 	backupFile(file_brani, percorso_backup);

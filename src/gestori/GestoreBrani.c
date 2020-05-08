@@ -208,3 +208,63 @@ void cancellaAssociazioniBrano(int id) {
 	db.branoGenere[n-1].idGenere = 0;
 }
 
+// TESTI
+
+void apriTesto(int idBrano) {
+	char *posizione_testo = malloc(MAX_TEMP);
+	char *comando = malloc(MAX_TEMP+10);
+	if(os==0) {
+		sprintf(posizione_testo, "%s\\%d%s", cartella_testi, idBrano, ".txt");
+		system(posizione_testo);
+	} else if (os==1) {
+		sprintf(posizione_testo, "%s/%d%s", cartella_testi, idBrano, ".txt");
+		strcpy(comando, "open ");
+		strcat(comando, posizione_testo);
+		system(comando);
+	} else if (os==2) {
+		sprintf(posizione_testo, "%s/%d%s", cartella_testi, idBrano, ".txt");
+		strcpy(comando, "nano ");
+		strcat(comando, posizione_testo);
+		system(comando);
+	}
+	free(posizione_testo); free(comando);
+}
+
+void apriTestoDaRicerca() {
+	int scelta=0, controllo=0, idbrano=0;
+	pulisciBuffer();
+	printf("\nCerca brano del quale si vuole aprire il testo");
+	while (controllo!=-1) {
+		printf("\nCerca per titolo[0], anno[1], artista[2], album[3], genere[4]: ");
+		scanf("%d", &scelta);
+		if (scelta==0) {
+			mostraBrani(0);
+			controllo=-1;
+		} else if (scelta==1) {
+			mostraBrani(1);
+			controllo=-1;
+		} else if (scelta==2) {
+			mostraBraniArtista();
+			controllo=-1;
+		} else if (scelta==3) {
+			mostraBraniAlbum();
+			controllo=-1;
+		} else if (scelta==4) {
+			mostraBraniGenere();
+			controllo=-1;
+		} else {
+			printf("Scelta sbagliata, riprovare.");
+		}
+	}
+	printf("\nInserisci id del brano selezionato: ");
+	scanf("%d", &idbrano);
+	apriTesto(idbrano);
+}
+
+void apriTestoDaID() {
+	int idbrano=0;
+	pulisciBuffer();
+	printf("\nInserisci l'id del brano del quale si vuole aprire il testo: ");
+	scanf("%d", &idbrano);
+}
+

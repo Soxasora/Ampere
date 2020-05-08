@@ -9,7 +9,7 @@
 #ifndef SRC_AMPERE_H_
 #define SRC_AMPERE_H_
 
-void inizializzazione();
+int inizializzazione();
 void terminazione();
 
 #endif /* SRC_AMPERE_H_ */
