@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 2420 - 08.05.2020
+ * Ampere 0.1 rev. 2432 - 08.05.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -213,52 +213,81 @@ void cancellaAssociazioniBrano(int id) {
 void apriTesto(int idBrano) {
 	char *posizione_testo = malloc(MAX_TEMP);
 	char *comando = malloc(MAX_TEMP+10);
+	FILE *fp;
 	if(os==0) {
 		sprintf(posizione_testo, "%s\\%d%s", cartella_testi, idBrano, ".txt");
-		system(posizione_testo);
+		fp=fopen(posizione_testo, "r");
+		if (fp==NULL) {
+			printf("\nIl brano scelto non possiede al momento del testo.");
+		} else {
+			system(posizione_testo);
+		}
+		fclose(fp);
 	} else if (os==1) {
 		sprintf(posizione_testo, "%s/%d%s", cartella_testi, idBrano, ".txt");
-		strcpy(comando, "open ");
-		strcat(comando, posizione_testo);
-		system(comando);
+		fp=fopen(posizione_testo, "r");
+		if (fp==NULL) {
+			printf("\nIl brano scelto non possiede al momento del testo.");
+		} else {
+			strcpy(comando, "open ");
+			strcat(comando, posizione_testo);
+			system(comando);
+		}
+		fclose(fp);
 	} else if (os==2) {
 		sprintf(posizione_testo, "%s/%d%s", cartella_testi, idBrano, ".txt");
-		strcpy(comando, "nano ");
-		strcat(comando, posizione_testo);
-		system(comando);
+		fp=fopen(posizione_testo, "r");
+		if (fp==NULL) {
+			printf("\nIl brano scelto non possiede al momento del testo.");
+		} else {
+			strcpy(comando, "nano ");
+			strcat(comando, posizione_testo);
+			system(comando);
+		}
+		fclose(fp);
 	}
 	free(posizione_testo); free(comando);
 }
 
 void apriTestoDaRicerca() {
-	int scelta=0, controllo=0, idbrano=0;
+	int scelta=0, controllo=0, idbrano=0, esito=0;
 	pulisciBuffer();
 	printf("\nCerca brano del quale si vuole aprire il testo");
 	while (controllo!=-1) {
 		printf("\nCerca per titolo[0], anno[1], artista[2], album[3], genere[4]: ");
 		scanf("%d", &scelta);
 		if (scelta==0) {
-			mostraBrani(0);
+			esito = mostraBrani(0);
 			controllo=-1;
 		} else if (scelta==1) {
-			mostraBrani(1);
+			esito = mostraBrani(1);
 			controllo=-1;
 		} else if (scelta==2) {
-			mostraBraniArtista();
+			esito = mostraBraniArtista();
 			controllo=-1;
 		} else if (scelta==3) {
-			mostraBraniAlbum();
+			esito = mostraBraniAlbum();
 			controllo=-1;
 		} else if (scelta==4) {
-			mostraBraniGenere();
+			esito = mostraBraniGenere();
 			controllo=-1;
 		} else {
 			printf("Scelta sbagliata, riprovare.");
 		}
 	}
-	printf("\nInserisci id del brano selezionato: ");
-	scanf("%d", &idbrano);
-	apriTesto(idbrano);
+	if (esito==1) {
+		while (ottieniPosDaID(0,idbrano)==-1) {
+			printf("\nInserisci id del brano selezionato: ");
+			scanf("%d", &idbrano);
+			if (ottieniPosDaID(0,idbrano)==-1) {
+				printf("\nBrano non trovato, riprova");
+			} else {
+				apriTesto(idbrano);
+			}
+		}
+	} else {
+		printf("\n\nLa ricerca non ha prodotto risultati");
+	}
 }
 
 void apriTestoDaID() {

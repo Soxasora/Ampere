@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 2420 - 08.05.2020
+ * Ampere 0.1 rev. 2432 - 08.05.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -188,12 +188,22 @@ void cancellaSingoloArtista(int id) {
 }
 
 void visualizzaBiografiaArtista() {
-	int id=0, pos=0;
+	int id=0, pos=0, esito=0;
 	printf("\nCerca artista su Wikipedia: ");
-	mostraInfo(0);
-	pulisciBuffer();
-	printf("\n\nInserisci l'identificativo dell'artista: ");
-	scanf("%d", &id);
-	pos=ottieniPosDaID(2,id);
-	cercaSuWikipedia(db.artista[pos].nomearte);
+	esito = mostraInfo(0);
+	if (esito==1) {
+		pulisciBuffer();
+		while(ottieniPosDaID(2,id)==-1) {
+			printf("\n\nInserisci l'identificativo dell'artista: ");
+			scanf("%d", &id);
+			if (ottieniPosDaID(2,id)==1) {
+				printf("\nArtista non trovato, riprova");
+			} else {
+				pos=ottieniPosDaID(2,id);
+				cercaSuWikipedia(db.artista[pos].nomearte);
+			}
+		}
+	} else {
+		printf("\n\nNessun artista da cercare su Wikipedia.");
+	}
 }

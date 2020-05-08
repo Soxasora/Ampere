@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 2420 - 08.05.2020
+ * Ampere 0.1 rev. 2432 - 08.05.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -298,7 +298,8 @@ void mostraTuttiUtenti() {
  * 1 == per Album
  * 2 == per Genere
  */
-void mostraInfo(int modalita) {
+int mostraInfo(int modalita) {
+	int esiste=0;
 	if (modalita==0) {
 		char *nome = malloc(MAX_CHAR);
 		char *cognome = malloc(MAX_CHAR);
@@ -323,6 +324,7 @@ void mostraInfo(int modalita) {
 				||comparaStringhe(db.artista[i].nomearte, nomearte)==0) {
 				printf("\n");
 				mostraSingoloArtista(db.artista[i].id);
+				esiste=1;
 			}
 			i++;
 		}
@@ -342,6 +344,7 @@ void mostraInfo(int modalita) {
 			if (comparaStringhe(db.album[i].titolo, titolo)==0||db.album[i].anno == anno) {
 				printf("\n");
 				mostraSingoloAlbum(db.album[i].id);
+				esiste=1;
 			}
 			i++;
 		}
@@ -356,18 +359,21 @@ void mostraInfo(int modalita) {
 			if (comparaStringhe(db.genere[i].nome, nome)==0) {
 				printf("\n");
 				mostraSingoloGenere(db.genere[i].id);
+				esiste=1;
 			}
 			i++;
 		}
 		free(nome);
 	}
+	return esiste;
 }
 
 /*
  * 0 == per Titolo
  * 1 == per Anno
  */
-void mostraBrani(int modalita) {
+int mostraBrani(int modalita) {
+	int esiste=0;
 	if (modalita==0) {
 		char *titolo = malloc(MAX_CHAR);
 		pulisciBuffer();
@@ -378,6 +384,7 @@ void mostraBrani(int modalita) {
 			if (comparaStringhe(db.brano[i].titolo,titolo)==0) {
 				printf("\n");
 				mostraSingoloBrano(db.brano[i].id);
+				esiste=1;
 			}
 			i++;
 		}
@@ -392,13 +399,16 @@ void mostraBrani(int modalita) {
 			if (db.brano[i].anno == anno) {
 				printf("\n");
 				mostraSingoloBrano(db.brano[i].id);
+				esiste=1;
 			}
 			i++;
 		}
 	}
+	return esiste;
 }
 
-void mostraBraniArtista() {
+int mostraBraniArtista() {
+	int esiste=0;
 	int id=0;
 	char *nomearte = malloc(MAX_CHAR);
 	pulisciBuffer();
@@ -414,14 +424,17 @@ void mostraBraniArtista() {
 			if (db.artistaBrano[i].idArtista==id) {
 				printf("\n");
 				mostraSingoloBrano(db.artistaBrano[i].idBrano);
+				esiste=1;
 			}
 			i++;
 		}
 	}
 	free(nomearte);
+	return esiste;
 }
 
-void mostraBraniAlbum() {
+int mostraBraniAlbum() {
+	int esiste=0;
 	int id=0;
 	char *album = malloc(MAX_CHAR);
 	pulisciBuffer();
@@ -437,14 +450,17 @@ void mostraBraniAlbum() {
 			if (db.albumBrano[i].idAlbum==id) {
 				printf("\n");
 				mostraSingoloBrano(db.albumBrano[i].idBrano);
+				esiste=1;
 			}
 			i++;
 		}
 	}
 	free(album);
+	return esiste;
 }
 
-void mostraBraniGenere() {
+int mostraBraniGenere() {
+	int esiste=0;
 	int id=0;
 	char *genere = malloc(MAX_CHAR);
 	pulisciBuffer();
@@ -460,9 +476,11 @@ void mostraBraniGenere() {
 			if (db.branoGenere[i].idGenere==id) {
 				printf("\n");
 				mostraSingoloBrano(db.branoGenere[i].idBrano);
+				esiste=1;
 			}
 			i++;
 		}
 	}
 	free(genere);
+	return esiste;
 }

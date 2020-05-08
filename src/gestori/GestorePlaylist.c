@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 2420 - 08.05.2020
+ * Ampere 0.1 rev. 2432 - 08.05.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -101,7 +101,7 @@ void creaPlaylistGuidato() {
 
 void inserimentoBraniPlaylistGuidato() {
 	pulisciBuffer();
-	int scelta=0, id=0, n=0, i=0, branoscelto=0;
+	int scelta=0, id=0, n=0, i=0, branoscelto=0, esito=0, controllo=0;
 	int nbrani = contaNelDatabase(0);
 	printf("\n===[Inserimento guidato di brani in una playlist]===");
 	printf("\nScegli la playlist da modificare: ");
@@ -121,26 +121,38 @@ void inserimentoBraniPlaylistGuidato() {
 	i=0;
 	while (i<n) {
 		branoscelto=0;
-		printf("Cercare per titolo[0], anno[1], artista[2], album[3], genere[4], oppure vuoi già inserire un id[5]? ");
-		scanf("%d", &scelta);
-		if (scelta==0) {
-			mostraBrani(0);
-		} else if (scelta==1) {
-			mostraBrani(1);
-		} else if (scelta==2) {
-			mostraBraniArtista();
-		} else if (scelta==3) {
-			mostraBraniAlbum();
-		} else if (scelta==4) {
-			mostraBraniGenere();
+		while (controllo!=-1) {
+			printf("\nCerca per titolo[0], anno[1], artista[2], album[3], genere[4] oppure id[5]: ");
+			scanf("%d", &scelta);
+			if (scelta==0) {
+				esito = mostraBrani(0);
+				controllo=-1;
+			} else if (scelta==1) {
+				esito = mostraBrani(1);
+				controllo=-1;
+			} else if (scelta==2) {
+				esito = mostraBraniArtista();
+				controllo=-1;
+			} else if (scelta==3) {
+				esito = mostraBraniAlbum();
+				controllo=-1;
+			} else if (scelta==4) {
+				esito = mostraBraniGenere();
+				controllo=-1;
+			} else if (scelta==5) {
+				printf("\nInserimento diretto dell'id");
+			} else {
+				printf("Scelta sbagliata, riprovare.");
+			}
 		}
-		while (ottieniPosDaID(0,branoscelto)==-1) {
+		while (ottieniPosDaID(0,branoscelto)==-1&&esito==1) {
 			printf("\nInserire id del brano da inserire nella playlist: ");
 			scanf("%d", &branoscelto);
 			if (ottieniPosDaID(0,branoscelto)==-1) {
 				printf("\nBrano non trovato, riprova");
+			} else {
+				idbrani[i] = branoscelto;
 			}
-			idbrani[i] = branoscelto;
 		}
 		i++;
 	}
