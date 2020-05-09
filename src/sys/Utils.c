@@ -96,6 +96,13 @@ void creaCartella(char nome[], bool silenzioso) {
 
 char* inputStringaSicuro(char stringa[]) {
 	fgets(stringa, MAX_CHAR, stdin);
+	int i=0;
+	while (i<strlen(stringa)) {
+		if (stringa[i]==',') {
+			stringa[i] = '.';
+		}
+		i++;
+	}
 	strtok(stringa, "\n");
 	if (stringa[0]=='\n') {
 		stringa = "N/A";
