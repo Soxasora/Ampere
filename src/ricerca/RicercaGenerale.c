@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 2432 - 08.05.2020
+ * Ampere 0.1 rev. 2455 - 09.05.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -21,64 +21,135 @@
 #include "../sys/Utils.h"
 #include "../sys/Impostazioni.h"
 
-void ricerca(int modalita, char interrogazione[]) {
-	int i=0, n=0;
+void ricerca(int modalita, char interrogazione[], bool light) {
+	int i=0, n=0, conta=0;
 	if (modalita==0) {
 		printf("\n\nBrani:");
 		n = contaNelDatabase(0);
 		while (i<n) {
-			if (strstr(db.brano[i].titolo, interrogazione)) {
-				printf("\nTitolo: %s", db.brano[i].titolo);
+			if (comparaStringheParziale(db.brano[i].titolo, interrogazione)
+				||comparaStringheParziale(db.album[ottieniPosDaID(1,db.brano[i].album)].titolo, interrogazione)
+				||comparaStringheParziale(db.artista[ottieniPosDaID(2,db.artistaBrano[ottieniPosDaID(5, db.brano[i].id)].idArtista)].nomearte, interrogazione)
+				||db.brano[i].anno==atoi(interrogazione)) {
+				if (light) {
+					if (conta<3) {
+						printf("\n%d. Titolo: %s", conta+1, db.brano[i].titolo);
+					}
+					conta++;
+				} else {
+					printf("\n");
+					mostraSingoloBrano(db.brano[i].id);
+				}
 			}
 			i++;
+		}
+		if (light) {
+			i=0;
+			if (conta>3) {
+				printf("\nCi sono altri %d risultati. Approfondisci ricerca brano [1]", conta-3);
+			}
 		}
 	} else if (modalita==1) {
 		printf("\n\nAlbum:");
 		n = contaNelDatabase(1);
 		while (i<n) {
-			if (strstr(db.album[i].titolo, interrogazione)) {
-				mostraSingoloAlbum(db.album[i].id);
+			if (comparaStringheParziale(db.album[i].titolo, interrogazione)
+				||db.album[i].anno==atoi(interrogazione)) {
+				if (light) {
+					if (conta<3) {
+						printf("\n%d. Titolo: %s", conta+1, db.album[i].titolo);
+					}
+					conta++;
+				} else {
+					printf("\n");
+					mostraSingoloAlbum(db.album[i].id);
+				}
+
 			}
 			i++;
+		}
+		if (light) {
+			i=0;
+			if (conta>3) {
+				printf("\nCi sono altri %d risultati. Approfondisci ricerca album [2]", conta-3);
+			}
 		}
 	} else if (modalita==2) {
 		printf("\n\nArtisti:");
 		n = contaNelDatabase(2);
 		while (i<n) {
-			if (strstr(db.artista[i].nome, interrogazione)
-				||strstr(db.artista[i].cognome, interrogazione)
-				||strstr(db.artista[i].nomearte, interrogazione)) {
-				mostraSingoloArtista(db.artista[i].id);
+			if (comparaStringheParziale(db.artista[i].nome, interrogazione)
+				||comparaStringheParziale(db.artista[i].cognome, interrogazione)
+				||comparaStringheParziale(db.artista[i].nomearte, interrogazione)) {
+				if (light) {
+					if (conta<3) {
+						printf("\n%d. Nome d'Arte: %s", conta+1, db.artista[i].nomearte);
+					}
+					conta++;
+				} else {
+					printf("\n");
+					mostraSingoloArtista(db.artista[i].id);
+				}
 			}
 			i++;
+		}
+		if (light) {
+			i=0;
+			if (conta>3) {
+				printf("\nCi sono altri %d risultati. Approfondisci ricerca artisti [3]", conta-3);
+			}
 		}
 	} else if (modalita==3) {
 		printf("\n\nGeneri:");
 		n = contaNelDatabase(3);
 		while (i<n) {
-			if (strstr(db.genere[i].nome, interrogazione)) {
-				mostraSingoloGenere(db.genere[i].id);
+			if (comparaStringheParziale(db.genere[i].nome, interrogazione)) {
+				if (light) {
+					if (conta<3) {
+						printf("\n%d. Nome: %s", conta+1, db.genere[i].nome);
+					}
+					conta++;
+				} else {
+					printf("\n");
+					mostraSingoloGenere(db.genere[i].id);
+				}
 			}
 			i++;
+		}
+		if (light) {
+			i=0;
+			if (conta>3) {
+				printf("\nCi sono altri %d risultati. Approfondisci ricerca generi [4]", conta-3);
+			}
 		}
 	}
 
 }
 
 void eseguiRicerca() {
+	int scelta=0;
 	char *interrogazione = malloc(MAX_CHAR);
 	printf("\n===[Ricerca Generale]===");
 	pulisciBuffer();
 	printf("\nCerca nel database: ");
 	interrogazione = inputStringaSicuro(interrogazione);
-	ricerca(0,interrogazione);
-	printf("\nApprofondisci ricerca brani [0]");
-	ricerca(1,interrogazione);
-	printf("\nApprofondisci ricerca album [1]");
-	ricerca(2,interrogazione);
-	printf("\nApprofondisci ricerca artisti [2]");
-	ricerca(3,interrogazione);
-	printf("\nApprofondisci ricerca generi [3]");
+	ricerca(0,interrogazione, true);
+	ricerca(1,interrogazione, true);
+	ricerca(2,interrogazione, true);
+	ricerca(3,interrogazione, true);
+	while (scelta)
+	printf("\nEsci dalla ricerca [0]");
+	printf("\nInserisci scelta: ");
+	scanf("%d", &scelta);
+	if (scelta==1) {
+		ricerca(0,interrogazione, false);
+	} else if (scelta==2) {
+		ricerca(1,interrogazione, false);
+	} else if (scelta==3) {
+		ricerca(2,interrogazione, false);
+	} else if (scelta==4) {
+		ricerca(3,interrogazione, false);
+	}
 	free(interrogazione);
 }
 

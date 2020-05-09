@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 2432 - 08.05.2020
+ * Ampere 0.1 rev. 2455 - 09.05.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -377,8 +377,8 @@ int mostraBrani(int modalita) {
 	if (modalita==0) {
 		char *titolo = malloc(MAX_CHAR);
 		pulisciBuffer();
-		printf("\nInserisci il titolo del brano da ricercare: ");
-		titolo = inputStringaSicuro(titolo);
+			printf("\nInserisci il titolo del brano da ricercare: ");
+			titolo = inputStringaSicuro(titolo);
 		int i=0, n=contaNelDatabase(0);
 		while (i<n) {
 			if (comparaStringhe(db.brano[i].titolo,titolo)==0) {
@@ -392,8 +392,8 @@ int mostraBrani(int modalita) {
 	} else if (modalita==1) {
 		int anno = 0;
 		pulisciBuffer();
-		printf("\nInserisci l'anno di uscita del brano da ricercare: ");
-		scanf("%d", &anno);
+			printf("\nInserisci l'anno di uscita del brano da ricercare: ");
+			scanf("%d", &anno);
 		int i=0, n=contaNelDatabase(0);
 		while (i<n) {
 			if (db.brano[i].anno == anno) {
