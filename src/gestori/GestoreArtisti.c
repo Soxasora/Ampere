@@ -102,8 +102,13 @@ void modificaArtista() {
 	int id=0, modalita=0;
 	char scelta='N';
 	mostraTuttiArtisti();
-	printf("\n\nInserire l'identificativo dell'artista da modificare: ");
-	scanf("%d", &id);
+	while (ottieniPosDaID(2, id)==-1) {
+		printf("\n\nInserire l'identificativo dell'artista da modificare: ");
+		scanf("%d", &id);
+		if (ottieniPosDaID(2,id)==-1) {
+			printf("\nArtista non trovato, riprovare");
+		}
+	}
 	printf("\nHai scelto l'artista:");
 	mostraSingoloArtista(id);
 	pulisciBuffer();
@@ -153,8 +158,14 @@ void cancellaArtista() {
 	int id=0;
 	char scelta='N';
 	mostraTuttiArtisti();
-	printf("\n\nInserire l'identificativo dell'artista da cancellare: ");
-	scanf("%d", &id);
+	while (ottieniPosDaID(2,id)==-1) {
+		printf("\n\nInserire l'identificativo dell'artista da cancellare: ");
+		scanf("%d", &id);
+		if (ottieniPosDaID(2,id)==-1) {
+			printf("\nArtista non trovato, riprovare");
+		}
+
+	}
 	printf("\nHai scelto l'artista: ");
 	mostraSingoloArtista(id);
 	pulisciBuffer();
@@ -197,12 +208,11 @@ void visualizzaBiografiaArtista() {
 			printf("\n\nInserisci l'identificativo dell'artista: ");
 			scanf("%d", &id);
 			if (ottieniPosDaID(2,id)==1) {
-				printf("\nArtista non trovato, riprova");
-			} else {
-				pos=ottieniPosDaID(2,id);
-				cercaSuWikipedia(db.artista[pos].nomearte);
+				printf("\nArtista non trovato, riprovare");
 			}
 		}
+		pos=ottieniPosDaID(2,id);
+		cercaSuWikipedia(db.artista[pos].nomearte);
 	} else {
 		printf("\n\nNessun artista da cercare su Wikipedia.");
 	}

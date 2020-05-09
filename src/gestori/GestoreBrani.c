@@ -45,12 +45,18 @@ void inserimentoBranoGuidato() {
 	genere = inputStringaSicuro(genere);
 	id_genere = creaGenereSeNonEsiste(genere);
 	pulisciBuffer();
-	printf("\nInserisci durata del brano in secondi: ");
-	scanf("%d", &durata);
-	printf("\nInserisci anno d'uscita del brano: ");
-	scanf("%d", &anno);
-	printf("\nInserisci numero d'ascolti del brano: ");
-	scanf("%d", &ascolti);
+	while (durata<=0||durata>9999) {
+		printf("\nInserisci durata del brano in secondi: ");
+		scanf("%d", &durata);
+	}
+	while (anno<=0||anno>3000) {
+		printf("\nInserisci anno d'uscita del brano: ");
+		scanf("%d", &anno);
+	}
+	while (ascolti<=0) {
+		printf("\nInserisci numero d'ascolti del brano: ");
+		scanf("%d", &ascolti);
+	}
 	inserisciBrano(titolo, id_artista, id_album, id_genere, durata, anno, ascolti);
 	free(titolo); free(artista); free(album); free(genere);
 	printf("\n\nBrano Inserito.");
@@ -94,13 +100,20 @@ void modificaBrano() {
 	int id=0, modalita=0;
 	char scelta='N';
 	mostraTuttiBrani();
-	printf("\n\nInserire l'identificativo del brano da modificare: ");
-	scanf("%d", &id);
+	while (ottieniPosDaID(0,id)==-1) {
+		printf("\n\nInserire l'identificativo del brano da modificare: ");
+		scanf("%d", &id);
+		if (ottieniPosDaID(0,id)==-1) {
+			printf("\nBrano non trovato, riprovare");
+		}
+	}
 	printf("\nHai scelto il brano:");
 	mostraSingoloBrano(id);
 	pulisciBuffer();
-	printf("\nSicuro di voler continuare? [Y/N]: ");
-	scanf("%c", &scelta);
+	while (scelta!='Y'||scelta!='y'||scelta!='n'||scelta!='N') {
+		printf("\nSicuro di voler continuare? [Y/N]: ");
+		scanf("%c", &scelta);
+	}
 	if (scelta=='Y'||scelta=='y') {
 		printf("\n===[Sistema di modifica brani]===");
 		printf("\n[1] Modifica il Titolo");
@@ -109,8 +122,10 @@ void modificaBrano() {
 		printf("\n[4] Modifica gli Ascolti");
 		printf("\n[5] Modifica l'album d'appartenenza");
 		printf("\n[0] Esci");
-		printf("\nInserisci la tua scelta: ");
-		scanf("%d", &modalita);
+		while (scelta<0||scelta>5) {
+			printf("\nInserisci la tua scelta: ");
+			scanf("%d", &modalita);
+		}
 		if (modalita!=0) {
 			modificaSingoloBrano(modalita, id);
 		}
@@ -126,20 +141,40 @@ void modificaSingoloBrano(int modalita, int id) {
 		titolo = inputStringaSicuro(titolo);
 		strcpy(db.brano[pos].titolo, titolo);
 		free(titolo);
+		/**
+		 * 	while (durata<=0||durata>9999) {
+		printf("\nInserisci durata del brano in secondi: ");
+		scanf("%d", &durata);
+	}
+	while (anno<=0||durata>3000) {
+		printf("\nInserisci anno d'uscita del brano: ");
+		scanf("%d", &anno);
+	}
+	while (ascolti<=0) {
+		printf("\nInserisci numero d'ascolti del brano: ");
+		scanf("%d", &ascolti);
+	}
+		 */
 	} else if (modalita==2) {
 		int durata=0;
-		printf("\nInserisci nuova durata (in secondi): ");
-		scanf("%d", &durata);
+		while (durata<=0||durata>9999) {
+			printf("\nInserisci nuova durata (in secondi): ");
+			scanf("%d", &durata);
+		}
 		db.brano[pos].durata = durata;
 	} else if (modalita==3) {
 		int anno=0;
-		printf("\nInserisci nuovo anno: ");
-		scanf("%d", &anno);
+		while (anno<=0||anno>3000) {
+			printf("\nInserisci nuovo anno: ");
+			scanf("%d", &anno);
+		}
 		db.brano[pos].anno = anno;
 	} else if (modalita==4) {
 		int ascolti=0;
-		printf("\nInserisci nuovi ascolti: ");
-		scanf("%d", &ascolti);
+		while (ascolti<=0) {
+			printf("\nInserisci nuovi ascolti: ");
+			scanf("%d", &ascolti);
+		}
 		db.brano[pos].durata = ascolti;
 	}
 	db_modificato = 1;
@@ -151,13 +186,20 @@ void cancellaBrano() {
 	int id=0;
 	char scelta='N';
 	mostraTuttiBrani();
-	printf("\n\nInserire l'identificativo del brano da cancellare: ");
-	scanf("%d", &id);
+	while (ottieniPosDaID(0,id)==-1) {
+		printf("\n\nInserire l'identificativo del brano da cancellare: ");
+		scanf("%d", &id);
+		if (ottieniPosDaID(0,id)==-1) {
+			printf("\nBrano non trovato, riprovare");
+		}
+	}
 	printf("\nHai scelto il brano:");
 	mostraSingoloBrano(id);
 	pulisciBuffer();
-	printf("\nSicuro di voler continuare? [Y/N]: ");
-	scanf("%c", &scelta);
+	while (scelta!='Y'||scelta!='y'||scelta!='n'||scelta!='N') {
+		printf("\nSicuro di voler continuare? [Y/N]: ");
+		scanf("%c", &scelta);
+	}
 	if (scelta=='Y'||scelta=='y') {
 		cancellaSingoloBrano(id);
 		printf("\nBrano cancellato.");
@@ -254,8 +296,10 @@ void apriTestoDaRicerca() {
 	pulisciBuffer();
 	printf("\nCerca brano del quale si vuole aprire il testo");
 	while (controllo!=-1) {
-		printf("\nCerca per titolo[0], anno[1], artista[2], album[3], genere[4]: ");
-		scanf("%d", &scelta);
+		while (scelta<0||scelta>4) {
+			printf("\nCerca per titolo[0], anno[1], artista[2], album[3], genere[4]: ");
+			scanf("%d", &scelta);
+		}
 		if (scelta==0) {
 			esito = mostraBrani(0);
 			controllo=-1;
@@ -280,7 +324,7 @@ void apriTestoDaRicerca() {
 			printf("\nInserisci id del brano selezionato: ");
 			scanf("%d", &idbrano);
 			if (ottieniPosDaID(0,idbrano)==-1) {
-				printf("\nBrano non trovato, riprova");
+				printf("\nBrano non trovato, riprovare");
 			} else {
 				apriTesto(idbrano);
 			}
@@ -293,7 +337,12 @@ void apriTestoDaRicerca() {
 void apriTestoDaID() {
 	int idbrano=0;
 	pulisciBuffer();
-	printf("\nInserisci l'id del brano del quale si vuole aprire il testo: ");
-	scanf("%d", &idbrano);
+	while (ottieniPosDaID(0,idbrano)==-1) {
+		printf("\nInserisci l'id del brano del quale si vuole aprire il testo: ");
+		scanf("%d", &idbrano);
+		if (ottieniPosDaID(0,idbrano)==-1) {
+			printf("\nBrano non trovato, riprovare");
+		}
+	}
 }
 

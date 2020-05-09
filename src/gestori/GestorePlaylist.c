@@ -88,23 +88,25 @@ void creaPlaylistGuidato() {
 	char *nome = malloc(MAX_CHAR);
 	char *descrizione = malloc(MAX_CHAR);
 	int pubblica=0;
-	bool bpubblica=false;
 	printf("\n===[Creazione guidata di una playlist]===");
 	pulisciBuffer();
 	printf("\nInserisci nome della playlist: ");
 	nome = inputStringaSicuro(nome);
 	printf("\nInserisci descrizione della playlist: ");
 	descrizione = inputStringaSicuro(descrizione);
-	printf("\nLa playlist e' privata[0] o pubblica[1]? ");
-	scanf("%d", &pubblica);
-	if (pubblica==0) {
-		bpubblica=false;
-	} else {
-		bpubblica=true;
+	while (pubblica<0||pubblica>1) {
+		printf("\nLa playlist e' privata[0] o pubblica[1]? ");
+		scanf("%d", &pubblica);
 	}
-	inserisciPlaylist(idUtente, nome, descrizione, bpubblica);
-	printf("\nVuoi inserire brani nella tua playlist? [Y/N]: ");
-	scanf("%c", &scelta);
+	if (pubblica==0) {
+		inserisciPlaylist(idUtente, nome, descrizione, false);
+	} else {
+		inserisciPlaylist(idUtente, nome, descrizione, true);
+	}
+	while (scelta!='Y'||scelta!='y'||scelta!='n'||scelta!='N') {
+		printf("\nVuoi inserire brani nella tua playlist? [Y/N]: ");
+		scanf("%c", &scelta);
+	}
 	if (scelta=='Y'||scelta=='y') {
 		inserimentoBraniPlaylistGuidato();
 	}
@@ -117,11 +119,13 @@ void inserimentoBraniPlaylistGuidato() {
 	printf("\n===[Inserimento guidato di brani in una playlist]===");
 	printf("\nScegli la playlist da modificare: ");
 	mostraPlaylistUtente(-1,db.utente_connesso);
-	while (isUserPlaylist(id, db.utente_connesso)==false) {
+	while (isUserPlaylist(id, db.utente_connesso)==false||ottieniPosDaID(4,id)==-1) {
 		printf("\nInserisci id della playlist: ");
 		scanf("%d", &id);
 		if (isUserPlaylist(id, db.utente_connesso)==false)
 			printf("\nL'identificativo che hai dato punta ad una playlist che non ti appartiene, riprova.");
+		else if (ottieniPosDaID(4,id)==-1)
+			printf("\nNessuna playlist trovata, riprovare");
 	}
 	printf("\nInserisci fino a %d brani nella playlist %s", nbrani, db.playlist[ottieniPosDaID(4,id)].nome);
 	while (n<=0||n>nbrani) {
@@ -133,8 +137,10 @@ void inserimentoBraniPlaylistGuidato() {
 	while (i<n) {
 		branoscelto=0;
 		while (controllo!=-1) {
-			printf("\nCerca per titolo[0], anno[1], artista[2], album[3], genere[4] oppure id[5]: ");
-			scanf("%d", &scelta);
+			while (scelta<0||scelta>5) {
+				printf("\nCerca per titolo[0], anno[1], artista[2], album[3], genere[4] oppure id[5]: ");
+				scanf("%d", &scelta);
+			}
 			if (scelta==0) {
 				esito = mostraBrani(0);
 				controllo=-1;
@@ -152,8 +158,6 @@ void inserimentoBraniPlaylistGuidato() {
 				controllo=-1;
 			} else if (scelta==5) {
 				printf("\nInserimento diretto dell'id");
-			} else {
-				printf("Scelta sbagliata, riprovare.");
 			}
 		}
 		while (ottieniPosDaID(0,branoscelto)==-1&&esito==1) {
@@ -218,17 +222,21 @@ void modificaPlaylist() {
 	} else {
 		mostraPlaylistUtente(-1, db.utente_connesso);
 	}
-	while (isUserPlaylist(id, db.utente_connesso)==false||!isAdmin()) {
+	while (isUserPlaylist(id, db.utente_connesso)==false||ottieniPosDaID(4,id)==-1) {
 		printf("\nInserisci id della playlist da modificare: ");
 		scanf("%d", &id);
-		if (isUserPlaylist(id, db.utente_connesso)==false)
+		if (isUserPlaylist(id, db.utente_connesso)==false||!isAdmin())
 			printf("\nL'identificativo che hai dato punta ad una playlist che non ti appartiene, riprova.");
+		else if (ottieniPosDaID(4,id)==-1)
+			printf("\nNessuna playlist trovata, riprovare");
 	}
 	printf("\nHai scelto la playlist");
 	mostraSingolaPlaylist(-1, id);
 	pulisciBuffer();
-	printf("\nSicuro di voler continuare? [Y/N]: ");
-	scanf("%c", &scelta);
+	while (scelta!='Y'||scelta!='y'||scelta!='n'||scelta!='N') {
+		printf("\nSicuro di voler continuare? [Y/N]: ");
+		scanf("%c", &scelta);
+	}
 	if (scelta=='Y'||scelta=='y') {
 		printf("\n===[Sistema di modifica playlist]===");
 		printf("\n[1] Modifica il nome");
@@ -237,8 +245,10 @@ void modificaPlaylist() {
 		if (isAdmin())
 			printf("\n[4] Modifica l'autore della playlist");
 		printf("\n[0] Esci");
-		printf("\nInserisci la scelta: ");
-		scanf("%d", &modalita);
+		while (scelta<0||scelta>4) {
+			printf("\nInserisci la scelta: ");
+			scanf("%d", &modalita);
+		}
 		if (modalita!=0) {
 			modificaSingolaPlaylist(modalita, id);
 		}
@@ -262,20 +272,25 @@ void modificaSingolaPlaylist(int modalita, int id) {
 		free(descrizione);
 	} else if (modalita==3) {
 		int pubblica=0;
-		bool bpubblica=false;
-		printf("\nPlaylist privata[0] o pubblica[1]? ");
-		scanf("%d", &pubblica);
-		if (pubblica==0) {
-			bpubblica=false;
-		} else {
-			bpubblica=true;
+		while (pubblica<0||pubblica>1) {
+			printf("\nPlaylist privata[0] o pubblica[1]? ");
+			scanf("%d", &pubblica);
 		}
-		db.playlist[pos].pubblica = bpubblica;
+		if (pubblica==0) {
+			db.playlist[pos].pubblica = false;
+		} else {
+			db.playlist[pos].pubblica = true;
+		}
 	} else if (modalita==4) {
 		if (isAdmin()) {
 			int idutente=0;
-			printf("\nInserisci id del nuovo autore: ");
-			scanf("%d", &idutente);
+			while (ottieniPosDaID(-1,idutente)==-1) {
+				printf("\nInserisci id del nuovo autore: ");
+				scanf("%d", &idutente);
+				if (ottieniPosDaID(-1,idutente)==-1) {
+					printf("\nNessun utente trovato, riprovare");
+				}
+			}
 			db.playlist[pos].idUtente = idutente;
 		} else {
 			printf("\nNon puoi accedere a questa funzione in quanto utente normale.");
@@ -294,17 +309,21 @@ void cancellaPlaylist() {
 	} else {
 		mostraPlaylistUtente(-1, db.utente_connesso);
 	}
-	while (isUserPlaylist(id, db.utente_connesso)==false||!isAdmin()) {
+	while (isUserPlaylist(id, db.utente_connesso)==false||ottieniPosDaID(4,id)==-1) {
 		printf("\nInserisci id della playlist: ");
 		scanf("%d", &id);
-		if (isUserPlaylist(id, db.utente_connesso)==false)
+		if (isUserPlaylist(id, db.utente_connesso)==false||!isAdmin())
 			printf("\nL'identificativo che hai dato punta ad una playlist che non ti appartiene, riprova.");
+		else if (ottieniPosDaID(4,id)==-1)
+			printf("\nNessuna playlist trovata");
 	}
 	printf("\nHai scelto la playlist: ");
 	mostraSingolaPlaylist(-1, id);
 	pulisciBuffer();
-	printf("\nSicuro di voler continuare? [Y/N]: ");
-	scanf("%c", &scelta);
+	while (scelta!='Y'||scelta!='y'||scelta!='n'||scelta!='N') {
+		printf("\nSicuro di voler continuare? [Y/N]: ");
+		scanf("%c", &scelta);
+	}
 	if(scelta=='Y'||scelta=='y') {
 		cancellaSingolaPlaylist(id);
 	}

@@ -253,8 +253,10 @@ void eseguiRicerca() {
 	ricerca(4,interrogazione, true);
 	ricerca(5,interrogazione, true);
 	printf("\n\nEsci dalla ricerca [0]");
-	printf("\nInserisci scelta: ");
-	scanf("%d", &scelta);
+	while (scelta<0||scelta>6) {
+		printf("\nInserisci scelta: ");
+		scanf("%d", &scelta);
+	}
 	if (scelta==1) {
 		ricerca(0,interrogazione, false);
 	} else if (scelta==2) {

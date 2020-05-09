@@ -284,8 +284,10 @@ void mostraTuttiUtenti() {
 		if ((n+1)>5 && (i+1)%5==0) {
 			char scelta='Y';
 			//pulisciBuffer();
-			printf("\nElencare i prossimi 5 utenti? [Y/N]: ");
-			scanf("%c", &scelta);
+			while (scelta!='Y'||scelta!='y'||scelta!='n'||scelta!='N') {
+				printf("\nElencare i prossimi 5 utenti? [Y/N]: ");
+				scanf("%c", &scelta);
+			}
 			if(scelta=='N'||scelta=='n') {
 				controllo=-1;
 			}
@@ -338,8 +340,10 @@ int mostraInfo(int modalita) {
 		titolo = inputStringaSicuro(titolo);
 		if (comparaStringhe(titolo, "N/A")==0)
 			titolo = "unknown";
-		printf("\n[0 per saltare] Inserisci l'anno di uscita dell'album da ricercare: ");
-		scanf("%d", &anno);
+		while(anno<0||anno>3000) {
+			printf("\n[0 per saltare] Inserisci l'anno di uscita dell'album da ricercare: ");
+			scanf("%d", &anno);
+		}
 		int i=0, n=contaNelDatabase(1);
 		while(i<n) {
 			if (comparaStringhe(db.album[i].titolo, titolo)==0||db.album[i].anno == anno) {
@@ -425,8 +429,10 @@ int mostraBrani(int modalita) {
 	} else if (modalita==1) {
 		int anno = 0;
 		pulisciBuffer();
+		while (anno<0||anno>3000) {
 			printf("\nInserisci l'anno di uscita del brano da ricercare: ");
 			scanf("%d", &anno);
+		}
 		int i=0, n=contaNelDatabase(0);
 		while (i<n) {
 			if (db.brano[i].anno == anno) {

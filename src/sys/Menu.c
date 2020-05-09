@@ -27,8 +27,10 @@
 void menuLogin() {
 	int scelta=0;
 	pulisciBuffer();
-	printf("\nDesideri effettuare il login[0] o registrarti[1] ad Ampere? ");
-	scanf("%d", &scelta);
+	while (scelta<0||scelta>1) {
+		printf("\nDesideri effettuare il login[0] o registrarti[1] ad Ampere? ");
+		scanf("%d", &scelta);
+	}
 	if (scelta==0) {
 		login();
 	} else {
@@ -48,8 +50,10 @@ void menu() {
 	if (isAdmin()==true)
 		printf("\n[9] Menu Manipolazione Database");
 	printf("\n[0] Esci dal programma");
-	printf("\nInserisci la tua scelta: ");
-	scanf("%d", &scelta);
+	while (scelta<0||scelta==5||scelta==6||scelta==7||scelta==8||scelta>9) {
+		printf("\nInserisci la tua scelta: ");
+		scanf("%d", &scelta);
+	}
 	if (scelta==1) {
 		eseguiRicerca();
 		aspetta();
@@ -80,8 +84,10 @@ void menuAccount() {
 	printf("\n[1] Modifica il tuo account");
 	printf("\n[2] Cancella il tuo account");
 	printf("\n[0] Ritorna al menu precedente");
-	printf("\nInserisci la tua scelta: ");
-	scanf("%d", &scelta);
+	while (scelta<0||scelta>2) {
+		printf("\nInserisci la tua scelta: ");
+		scanf("%d", &scelta);
+	}
 	if (scelta==1) {
 		modificaUtente();
 		aspetta();
@@ -111,8 +117,10 @@ void menuPlaylist() {
 	printf("\n[5] Modifica playlist");
 	printf("\n[6] Cancella playlist");
 	printf("\n[0] Ritorna al menu precedente");
-	printf("\nInserisci la tua scelta: ");
-	scanf("%d", &scelta);
+	while (scelta<0||scelta>6) {
+		printf("\nInserisci la tua scelta: ");
+		scanf("%d", &scelta);
+	}
 	if (scelta==1) {
 		//TODO
 	} else if (scelta==2) {
@@ -153,8 +161,10 @@ void menuDatabase() {
 	printf("\n[4] Effettua un backup del database");
 	printf("\n[5] Effettua un ripristino del database da un backup");
 	printf("\n[0] Ritorna al menu principale");
-	printf("\nInserisci la tua scelta: ");
-	scanf("%d", &scelta);
+	while (scelta<0||scelta>5) {
+		printf("\nInserisci la tua scelta: ");
+		scanf("%d", &scelta);
+	}
 	if (scelta==1) {
 		menuDBInserimento();
 	} else if (scelta==2) {
@@ -187,8 +197,10 @@ void menuDBInserimento() {
 	printf("\n[4] Inserisci un genere");
 	printf("\n[5] Inserisci un utente");
 	printf("\n[0] Ritorna al menu precedente");
-	printf("\nInserisci la tua scelta: ");
-	scanf("%d", &scelta);
+	while (scelta<0||scelta>5) {
+		printf("\nInserisci la tua scelta: ");
+		scanf("%d", &scelta);
+	}
 	if (scelta==1) {
 		inserimentoBranoGuidato();
 		aspetta();
@@ -228,8 +240,10 @@ void menuDBModifica() {
 	printf("\n[5] Modifica una playlist");
 	printf("\n[6] Modifica un utente");
 	printf("\n[0] Ritorna al menu precedente");
-	printf("\nInserisci la tua scelta: ");
-	scanf("%d", &scelta);
+	while (scelta<0||scelta>6) {
+		printf("\nInserisci la tua scelta: ");
+		scanf("%d", &scelta);
+	}
 	if (scelta==1) {
 		modificaBrano();
 		aspetta();
@@ -273,8 +287,10 @@ void menuDBCancella() {
 	printf("\n[5] Cancella una playlist");
 	printf("\n[6] Cancella un utente");
 	printf("\n[0] Ritorna al menu precedente");
-	printf("\nInserisci la tua scelta: ");
-	scanf("%d", &scelta);
+	while (scelta<0||scelta>6) {
+		printf("\nInserisci la tua scelta: ");
+		scanf("%d", &scelta);
+	}
 	if (scelta==1) {
 		cancellaBrano();
 		aspetta();
@@ -319,8 +335,10 @@ void menuRicercaAvanzata() {
 	printf("\n[6] Mostra testo di un brano");
 	printf("\n[7] Mostra biografia di un artista");
 	printf("\n[0] Ritorna al menu principale");
-	printf("\nInserisci la tua scelta: ");
-	scanf("%d", &scelta);
+	while (scelta<0||scelta>7) {
+		printf("\nInserisci la tua scelta: ");
+		scanf("%d", &scelta);
+	}
 	if (scelta==1) {
 		menuRicercaInfo();
 	} else if (scelta==2) {
@@ -359,15 +377,16 @@ void menuRicercaInfo() {
 	printf("\n[2] Mostra info su tutti gli artisti");
 	printf("\n[3] Mostra info su tutti gli album");
 	printf("\n[4] Mostra info su tutti i generi");
+	printf("\n[5] Mostra info su tutte le tue playlist");
 	if (isAdmin()) {
 		printf("\n[6] Mostra info su tutte le playlist");
 		printf("\n[7] Mostra info su tutti gli utenti");
-	} else {
-		printf("\n[5] Mostra info su tutte le tue playlist");
 	}
 	printf("\n[0] Ritorna al menu precedente");
-	printf("\nInserisci la tua scelta: ");
-	scanf("%d", &scelta);
+	while (scelta<0||scelta>7) {
+		printf("\nInserisci la tua scelta: ");
+		scanf("%d", &scelta);
+	}
 	if (scelta==1) {
 		mostraTuttiBrani();
 		aspetta();
@@ -423,8 +442,10 @@ void menuRicercaBraniCriterio() {
 	printf("\n[5] Ricerca brani in base al genere");
 	printf("\n[6] Ricerca brani in base alla playlist");
 	printf("\n[0] Ritorna al menu precedente");
-	printf("\nInserisci la tua scelta: ");
-	scanf("%d", &scelta);
+	while (scelta<0||scelta>6) {
+		printf("\nInserisci la tua scelta: ");
+		scanf("%d", &scelta);
+	}
 	if (scelta==1) {
 		mostraBrani(0);
 		aspetta();
@@ -469,8 +490,10 @@ void menuRicercaInfoCriterio() {
 		printf("\n[5] Ricerca info su un Utente");
 	}
 	printf("\n[0] Ritorna al menu precedente");
-	printf("\nInserisci la tua scelta: ");
-	scanf("%d", &scelta);
+	while (scelta<0||scelta>5) {
+		printf("\nInserisci la tua scelta: ");
+		scanf("%d", &scelta);
+	}
 	if (scelta==1) {
 		mostraInfo(0);
 		aspetta();

@@ -152,8 +152,13 @@ void modificaUtente() {
 	char scelta='N';
 	if (isAdmin()) {
 		mostraTuttiUtenti();
-		printf("\nInserisci id dell'utente da modificare: ");
-		scanf("%d", &id);
+		while (ottieniPosDaID(-1,id)==-1) {
+			printf("\nInserisci id dell'utente da modificare: ");
+			scanf("%d", &id);
+			if (ottieniPosDaID(-1,id)==-1) {
+				printf("\nNessun utente trovato, riprovare");
+			}
+		}
 		printf("\nHai scelto l'utente");
 		mostraSingoloUtente(0, id);
 	} else {
@@ -161,8 +166,10 @@ void modificaUtente() {
 		id = db.utente_connesso;
 	}
 	pulisciBuffer();
-	printf("\nSicuro di voler continuare? [Y/N]: ");
-	scanf("%c", &scelta);
+	while (scelta!='Y'||scelta!='y'||scelta!='n'||scelta!='N') {
+		printf("\nSicuro di voler continuare? [Y/N]: ");
+		scanf("%c", &scelta);
+	}
 	if (scelta=='Y'||scelta=='y') {
 		printf("\n===[Sistema di modifica utente]===");
 		printf("\n[1] Modifica l'username");
@@ -170,8 +177,10 @@ void modificaUtente() {
 		if (isAdmin())
 			printf("\n[3] Modifica il ruolo");
 		printf("\n[0] Esci");
-		printf("\nInserisci la tua scelta: ");
-		scanf("%d", &modalita);
+		while (modalita<0||modalita>3) {
+			printf("\nInserisci la tua scelta: ");
+			scanf("%d", &modalita);
+		}
 		if (modalita!=0) {
 			modificaSingoloUtente(modalita, id);
 		}
@@ -217,8 +226,10 @@ void modificaSingoloUtente(int modalita, int id) {
 	} else if (modalita==3) {
 		if (isAdmin()) {
 			int ruolo=1;
-			printf("\nAmministratore[0] oppure Utente normale[1]? ");
-			scanf("%d", &ruolo);
+			while (ruolo<0||ruolo>1) {
+				printf("\nAmministratore[0] oppure Utente normale[1]? ");
+				scanf("%d", &ruolo);
+			}
 			if (ruolo==0) {
 				db.utente[pos].admin=true;
 			} else if (ruolo==1) {
@@ -235,8 +246,13 @@ void cancellaUtente() {
 	char scelta='N';
 	if (isAdmin()) {
 		mostraTuttiUtenti();
-		printf("\nInserisci id dell'utente: ");
-		scanf("%d", &id);
+		while (ottieniPosDaID(-1,id)==-1) {
+			printf("\nInserisci id dell'utente: ");
+			scanf("%d", &id);
+			if (ottieniPosDaID(-1,id)==-1) {
+				printf("\nNessun utente trovato, riprovare");
+			}
+		}
 		printf("\nHai scelto l'utente: ");
 		mostraSingoloUtente(0, id);
 	} else {
@@ -244,8 +260,10 @@ void cancellaUtente() {
 		mostraSingoloUtente(0, id);
 	}
 	pulisciBuffer();
-	printf("\nSicuro di voler continuare? [Y/N]: ");
-	scanf("%c", &scelta);
+	while (scelta!='Y'||scelta!='y'||scelta!='n'||scelta!='N') {
+		printf("\nSicuro di voler continuare? [Y/N]: ");
+		scanf("%c", &scelta);
+	}
 	if (scelta=='Y'||scelta=='y') {
 		cancellaSingoloUtente(id);
 	}

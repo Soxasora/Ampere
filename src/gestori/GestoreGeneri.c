@@ -91,13 +91,20 @@ void modificaGenere() {
 	int id=0, modalita=0;
 	char scelta='N';
 	mostraTuttiGeneri();
-	printf("\n\nInserire l'identificativo del genere da modificare: ");
-	scanf("%d", &id);
+	while(ottieniPosDaID(3,id)==-1) {
+		printf("\n\nInserire l'identificativo del genere da modificare: ");
+		scanf("%d", &id);
+		if (ottieniPosDaID(3,id)==-1) {
+			printf("\nGenere non trovato, riprovare");
+		}
+	}
 	printf("\nHai scelto il genere:");
 	mostraSingoloGenere(id);
 	pulisciBuffer();
-	printf("\nSicuro di voler continuare? [Y/N]: ");
-	scanf("%c", &scelta);
+	while (scelta!='Y'||scelta!='y'||scelta!='n'||scelta!='N') {
+		printf("\nSicuro di voler continuare? [Y/N]: ");
+		scanf("%c", &scelta);
+	}
 	if (scelta=='Y'||scelta=='y') {
 		printf("\n===[Sistema di modifica genere]===");
 		printf("\n[1] Modifica il Nome");
@@ -126,20 +133,26 @@ void cancellaGenere() {
 	int id=0;
 	char scelta='N';
 	mostraTuttiGeneri();
-	printf("\n\nInserire l'identificativo del genere da cancellare: ");
-	scanf("%d", &id);
+	while(ottieniPosDaID(3,id)==-1) {
+		printf("\n\nInserire l'identificativo del genere da cancellare: ");
+		scanf("%d", &id);
+		if (ottieniPosDaID(3,id)==-1) {
+			printf("\nGenere non trovato, riprovare");
+		}
+	}
 	printf("\nHai scelto il genere: ");
 	mostraSingoloGenere(id);
 	pulisciBuffer();
-	printf("\nSicuro di voler continuare? Cancellera' anche i brani collegati ad esso. [Y/N]: ");
-	scanf("%c", &scelta);
+	while (scelta!='Y'||scelta!='y'||scelta!='n'||scelta!='N') {
+		printf("\nSicuro di voler continuare? Cancellera' anche i brani collegati ad esso. [Y/N]: ");
+		scanf("%c", &scelta);
+	}
 	if (scelta=='Y'||scelta=='y') {
 		cancellaSingoloGenere(id);
 	}
 }
 
 void cancellaSingoloGenere(int id) {
-	printf("prova1");
 	int n=contaNelDatabase(3);
 	int i=ottieniPosDaID(3, id);
 	while(i<n-1) {
@@ -147,10 +160,8 @@ void cancellaSingoloGenere(int id) {
 		i++;
 	}
 	db.genere[n-1].id = 0;
-	printf("prova2");
 	int nbrani=contaNelDatabase(7);
 	i=0;
-	printf("prova3");
 	while (i<nbrani) {
 		if(db.branoGenere[i].idGenere==id) {
 			cancellaSingoloBrano(db.branoGenere[i].idBrano);

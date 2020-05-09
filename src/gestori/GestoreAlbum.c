@@ -37,8 +37,11 @@ int creaAlbumGuidato(char titolo_album[]) {
 	printf("\nSembra che quest'album non esista nel database, inseriamolo.");
 	printf("\n===[Inserimento guidato di un album]===");
 	printf("\nTitolo: %s", titolo_album);
-	printf("\nInserisci l'anno di uscita di quest'album: ");
-	scanf("%d", &anno);
+	pulisciBuffer();
+	while (anno<=0||anno>3000) {
+		printf("\nInserisci l'anno di uscita di quest'album: ");
+		scanf("%d", &anno);
+	}
 	id = inserisciAlbum(titolo_album, anno);
 	return id;
 }
@@ -97,15 +100,22 @@ int controlloEsistenzaAlbum(char album[]) {
 
 void modificaAlbum() {
 	int id=0, modalita=0;
-	char scelta='N';
+	char scelta='a';
 	mostraTuttiAlbum();
-	printf("\n\nInserire l'identificativo dell'album da modificare: ");
-	scanf("%d", &id);
+	while (ottieniPosDaID(1,id)==-1) {
+		printf("\n\nInserire l'identificativo dell'album da modificare: ");
+		scanf("%d", &id);
+		if (ottieniPosDaID(1,id)==-1) {
+			printf("\nNessun album trovato, riprovare");
+		}
+	}
 	printf("\nHai scelto l'album:");
 	mostraSingoloAlbum(id);
 	pulisciBuffer();
-	printf("\nSicuro di voler continuare? [Y/N]: ");
-	scanf("%c", &scelta);
+	while (scelta!='Y'||scelta!='y'||scelta!='n'||scelta!='N') {
+		printf("\nSicuro di voler continuare? [Y/N]: ");
+		scanf("%c", &scelta);
+	}
 	if (scelta=='Y'||scelta=='y') {
 		printf("\n===[Sistema di modifica album]===");
 		printf("\n[1] Modifica il Titolo");
@@ -129,8 +139,10 @@ void modificaSingoloAlbum(int modalita, int id) {
 		free(titolo);
 	} else if (modalita==2) {
 		int anno=0;
-		printf("\nInserisci nuovo anno: ");
-		scanf("%d", &anno);
+		while (anno<=0||anno>3000) {
+			printf("\nInserisci nuovo anno: ");
+			scanf("%d", &anno);
+		}
 		db.album[pos].anno=anno;
 	}
 	db_modificato=1;
@@ -142,8 +154,13 @@ void cancellaAlbum() {
 	int id=0;
 	char scelta='N';
 	mostraTuttiAlbum();
-	printf("\n\nInserire l'identificativo dell'album da cancellare: ");
-	scanf("%d", &id);
+	while (ottieniPosDaID(1,id)==-1) {
+		printf("\n\nInserire l'identificativo dell'album da cancellare: ");
+		scanf("%d", &id);
+		if (ottieniPosDaID(1,id)==-1) {
+			printf("\nNessun album trovato, riprovare");
+		}
+	}
 	printf("\nHai scelto l'album: ");
 	mostraSingoloAlbum(id);
 	pulisciBuffer();
