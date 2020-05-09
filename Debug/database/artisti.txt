@@ -1,3 +1,4 @@
-1,N/A,N/A,Daft Punk
-2,Frank,Ocean,Frank Ocean
-3,N/A,N/A,tha Supreme
+1|N/A|N/A|Daft Punk
+2|Christopher|Ocean|Frank Ocean
+3|Davide|Mattei|tha Supreme
+4|Daniel|Rosenfeld|C418

@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 2720 - 09.05.2020
+ * Ampere 0.1 rev. 2930 - 10.05.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -58,9 +58,9 @@ int inserisciGenere(char nome[]) {
 void inserisciGenereSuFile(char id[], char nome[]) {
 	FILE* fp=fopen(file_generi, "a");
 	if (controllaSeFileVuoto(file_generi)==1) {
-		fprintf(fp, "%s,%s", id, nome);
+		fprintf(fp, "%s|%s", id, nome);
 	} else {
-		fprintf(fp, "\n%s,%s", id, nome);
+		fprintf(fp, "\n%s|%s", id, nome);
 	}
 	fclose(fp);
 }
@@ -68,9 +68,9 @@ void inserisciGenereSuFile(char id[], char nome[]) {
 void inserisciTipiBraniSuFile(char idbrano[], char idgenere[]) {
 	FILE* fp=fopen(file_tipobrano, "a");
 	if (controllaSeFileVuoto(file_tipobrano)==1) {
-		fprintf(fp, "%s,%s", idbrano, idgenere);
+		fprintf(fp, "%s|%s", idbrano, idgenere);
 	} else {
-		fprintf(fp, "\n%s,%s", idbrano, idgenere);
+		fprintf(fp, "\n%s|%s", idbrano, idgenere);
 	}
 	fclose(fp);
 }
@@ -88,8 +88,8 @@ int controlloEsistenzaGenere(char genere[]) {
 }
 
 void modificaGenere() {
-	int id=0, modalita=0;
-	char scelta='N';
+	int id=0, modalita=-1, controllo=0;
+	char scelta='a';
 	mostraTuttiGeneri();
 	while(ottieniPosDaID(3,id)==-1) {
 		printf("\n\nInserire l'identificativo del genere da modificare: ");
@@ -101,15 +101,21 @@ void modificaGenere() {
 	printf("\nHai scelto il genere:");
 	mostraSingoloGenere(id);
 	pulisciBuffer();
-	while (scelta!='Y'||scelta!='y'||scelta!='n'||scelta!='N') {
+	while (controllo!=-1) {
 		printf("\nSicuro di voler continuare? [Y/N]: ");
 		scanf("%c", &scelta);
+		if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
+			controllo=-1;
+		}
 	}
 	if (scelta=='Y'||scelta=='y') {
 		printf("\n===[Sistema di modifica genere]===");
 		printf("\n[1] Modifica il Nome");
 		printf("\n[0] Esci");
-		printf("\nInserisci la tua scelta");
+		while (modalita<0||modalita>1) {
+			printf("\nInserisci la tua scelta: ");
+			scanf("%d", &modalita);
+		}
 		if (modalita!=0) {
 			modificaSingoloGenere(id);
 		}
@@ -130,8 +136,8 @@ void modificaSingoloGenere(int id) {
 }
 
 void cancellaGenere() {
-	int id=0;
-	char scelta='N';
+	int id=0, controllo=0;
+	char scelta='a';
 	mostraTuttiGeneri();
 	while(ottieniPosDaID(3,id)==-1) {
 		printf("\n\nInserire l'identificativo del genere da cancellare: ");
@@ -143,9 +149,12 @@ void cancellaGenere() {
 	printf("\nHai scelto il genere: ");
 	mostraSingoloGenere(id);
 	pulisciBuffer();
-	while (scelta!='Y'||scelta!='y'||scelta!='n'||scelta!='N') {
-		printf("\nSicuro di voler continuare? Cancellera' anche i brani collegati ad esso. [Y/N]: ");
+	while (controllo!=-1) {
+		printf("\nSicuro di voler continuare? [Y/N]: ");
 		scanf("%c", &scelta);
+		if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
+			controllo=-1;
+		}
 	}
 	if (scelta=='Y'||scelta=='y') {
 		cancellaSingoloGenere(id);

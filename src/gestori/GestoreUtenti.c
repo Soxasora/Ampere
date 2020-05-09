@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 2720 - 09.05.2020
+ * Ampere 0.1 rev. 2930 - 10.05.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -140,16 +140,16 @@ bool controllaEsistenzaUtente(char username[]) {
 void inserisciUtenteSuFile(char id[], char username[], char password[], char admin[]) {
 	FILE* fp=fopen(file_utenti, "a");
 	if (controllaSeFileVuoto(file_utenti)==1) {
-		fprintf(fp, "%s,%s,%s,%s", id, username, password, admin);
+		fprintf(fp, "%s|%s|%s|%s", id, username, password, admin);
 	} else {
-		fprintf(fp, "\n%s,%s,%s,%s", id, username, password, admin);
+		fprintf(fp, "\n%s|%s|%s|%s", id, username, password, admin);
 	}
 	fclose(fp);
 }
 
 void modificaUtente() {
-	int id=0, modalita=0;
-	char scelta='N';
+	int id=0, modalita=-1, controllo=0;
+	char scelta='a';
 	if (isAdmin()) {
 		mostraTuttiUtenti();
 		while (ottieniPosDaID(-1,id)==-1) {
@@ -166,9 +166,12 @@ void modificaUtente() {
 		id = db.utente_connesso;
 	}
 	pulisciBuffer();
-	while (scelta!='Y'||scelta!='y'||scelta!='n'||scelta!='N') {
+	while (controllo!=-1) {
 		printf("\nSicuro di voler continuare? [Y/N]: ");
 		scanf("%c", &scelta);
+		if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
+			controllo=-1;
+		}
 	}
 	if (scelta=='Y'||scelta=='y') {
 		printf("\n===[Sistema di modifica utente]===");
@@ -242,8 +245,8 @@ void modificaSingoloUtente(int modalita, int id) {
 }
 
 void cancellaUtente() {
-	int id=0;
-	char scelta='N';
+	int id=0, controllo=0;
+	char scelta='a';
 	if (isAdmin()) {
 		mostraTuttiUtenti();
 		while (ottieniPosDaID(-1,id)==-1) {
@@ -260,9 +263,12 @@ void cancellaUtente() {
 		mostraSingoloUtente(0, id);
 	}
 	pulisciBuffer();
-	while (scelta!='Y'||scelta!='y'||scelta!='n'||scelta!='N') {
+	while (controllo!=-1) {
 		printf("\nSicuro di voler continuare? [Y/N]: ");
 		scanf("%c", &scelta);
+		if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
+			controllo=-1;
+		}
 	}
 	if (scelta=='Y'||scelta=='y') {
 		cancellaSingoloUtente(id);

@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 2720 - 09.05.2020
+ * Ampere 0.1 rev. 2930 - 10.05.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -41,6 +41,7 @@ void inserimentoBranoGuidato() {
 	printf("\nInserisci nome album: ");
 	album = inputStringaSicuro(album);
 	id_album = creaAlbumSeNonEsiste(album);
+	pulisciBuffer();
 	printf("\nInserisci genere del brano: ");
 	genere = inputStringaSicuro(genere);
 	id_genere = creaGenereSeNonEsiste(genere);
@@ -89,16 +90,16 @@ void inserisciBrano(char titolo[], int id_artista, int id_album, int id_genere, 
 void inserisciBranoSuFile(char id[], char titolo[], char durata[], char id_album[], char anno[], char ascolti[]) {
 	FILE* fp=fopen(file_brani, "a");
 	if (controllaSeFileVuoto(file_brani)==1) {
-		fprintf(fp, "%s,%s,%s,%s,%s,%s", id, titolo, durata, id_album, anno, ascolti);
+		fprintf(fp, "%s|%s|%s|%s|%s|%s", id, titolo, durata, id_album, anno, ascolti);
 	} else {
-		fprintf(fp, "\n%s,%s,%s,%s,%s,%s", id, titolo, durata, id_album, anno, ascolti);
+		fprintf(fp, "\n%s|%s|%s|%s|%s|%s", id, titolo, durata, id_album, anno, ascolti);
 	}
 	fclose(fp);
 }
 
 void modificaBrano() {
-	int id=0, modalita=0;
-	char scelta='N';
+	int id=0, modalita=-1, controllo=0;
+	char scelta='a';
 	mostraTuttiBrani();
 	while (ottieniPosDaID(0,id)==-1) {
 		printf("\n\nInserire l'identificativo del brano da modificare: ");
@@ -110,9 +111,12 @@ void modificaBrano() {
 	printf("\nHai scelto il brano:");
 	mostraSingoloBrano(id);
 	pulisciBuffer();
-	while (scelta!='Y'||scelta!='y'||scelta!='n'||scelta!='N') {
+	while (controllo!=-1) {
 		printf("\nSicuro di voler continuare? [Y/N]: ");
 		scanf("%c", &scelta);
+		if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
+			controllo=-1;
+		}
 	}
 	if (scelta=='Y'||scelta=='y') {
 		printf("\n===[Sistema di modifica brani]===");
@@ -122,7 +126,7 @@ void modificaBrano() {
 		printf("\n[4] Modifica gli Ascolti");
 		printf("\n[5] Modifica l'album d'appartenenza");
 		printf("\n[0] Esci");
-		while (scelta<0||scelta>5) {
+		while (modalita<0||modalita>5) {
 			printf("\nInserisci la tua scelta: ");
 			scanf("%d", &modalita);
 		}
@@ -141,20 +145,6 @@ void modificaSingoloBrano(int modalita, int id) {
 		titolo = inputStringaSicuro(titolo);
 		strcpy(db.brano[pos].titolo, titolo);
 		free(titolo);
-		/**
-		 * 	while (durata<=0||durata>9999) {
-		printf("\nInserisci durata del brano in secondi: ");
-		scanf("%d", &durata);
-	}
-	while (anno<=0||durata>3000) {
-		printf("\nInserisci anno d'uscita del brano: ");
-		scanf("%d", &anno);
-	}
-	while (ascolti<=0) {
-		printf("\nInserisci numero d'ascolti del brano: ");
-		scanf("%d", &ascolti);
-	}
-		 */
 	} else if (modalita==2) {
 		int durata=0;
 		while (durata<=0||durata>9999) {
@@ -183,8 +173,8 @@ void modificaSingoloBrano(int modalita, int id) {
 }
 
 void cancellaBrano() {
-	int id=0;
-	char scelta='N';
+	int id=0, controllo=0;
+	char scelta='a';
 	mostraTuttiBrani();
 	while (ottieniPosDaID(0,id)==-1) {
 		printf("\n\nInserire l'identificativo del brano da cancellare: ");
@@ -196,9 +186,12 @@ void cancellaBrano() {
 	printf("\nHai scelto il brano:");
 	mostraSingoloBrano(id);
 	pulisciBuffer();
-	while (scelta!='Y'||scelta!='y'||scelta!='n'||scelta!='N') {
+	while (controllo!=-1) {
 		printf("\nSicuro di voler continuare? [Y/N]: ");
 		scanf("%c", &scelta);
+		if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
+			controllo=-1;
+		}
 	}
 	if (scelta=='Y'||scelta=='y') {
 		cancellaSingoloBrano(id);
@@ -292,7 +285,7 @@ void apriTesto(int idBrano) {
 }
 
 void apriTestoDaRicerca() {
-	int scelta=0, controllo=0, idbrano=0, esito=0;
+	int scelta=-1, controllo=0, idbrano=0, esito=0;
 	pulisciBuffer();
 	printf("\nCerca brano del quale si vuole aprire il testo");
 	while (controllo!=-1) {

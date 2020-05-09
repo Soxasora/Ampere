@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 2720 - 09.05.2020
+ * Ampere 0.1 rev. 2930 - 10.05.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -69,9 +69,9 @@ int inserisciAlbum(char titolo[], int anno) {
 void inserisciAlbumSuFile(char id[], char titolo[], char anno[]) {
 	FILE* fp=fopen(file_albums, "a");
 	if (controllaSeFileVuoto(file_albums)==1) {
-		fprintf(fp, "%s,%s,%s", id, titolo, anno);
+		fprintf(fp, "%s|%s|%s", id, titolo, anno);
 	} else {
-		fprintf(fp, "\n%s,%s,%s", id, titolo, anno);
+		fprintf(fp, "\n%s|%s|%s", id, titolo, anno);
 	}
 	fclose(fp);
 }
@@ -79,9 +79,9 @@ void inserisciAlbumSuFile(char id[], char titolo[], char anno[]) {
 void inserisciCollezioneSuFile(char idalbum[], char idbrano[]) {
 	FILE* fp=fopen(file_collezione, "a");
 	if (controllaSeFileVuoto(file_collezione)==1) {
-		fprintf(fp, "%s,%s", idalbum, idbrano);
+		fprintf(fp, "%s|%s", idalbum, idbrano);
 	} else {
-		fprintf(fp, "\n%s,%s", idalbum, idbrano);
+		fprintf(fp, "\n%s|%s", idalbum, idbrano);
 	}
 	fclose(fp);
 }
@@ -99,7 +99,7 @@ int controlloEsistenzaAlbum(char album[]) {
 }
 
 void modificaAlbum() {
-	int id=0, modalita=0;
+	int id=0, modalita=-1, controllo=0;
 	char scelta='a';
 	mostraTuttiAlbum();
 	while (ottieniPosDaID(1,id)==-1) {
@@ -112,16 +112,22 @@ void modificaAlbum() {
 	printf("\nHai scelto l'album:");
 	mostraSingoloAlbum(id);
 	pulisciBuffer();
-	while (scelta!='Y'||scelta!='y'||scelta!='n'||scelta!='N') {
+	while (controllo!=-1) {
 		printf("\nSicuro di voler continuare? [Y/N]: ");
 		scanf("%c", &scelta);
+		if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
+			controllo=-1;
+		}
 	}
 	if (scelta=='Y'||scelta=='y') {
 		printf("\n===[Sistema di modifica album]===");
 		printf("\n[1] Modifica il Titolo");
 		printf("\n[2] Modificare l'anno di uscita");
 		printf("\n[0] Esci");
-		printf("\nInserisci la tua scelta");
+		while (modalita<0||modalita>2) {
+			printf("\nInserisci la tua scelta: ");
+			scanf("%d", &modalita);
+		}
 		if (modalita!=0) {
 			modificaSingoloAlbum(modalita, id);
 		}

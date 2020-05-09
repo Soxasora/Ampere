@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 2720 - 09.05.2020
+ * Ampere 0.1 rev. 2930 - 10.05.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -36,9 +36,9 @@ int creaArtistaGuidato(char nomearte[]) {
 	printf("\nSembra che quest'artista non esista nel database, inseriamolo.");
 	printf("\n===[Inserimento guidato di un artista]===");
 	printf("\nNome d'arte: %s", nomearte);
-	printf("\nInserisci nome dell'artista: ");
+	printf("\nInserisci nome ANAGRAFICO dell'artista: ");
 	nome = inputStringaSicuro(nome);
-	printf("\nInserisci cognome dell'artista: ");
+	printf("\nInserisci cognome ANAGRAFICO dell'artista: ");
 	cognome = inputStringaSicuro(cognome);
 	id = inserisciArtista(nome, cognome, nomearte);
 	free(nome); free(cognome);
@@ -81,9 +81,9 @@ int controlloEsistenzaArtista(char nomearte[]) {
 void inserisciArtistiSuFile(char id[], char nome[], char cognome[], char nomearte[]) {
 	FILE* fp=fopen(file_artisti, "a");
 	if (controllaSeFileVuoto(file_artisti)==1) {
-		fprintf(fp, "%s,%s,%s,%s", id, nome, cognome, nomearte);
+		fprintf(fp, "%s|%s|%s|%s", id, nome, cognome, nomearte);
 	} else {
-		fprintf(fp, "\n%s,%s,%s,%s", id, nome, cognome, nomearte);
+		fprintf(fp, "\n%s|%s|%s|%s", id, nome, cognome, nomearte);
 	}
 	fclose(fp);
 }
@@ -91,16 +91,16 @@ void inserisciArtistiSuFile(char id[], char nome[], char cognome[], char nomeart
 void inserisciAssociazioneArtistiSuFile(char idbrano[], char idartista[]) {
 	FILE* fp=fopen(file_associazioneartisti, "a");
 	if (controllaSeFileVuoto(file_associazioneartisti)==1) {
-		fprintf(fp, "%s,%s", idbrano, idartista);
+		fprintf(fp, "%s|%s", idbrano, idartista);
 	} else {
-		fprintf(fp, "\n%s,%s", idbrano, idartista);
+		fprintf(fp, "\n%s|%s", idbrano, idartista);
 	}
 	fclose(fp);
 }
 
 void modificaArtista() {
-	int id=0, modalita=0;
-	char scelta='N';
+	int id=0, modalita=-1, controllo=0;
+	char scelta='a';
 	mostraTuttiArtisti();
 	while (ottieniPosDaID(2, id)==-1) {
 		printf("\n\nInserire l'identificativo dell'artista da modificare: ");
@@ -112,15 +112,23 @@ void modificaArtista() {
 	printf("\nHai scelto l'artista:");
 	mostraSingoloArtista(id);
 	pulisciBuffer();
-	printf("\nSicuro di voler continuare? [Y/N]: ");
-	scanf("%c", &scelta);
+	while (controllo!=-1) {
+		printf("\nSicuro di voler continuare? [Y/N]: ");
+		scanf("%c", &scelta);
+		if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
+			controllo=-1;
+		}
+	}
 	if (scelta=='Y'||scelta=='y') {
 		printf("\n===[Sistema di modifica artista]===");
 		printf("\n[1] Modifica il Nome");
 		printf("\n[2] Modifica il Cognome");
 		printf("\n[3] Modifica il Nome d'arte");
 		printf("\n[0] Esci");
-		printf("\nInserisci la tua scelta");
+		while (modalita<0||modalita>3) {
+			printf("\nInserisci la tua scelta: ");
+			scanf("%d", &modalita);
+		}
 		if (modalita!=0) {
 			modificaSingoloArtista(modalita, id);
 		}

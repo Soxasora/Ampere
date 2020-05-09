@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 2720 - 09.05.2020
+ * Ampere 0.1 rev. 2930 - 10.05.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -25,8 +25,7 @@
 #include "../Ampere.h"
 
 void menuLogin() {
-	int scelta=0;
-	pulisciBuffer();
+	int scelta=-1;
 	while (scelta<0||scelta>1) {
 		printf("\nDesideri effettuare il login[0] o registrarti[1] ad Ampere? ");
 		scanf("%d", &scelta);
@@ -41,7 +40,7 @@ void menuLogin() {
 // Nuovo Menu di Ampere
 void menu() {
 	pulisciBuffer();
-	int scelta=0;
+	int scelta=-1;
 	printf("\n===[AMPERE: Menu Principale]===");
 	printf("\n[1] Effettua una ricerca");
 	printf("\n[2] Effettua una ricerca avanzata");
@@ -79,7 +78,7 @@ void menu() {
 
 void menuAccount() {
 	pulisciBuffer();
-	int scelta=0;
+	int scelta=-1;
 	printf("\n===[Menu Account]===");
 	printf("\n[1] Modifica il tuo account");
 	printf("\n[2] Cancella il tuo account");
@@ -108,7 +107,7 @@ void menuAccount() {
 
 void menuPlaylist() {
 	pulisciBuffer();
-	int scelta=0;
+	int scelta=-1;
 	printf("\n===[Menu Playlist]===");
 	printf("\n[1] TODO I miei brani");
 	printf("\n[2] Le mie playlist");
@@ -153,7 +152,7 @@ void menuPlaylist() {
 
 void menuDatabase() {
 	pulisciBuffer();
-	int scelta=0;
+	int scelta=-1;
 	printf("\n===[AMPERE: Menu Database]===");
 	printf("\n[1] Inserisci nel database");
 	printf("\n[2] Cancella nel database");
@@ -189,7 +188,7 @@ void menuDatabase() {
 
 void menuDBInserimento() {
 	pulisciBuffer();
-	int scelta=0;
+	int scelta=-1;
 	printf("\n===[Menu di Inserimento nel Database]===");
 	printf("\n[1] Inserisci un brano");
 	printf("\n[2] Inserisci un artista");
@@ -231,7 +230,7 @@ void menuDBInserimento() {
 
 void menuDBModifica() {
 	pulisciBuffer();
-	int scelta=0;
+	int scelta=-1;
 	printf("\n===[Menu di Modifica nel Database]===");
 	printf("\n[1] Modifica un brano");
 	printf("\n[2] Modifica un artista");
@@ -278,7 +277,7 @@ void menuDBModifica() {
 
 void menuDBCancella() {
 	pulisciBuffer();
-	int scelta=0;
+	int scelta=-1;
 	printf("\n===[Menu di Cancellazione nel Database]===");
 	printf("\n[1] Cancella un brano");
 	printf("\n[2] Cancella un artista");
@@ -325,7 +324,7 @@ void menuDBCancella() {
 
 void menuRicercaAvanzata() {
 	pulisciBuffer();
-	int scelta=0;
+	int scelta=-1;
 	printf("\n===[Menu Ricerca Avanzata]===");
 	printf("\n[1] Mostra tutte le info in base ad un criterio");
 	printf("\n[2] Ricerca brani in base ad un criterio");
@@ -371,7 +370,7 @@ void menuRicercaAvanzata() {
 
 void menuRicercaInfo() {
 	pulisciBuffer();
-	int scelta=0;
+	int scelta=-1;
 	printf("\n===[Menu Ricerca su Criterio]===");
 	printf("\n[1] Mostra info su tutti i brani");
 	printf("\n[2] Mostra info su tutti gli artisti");
@@ -433,7 +432,7 @@ void menuRicercaInfo() {
 
 void menuRicercaBraniCriterio() {
 	pulisciBuffer();
-	int scelta=0;
+	int scelta=-1;
 	printf("\n===[Menu Ricerca Brani su Criterio]===");
 	printf("\n[1] Ricerca brani in base al titolo");
 	printf("\n[2] Ricerca brani in base all'anno di uscita");
@@ -480,7 +479,7 @@ void menuRicercaBraniCriterio() {
 
 void menuRicercaInfoCriterio() {
 	pulisciBuffer();
-	int scelta=0;
+	int scelta=-1;
 	printf("\n===[Menu Ricerca Info su Criterio]===");
 	printf("\n[1] Ricerca info su un Artista");
 	printf("\n[2] Ricerca info su un Album");

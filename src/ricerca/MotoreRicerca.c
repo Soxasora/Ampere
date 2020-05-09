@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 2720 - 09.05.2020
+ * Ampere 0.1 rev. 2930 - 10.05.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -272,7 +272,7 @@ void mostraSingoloUtente(int modalita, int idUtente) {
 }
 
 void mostraTuttiUtenti() {
-	int i=0, n=contaNelDatabase(-1), controllo=0, modalita=0;
+	int i=0, n=contaNelDatabase(-1), controllo=0, modalita=-1, controllo2=0;
 	pulisciBuffer();
 	while(modalita<0||modalita>1) {
 		printf("\nMostrare anche le password degli utenti? [0/1]: ");
@@ -282,11 +282,13 @@ void mostraTuttiUtenti() {
 		printf("\n");
 		mostraSingoloUtente(modalita,db.utente[i].id);
 		if ((n+1)>5 && (i+1)%5==0) {
-			char scelta='Y';
-			//pulisciBuffer();
-			while (scelta!='Y'||scelta!='y'||scelta!='n'||scelta!='N') {
-				printf("\nElencare i prossimi 5 utenti? [Y/N]: ");
+			char scelta='a';
+			while (controllo2!=-1) {
+				printf("\nSicuro di voler continuare? [Y/N]: ");
 				scanf("%c", &scelta);
+				if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
+					controllo2=-1;
+				}
 			}
 			if(scelta=='N'||scelta=='n') {
 				controllo=-1;

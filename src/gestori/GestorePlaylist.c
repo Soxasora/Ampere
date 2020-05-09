@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 2720 - 09.05.2020
+ * Ampere 0.1 rev. 2930 - 10.05.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -83,8 +83,8 @@ void inserisciBraniPlaylist(int idPlaylist, int idBrano) {
 }
 
 void creaPlaylistGuidato() {
-	char scelta='n';
-	int idUtente = db.utente_connesso;
+	char scelta='a';
+	int idUtente = db.utente_connesso, controllo=0;
 	char *nome = malloc(MAX_CHAR);
 	char *descrizione = malloc(MAX_CHAR);
 	int pubblica=0;
@@ -103,9 +103,12 @@ void creaPlaylistGuidato() {
 	} else {
 		inserisciPlaylist(idUtente, nome, descrizione, true);
 	}
-	while (scelta!='Y'||scelta!='y'||scelta!='n'||scelta!='N') {
-		printf("\nVuoi inserire brani nella tua playlist? [Y/N]: ");
+	while (controllo!=-1) {
+		printf("\nSicuro di voler continuare? [Y/N]: ");
 		scanf("%c", &scelta);
+		if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
+			controllo=-1;
+		}
 	}
 	if (scelta=='Y'||scelta=='y') {
 		inserimentoBraniPlaylistGuidato();
@@ -114,7 +117,7 @@ void creaPlaylistGuidato() {
 
 void inserimentoBraniPlaylistGuidato() {
 	pulisciBuffer();
-	int scelta=0, id=0, n=0, i=0, branoscelto=0, esito=0, controllo=0;
+	int scelta=-1, id=0, n=0, i=0, branoscelto=0, esito=0, controllo=0;
 	int nbrani = contaNelDatabase(0);
 	printf("\n===[Inserimento guidato di brani in una playlist]===");
 	printf("\nScegli la playlist da modificare: ");
@@ -185,9 +188,9 @@ void inserimentoBraniPlaylistGuidato() {
 void inserisciPlaylistSuFile(char id[], char idUtente[], char nome[], char descrizione[], char pubblica[]) {
 	FILE* fp=fopen(file_playlists,"a");
 	if (controllaSeFileVuoto(file_playlists)==1) {
-		fprintf(fp, "%s,%s,%s,%s,%s", id, idUtente, nome, descrizione, pubblica);
+		fprintf(fp, "%s|%s|%s|%s|%s", id, idUtente, nome, descrizione, pubblica);
 	} else {
-		fprintf(fp, "\n%s,%s,%s,%s,%s", id, idUtente, nome, descrizione, pubblica);
+		fprintf(fp, "\n%s|%s|%s|%s|%s", id, idUtente, nome, descrizione, pubblica);
 	}
 	fclose(fp);
 }
@@ -195,9 +198,9 @@ void inserisciPlaylistSuFile(char id[], char idUtente[], char nome[], char descr
 void inserisciRaccoltaSuFile(char idplaylist[], char idbrano[]) {
 	FILE* fp=fopen(file_raccolta,"a");
 	if (controllaSeFileVuoto(file_raccolta)==1) {
-		fprintf(fp, "%s,%s", idplaylist, idbrano);
+		fprintf(fp, "%s|%s", idplaylist, idbrano);
 	} else {
-		fprintf(fp, "\n%s,%s", idplaylist, idbrano);
+		fprintf(fp, "\n%s|%s", idplaylist, idbrano);
 	}
 	fclose(fp);
 }
@@ -215,8 +218,8 @@ int controlloEsistenzaPlaylist(char playlist[]) {
 }
 
 void modificaPlaylist() {
-	int id=0, modalita=0;
-	char scelta='N';
+	int id=0, modalita=-1, controllo=0;
+	char scelta='a';
 	if (isAdmin()) {
 		mostraTuttePlaylist(-1);
 	} else {
@@ -233,9 +236,12 @@ void modificaPlaylist() {
 	printf("\nHai scelto la playlist");
 	mostraSingolaPlaylist(-1, id);
 	pulisciBuffer();
-	while (scelta!='Y'||scelta!='y'||scelta!='n'||scelta!='N') {
+	while (controllo!=-1) {
 		printf("\nSicuro di voler continuare? [Y/N]: ");
 		scanf("%c", &scelta);
+		if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
+			controllo=-1;
+		}
 	}
 	if (scelta=='Y'||scelta=='y') {
 		printf("\n===[Sistema di modifica playlist]===");
@@ -245,7 +251,7 @@ void modificaPlaylist() {
 		if (isAdmin())
 			printf("\n[4] Modifica l'autore della playlist");
 		printf("\n[0] Esci");
-		while (scelta<0||scelta>4) {
+		while (modalita<0||modalita>4) {
 			printf("\nInserisci la scelta: ");
 			scanf("%d", &modalita);
 		}
@@ -302,8 +308,8 @@ void modificaSingolaPlaylist(int modalita, int id) {
 }
 
 void cancellaPlaylist() {
-	int id=0;
-	char scelta='N';
+	int id=0, controllo=0;
+	char scelta='a';
 	if (isAdmin()) {
 		mostraTuttePlaylist(-1);
 	} else {
@@ -320,9 +326,12 @@ void cancellaPlaylist() {
 	printf("\nHai scelto la playlist: ");
 	mostraSingolaPlaylist(-1, id);
 	pulisciBuffer();
-	while (scelta!='Y'||scelta!='y'||scelta!='n'||scelta!='N') {
+	while (controllo!=-1) {
 		printf("\nSicuro di voler continuare? [Y/N]: ");
 		scanf("%c", &scelta);
+		if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
+			controllo=-1;
+		}
 	}
 	if(scelta=='Y'||scelta=='y') {
 		cancellaSingolaPlaylist(id);

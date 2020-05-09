@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 2720 - 09.05.2020
+ * Ampere 0.1 rev. 2930 - 10.05.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -80,7 +80,7 @@ void ottieniBrani() {
 		FILE* fp=fopen(file_brani, "r");
 		char temp[MAX_TEMP];
 		char dati[MAX_TEMP][MAX_TEMP];
-		char spaziatore[] = ",";
+		char spaziatore[] = "|";
 		int i=0, j=0;
 		while(!feof(fp)) {
 			fgets(temp, MAX_TEMP, fp);
@@ -116,7 +116,7 @@ void ottieniAlbums() {
 		FILE* fp=fopen(file_albums, "r");
 		char temp[MAX_TEMP];
 		char dati[MAX_TEMP][MAX_TEMP];
-		char spaziatore[] = ",";
+		char spaziatore[] = "|";
 		int i=0, j=0;
 		while(!feof(fp)) {
 			fgets(temp, MAX_TEMP, fp);
@@ -149,7 +149,7 @@ void ottieniArtisti() {
 		FILE* fp=fopen(file_artisti, "r");
 		char temp[MAX_TEMP];
 		char dati[MAX_TEMP][MAX_TEMP];
-		char spaziatore[] = ",";
+		char spaziatore[] = "|";
 		int i=0, j=0;
 		while(!feof(fp)) {
 			fgets(temp, MAX_TEMP, fp);
@@ -185,7 +185,7 @@ void ottieniGeneri() {
 		FILE* fp=fopen(file_generi, "r");
 		char temp[MAX_TEMP];
 		char dati[MAX_TEMP][MAX_TEMP];
-		char spaziatore[] = ",";
+		char spaziatore[] = "|";
 		int i=0, j=0;
 		while(!feof(fp)) {
 			fgets(temp, MAX_TEMP, fp);
@@ -217,7 +217,7 @@ void ottieniPlaylists() {
 		FILE* fp=fopen(file_playlists, "r");
 		char temp[MAX_TEMP];
 		char dati[MAX_TEMP][MAX_TEMP];
-		char spaziatore[] = ",";
+		char spaziatore[] = "|";
 		int i=0, j=0;
 		while(!feof(fp)) {
 			fgets(temp, MAX_TEMP, fp);
@@ -256,7 +256,7 @@ void ottieniUtenti() {
 		FILE* fp=fopen(file_utenti, "r");
 		char temp[MAX_TEMP];
 		char dati[MAX_TEMP][MAX_TEMP];
-		char spaziatore[] = ",";
+		char spaziatore[] = "|";
 		int i=0, j=0;
 		while(!feof(fp)) {
 			fgets(temp, MAX_TEMP, fp);
@@ -294,7 +294,7 @@ void associaArtisti() {
 		FILE* fp=fopen(file_associazioneartisti, "r");
 		char temp[MAX_TEMP];
 		char dati[MAX_TEMP][MAX_TEMP];
-		char spaziatore[] = ",";
+		char spaziatore[] = "|";
 		int i=0, j=0;
 		while(!feof(fp)) {
 			fgets(temp, MAX_TEMP, fp);
@@ -325,7 +325,7 @@ void associaAlbum() {
 		FILE* fp=fopen(file_collezione, "r");
 		char temp[MAX_TEMP];
 		char dati[MAX_TEMP][MAX_TEMP];
-		char spaziatore[] = ",";
+		char spaziatore[] = "|";
 		int i=0, j=0;
 		while(!feof(fp)) {
 			fgets(temp, MAX_TEMP, fp);
@@ -356,7 +356,7 @@ void associaGeneri() {
 		FILE* fp=fopen(file_tipobrano, "r");
 		char temp[MAX_TEMP];
 		char dati[MAX_TEMP][MAX_TEMP];
-		char spaziatore[] = ",";
+		char spaziatore[] = "|";
 		int i=0, j=0;
 		while(!feof(fp)) {
 			fgets(temp, MAX_TEMP, fp);
@@ -387,7 +387,7 @@ void associaPlaylist() {
 		FILE* fp=fopen(file_raccolta, "r");
 		char temp[MAX_TEMP];
 		char dati[MAX_TEMP][MAX_TEMP];
-		char spaziatore[] = ",";
+		char spaziatore[] = "|";
 		int i=0, j=0;
 		while(!feof(fp)) {
 			fgets(temp, MAX_TEMP, fp);
