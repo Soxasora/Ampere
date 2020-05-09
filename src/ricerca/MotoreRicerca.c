@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 2455 - 09.05.2020
+ * Ampere 0.1 rev. 2720 - 09.05.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -168,6 +168,7 @@ void mostraSingolaPlaylist(int modalita, int id) {
 		scanf("%c", &scelta);
 		if (scelta=='Y'||scelta=='y') {
 			int i=0, j=0, n=contaNelDatabase(8), controllo=0, nbraniplaylist=(contaBraniPlaylist(id));
+			printf("\n\n===[Brani Playlist %s]===", db.playlist[posplaylist].nome);
 			while (i<n&&controllo!=-1) {
 				if (db.playlistBrano[i].idPlaylist==id) {
 					printf("\n");
@@ -231,7 +232,7 @@ void mostraTuttePlaylist(int modalita) {
 void mostraTuttePlaylistPubbliche(int modalita) {
 	int i=0, n=contaNelDatabase(4), controllo=0;
 	while(i<n&&controllo!=-1) {
-		if (db.playlist[i].pubblica==true) {
+		if (isPublicPlaylist(db.playlist[i].id)) {
 			printf("\n");
 			mostraSingolaPlaylist(modalita,db.playlist[i].id);
 			if ((n+1)>5 && (i+1)%5==0) {
@@ -364,6 +365,38 @@ int mostraInfo(int modalita) {
 			i++;
 		}
 		free(nome);
+	} else if (modalita==3) {
+		char *playlist = malloc(MAX_CHAR);
+		pulisciBuffer();
+		printf("\nInserisci il nome della playlist: ");
+		playlist = inputStringaSicuro(playlist);
+		int i=0, n=contaNelDatabase(4);
+		while (i<n) {
+			if (comparaStringhe(db.playlist[i].nome, playlist)==0) {
+				if (isPublicPlaylist(db.playlist[i].id)||isUserPlaylist(db.playlist[i].id,db.utente_connesso)) {
+					printf("\n");
+					mostraSingolaPlaylist(0,db.playlist[i].id);
+					esiste=1;
+				}
+			}
+			i++;
+		}
+		free(playlist);
+	} else if (modalita==4) {
+		char *username = malloc(MAX_CHAR);
+		pulisciBuffer();
+		printf("\nInserisci l'username dell'utente: ");
+		username = inputStringaSicuro(username);
+		int i=0, n=contaNelDatabase(-1);
+		while(i<n) {
+			if (comparaStringhe(db.utente[i].username, username)==0) {
+				printf("\n");
+				mostraSingoloUtente(0, db.utente[i].id);
+				esiste=1;
+			}
+			i++;
+		}
+		free(username);
 	}
 	return esiste;
 }
@@ -482,5 +515,60 @@ int mostraBraniGenere() {
 		}
 	}
 	free(genere);
+	return esiste;
+}
+
+int mostraBraniPlaylist() {
+	int esiste=0;
+	int id=0;
+	char *playlist = malloc(MAX_CHAR);
+	pulisciBuffer();
+	printf("\nInserisci nome playlist: ");
+	playlist = inputStringaSicuro(playlist);
+	id = controlloEsistenzaPlaylist(playlist);
+	if (id==0) {
+		printf("\nPlaylist non esistente.");
+	} else {
+		if (isPublicPlaylist(id)||isUserPlaylist(id, db.utente_connesso)) {
+			int i=0, n=contaNelDatabase(8);
+			printf("\nPlaylist: %s", playlist);
+			while (i<n) {
+				if (db.playlistBrano[i].idPlaylist==id) {
+					printf("\n");
+					mostraSingoloBrano(db.playlistBrano[i].idBrano);
+					esiste=1;
+				}
+				i++;
+			}
+		} else {
+			printf("\nPlaylist privata.");
+		}
+	}
+	free(playlist);
+	return esiste;
+}
+
+int mostraPlaylistUtenteGuidato() {
+	int esiste=0;
+	int id=0;
+	char *utente = malloc(MAX_CHAR);
+	pulisciBuffer();
+	printf("\nInserisci nome utente: ");
+	utente = inputStringaSicuro(utente);
+	if (!controllaEsistenzaUtente(utente)) {
+		printf("\nUtente non esistente.");
+	} else {
+		int i=0, n=contaNelDatabase(-1), controllo=0;
+		while(i<n&&controllo!=-1) {
+			if (comparaStringhe(utente, db.utente[i].username)==0) {
+				id=db.utente[i].id;
+				controllo=-1;
+			}
+		}
+		printf("\nUtente: %s", utente);
+		mostraPlaylistUtente(0, id);
+		esiste=1;
+	}
+	free(utente);
 	return esiste;
 }

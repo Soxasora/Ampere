@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 2455 - 09.05.2020
+ * Ampere 0.1 rev. 2720 - 09.05.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -41,19 +41,24 @@ void menu() {
 	pulisciBuffer();
 	int scelta=0;
 	printf("\n===[AMPERE: Menu Principale]===");
-	printf("\n[1] Ricerca nel database");
-	printf("\n[2] La mia libreria musicale");
-	printf("\n[3] Gestisci il tuo account");
+	printf("\n[1] Effettua una ricerca");
+	printf("\n[2] Effettua una ricerca avanzata");
+	printf("\n[3] La mia libreria musicale");
+	printf("\n[4] Gestisci il tuo account");
 	if (isAdmin()==true)
 		printf("\n[9] Menu Manipolazione Database");
 	printf("\n[0] Esci dal programma");
 	printf("\nInserisci la tua scelta: ");
 	scanf("%d", &scelta);
 	if (scelta==1) {
-		menuRicerca();
+		eseguiRicerca();
+		aspetta();
+		menu();
 	} else if (scelta==2) {
-		menuPlaylist();
+		menuRicercaAvanzata();
 	} else if (scelta==3) {
+		menuPlaylist();
+	} else if (scelta==4) {
 		menuAccount();
 	} else if (scelta==9) {
 		if (isAdmin())
@@ -302,10 +307,10 @@ void menuDBCancella() {
 	}
 }
 
-void menuRicerca() {
+void menuRicercaAvanzata() {
 	pulisciBuffer();
 	int scelta=0;
-	printf("\n===[Menu Ricerca]===");
+	printf("\n===[Menu Ricerca Avanzata]===");
 	printf("\n[1] Mostra tutte le info in base ad un criterio");
 	printf("\n[2] Ricerca brani in base ad un criterio");
 	printf("\n[3] Ricerca info in base ad un criterio");
@@ -313,7 +318,6 @@ void menuRicerca() {
 	printf("\n[5] Mostra le playlist pubbliche ed i loro brani");
 	printf("\n[6] Mostra testo di un brano");
 	printf("\n[7] Mostra biografia di un artista");
-	printf("\n[8] WIP Ricerca Generale");
 	printf("\n[0] Ritorna al menu principale");
 	printf("\nInserisci la tua scelta: ");
 	scanf("%d", &scelta);
@@ -326,28 +330,24 @@ void menuRicerca() {
 	} else if (scelta==4) {
 		mostraTuttePlaylistPubbliche(-1);
 		aspetta();
-		menuRicerca();
+		menuRicercaAvanzata();
 	} else if (scelta==5) {
 		mostraTuttePlaylistPubbliche(0);
 		aspetta();
-		menuRicerca();
+		menuRicercaAvanzata();
 	} else if (scelta==6) {
 		apriTestoDaRicerca();
 		aspetta();
-		menuRicerca();
+		menuRicercaAvanzata();
 	} else if (scelta==7) {
 		visualizzaBiografiaArtista();
 		aspetta();
-		menuRicerca();
-	} else if (scelta==8) {
-		eseguiRicerca();
-		aspetta();
-		menuRicerca();
+		menuRicercaAvanzata();
 	} else if (scelta==0) {
 		menu();
 	} else {
 		printf("\nInserita scelta non riconosciuta, riprovare. ");
-		menuRicerca();
+		menuRicercaAvanzata();
 	}
 }
 
@@ -361,7 +361,7 @@ void menuRicercaInfo() {
 	printf("\n[4] Mostra info su tutti i generi");
 	if (isAdmin()) {
 		printf("\n[6] Mostra info su tutte le playlist");
-		printf("\n[7] TODO Mostra info su tutti gli utenti");
+		printf("\n[7] Mostra info su tutti gli utenti");
 	} else {
 		printf("\n[5] Mostra info su tutte le tue playlist");
 	}
@@ -398,12 +398,14 @@ void menuRicercaInfo() {
 		}
 	} else if (scelta==7) {
 		if (isAdmin()) {
-			//TODO
+			mostraTuttiUtenti();
+			aspetta();
+			menuRicercaInfo();
 		} else {
 			printf("\nNon puoi accedere a questa funzione in quanto utente normale.");
 		}
 	} else if (scelta==0) {
-		menuRicerca();
+		menuRicercaAvanzata();
 	} else {
 		printf("\nInserita scelta non riconosciuta, riprovare. ");
 		menuRicercaInfo();
@@ -416,9 +418,10 @@ void menuRicercaBraniCriterio() {
 	printf("\n===[Menu Ricerca Brani su Criterio]===");
 	printf("\n[1] Ricerca brani in base al titolo");
 	printf("\n[2] Ricerca brani in base all'anno di uscita");
-	printf("\n[3] Ricerca brani in base all'Artista");
-	printf("\n[4] Ricerca brani in base all'Album");
-	printf("\n[5] Ricerca brani in base al Genere");
+	printf("\n[3] Ricerca brani in base all'artista");
+	printf("\n[4] Ricerca brani in base all'album");
+	printf("\n[5] Ricerca brani in base al genere");
+	printf("\n[6] Ricerca brani in base alla playlist");
 	printf("\n[0] Ritorna al menu precedente");
 	printf("\nInserisci la tua scelta: ");
 	scanf("%d", &scelta);
@@ -442,8 +445,12 @@ void menuRicercaBraniCriterio() {
 		mostraBraniGenere();
 		aspetta();
 		menuRicercaBraniCriterio();
+	} else if (scelta==6) {
+		mostraBraniPlaylist();
+		aspetta();
+		menuRicercaBraniCriterio();
 	} else if (scelta==0) {
-		menuRicerca();
+		menuRicercaAvanzata();
 	} else {
 		printf("\nInserita scelta non riconosciuta, riprovare. ");
 		menuRicercaBraniCriterio();
@@ -457,8 +464,8 @@ void menuRicercaInfoCriterio() {
 	printf("\n[1] Ricerca info su un Artista");
 	printf("\n[2] Ricerca info su un Album");
 	printf("\n[3] Ricerca info su un Genere");
+	printf("\n[4] Ricerca info su una playlist");
 	if (isAdmin()) {
-		printf("\n[4] Ricerca info su una playlist");
 		printf("\n[5] Ricerca info su un Utente");
 	}
 	printf("\n[0] Ritorna al menu precedente");
@@ -477,19 +484,19 @@ void menuRicercaInfoCriterio() {
 		aspetta();
 		menuRicercaInfoCriterio();
 	} else if (scelta==4) {
-		if (isAdmin()) {
-			//TODO
-		} else {
-			printf("\nNon puoi accedere a questa funzione in quanto utente normale.");
-		}
+		mostraInfo(3);
+		aspetta();
+		menuRicercaInfoCriterio();
 	} else if (scelta==5) {
 		if (isAdmin()) {
-			//TODO
+			mostraInfo(4);
+			aspetta();
+			menuRicercaInfoCriterio();
 		} else {
 			printf("\nNon puoi accedere a questa funzione in quanto utente normale.");
 		}
 	} else if (scelta==0) {
-		menuRicerca();
+		menuRicercaAvanzata();
 	} else {
 		printf("\nInserita scelta non riconosciuta, riprovare. ");
 		menuRicercaInfoCriterio();
