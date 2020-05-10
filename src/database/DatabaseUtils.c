@@ -78,9 +78,14 @@ int contaNelDatabase(int modalita) {
 
 int trovaUltimoId(int modalita) {
 	int i=0, n=0, max=0;
+	bool vuoto=true;
 	n = contaNelDatabase(modalita);
 	if (modalita==-1) {
-		if (controllaSeFileVuoto(file_utenti)==0) {
+		if (contaNelDatabase(-1)==0)
+			vuoto=true;
+		else
+			vuoto=false;
+		if (!vuoto) {
 			while(i<n) {
 				if (db.utente[i].id>max) {
 					max=db.utente[i].id;
@@ -91,7 +96,11 @@ int trovaUltimoId(int modalita) {
 			max=0;
 		}
 	} else if (modalita==0) {
-		if (controllaSeFileVuoto(file_brani)==0) {
+		if (contaNelDatabase(0)==0)
+			vuoto=true;
+		else
+			vuoto=false;
+		if (!vuoto) {
 			while(i<n) {
 				if (db.brano[i].id>max) {
 					max=db.brano[i].id;
@@ -102,7 +111,11 @@ int trovaUltimoId(int modalita) {
 			max=0;
 		}
 	} else if (modalita==1) {
-		if (controllaSeFileVuoto(file_albums)==0) {
+		if (contaNelDatabase(1)==0)
+			vuoto=true;
+		else
+			vuoto=false;
+		if (!vuoto) {
 			while(i<n) {
 				if (db.album[i].id>max) {
 					max=db.album[i].id;
@@ -113,7 +126,11 @@ int trovaUltimoId(int modalita) {
 			max=0;
 		}
 	} else if (modalita==2) {
-		if (controllaSeFileVuoto(file_artisti)==0) {
+		if (contaNelDatabase(2)==0)
+			vuoto=true;
+		else
+			vuoto=false;
+		if (!vuoto) {
 			while(i<n) {
 				if (db.artista[i].id>max) {
 					max=db.artista[i].id;
@@ -124,7 +141,11 @@ int trovaUltimoId(int modalita) {
 			max=0;
 		}
 	} else if (modalita==3) {
-		if (controllaSeFileVuoto(file_generi)==0) {
+		if (contaNelDatabase(3)==0)
+			vuoto=true;
+		else
+			vuoto=false;
+		if (!vuoto) {
 			while(i<n) {
 				if (db.genere[i].id>max) {
 					max=db.genere[i].id;
@@ -135,7 +156,11 @@ int trovaUltimoId(int modalita) {
 			max=0;
 		}
 	} else if (modalita==4) {
-		if (controllaSeFileVuoto(file_playlists)==0) {
+		if (contaNelDatabase(4)==0)
+			vuoto=true;
+		else
+			vuoto=false;
+		if (!vuoto) {
 			while(i<n) {
 				if (db.playlist[i].id>max) {
 					max=db.playlist[i].id;

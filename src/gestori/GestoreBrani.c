@@ -125,8 +125,9 @@ void modificaBrano() {
 		printf("\n[3] Modifica l'Anno");
 		printf("\n[4] Modifica gli Ascolti");
 		printf("\n[5] Modifica l'album d'appartenenza");
+		printf("\n[6] Modifica artista d'appartenenza");
 		printf("\n[0] Esci");
-		while (modalita<0||modalita>5) {
+		while (modalita<0||modalita>6) {
 			printf("\nInserisci la tua scelta: ");
 			scanf("%d", &modalita);
 		}
@@ -166,6 +167,35 @@ void modificaSingoloBrano(int modalita, int id) {
 			scanf("%d", &ascolti);
 		}
 		db.brano[pos].durata = ascolti;
+	} else if (modalita==5) {
+		char *album = malloc(MAX_CHAR);
+		int id_album=0;
+		printf("\nInserisci nome album: ");
+		album = inputStringaSicuro(album);
+		id_album = creaAlbumSeNonEsiste(album);
+		free(album);
+		int n_album_brano=contaNelDatabase(6);
+		int i=0;
+		while (i<n_album_brano) {
+			if (db.albumBrano[i].idBrano==db.brano[pos].id) {
+				db.albumBrano[i].idAlbum = id_album;
+			}
+		}
+		db.brano[pos].album = id_album;
+	} else if (modalita==6) {
+		char *artista = malloc(MAX_CHAR);
+		int id_artista=0;
+		printf("\nInserisci nome d'arte artista: ");
+		artista = inputStringaSicuro(artista);
+		id_artista = creaArtistaSeNonEsiste(artista);
+		free(artista);
+		int n_artista_brano=contaNelDatabase(5);
+		int i=0;
+		while(i<n_artista_brano) {
+			if (db.artistaBrano[i].idBrano==db.brano[pos].id) {
+				db.artistaBrano[i].idArtista = id_artista;
+			}
+		}
 	}
 	db_modificato = 1;
 	printf("\nBrano aggiornato, ecco il risultato:\n");

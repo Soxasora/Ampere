@@ -75,7 +75,7 @@ database ottieniDatabase() {
 }
 
 void ottieniBrani() {
-	db.brano = malloc((MAX_CHAR*MAX_CHAR)*sizeof(db.brano));
+	db.brano = malloc((MAX_TEMP*MAX_TEMP)*sizeof(db.brano));
 	if (controllaSeFileVuoto(file_brani)==0) {
 		FILE* fp=fopen(file_brani, "r");
 		char temp[MAX_TEMP];
@@ -111,7 +111,7 @@ void ottieniBrani() {
 }
 
 void ottieniAlbums() {
-	db.album = malloc((MAX_CHAR*MAX_CHAR)*sizeof(db.album));
+	db.album = malloc((MAX_TEMP*MAX_TEMP)*sizeof(db.album));
 	if (controllaSeFileVuoto(file_albums)==0) {
 		FILE* fp=fopen(file_albums, "r");
 		char temp[MAX_TEMP];
@@ -144,7 +144,7 @@ void ottieniAlbums() {
 }
 
 void ottieniArtisti() {
-	db.artista = malloc((MAX_CHAR*MAX_CHAR)*sizeof(db.artista));
+	db.artista = malloc((MAX_TEMP*MAX_TEMP)*sizeof(db.artista));
 	if (controllaSeFileVuoto(file_artisti)==0) {
 		FILE* fp=fopen(file_artisti, "r");
 		char temp[MAX_TEMP];
@@ -180,7 +180,7 @@ void ottieniArtisti() {
 }
 
 void ottieniGeneri() {
-	db.genere = malloc((MAX_CHAR*MAX_CHAR)*sizeof(db.genere));
+	db.genere = malloc((MAX_TEMP*MAX_TEMP)*sizeof(db.genere));
 	if (controllaSeFileVuoto(file_generi)==0) {
 		FILE* fp=fopen(file_generi, "r");
 		char temp[MAX_TEMP];
@@ -212,7 +212,7 @@ void ottieniGeneri() {
 }
 
 void ottieniPlaylists() {
-	db.playlist = malloc((MAX_CHAR*MAX_CHAR)*sizeof(db.playlist));
+	db.playlist = malloc((MAX_TEMP*MAX_TEMP)*sizeof(db.playlist));
 	if (controllaSeFileVuoto(file_playlists)==0) {
 		FILE* fp=fopen(file_playlists, "r");
 		char temp[MAX_TEMP];
@@ -251,7 +251,7 @@ void ottieniPlaylists() {
 	}
 }
 void ottieniUtenti() {
-	db.utente = malloc((MAX_CHAR*MAX_CHAR)*sizeof(db.utente));
+	db.utente = malloc((MAX_TEMP*MAX_TEMP)*sizeof(db.utente));
 	if (controllaSeFileVuoto(file_utenti)==0) {
 		FILE* fp=fopen(file_utenti, "r");
 		char temp[MAX_TEMP];
@@ -289,7 +289,7 @@ void ottieniUtenti() {
 }
 
 void associaArtisti() {
-	db.artistaBrano = malloc((MAX_CHAR*MAX_CHAR)*sizeof(db.artistaBrano));
+	db.artistaBrano = malloc((MAX_TEMP*MAX_TEMP)*sizeof(db.artistaBrano));
 	if (controllaSeFileVuoto(file_associazioneartisti)==0) {
 		FILE* fp=fopen(file_associazioneartisti, "r");
 		char temp[MAX_TEMP];
@@ -320,7 +320,7 @@ void associaArtisti() {
 }
 
 void associaAlbum() {
-	db.albumBrano = malloc((MAX_CHAR*MAX_CHAR)*sizeof(db.albumBrano));
+	db.albumBrano = malloc((MAX_TEMP*MAX_TEMP)*sizeof(db.albumBrano));
 	if (controllaSeFileVuoto(file_collezione)==0) {
 		FILE* fp=fopen(file_collezione, "r");
 		char temp[MAX_TEMP];
@@ -351,7 +351,7 @@ void associaAlbum() {
 }
 
 void associaGeneri() {
-	db.branoGenere = malloc((MAX_CHAR*MAX_CHAR)*sizeof(db.branoGenere));
+	db.branoGenere = malloc((MAX_TEMP*MAX_TEMP)*sizeof(db.branoGenere));
 	if (controllaSeFileVuoto(file_tipobrano)==0) {
 		FILE* fp=fopen(file_tipobrano, "r");
 		char temp[MAX_TEMP];
@@ -382,7 +382,7 @@ void associaGeneri() {
 }
 
 void associaPlaylist() {
-	db.playlistBrano = malloc((MAX_CHAR*MAX_CHAR)*sizeof(db.playlistBrano));
+	db.playlistBrano = malloc((MAX_TEMP*MAX_TEMP)*sizeof(db.playlistBrano));
 	if (controllaSeFileVuoto(file_raccolta)==0) {
 		FILE* fp=fopen(file_raccolta, "r");
 		char temp[MAX_TEMP];
