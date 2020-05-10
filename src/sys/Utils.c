@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 2930 - 10.05.2020
+ * Ampere 0.1 rev. 2931 - 10.05.2020
  * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -31,7 +31,7 @@ void info() {
 	printf(" / ___ |/ / / / / / /_/ /  __/ /  /  __/\n");
 	printf("/_/  |_/_/ /_/ /_/ .___/\\___/_/   \\___/ \n");
 	printf("                /_/                     \n");
-	printf("\nAmpere 0.1 rev. 2930 - 10.05.2020\n");
+	printf("\nAmpere 0.1 rev. 2931 - 10.05.2020\n");
 	printf("\nGruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino");
 	printf("\nProgetto universitario di gruppo intento alla creazione di un gestore dati per la musica\n");
 }
@@ -182,3 +182,11 @@ void backupFile(char *file1, char *file2) {
 	fclose(fp); fclose(fp2);
 }
 
+char *convertiSecondiInTempo(int secondi) {
+	int h=secondi/3600;
+	int m=(secondi -(3600*h))/60;
+	int s=(secondi -(3600*h)-(m*60));
+	char *hhmmss = malloc(MAX_CHAR);
+	sprintf(hhmmss, "%d:%d:%d", h, m, s);
+	return hhmmss;
+}
