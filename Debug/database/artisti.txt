@@ -1,2 +1,1 @@
-1|N/A|N/A|Arctic Monkeys
-2|N/A|N/A|Daft Punk
+1|N/A|N/A|Tre Allegri Ragazzi Morti|https://it.wikipedia.org/wiki/Tre_Allegri_Ragazzi_Morti

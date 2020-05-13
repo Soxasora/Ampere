@@ -1,6 +1,6 @@
 /*
- * Ampere 0.1 rev. 2931 - 10.05.2020
- * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
+ * Ampere 0.1 rev. 3000 - 13.05.2020
+ * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
  * Maggiori informazioni sul copyright su https://github.com/Soxasora/Ampere/blob/master/LICENSE
@@ -46,10 +46,12 @@ void menu() {
 	printf("\n[2] Effettua una ricerca avanzata");
 	printf("\n[3] La mia libreria musicale");
 	printf("\n[4] Gestisci il tuo account");
-	if (isAdmin()==true)
+	if (isAdmin()==true) {
 		printf("\n[9] Menu Manipolazione Database");
+		printf("\n[10] Menu Debug");
+	}
 	printf("\n[0] Esci dal programma");
-	while (scelta<0||scelta==5||scelta==6||scelta==7||scelta==8||scelta>9) {
+	while (scelta<0||scelta==5||scelta==6||scelta==7||scelta==8||scelta>10) {
 		printf("\nInserisci la tua scelta: ");
 		scanf("%d", &scelta);
 	}
@@ -66,6 +68,11 @@ void menu() {
 	} else if (scelta==9) {
 		if (isAdmin())
 			menuDatabase();
+		else
+			printf("\nNon puoi accedere a questa funzione in quanto utente normale.");
+	} else if (scelta==10) {
+		if (isAdmin())
+			menuDebug();
 		else
 			printf("\nNon puoi accedere a questa funzione in quanto utente normale.");
 	} else if (scelta==0) {
@@ -525,4 +532,27 @@ void menuRicercaInfoCriterio() {
 	}
 }
 
-
+void menuDebug() {
+	pulisciBuffer();
+	int scelta=-1;
+	printf("\n===[AMPERE: Menu Debug]===");
+	printf("\n[1] Funzione di debug on the fly");
+	printf("\n[0] Ritorna al menu principale");
+	while (scelta<0||scelta>5) {
+		printf("\nInserisci la tua scelta: ");
+		scanf("%d", &scelta);
+	}
+	if (scelta==1) {
+		char *prova = malloc(MAX_MEDIO);
+		int lunghezza=0;
+		strcpy(prova, "a");
+		lunghezza = strlen(prova);
+		printf("\n%d hhh", lunghezza);
+		menuDebug();
+	} else if (scelta==0) {
+		menu();
+	} else {
+		printf("\nInserita scelta non riconosciuta, riprovare. ");
+		menuDebug();
+	}
+}

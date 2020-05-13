@@ -1,6 +1,6 @@
 /*
- * Ampere 0.1 rev. 2931 - 10.05.2020
- * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
+ * Ampere 0.1 rev. 3000 - 13.05.2020
+ * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
  * Maggiori informazioni sul copyright su https://github.com/Soxasora/Ampere/blob/master/LICENSE
@@ -97,6 +97,7 @@ void mostraSingoloArtista(int id) {
 	printf("\nNome: %s", db.artista[posartista].nome);
 	printf("\nCognome: %s", db.artista[posartista].cognome);
 	printf("\nNome d'arte: %s", db.artista[posartista].nomearte);
+	printf("\nLink biografia: %s", db.artista[posartista].linkbio);
 }
 
 void mostraTuttiArtisti() {
@@ -306,20 +307,20 @@ void mostraTuttiUtenti() {
 int mostraInfo(int modalita) {
 	int esiste=0;
 	if (modalita==0) {
-		char *nome = malloc(MAX_CHAR);
-		char *cognome = malloc(MAX_CHAR);
-		char *nomearte = malloc(MAX_CHAR);
+		char *nome = malloc(MAX_MEDIO);
+		char *cognome = malloc(MAX_MEDIO);
+		char *nomearte = malloc(MAX_MEDIO);
 		pulisciBuffer();
 		printf("\n[Premi invio per saltare] Inserisci il nome dell'artista da ricercare: ");
-		nome = inputStringaSicuro(nome);
+		nome = inputStringaSicuro(MAX_MEDIO,nome);
 		if (comparaStringhe(nome, "N/A")==0)
 			nome = "unknown";
 		printf("\n[Premi invio per saltare] Inserisci il cognome dell'artista da ricercare: ");
-		cognome = inputStringaSicuro(cognome);
+		cognome = inputStringaSicuro(MAX_MEDIO,cognome);
 		if (comparaStringhe(cognome, "N/A")==0)
 			cognome = "unknown";
 		printf("\n[Premi invio per saltare] Inserisci il nome d'arte dell'artista da ricercare: ");
-		nomearte = inputStringaSicuro(nomearte);
+		nomearte = inputStringaSicuro(MAX_MEDIO,nomearte);
 		if (comparaStringhe(nomearte, "N/A")==0)
 			nomearte = "unknown";
 		int i=0, n=contaNelDatabase(2);
@@ -335,11 +336,11 @@ int mostraInfo(int modalita) {
 		}
 		free(nome); free(cognome); free(nomearte);
 	} else if (modalita==1) {
-		char *titolo = malloc(MAX_CHAR);
+		char *titolo = malloc(MAX_MEDIO);
 		int anno=0;
 		pulisciBuffer();
 		printf("\n[Premi invio per saltare] Inserisci il titolo dell'album da ricercare: ");
-		titolo = inputStringaSicuro(titolo);
+		titolo = inputStringaSicuro(MAX_MEDIO,titolo);
 		if (comparaStringhe(titolo, "N/A")==0)
 			titolo = "unknown";
 		while(anno<0||anno>3000) {
@@ -357,10 +358,10 @@ int mostraInfo(int modalita) {
 		}
 		free(titolo);
 	} else if (modalita==2) {
-		char *nome = malloc(MAX_CHAR);
+		char *nome = malloc(MAX_MEDIO);
 		pulisciBuffer();
 		printf("\nInserisci il nome del genere: ");
-		nome = inputStringaSicuro(nome);
+		nome = inputStringaSicuro(MAX_MEDIO,nome);
 		int i=0, n=contaNelDatabase(3);
 		while (i<n) {
 			if (comparaStringhe(db.genere[i].nome, nome)==0) {
@@ -372,10 +373,10 @@ int mostraInfo(int modalita) {
 		}
 		free(nome);
 	} else if (modalita==3) {
-		char *playlist = malloc(MAX_CHAR);
+		char *playlist = malloc(MAX_MEDIO);
 		pulisciBuffer();
 		printf("\nInserisci il nome della playlist: ");
-		playlist = inputStringaSicuro(playlist);
+		playlist = inputStringaSicuro(MAX_MEDIO,playlist);
 		int i=0, n=contaNelDatabase(4);
 		while (i<n) {
 			if (comparaStringhe(db.playlist[i].nome, playlist)==0) {
@@ -389,10 +390,10 @@ int mostraInfo(int modalita) {
 		}
 		free(playlist);
 	} else if (modalita==4) {
-		char *username = malloc(MAX_CHAR);
+		char *username = malloc(MAX_MEDIO);
 		pulisciBuffer();
 		printf("\nInserisci l'username dell'utente: ");
-		username = inputStringaSicuro(username);
+		username = inputStringaSicuro(MAX_MEDIO,username);
 		int i=0, n=contaNelDatabase(-1);
 		while(i<n) {
 			if (comparaStringhe(db.utente[i].username, username)==0) {
@@ -414,10 +415,10 @@ int mostraInfo(int modalita) {
 int mostraBrani(int modalita) {
 	int esiste=0;
 	if (modalita==0) {
-		char *titolo = malloc(MAX_CHAR);
+		char *titolo = malloc(MAX_MEDIO);
 		pulisciBuffer();
-			printf("\nInserisci il titolo del brano da ricercare: ");
-			titolo = inputStringaSicuro(titolo);
+		printf("\nInserisci il titolo del brano da ricercare: ");
+		titolo = inputStringaSicuro(MAX_MEDIO,titolo);
 		int i=0, n=contaNelDatabase(0);
 		while (i<n) {
 			if (comparaStringhe(db.brano[i].titolo,titolo)==0) {
@@ -451,10 +452,10 @@ int mostraBrani(int modalita) {
 int mostraBraniArtista() {
 	int esiste=0;
 	int id=0;
-	char *nomearte = malloc(MAX_CHAR);
+	char *nomearte = malloc(MAX_MEDIO);
 	pulisciBuffer();
 	printf("\nInserisci nome d'arte dell'artista: ");
-	nomearte = inputStringaSicuro(nomearte);
+	nomearte = inputStringaSicuro(MAX_MEDIO,nomearte);
 	id = controlloEsistenzaArtista(nomearte);
 	if (id==0) {
 		printf("\nArtista non esistente");
@@ -477,10 +478,10 @@ int mostraBraniArtista() {
 int mostraBraniAlbum() {
 	int esiste=0;
 	int id=0;
-	char *album = malloc(MAX_CHAR);
+	char *album = malloc(MAX_MEDIO);
 	pulisciBuffer();
 	printf("\nInserisci nome album: ");
-	album = inputStringaSicuro(album);
+	album = inputStringaSicuro(MAX_MEDIO,album);
 	id = controlloEsistenzaAlbum(album);
 	if (id==0) {
 		printf("\nAlbum non esistente.");
@@ -503,10 +504,10 @@ int mostraBraniAlbum() {
 int mostraBraniGenere() {
 	int esiste=0;
 	int id=0;
-	char *genere = malloc(MAX_CHAR);
+	char *genere = malloc(MAX_MEDIO);
 	pulisciBuffer();
 	printf("\nInserisci nome genere: ");
-	genere = inputStringaSicuro(genere);
+	genere = inputStringaSicuro(MAX_MEDIO,genere);
 	id = controlloEsistenzaGenere(genere);
 	if (id==0) {
 		printf("\nGenere non esistente.");
@@ -529,10 +530,10 @@ int mostraBraniGenere() {
 int mostraBraniPlaylist() {
 	int esiste=0;
 	int id=0;
-	char *playlist = malloc(MAX_CHAR);
+	char *playlist = malloc(MAX_MEDIO);
 	pulisciBuffer();
 	printf("\nInserisci nome playlist: ");
-	playlist = inputStringaSicuro(playlist);
+	playlist = inputStringaSicuro(MAX_MEDIO,playlist);
 	id = controlloEsistenzaPlaylist(playlist);
 	if (id==0) {
 		printf("\nPlaylist non esistente.");
@@ -559,10 +560,10 @@ int mostraBraniPlaylist() {
 int mostraPlaylistUtenteGuidato() {
 	int esiste=0;
 	int id=0;
-	char *utente = malloc(MAX_CHAR);
+	char *utente = malloc(MAX_MEDIO);
 	pulisciBuffer();
 	printf("\nInserisci nome utente: ");
-	utente = inputStringaSicuro(utente);
+	utente = inputStringaSicuro(MAX_MEDIO,utente);
 	if (!controllaEsistenzaUtente(utente)) {
 		printf("\nUtente non esistente.");
 	} else {

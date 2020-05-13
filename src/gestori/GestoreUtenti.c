@@ -1,6 +1,6 @@
 /*
- * Ampere 0.1 rev. 2931 - 10.05.2020
- * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
+ * Ampere 0.1 rev. 3000 - 13.05.2020
+ * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
  * Maggiori informazioni sul copyright su https://github.com/Soxasora/Ampere/blob/master/LICENSE
@@ -48,14 +48,14 @@ void infoUtenteConnesso() {
 void login() {
 	printf("\nEsecuzione Login ad Ampere");
 	int controllo=0, id=0;
-	char *username = malloc(MAX_CHAR);
-	char *password = malloc(MAX_CHAR);
+	char *username = malloc(MAX_MEDIO);
+	char *password = malloc(MAX_MEDIO);
 	while (controllo!=-1) {
 		pulisciBuffer();
 		printf("\nInserisci username: ");
-		username = inputStringaSicuro(username);
+		username = inputStringaSicuro(MAX_MEDIO,username);
 		printf("\nInserisci password: ");
-		password = inputStringaSicuro(password);
+		password = inputStringaSicuro(MAX_MEDIO,password);
 		id = controllaDatiUtente(username, password);
 		if (id!=0) {
 			printf("\nAccesso consentito. Bentornato su Ampere, %s.", username);
@@ -83,16 +83,16 @@ int controllaDatiUtente(char username[], char password[]) {
 void registrazioneUtente() {
 	pulisciBuffer();
 	int controllo=0;
-	char *username = malloc(MAX_CHAR);
-	char *password = malloc(MAX_CHAR);
+	char *username = malloc(MAX_MEDIO);
+	char *password = malloc(MAX_MEDIO);
 	printf("\n===[Registrazione guidata di un utente]===");
 	printf("\nBenvenuto su Ampere. Procediamo alla creazione del tuo profilo.");
 	while (controllo!=-1) {
 		printf("\n\nInserisci username: ");
-		username = inputStringaSicuro(username);
+		username = inputStringaSicuro(MAX_MEDIO,username);
 		if (controllaEsistenzaUtente(username)==false) {
 			printf("\nInserisci password: ");
-			password = inputStringaSicuro(password);
+			password = inputStringaSicuro(MAX_MEDIO,password);
 			inserisciUtente(username, password);
 			printf("\nUtente inserito correttamente!");
 			controllo=-1;
@@ -105,12 +105,12 @@ void registrazioneUtente() {
 }
 
 void inserimentoUtenteGuidato() {
-	char *username = malloc(MAX_CHAR);
-	char *password = malloc(MAX_CHAR);
+	char *username = malloc(MAX_MEDIO);
+	char *password = malloc(MAX_MEDIO);
 	printf("\nInserisci username: ");
-	username = inputStringaSicuro(username);
+	username = inputStringaSicuro(MAX_MEDIO,username);
 	printf("\nInserisci password: ");
-	password = inputStringaSicuro(password);
+	password = inputStringaSicuro(MAX_MEDIO,password);
 	inserisciUtente(username, password);
 	free(username); free(password);
 	printf("\nUtente inserito.");
@@ -195,31 +195,31 @@ void modificaSingoloUtente(int modalita, int id) {
 	pulisciBuffer();
 	int pos = ottieniPosDaID(-1, id);
 	if (modalita==1) {
-		char *username = malloc(MAX_CHAR);
+		char *username = malloc(MAX_MEDIO);
 		printf("\nInserisci nuovo username: ");
-		username = inputStringaSicuro(username);
+		username = inputStringaSicuro(MAX_MEDIO,username);
 		strcpy(db.utente[pos].username, username);
 		free(username);
 	} else if (modalita==2) {
-		char *password_vecchia = malloc(MAX_CHAR);
+		char *password_vecchia = malloc(MAX_MEDIO);
 		strcpy(password_vecchia, "null");
-		char *password = malloc(MAX_CHAR);
+		char *password = malloc(MAX_MEDIO);
 		strcpy(password, "null");
-		char *password2 = malloc(MAX_CHAR);
+		char *password2 = malloc(MAX_MEDIO);
 		strcpy(password2, "null2");
 		if (!isAdmin()) {
 			while (strcmp(password_vecchia, db.utente[pos].password)!=0) {
 				printf("\nInserisci password attuale: ");
-				password_vecchia = inputStringaSicuro(password_vecchia);
+				password_vecchia = inputStringaSicuro(MAX_MEDIO,password_vecchia);
 				if (strcmp(password_vecchia, db.utente[pos].password)!=0)
 					printf("\nLa password attuale non è corretta! Riprova\n");
 			}
 		}
 		while (strcmp(password,password2)!=0) {
 			printf("\nInserisci nuova password: ");
-			password=inputStringaSicuro(password);
+			password=inputStringaSicuro(MAX_MEDIO,password);
 			printf("\nInserisci nuovamente la nuova password: ");
-			password2=inputStringaSicuro(password2);
+			password2=inputStringaSicuro(MAX_MEDIO,password2);
 			if (strcmp(password,password2)!=0) {
 				printf("\nLe due password non combaciano! Riprova\n");
 			}

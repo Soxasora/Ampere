@@ -1,6 +1,6 @@
 /*
- * Ampere 0.1 rev. 2931 - 10.05.2020
- * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
+ * Ampere 0.1 rev. 3000 - 13.05.2020
+ * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
  * Maggiori informazioni sul copyright su https://github.com/Soxasora/Ampere/blob/master/LICENSE
@@ -24,9 +24,9 @@
 
 void inserimentoAlbumGuidato() {
 	pulisciBuffer();
-	char *titolo = malloc(MAX_CHAR);
+	char *titolo = malloc(MAX_MEDIO);
 	printf("\nInserisci titolo dell'album: ");
-	titolo = inputStringaSicuro(titolo);
+	titolo = inputStringaSicuro(MAX_MEDIO,titolo);
 	creaAlbumSeNonEsiste(titolo);
 	free(titolo);
 }
@@ -38,7 +38,7 @@ int creaAlbumGuidato(char titolo_album[]) {
 	printf("\n===[Inserimento guidato di un album]===");
 	printf("\nTitolo: %s", titolo_album);
 	pulisciBuffer();
-	while (anno<=0||anno>3000) {
+	while (anno<=1950||anno>2020) {
 		printf("\nInserisci l'anno di uscita di quest'album: ");
 		scanf("%d", &anno);
 	}
@@ -138,14 +138,14 @@ void modificaSingoloAlbum(int modalita, int id) {
 	pulisciBuffer();
 	int pos = ottieniPosDaID(1,id);
 	if (modalita==1) {
-		char *titolo = malloc(MAX_CHAR);
+		char *titolo = malloc(MAX_MEDIO);
 		printf("\nInserisci nuovo titolo: ");
-		titolo = inputStringaSicuro(titolo);
+		titolo = inputStringaSicuro(MAX_MEDIO,titolo);
 		strcpy(db.album[pos].titolo, titolo);
 		free(titolo);
 	} else if (modalita==2) {
 		int anno=0;
-		while (anno<=0||anno>3000) {
+		while (anno<=1950||anno>2020) {
 			printf("\nInserisci nuovo anno: ");
 			scanf("%d", &anno);
 		}

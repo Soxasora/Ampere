@@ -1,6 +1,6 @@
 /*
- * Ampere 0.1 rev. 2931 - 10.05.2020
- * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
+ * Ampere 0.1 rev. 3000 - 13.05.2020
+ * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
  * Maggiori informazioni sul copyright su https://github.com/Soxasora/Ampere/blob/master/LICENSE
@@ -11,9 +11,9 @@
 
 void info();
 void aspetta();
-void cercaSuWikipedia(char interrogazione[]);
+void apriLink(char link[]);
 void creaCartella(char nome[], bool silenzioso);
-char* inputStringaSicuro(char stringa[]);
+char* inputStringaSicuro(int lunghezza, char stringa[]);
 int comparaStringhe(const char *s1, const char *s2);
 bool comparaStringheParziale(const char *s1, const char *s2);
 char *chiediFile();

@@ -1,6 +1,6 @@
 /*
- * Ampere 0.1 rev. 2931 - 10.05.2020
- * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
+ * Ampere 0.1 rev. 3000 - 13.05.2020
+ * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
  * Maggiori informazioni sul copyright su https://github.com/Soxasora/Ampere/blob/master/LICENSE
@@ -21,12 +21,12 @@
 #include "../sys/Impostazioni.h"
 
 void inserimentoBranoGuidato() {
-	char *titolo = malloc(MAX_CHAR);
-	char *artista = malloc(MAX_CHAR);
+	char *titolo = malloc(MAX_MEDIO);
+	char *artista = malloc(MAX_MEDIO);
 	int id_artista=0;
-	char *album = malloc(MAX_CHAR);
+	char *album = malloc(MAX_MEDIO);
 	int id_album=0;
-	char *genere = malloc(MAX_CHAR);
+	char *genere = malloc(MAX_MEDIO);
 	int id_genere=0;
 	int durata=0;
 	int anno=0;
@@ -34,23 +34,23 @@ void inserimentoBranoGuidato() {
 	// Registrazione
 	pulisciBuffer();
 	printf("\nInserisci titolo: ");
-	titolo = inputStringaSicuro(titolo);
+	titolo = inputStringaSicuro(MAX_MEDIO,titolo);
 	printf("\nInserisci nome artista: ");
-	artista = inputStringaSicuro(artista);
+	artista = inputStringaSicuro(MAX_MEDIO,artista);
 	id_artista = creaArtistaSeNonEsiste(artista);
 	printf("\nInserisci nome album: ");
-	album = inputStringaSicuro(album);
+	album = inputStringaSicuro(MAX_MEDIO,album);
 	id_album = creaAlbumSeNonEsiste(album);
 	pulisciBuffer();
 	printf("\nInserisci genere del brano: ");
-	genere = inputStringaSicuro(genere);
+	genere = inputStringaSicuro(MAX_MEDIO,genere);
 	id_genere = creaGenereSeNonEsiste(genere);
 	pulisciBuffer();
 	while (durata<=0||durata>9999) {
 		printf("\nInserisci durata del brano in secondi: ");
 		scanf("%d", &durata);
 	}
-	while (anno<=0||anno>3000) {
+	while (anno<=1950||anno>2020) {
 		printf("\nInserisci anno d'uscita del brano: ");
 		scanf("%d", &anno);
 	}
@@ -141,9 +141,9 @@ void modificaSingoloBrano(int modalita, int id) {
 	pulisciBuffer();
 	int pos = ottieniPosDaID(0, id);
 	if (modalita==1) {
-		char *titolo = malloc(MAX_CHAR);
+		char *titolo = malloc(MAX_MEDIO);
 		printf("\nInserisci nuovo titolo: ");
-		titolo = inputStringaSicuro(titolo);
+		titolo = inputStringaSicuro(MAX_MEDIO,titolo);
 		strcpy(db.brano[pos].titolo, titolo);
 		free(titolo);
 	} else if (modalita==2) {
@@ -155,7 +155,7 @@ void modificaSingoloBrano(int modalita, int id) {
 		db.brano[pos].durata = durata;
 	} else if (modalita==3) {
 		int anno=0;
-		while (anno<=0||anno>3000) {
+		while (anno<=1950||anno>2020) {
 			printf("\nInserisci nuovo anno: ");
 			scanf("%d", &anno);
 		}
@@ -168,10 +168,10 @@ void modificaSingoloBrano(int modalita, int id) {
 		}
 		db.brano[pos].durata = ascolti;
 	} else if (modalita==5) {
-		char *album = malloc(MAX_CHAR);
+		char *album = malloc(MAX_MEDIO);
 		int id_album=0;
 		printf("\nInserisci nome album: ");
-		album = inputStringaSicuro(album);
+		album = inputStringaSicuro(MAX_MEDIO,album);
 		id_album = creaAlbumSeNonEsiste(album);
 		free(album);
 		int n_album_brano=contaNelDatabase(6);
@@ -183,10 +183,10 @@ void modificaSingoloBrano(int modalita, int id) {
 		}
 		db.brano[pos].album = id_album;
 	} else if (modalita==6) {
-		char *artista = malloc(MAX_CHAR);
+		char *artista = malloc(MAX_MEDIO);
 		int id_artista=0;
 		printf("\nInserisci nome d'arte artista: ");
-		artista = inputStringaSicuro(artista);
+		artista = inputStringaSicuro(MAX_MEDIO,artista);
 		id_artista = creaArtistaSeNonEsiste(artista);
 		free(artista);
 		int n_artista_brano=contaNelDatabase(5);
@@ -276,8 +276,8 @@ void cancellaAssociazioniBrano(int id) {
 // TESTI
 
 void apriTesto(int idBrano) {
-	char *posizione_testo = malloc(MAX_TEMP);
-	char *comando = malloc(MAX_TEMP+10);
+	char *posizione_testo = malloc(MAX_ENORME);
+	char *comando = malloc(MAX_ENORME+10);
 	FILE *fp;
 	if(os==0) {
 		sprintf(posizione_testo, "%s\\%d%s", cartella_testi, idBrano, ".txt");

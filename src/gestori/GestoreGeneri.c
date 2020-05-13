@@ -1,6 +1,6 @@
 /*
- * Ampere 0.1 rev. 2931 - 10.05.2020
- * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
+ * Ampere 0.1 rev. 3000 - 13.05.2020
+ * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
  * Maggiori informazioni sul copyright su https://github.com/Soxasora/Ampere/blob/master/LICENSE
@@ -22,9 +22,9 @@
 
 void inserimentoGenereGuidato() {
 	pulisciBuffer();
-	char *nome = malloc(MAX_CHAR);
+	char *nome = malloc(MAX_MEDIO);
 	printf("\nInserisci nome del genere: ");
-	nome = inputStringaSicuro(nome);
+	nome = inputStringaSicuro(MAX_MEDIO,nome);
 	creaGenereSeNonEsiste(nome);
 	free(nome);
 }
@@ -125,9 +125,9 @@ void modificaGenere() {
 void modificaSingoloGenere(int id) {
 	pulisciBuffer();
 	int pos = ottieniPosDaID(3,id);
-	char *nome = malloc(MAX_CHAR);
+	char *nome = malloc(MAX_MEDIO);
 	printf("\nInserisci nuovo nome: ");
-	nome = inputStringaSicuro(nome);
+	nome = inputStringaSicuro(MAX_MEDIO,nome);
 	strcpy(db.genere[pos].nome, nome);
 	free(nome);
 	db_modificato=1;

@@ -1,6 +1,6 @@
 /*
- * Ampere 0.1 rev. 2931 - 10.05.2020
- * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
+ * Ampere 0.1 rev. 3000 - 13.05.2020
+ * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
  * Maggiori informazioni sul copyright su https://github.com/Soxasora/Ampere/blob/master/LICENSE
@@ -56,7 +56,7 @@ void salvaBraniSuFile() {
 	int i=0;
 	int n=contaNelDatabase(0);
 	while (i<n) {
-		char id[MAX_CHAR], durata[MAX_CHAR], album[MAX_CHAR], anno[5], ascolti[MAX_CHAR];
+		char id[8], durata[16], album[MAX_MEDIO], anno[5], ascolti[16];
 		sprintf(id, "%d", db.brano[i].id);
 		sprintf(durata, "%d", db.brano[i].durata);
 		sprintf(album, "%d", db.brano[i].album);
@@ -76,7 +76,7 @@ void salvaAlbumSuFile() {
 	int i=0;
 	int n=contaNelDatabase(1);
 	while (i<n) {
-		char id[MAX_CHAR], anno[5];
+		char id[8], anno[5];
 		sprintf(id, "%d", db.album[i].id);
 		sprintf(anno, "%d", db.album[i].anno);
 		inserisciAlbumSuFile(id, db.album[i].titolo, anno);
@@ -93,9 +93,9 @@ void salvaArtistiSuFile() {
 	int i=0;
 	int n=contaNelDatabase(2);
 	while (i<n) {
-		char id[MAX_CHAR];
+		char id[8];
 		sprintf(id, "%d", db.artista[i].id);
-		inserisciArtistiSuFile(id, db.artista[i].nome, db.artista[i].cognome, db.artista[i].nomearte);
+		inserisciArtistiSuFile(id, db.artista[i].nome, db.artista[i].cognome, db.artista[i].nomearte, db.artista[i].linkbio);
 		i++;
 	}
 	remove("temp_artisti.txt");
@@ -109,7 +109,7 @@ void salvaGeneriSuFile() {
 	int i=0;
 	int n=contaNelDatabase(3);
 	while (i<n) {
-		char id[MAX_CHAR];
+		char id[8];
 		sprintf(id, "%d", db.genere[i].id);
 		inserisciGenereSuFile(id, db.genere[i].nome);
 		i++;
@@ -125,9 +125,9 @@ void salvaPlaylistSuFile() {
 	int i=0;
 	int n=contaNelDatabase(4);
 	while (i<n) {
-		char id[MAX_CHAR];
-		char idUtente[MAX_CHAR];
-		char pubblica[MAX_CHAR];
+		char id[8];
+		char idUtente[8];
+		char pubblica[6];
 		sprintf(id, "%d", db.playlist[i].id);
 		sprintf(idUtente, "%d", db.playlist[i].idUtente);
 		if (db.playlist[i].pubblica==true) {
@@ -149,8 +149,8 @@ void salvaUtentiSuFile() {
 	int i=0;
 	int n=contaNelDatabase(-1);
 	while(i<n) {
-		char id[MAX_CHAR];
-		char admin[MAX_CHAR];
+		char id[8];
+		char admin[6];
 		sprintf(id, "%d", db.utente[i].id);
 		if (db.utente[i].admin==true) {
 			strcpy(admin,"true");
@@ -173,7 +173,7 @@ void salvaCollezioneSuFile() {
 	int i=0;
 	int n=contaNelDatabase(6);
 	while (i<n) {
-		char idAlbum[MAX_CHAR], idBrano[MAX_CHAR];
+		char idAlbum[8], idBrano[8];
 		sprintf(idAlbum, "%d", db.albumBrano[i].idAlbum);
 		sprintf(idBrano, "%d", db.albumBrano[i].idBrano);
 		inserisciCollezioneSuFile(idAlbum, idBrano);
@@ -190,7 +190,7 @@ void salvaAssociazioniArtistiSuFile() {
 	int i=0;
 	int n=contaNelDatabase(5);
 	while(i<n) {
-		char idBrano[MAX_CHAR], idArtista[MAX_CHAR];
+		char idBrano[8], idArtista[8];
 		sprintf(idBrano, "%d", db.artistaBrano[i].idBrano);
 		sprintf(idArtista, "%d", db.artistaBrano[i].idArtista);
 		inserisciAssociazioneArtistiSuFile(idBrano, idArtista);
@@ -207,7 +207,7 @@ void salvaTipiBraniSuFile() {
 	int i=0;
 	int n=contaNelDatabase(7);
 	while(i<n) {
-		char idBrano[MAX_CHAR], idGenere[MAX_CHAR];
+		char idBrano[8], idGenere[8];
 		sprintf(idBrano, "%d", db.branoGenere[i].idBrano);
 		sprintf(idGenere, "%d", db.branoGenere[i].idGenere);
 		inserisciTipiBraniSuFile(idBrano, idGenere);
@@ -224,8 +224,7 @@ void salvaRaccoltaSuFile() {
 	int i=0;
 	int n=contaNelDatabase(8);
 	while(i<n) {
-		char idPlaylist[MAX_CHAR];
-		char idBrano[MAX_CHAR];
+		char idPlaylist[8], idBrano[8];
 		sprintf(idPlaylist, "%d", db.playlistBrano[i].idPlaylist);
 		sprintf(idBrano, "%d", db.playlistBrano[i].idBrano);
 		inserisciRaccoltaSuFile(idPlaylist, idBrano);

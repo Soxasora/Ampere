@@ -1,6 +1,6 @@
 /*
- * Ampere 0.1 rev. 2931 - 10.05.2020
- * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
+ * Ampere 0.1 rev. 3000 - 13.05.2020
+ * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
  * Maggiori informazioni sul copyright su https://github.com/Soxasora/Ampere/blob/master/LICENSE
@@ -31,8 +31,8 @@ void info() {
 	printf(" / ___ |/ / / / / / /_/ /  __/ /  /  __/\n");
 	printf("/_/  |_/_/ /_/ /_/ .___/\\___/_/   \\___/ \n");
 	printf("                /_/                     \n");
-	printf("\nAmpere 0.1 rev. 2931 - 10.05.2020\n");
-	printf("\nGruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino");
+	printf("\nAmpere 0.1 rev. 3000 - 13.05.2020\n");
+	printf("\nGruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino");
 	printf("\nProgetto universitario di gruppo intento alla creazione di un gestore dati per la musica\n");
 }
 
@@ -46,24 +46,17 @@ void aspetta() {
 	}
 }
 
-void cercaSuWikipedia(char interrogazione[]) {
-	char *comando = malloc(MAX_TEMP);
-	int i=0;
-	while(i<strlen(interrogazione)) {
-		if (interrogazione[i]==' ') {
-			interrogazione[i]='+';
-		}
-		i++;
-	}
+void apriLink(char link[]) {
+	char *comando = malloc(MAX_ENORME);
 	printf("\nAprendo il browser predefinito...");
 	if (os==0) {
-		sprintf(comando, "start https://it.wikipedia.org/w/index.php?search=%s", interrogazione);
+		sprintf(comando, "start %s", link);
 		int a = system(comando);
 	} else if (os==1||os==3) {
-		sprintf(comando, "firefox https://it.wikipedia.org/w/index.php?search=%s", interrogazione);
+		sprintf(comando, "firefox %s", link);
 		int a = system(comando);
 	} else if (os==2) {
-		sprintf(comando, "open https://it.wikipedia.org/w/index.php?search=%s", interrogazione);
+		sprintf(comando, "open %s", link);
 		int a = system(comando);
 	}
 }
@@ -94,8 +87,8 @@ void creaCartella(char nome[], bool silenzioso) {
 	#endif
 }
 
-char* inputStringaSicuro(char stringa[]) {
-	fgets(stringa, MAX_CHAR, stdin);
+char* inputStringaSicuro(int lunghezza, char stringa[]) {
+	fgets(stringa, lunghezza, stdin);
 	int i=0;
 	while (i<strlen(stringa)) {
 		if (stringa[i]=='|') {
@@ -132,7 +125,7 @@ bool comparaStringheParziale(const char *s1, const char *s2) {
 
 char *chiediFile() {
 	pulisciBuffer();
-	char *nome_file = malloc(MAX_TEMP);
+	char *nome_file = malloc(MAX_ENORME);
 	printf("\nInserisci locazione e nome file [esempio\\esempio.extension] da utilizzare: ");
 	scanf("%s", nome_file);
 	return nome_file;
@@ -186,7 +179,7 @@ char *convertiSecondiInTempo(int secondi) {
 	int h=secondi/3600;
 	int m=(secondi -(3600*h))/60;
 	int s=(secondi -(3600*h)-(m*60));
-	char *hhmmss = malloc(MAX_CHAR);
+	char *hhmmss = malloc(MAX_MEDIO);
 	sprintf(hhmmss, "%d:%d:%d", h, m, s);
 	return hhmmss;
 }

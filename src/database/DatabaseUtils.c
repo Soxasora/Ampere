@@ -1,6 +1,6 @@
 /*
- * Ampere 0.1 rev. 2931 - 10.05.2020
- * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
+ * Ampere 0.1 rev. 3000 - 13.05.2020
+ * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
  * Maggiori informazioni sul copyright su https://github.com/Soxasora/Ampere/blob/master/LICENSE
@@ -283,12 +283,12 @@ int ottieniPosDaID(int modalita, int id) {
 
 void backupDatabase() {
 	pulisciBuffer();
-	char *nome_backup = malloc(MAX_CHAR);
-	char *percorso_backup = malloc(MAX_CHAR);
+	char *nome_backup = malloc(MAX_GRANDE);
+	char *percorso_backup = malloc(MAX_GRANDE);
 	creaCartella("backup", false);
 	// Inserire sistema di ottenimento automatico della data
 	printf("\nInserire il nome della cartella del nuovo backup (es. 05052020): ");
-	nome_backup = inputStringaSicuro(nome_backup);
+	nome_backup = inputStringaSicuro(MAX_GRANDE,nome_backup);
 	sprintf(percorso_backup, "backup\\%s", nome_backup);
 	creaCartella(percorso_backup, false);
 	printf("\nBackup del database in corso...");
@@ -318,10 +318,10 @@ void backupDatabase() {
 
 void ripristinaDatabase() {
 	pulisciBuffer();
-	char *nome_backup = malloc(MAX_CHAR);
-	char *percorso_backup = malloc(MAX_CHAR);
+	char *nome_backup = malloc(MAX_GRANDE);
+	char *percorso_backup = malloc(MAX_GRANDE);
 	printf("\nInserire il nome del backup dal quale ripristinare il database (es. 05052020): ");
-	nome_backup = inputStringaSicuro(nome_backup);
+	nome_backup = inputStringaSicuro(MAX_GRANDE,nome_backup);
 	sprintf(percorso_backup, "backup\\%s\\brani.txt", nome_backup);
 	FILE* fp=fopen(percorso_backup, "r");
 	if (fp==NULL) {

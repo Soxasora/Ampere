@@ -1,6 +1,6 @@
 /*
- * Ampere 0.1 rev. 2931 - 10.05.2020
- * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
+ * Ampere 0.1 rev. 3000 - 13.05.2020
+ * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
  * Maggiori informazioni sul copyright su https://github.com/Soxasora/Ampere/blob/master/LICENSE
@@ -85,15 +85,15 @@ void inserisciBraniPlaylist(int idPlaylist, int idBrano) {
 void creaPlaylistGuidato() {
 	char scelta='a';
 	int idUtente = db.utente_connesso, controllo=0;
-	char *nome = malloc(MAX_CHAR);
-	char *descrizione = malloc(MAX_CHAR);
-	int pubblica=0;
+	char *nome = malloc(MAX_MEDIO);
+	char *descrizione = malloc(MAX_GRANDE);
+	int pubblica=-1;
 	printf("\n===[Creazione guidata di una playlist]===");
 	pulisciBuffer();
 	printf("\nInserisci nome della playlist: ");
-	nome = inputStringaSicuro(nome);
+	nome = inputStringaSicuro(MAX_MEDIO,nome);
 	printf("\nInserisci descrizione della playlist: ");
-	descrizione = inputStringaSicuro(descrizione);
+	descrizione = inputStringaSicuro(MAX_GRANDE,descrizione);
 	while (pubblica<0||pubblica>1) {
 		printf("\nLa playlist e' privata[0] o pubblica[1]? ");
 		scanf("%d", &pubblica);
@@ -104,7 +104,7 @@ void creaPlaylistGuidato() {
 		inserisciPlaylist(idUtente, nome, descrizione, true);
 	}
 	while (controllo!=-1) {
-		printf("\nSicuro di voler continuare? [Y/N]: ");
+		printf("\nVorresti inserire dei brani in questa playlist? [Y/N]: ");
 		scanf("%c", &scelta);
 		if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
 			controllo=-1;
@@ -265,19 +265,19 @@ void modificaSingolaPlaylist(int modalita, int id) {
 	pulisciBuffer();
 	int pos = ottieniPosDaID(4,id);
 	if (modalita==1) {
-		char *nome = malloc(MAX_CHAR);
+		char *nome = malloc(MAX_MEDIO);
 		printf("\nInserisci nuovo nome: ");
-		nome = inputStringaSicuro(nome);
+		nome = inputStringaSicuro(MAX_MEDIO,nome);
 		strcpy(db.playlist[pos].nome, nome);
 		free(nome);
 	} else if (modalita==2) {
-		char *descrizione = malloc(MAX_CHAR);
+		char *descrizione = malloc(MAX_GRANDE);
 		printf("\nInserisci nuova descrizione: ");
-		descrizione = inputStringaSicuro(descrizione);
+		descrizione = inputStringaSicuro(MAX_GRANDE,descrizione);
 		strcpy(db.playlist[pos].descrizione, descrizione);
 		free(descrizione);
 	} else if (modalita==3) {
-		int pubblica=0;
+		int pubblica=-1;
 		while (pubblica<0||pubblica>1) {
 			printf("\nPlaylist privata[0] o pubblica[1]? ");
 			scanf("%d", &pubblica);

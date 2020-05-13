@@ -1,6 +1,6 @@
 /*
- * Ampere 0.1 rev. 2931 - 10.05.2020
- * Gruppo n.16 - Michele Barile, Nicolo' Cucinotta, Simone Cervino
+ * Ampere 0.1 rev. 3000 - 13.05.2020
+ * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
  * Maggiori informazioni sul copyright su https://github.com/Soxasora/Ampere/blob/master/LICENSE
@@ -75,15 +75,15 @@ database ottieniDatabase() {
 }
 
 void ottieniBrani() {
-	db.brano = malloc((MAX_TEMP*MAX_TEMP)*sizeof(db.brano));
+	db.brano = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.brano));
 	if (controllaSeFileVuoto(file_brani)==0) {
 		FILE* fp=fopen(file_brani, "r");
-		char temp[MAX_TEMP];
-		char dati[MAX_TEMP][MAX_TEMP];
+		char temp[MAX_ENORME];
+		char dati[MAX_ENORME][MAX_ENORME];
 		char spaziatore[] = "|";
 		int i=0, j=0;
 		while(!feof(fp)) {
-			fgets(temp, MAX_TEMP, fp);
+			fgets(temp, MAX_ENORME, fp);
 			char *ptr = strtok(temp, spaziatore);
 			j=0;
 			while(ptr!=NULL) {
@@ -111,15 +111,15 @@ void ottieniBrani() {
 }
 
 void ottieniAlbums() {
-	db.album = malloc((MAX_TEMP*MAX_TEMP)*sizeof(db.album));
+	db.album = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.album));
 	if (controllaSeFileVuoto(file_albums)==0) {
 		FILE* fp=fopen(file_albums, "r");
-		char temp[MAX_TEMP];
-		char dati[MAX_TEMP][MAX_TEMP];
+		char temp[MAX_ENORME];
+		char dati[MAX_ENORME][MAX_ENORME];
 		char spaziatore[] = "|";
 		int i=0, j=0;
 		while(!feof(fp)) {
-			fgets(temp, MAX_TEMP, fp);
+			fgets(temp, MAX_ENORME, fp);
 			char *ptr = strtok(temp, spaziatore);
 			j=0;
 			while(ptr!=NULL) {
@@ -144,15 +144,15 @@ void ottieniAlbums() {
 }
 
 void ottieniArtisti() {
-	db.artista = malloc((MAX_TEMP*MAX_TEMP)*sizeof(db.artista));
+	db.artista = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.artista));
 	if (controllaSeFileVuoto(file_artisti)==0) {
 		FILE* fp=fopen(file_artisti, "r");
-		char temp[MAX_TEMP];
-		char dati[MAX_TEMP][MAX_TEMP];
+		char temp[MAX_ENORME];
+		char dati[MAX_ENORME][MAX_ENORME];
 		char spaziatore[] = "|";
 		int i=0, j=0;
 		while(!feof(fp)) {
-			fgets(temp, MAX_TEMP, fp);
+			fgets(temp, MAX_ENORME, fp);
 			char *ptr = strtok(temp, spaziatore);
 			j=0;
 			while(ptr!=NULL) {
@@ -164,9 +164,11 @@ void ottieniArtisti() {
 			strtok(dati[1], "\n");
 			strtok(dati[2], "\n");
 			strtok(dati[3], "\n");
+			strtok(dati[4], "\n");
 			strcpy(db.artista[i].nome,dati[1]);
 			strcpy(db.artista[i].cognome,dati[2]);
 			strcpy(db.artista[i].nomearte,dati[3]);
+			strcpy(db.artista[i].linkbio,dati[4]);
 			i++;
 		}
 		fclose(fp);
@@ -180,15 +182,15 @@ void ottieniArtisti() {
 }
 
 void ottieniGeneri() {
-	db.genere = malloc((MAX_TEMP*MAX_TEMP)*sizeof(db.genere));
+	db.genere = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.genere));
 	if (controllaSeFileVuoto(file_generi)==0) {
 		FILE* fp=fopen(file_generi, "r");
-		char temp[MAX_TEMP];
-		char dati[MAX_TEMP][MAX_TEMP];
+		char temp[MAX_ENORME];
+		char dati[MAX_ENORME][MAX_ENORME];
 		char spaziatore[] = "|";
 		int i=0, j=0;
 		while(!feof(fp)) {
-			fgets(temp, MAX_TEMP, fp);
+			fgets(temp, MAX_ENORME, fp);
 			char *ptr = strtok(temp, spaziatore);
 			j=0;
 			while(ptr!=NULL) {
@@ -212,15 +214,15 @@ void ottieniGeneri() {
 }
 
 void ottieniPlaylists() {
-	db.playlist = malloc((MAX_TEMP*MAX_TEMP)*sizeof(db.playlist));
+	db.playlist = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.playlist));
 	if (controllaSeFileVuoto(file_playlists)==0) {
 		FILE* fp=fopen(file_playlists, "r");
-		char temp[MAX_TEMP];
-		char dati[MAX_TEMP][MAX_TEMP];
+		char temp[MAX_ENORME];
+		char dati[MAX_ENORME][MAX_ENORME];
 		char spaziatore[] = "|";
 		int i=0, j=0;
 		while(!feof(fp)) {
-			fgets(temp, MAX_TEMP, fp);
+			fgets(temp, MAX_ENORME, fp);
 			char *ptr = strtok(temp, spaziatore);
 			j=0;
 			while(ptr!=NULL) {
@@ -251,15 +253,15 @@ void ottieniPlaylists() {
 	}
 }
 void ottieniUtenti() {
-	db.utente = malloc((MAX_TEMP*MAX_TEMP)*sizeof(db.utente));
+	db.utente = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.utente));
 	if (controllaSeFileVuoto(file_utenti)==0) {
 		FILE* fp=fopen(file_utenti, "r");
-		char temp[MAX_TEMP];
-		char dati[MAX_TEMP][MAX_TEMP];
+		char temp[MAX_ENORME];
+		char dati[MAX_ENORME][MAX_ENORME];
 		char spaziatore[] = "|";
 		int i=0, j=0;
 		while(!feof(fp)) {
-			fgets(temp, MAX_TEMP, fp);
+			fgets(temp, MAX_ENORME, fp);
 			char *ptr = strtok(temp, spaziatore);
 			j=0;
 			while(ptr!=NULL) {
@@ -289,15 +291,15 @@ void ottieniUtenti() {
 }
 
 void associaArtisti() {
-	db.artistaBrano = malloc((MAX_TEMP*MAX_TEMP)*sizeof(db.artistaBrano));
+	db.artistaBrano = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.artistaBrano));
 	if (controllaSeFileVuoto(file_associazioneartisti)==0) {
 		FILE* fp=fopen(file_associazioneartisti, "r");
-		char temp[MAX_TEMP];
-		char dati[MAX_TEMP][MAX_TEMP];
+		char temp[MAX_ENORME];
+		char dati[MAX_ENORME][MAX_ENORME];
 		char spaziatore[] = "|";
 		int i=0, j=0;
 		while(!feof(fp)) {
-			fgets(temp, MAX_TEMP, fp);
+			fgets(temp, MAX_ENORME, fp);
 			char *ptr = strtok(temp, spaziatore);
 			j=0;
 			while(ptr!=NULL) {
@@ -320,15 +322,15 @@ void associaArtisti() {
 }
 
 void associaAlbum() {
-	db.albumBrano = malloc((MAX_TEMP*MAX_TEMP)*sizeof(db.albumBrano));
+	db.albumBrano = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.albumBrano));
 	if (controllaSeFileVuoto(file_collezione)==0) {
 		FILE* fp=fopen(file_collezione, "r");
-		char temp[MAX_TEMP];
-		char dati[MAX_TEMP][MAX_TEMP];
+		char temp[MAX_ENORME];
+		char dati[MAX_ENORME][MAX_ENORME];
 		char spaziatore[] = "|";
 		int i=0, j=0;
 		while(!feof(fp)) {
-			fgets(temp, MAX_TEMP, fp);
+			fgets(temp, MAX_ENORME, fp);
 			char *ptr = strtok(temp, spaziatore);
 			j=0;
 			while(ptr!=NULL) {
@@ -351,15 +353,15 @@ void associaAlbum() {
 }
 
 void associaGeneri() {
-	db.branoGenere = malloc((MAX_TEMP*MAX_TEMP)*sizeof(db.branoGenere));
+	db.branoGenere = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.branoGenere));
 	if (controllaSeFileVuoto(file_tipobrano)==0) {
 		FILE* fp=fopen(file_tipobrano, "r");
-		char temp[MAX_TEMP];
-		char dati[MAX_TEMP][MAX_TEMP];
+		char temp[MAX_ENORME];
+		char dati[MAX_ENORME][MAX_ENORME];
 		char spaziatore[] = "|";
 		int i=0, j=0;
 		while(!feof(fp)) {
-			fgets(temp, MAX_TEMP, fp);
+			fgets(temp, MAX_ENORME, fp);
 			char *ptr = strtok(temp, spaziatore);
 			j=0;
 			while(ptr!=NULL) {
@@ -382,15 +384,15 @@ void associaGeneri() {
 }
 
 void associaPlaylist() {
-	db.playlistBrano = malloc((MAX_TEMP*MAX_TEMP)*sizeof(db.playlistBrano));
+	db.playlistBrano = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.playlistBrano));
 	if (controllaSeFileVuoto(file_raccolta)==0) {
 		FILE* fp=fopen(file_raccolta, "r");
-		char temp[MAX_TEMP];
-		char dati[MAX_TEMP][MAX_TEMP];
+		char temp[MAX_ENORME];
+		char dati[MAX_ENORME][MAX_ENORME];
 		char spaziatore[] = "|";
 		int i=0, j=0;
 		while(!feof(fp)) {
-			fgets(temp, MAX_TEMP, fp);
+			fgets(temp, MAX_ENORME, fp);
 			char *ptr = strtok(temp, spaziatore);
 			j=0;
 			while(ptr!=NULL) {
