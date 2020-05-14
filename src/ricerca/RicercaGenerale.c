@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 3000 - 13.05.2020
+ * Ampere 0.1 rev. 4074 - 15.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -22,15 +22,15 @@
 #include "../sys/Utils.h"
 #include "../sys/Impostazioni.h"
 
-void ricerca(int modalita, char interrogazione[], bool light) {
+void ricerca(database db, int modalita, char interrogazione[], bool light) {
 	int i=0, n=0, conta=0;
 	if (modalita==0) {
 		printf("\n\nBrani:");
-		n = contaNelDatabase(0);
+		n = contaNelDatabase(db,0);
 		while (i<n) {
 			if (comparaStringheParziale(db.brano[i].titolo, interrogazione)
-				||comparaStringheParziale(db.album[ottieniPosDaID(1,db.brano[i].album)].titolo, interrogazione)
-				||comparaStringheParziale(db.artista[ottieniPosDaID(2,db.artistaBrano[ottieniPosDaID(5, db.brano[i].id)].idArtista)].nomearte, interrogazione)
+				||comparaStringheParziale(db.album[ottieniPosDaID(db, 1,db.brano[i].album)].titolo, interrogazione)
+				||comparaStringheParziale(db.artista[ottieniPosDaID(db, 2,db.branoArtista[ottieniPosDaID(db, 5, db.brano[i].id)].idArtista)].nomearte, interrogazione)
 				||db.brano[i].anno==atoi(interrogazione)) {
 				if (light) {
 					if (conta<3) {
@@ -38,7 +38,7 @@ void ricerca(int modalita, char interrogazione[], bool light) {
 					}
 				} else {
 					printf("\n");
-					mostraSingoloBrano(db.brano[i].id);
+					mostraSingoloBrano(db, db.brano[i].id);
 				}
 				conta++;
 			}
@@ -57,7 +57,7 @@ void ricerca(int modalita, char interrogazione[], bool light) {
 		}
 	} else if (modalita==1) {
 		printf("\n\nAlbum:");
-		n = contaNelDatabase(1);
+		n = contaNelDatabase(db,1);
 		while (i<n) {
 			if (comparaStringheParziale(db.album[i].titolo, interrogazione)
 				||db.album[i].anno==atoi(interrogazione)) {
@@ -67,13 +67,13 @@ void ricerca(int modalita, char interrogazione[], bool light) {
 					}
 				} else {
 					printf("\n");
-					mostraSingoloAlbum(db.album[i].id);
+					mostraSingoloAlbum(db, db.album[i].id);
 					char scelta = 'N';
 					pulisciBuffer();
 					printf("\nVuoi mostrare i brani di un album? [Y/N]: ");
 					scanf("%c", &scelta);
 					if (scelta=='Y'||scelta=='y') {
-						mostraBraniAlbum();
+						mostraBraniAlbum(db);
 					}
 				}
 				conta++;
@@ -93,7 +93,7 @@ void ricerca(int modalita, char interrogazione[], bool light) {
 		}
 	} else if (modalita==2) {
 		printf("\n\nArtisti:");
-		n = contaNelDatabase(2);
+		n = contaNelDatabase(db,2);
 		while (i<n) {
 			if (comparaStringheParziale(db.artista[i].nome, interrogazione)
 				||comparaStringheParziale(db.artista[i].cognome, interrogazione)
@@ -104,13 +104,13 @@ void ricerca(int modalita, char interrogazione[], bool light) {
 					}
 				} else {
 					printf("\n");
-					mostraSingoloArtista(db.artista[i].id);
+					mostraSingoloArtista(db, db.artista[i].id);
 					char scelta = 'N';
 					pulisciBuffer();
 					printf("\nVuoi mostrare i brani di un artista? [Y/N]: ");
 					scanf("%c", &scelta);
 					if (scelta=='Y'||scelta=='y') {
-						mostraBraniArtista();
+						mostraBraniArtista(db);
 					}
 				}
 				conta++;
@@ -130,7 +130,7 @@ void ricerca(int modalita, char interrogazione[], bool light) {
 		}
 	} else if (modalita==3) {
 		printf("\n\nGeneri:");
-		n = contaNelDatabase(3);
+		n = contaNelDatabase(db,3);
 		while (i<n) {
 			if (comparaStringheParziale(db.genere[i].nome, interrogazione)) {
 				if (light) {
@@ -139,13 +139,13 @@ void ricerca(int modalita, char interrogazione[], bool light) {
 					}
 				} else {
 					printf("\n");
-					mostraSingoloGenere(db.genere[i].id);
+					mostraSingoloGenere(db, db.genere[i].id);
 					char scelta = 'N';
 					pulisciBuffer();
 					printf("\nVuoi mostrare i brani di un genere? [Y/N]: ");
 					scanf("%c", &scelta);
 					if (scelta=='Y'||scelta=='y') {
-						mostraBraniGenere();
+						mostraBraniGenere(db);
 					}
 				}
 				conta++;
@@ -165,24 +165,24 @@ void ricerca(int modalita, char interrogazione[], bool light) {
 		}
 	} else if (modalita==4) {
 		printf("\n\nPlaylists:");
-		n = contaNelDatabase(4);
+		n = contaNelDatabase(db,4);
 		while (i<n) {
 			if (comparaStringheParziale(db.playlist[i].nome, interrogazione)) {
-				if (isPublicPlaylist(db.playlist[i].id)||isUserPlaylist(db.playlist[i].id, db.utente_connesso)) {
+				if (isPublicPlaylist(db, db.playlist[i].id)||isUserPlaylist(db, db.playlist[i].id, db.utenteCorrente)) {
 					if (light) {
 						if (conta<3) {
 							printf("\n%d. Nome: %s", conta+1, db.playlist[i].nome);
-							printf("\n   Autore: %s", db.utente[ottieniPosDaID(-1,db.playlist[i].idUtente)].username);
+							printf("\n   Autore: %s", db.utente[ottieniPosDaID(db, -1,db.playlist[i].idUtente)].username);
 						}
 					} else {
 						printf("\n");
-						mostraSingolaPlaylist(-1, db.playlist[i].id);
+						mostraSingolaPlaylist(db, -1, db.playlist[i].id);
 						char scelta = 'N';
 						pulisciBuffer();
 						printf("\nVuoi mostrare i brani di una playlist? [Y/N]: ");
 						scanf("%c", &scelta);
 						if (scelta=='Y'||scelta=='y') {
-							mostraBraniPlaylist();
+							mostraBraniPlaylist(db);
 						}
 					}
 					conta++;
@@ -203,7 +203,7 @@ void ricerca(int modalita, char interrogazione[], bool light) {
 		}
 	} else if (modalita==5) {
 		printf("\n\nUtenti:");
-		n = contaNelDatabase(-1);
+		n = contaNelDatabase(db,-1);
 		while (i<n) {
 			if (comparaStringheParziale(db.utente[i].username, interrogazione)) {
 				if (light) {
@@ -212,13 +212,13 @@ void ricerca(int modalita, char interrogazione[], bool light) {
 					}
 				} else {
 					printf("\n");
-					mostraSingoloUtente(-1,db.utente[i].id);
+					mostraSingoloUtente(db, -1,db.utente[i].id);
 					char scelta = 'N';
 					pulisciBuffer();
 					printf("\nVuoi mostrare le playlist di un utente? [Y/N]: ");
 					scanf("%c", &scelta);
 					if (scelta=='Y'||scelta=='y') {
-						mostraPlaylistUtenteGuidato();
+						mostraPlaylistUtenteGuidato(db);
 					}
 				}
 				conta++;
@@ -239,36 +239,36 @@ void ricerca(int modalita, char interrogazione[], bool light) {
 	}
 }
 
-void eseguiRicerca() {
+void eseguiRicerca(database db) {
 	int scelta=-1;
 	char *interrogazione = malloc(MAX_MEDIO);
 	printf("\n===[Ricerca Generale]===");
 	pulisciBuffer();
 	printf("\nCerca nel database: ");
 	interrogazione = inputStringaSicuro(MAX_MEDIO,interrogazione);
-	ricerca(0,interrogazione, true);
-	ricerca(1,interrogazione, true);
-	ricerca(2,interrogazione, true);
-	ricerca(3,interrogazione, true);
-	ricerca(4,interrogazione, true);
-	ricerca(5,interrogazione, true);
+	ricerca(db,0,interrogazione, true);
+	ricerca(db,1,interrogazione, true);
+	ricerca(db,2,interrogazione, true);
+	ricerca(db,3,interrogazione, true);
+	ricerca(db,4,interrogazione, true);
+	ricerca(db,5,interrogazione, true);
 	printf("\n\nEsci dalla ricerca [0]");
 	while (scelta<0||scelta>6) {
 		printf("\nInserisci scelta: ");
 		scanf("%d", &scelta);
 	}
 	if (scelta==1) {
-		ricerca(0,interrogazione, false);
+		ricerca(db,0,interrogazione, false);
 	} else if (scelta==2) {
-		ricerca(1,interrogazione, false);
+		ricerca(db,1,interrogazione, false);
 	} else if (scelta==3) {
-		ricerca(2,interrogazione, false);
+		ricerca(db,2,interrogazione, false);
 	} else if (scelta==4) {
-		ricerca(3,interrogazione, false);
+		ricerca(db,3,interrogazione, false);
 	} else if (scelta==5) {
-		ricerca(4,interrogazione, false);
+		ricerca(db,4,interrogazione, false);
 	} else if (scelta==6) {
-		ricerca(5,interrogazione, false);
+		ricerca(db,5,interrogazione, false);
 	}
 	free(interrogazione);
 }

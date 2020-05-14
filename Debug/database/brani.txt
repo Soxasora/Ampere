@@ -9,3 +9,19 @@
 9|Alice in citta'|150|1|1997|1
 10|Per me lo so|150|1|1997|1
 11|Mondo naif|150|1|1997|1
+12|Rock & roll dell'idiota|150|1|1997|1
+13|Comica|150|1|1997|1
+14|Guerra civile|150|1|1997|1
+15|Vesto all'occidentale|150|1|1997|1
+16|Dinamite|150|1|1997|1
+17|Stai come me|188|2|1999|1
+18|Bella mia|157|2|1999|1
+19|Occhi bassi|184|2|1999|1
+20|Dipendo da te|183|2|1999|1
+21|Catena|210|2|1999|1
+22|Abito al limite|225|2|1999|1
+23|Dimmi|168|2|1999|1
+24|Sono morto|233|2|1999|1
+25|Uomo mangia uomo|200|2|1999|1
+26|Mai come voi|228|2|1999|1
+27|Non mi manca niente|364|2|1999|1

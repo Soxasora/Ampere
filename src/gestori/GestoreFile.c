@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 3000 - 13.05.2020
+ * Ampere 0.1 rev. 4074 - 15.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -34,27 +34,27 @@ void cancellaDatabaseFile() {
 	remove(file_utenti);
 }
 
-void salvaModificheSuFile() {
-	salvaBraniSuFile();
-	salvaAlbumSuFile();
-	salvaArtistiSuFile();
-	salvaGeneriSuFile();
-	salvaPlaylistSuFile();
-	salvaUtentiSuFile();
+void salvaModificheSuFile(database db) {
+	salvaBraniSuFile(db);
+	salvaAlbumSuFile(db);
+	salvaArtistiSuFile(db);
+	salvaGeneriSuFile(db);
+	salvaPlaylistSuFile(db);
+	salvaUtentiSuFile(db);
 	// Blocco associazioni
-	salvaCollezioneSuFile();
-	salvaAssociazioniArtistiSuFile();
-	salvaTipiBraniSuFile();
-	salvaRaccoltaSuFile();
-	if (isAdmin())
+	salvaCollezioneSuFile(db);
+	salvaAssociazioniArtistiSuFile(db);
+	salvaTipiBraniSuFile(db);
+	salvaRaccoltaSuFile(db);
+	if (isAdmin(db))
 		printf("\nSalvate tutte le modifiche effettuate al database su file.");
 }
 
-void salvaBraniSuFile() {
+void salvaBraniSuFile(database db) {
 	backupFile(file_brani, "temp_brani.txt");
 	remove(file_brani);
 	int i=0;
-	int n=contaNelDatabase(0);
+	int n=contaNelDatabase(db,0);
 	while (i<n) {
 		char id[8], durata[16], album[MAX_MEDIO], anno[5], ascolti[16];
 		sprintf(id, "%d", db.brano[i].id);
@@ -66,15 +66,15 @@ void salvaBraniSuFile() {
 		i++;
 	}
 	remove("temp_brani.txt");
-	if (isAdmin())
+	if (isAdmin(db))
 		printf("\nBrani salvati.");
 }
 
-void salvaAlbumSuFile() {
+void salvaAlbumSuFile(database db) {
 	backupFile(file_albums, "temp_albums.txt");
 	remove(file_albums);
 	int i=0;
-	int n=contaNelDatabase(1);
+	int n=contaNelDatabase(db,1);
 	while (i<n) {
 		char id[8], anno[5];
 		sprintf(id, "%d", db.album[i].id);
@@ -83,15 +83,15 @@ void salvaAlbumSuFile() {
 		i++;
 	}
 	remove("temp_albums.txt");
-	if (isAdmin())
+	if (isAdmin(db))
 		printf("\nAlbum salvati.");
 }
 
-void salvaArtistiSuFile() {
+void salvaArtistiSuFile(database db) {
 	backupFile(file_artisti, "temp_artisti.txt");
 	remove(file_artisti);
 	int i=0;
-	int n=contaNelDatabase(2);
+	int n=contaNelDatabase(db,2);
 	while (i<n) {
 		char id[8];
 		sprintf(id, "%d", db.artista[i].id);
@@ -99,15 +99,15 @@ void salvaArtistiSuFile() {
 		i++;
 	}
 	remove("temp_artisti.txt");
-	if (isAdmin())
+	if (isAdmin(db))
 		printf("\nArtisti salvati.");
 }
 
-void salvaGeneriSuFile() {
+void salvaGeneriSuFile(database db) {
 	backupFile(file_generi, "temp_generi.txt");
 	remove(file_generi);
 	int i=0;
-	int n=contaNelDatabase(3);
+	int n=contaNelDatabase(db,3);
 	while (i<n) {
 		char id[8];
 		sprintf(id, "%d", db.genere[i].id);
@@ -115,15 +115,15 @@ void salvaGeneriSuFile() {
 		i++;
 	}
 	remove("temp_generi.txt");
-	if (isAdmin())
+	if (isAdmin(db))
 		printf("\nGeneri salvati.");
 }
 
-void salvaPlaylistSuFile() {
+void salvaPlaylistSuFile(database db) {
 	backupFile(file_playlists, "temp_playlists.txt");
 	remove(file_playlists);
 	int i=0;
-	int n=contaNelDatabase(4);
+	int n=contaNelDatabase(db,4);
 	while (i<n) {
 		char id[8];
 		char idUtente[8];
@@ -139,15 +139,15 @@ void salvaPlaylistSuFile() {
 		i++;
 	}
 	remove("temp_playlists.txt");
-	if (isAdmin())
+	if (isAdmin(db))
 		printf("\nPlaylist salvate.");
 }
 
-void salvaUtentiSuFile() {
+void salvaUtentiSuFile(database db) {
 	backupFile(file_utenti, "temp_utenti.txt");
 	remove(file_utenti);
 	int i=0;
-	int n=contaNelDatabase(-1);
+	int n=contaNelDatabase(db,-1);
 	while(i<n) {
 		char id[8];
 		char admin[6];
@@ -161,51 +161,51 @@ void salvaUtentiSuFile() {
 		i++;
 	}
 	remove("temp_utenti.txt");
-	if (isAdmin())
+	if (isAdmin(db))
 		printf("\nUtenti salvati.");
 }
 
 //BLOCCO ASSOCIAZIONI
 
-void salvaCollezioneSuFile() {
+void salvaCollezioneSuFile(database db) {
 	backupFile(file_collezione, "temp_collezione.txt");
 	remove(file_collezione);
 	int i=0;
-	int n=contaNelDatabase(6);
+	int n=contaNelDatabase(db,6);
 	while (i<n) {
 		char idAlbum[8], idBrano[8];
-		sprintf(idAlbum, "%d", db.albumBrano[i].idAlbum);
-		sprintf(idBrano, "%d", db.albumBrano[i].idBrano);
+		sprintf(idAlbum, "%d", db.branoAlbum[i].idAlbum);
+		sprintf(idBrano, "%d", db.branoAlbum[i].idBrano);
 		inserisciCollezioneSuFile(idAlbum, idBrano);
 		i++;
 	}
 	remove("temp_collezione.txt");
-	if (isAdmin())
+	if (isAdmin(db))
 		printf("\nAssociazioni album-brano salvate.");
 }
 
-void salvaAssociazioniArtistiSuFile() {
+void salvaAssociazioniArtistiSuFile(database db) {
 	backupFile(file_associazioneartisti, "temp_associazioneartisti.txt");
 	remove(file_associazioneartisti);
 	int i=0;
-	int n=contaNelDatabase(5);
+	int n=contaNelDatabase(db,5);
 	while(i<n) {
 		char idBrano[8], idArtista[8];
-		sprintf(idBrano, "%d", db.artistaBrano[i].idBrano);
-		sprintf(idArtista, "%d", db.artistaBrano[i].idArtista);
+		sprintf(idBrano, "%d", db.branoArtista[i].idBrano);
+		sprintf(idArtista, "%d", db.branoArtista[i].idArtista);
 		inserisciAssociazioneArtistiSuFile(idBrano, idArtista);
 		i++;
 	}
 	remove("temp_associazioneartisti.txt");
-	if (isAdmin())
+	if (isAdmin(db))
 		printf("\nAssociazioni artista-brano salvate.");
 }
 
-void salvaTipiBraniSuFile() {
+void salvaTipiBraniSuFile(database db) {
 	backupFile(file_tipobrano, "temp_tipobrano.txt");
 	remove(file_tipobrano);
 	int i=0;
-	int n=contaNelDatabase(7);
+	int n=contaNelDatabase(db,7);
 	while(i<n) {
 		char idBrano[8], idGenere[8];
 		sprintf(idBrano, "%d", db.branoGenere[i].idBrano);
@@ -214,15 +214,15 @@ void salvaTipiBraniSuFile() {
 		i++;
 	}
 	remove("temp_tipobrano.txt");
-	if (isAdmin())
+	if (isAdmin(db))
 		printf("\nAssociazioni genere-brano salvate.");
 }
 
-void salvaRaccoltaSuFile() {
+void salvaRaccoltaSuFile(database db) {
 	backupFile(file_raccolta, "temp_raccolta.txt");
 	remove(file_raccolta);
 	int i=0;
-	int n=contaNelDatabase(8);
+	int n=contaNelDatabase(db,8);
 	while(i<n) {
 		char idPlaylist[8], idBrano[8];
 		sprintf(idPlaylist, "%d", db.playlistBrano[i].idPlaylist);
@@ -231,6 +231,6 @@ void salvaRaccoltaSuFile() {
 		i++;
 	}
 	remove("temp_raccolta.txt");
-	if (isAdmin())
+	if (isAdmin(db))
 		printf("\nAssociazioni playlist-brano salvate.");
 }

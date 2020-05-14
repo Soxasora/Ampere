@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 3000 - 13.05.2020
+ * Ampere 0.1 rev. 4074 - 15.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -52,29 +52,29 @@ int creaDatabaseSeNonEsiste() {
 	return esito;
 }
 
-database ottieniDatabaseParziale() {
-	ottieniUtenti();
+database ottieniDatabaseParziale(database db) {
+	db = ottieniUtenti(db);
 	return db;
 }
 
-database ottieniDatabase() {
+database ottieniDatabase(database db) {
 	// Blocco ottenimenti
-	ottieniBrani();
-	ottieniAlbums();
-	ottieniArtisti();
-	ottieniGeneri();
-	ottieniPlaylists();
+	db = ottieniBrani(db);
+	db = ottieniAlbums(db);
+	db = ottieniArtisti(db);
+	db = ottieniGeneri(db);
+	db = ottieniPlaylists(db);
 	// Blocco associazioni
-	associaArtisti();
-	associaAlbum();
-	associaGeneri();
-	associaPlaylist();
-	if (isAdmin())
+	db = associaArtisti(db);
+	db = associaAlbum(db);
+	db = associaGeneri(db);
+	db = associaPlaylist(db);
+	if (isAdmin(db))
 		printf("\nDatabase caricato con successo.");
 	return db;
 }
 
-void ottieniBrani() {
+database ottieniBrani(database db) {
 	db.brano = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.brano));
 	if (controllaSeFileVuoto(file_brani)==0) {
 		FILE* fp=fopen(file_brani, "r");
@@ -101,16 +101,17 @@ void ottieniBrani() {
 			i++;
 		}
 		fclose(fp);
-		if (isAdmin())
+		if (isAdmin(db))
 			printf("\n%d Brani caricati con successo.", i);
 	} else {
-		inizializzaDatabase(0);
-		if (isAdmin())
+		inizializzaDatabase(db, 0);
+		if (isAdmin(db))
 			printf("\nNessun brano da caricare.");
 	}
+	return db;
 }
 
-void ottieniAlbums() {
+database ottieniAlbums(database db) {
 	db.album = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.album));
 	if (controllaSeFileVuoto(file_albums)==0) {
 		FILE* fp=fopen(file_albums, "r");
@@ -134,16 +135,17 @@ void ottieniAlbums() {
 			i++;
 		}
 		fclose(fp);
-		if (isAdmin())
+		if (isAdmin(db))
 			printf("\n%d Album caricati con successo.", i);
 	} else {
-		inizializzaDatabase(1);
-		if (isAdmin())
+		inizializzaDatabase(db, 1);
+		if (isAdmin(db))
 			printf("\nNessun album da caricare.");
 	}
+	return db;
 }
 
-void ottieniArtisti() {
+database ottieniArtisti(database db) {
 	db.artista = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.artista));
 	if (controllaSeFileVuoto(file_artisti)==0) {
 		FILE* fp=fopen(file_artisti, "r");
@@ -172,16 +174,17 @@ void ottieniArtisti() {
 			i++;
 		}
 		fclose(fp);
-		if (isAdmin())
+		if (isAdmin(db))
 			printf("\n%d Artisti caricati con successo.", i);
 	} else {
-		inizializzaDatabase(2);
-		if (isAdmin())
+		inizializzaDatabase(db, 2);
+		if (isAdmin(db))
 			printf("\nNessun artista da caricare.");
 	}
+	return db;
 }
 
-void ottieniGeneri() {
+database ottieniGeneri(database db) {
 	db.genere = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.genere));
 	if (controllaSeFileVuoto(file_generi)==0) {
 		FILE* fp=fopen(file_generi, "r");
@@ -204,16 +207,17 @@ void ottieniGeneri() {
 			i++;
 		}
 		fclose(fp);
-		if (isAdmin())
+		if (isAdmin(db))
 			printf("\n%d Generi caricati con successo.", i);
 	} else {
-		inizializzaDatabase(3);
-		if (isAdmin())
+		inizializzaDatabase(db, 3);
+		if (isAdmin(db))
 			printf("\nNessun genere da caricare.");
 	}
+	return db;
 }
 
-void ottieniPlaylists() {
+database ottieniPlaylists(database db) {
 	db.playlist = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.playlist));
 	if (controllaSeFileVuoto(file_playlists)==0) {
 		FILE* fp=fopen(file_playlists, "r");
@@ -244,15 +248,16 @@ void ottieniPlaylists() {
 			i++;
 		}
 		fclose(fp);
-		if (isAdmin())
+		if (isAdmin(db))
 			printf("\n%d Playlist caricate con successo.", i);
 	} else {
-		inizializzaDatabase(4);
-		if (isAdmin())
+		inizializzaDatabase(db, 4);
+		if (isAdmin(db))
 			printf("\nNessuna playlist da caricare.");
 	}
+	return db;
 }
-void ottieniUtenti() {
+database ottieniUtenti(database db) {
 	db.utente = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.utente));
 	if (controllaSeFileVuoto(file_utenti)==0) {
 		FILE* fp=fopen(file_utenti, "r");
@@ -285,13 +290,14 @@ void ottieniUtenti() {
 		fclose(fp);
 		printf("\n%d Utenti caricati con successo.", i);
 	} else {
-		inizializzaDatabase(-1);
+		inizializzaDatabase(db, -1);
 		printf("\nNessun utente da caricare.");
 	}
+	return db;
 }
 
-void associaArtisti() {
-	db.artistaBrano = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.artistaBrano));
+database associaArtisti(database db) {
+	db.branoArtista = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.branoArtista));
 	if (controllaSeFileVuoto(file_associazioneartisti)==0) {
 		FILE* fp=fopen(file_associazioneartisti, "r");
 		char temp[MAX_ENORME];
@@ -307,22 +313,23 @@ void associaArtisti() {
 				ptr=strtok(NULL, spaziatore);
 				j++;
 			}
-			db.artistaBrano[i].idBrano = atoi(dati[0]);
-			db.artistaBrano[i].idArtista = atoi(dati[1]);
+			db.branoArtista[i].idBrano = atoi(dati[0]);
+			db.branoArtista[i].idArtista = atoi(dati[1]);
 			i++;
 		}
 		fclose(fp);
-		if (isAdmin())
+		if (isAdmin(db))
 			printf("\n%d Associazioni brano-artista effettuate.", i);
 	} else {
-		inizializzaDatabase(5);
-		if (isAdmin())
+		inizializzaDatabase(db, 5);
+		if (isAdmin(db))
 			printf("\nNessuna associazione brano-artista da effettuare.");
 	}
+	return db;
 }
 
-void associaAlbum() {
-	db.albumBrano = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.albumBrano));
+database associaAlbum(database db) {
+	db.branoAlbum = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.branoAlbum));
 	if (controllaSeFileVuoto(file_collezione)==0) {
 		FILE* fp=fopen(file_collezione, "r");
 		char temp[MAX_ENORME];
@@ -338,21 +345,22 @@ void associaAlbum() {
 				ptr=strtok(NULL, spaziatore);
 				j++;
 			}
-			db.albumBrano[i].idAlbum = atoi(dati[0]);
-			db.albumBrano[i].idBrano = atoi(dati[1]);
+			db.branoAlbum[i].idAlbum = atoi(dati[0]);
+			db.branoAlbum[i].idBrano = atoi(dati[1]);
 			i++;
 		}
 		fclose(fp);
-		if (isAdmin())
+		if (isAdmin(db))
 			printf("\n%d associazioni brano-album effettuate.", i);
 	} else {
-		inizializzaDatabase(6);
-		if (isAdmin())
+		inizializzaDatabase(db, 6);
+		if (isAdmin(db))
 			printf("\nNessuna associazione brano-album da effettuare.");
 	}
+	return db;
 }
 
-void associaGeneri() {
+database associaGeneri(database db) {
 	db.branoGenere = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.branoGenere));
 	if (controllaSeFileVuoto(file_tipobrano)==0) {
 		FILE* fp=fopen(file_tipobrano, "r");
@@ -374,16 +382,17 @@ void associaGeneri() {
 			i++;
 		}
 		fclose(fp);
-		if (isAdmin())
+		if (isAdmin(db))
 			printf("\n%d Associazioni genere-brano effettuate.", i);
 	} else {
-		inizializzaDatabase(7);
-		if (isAdmin())
+		inizializzaDatabase(db, 7);
+		if (isAdmin(db))
 			printf("\nNessuna associazione genere-brano da effettuare.");
 	}
+	return db;
 }
 
-void associaPlaylist() {
+database associaPlaylist(database db) {
 	db.playlistBrano = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.playlistBrano));
 	if (controllaSeFileVuoto(file_raccolta)==0) {
 		FILE* fp=fopen(file_raccolta, "r");
@@ -405,13 +414,14 @@ void associaPlaylist() {
 			i++;
 		}
 		fclose(fp);
-		if (isAdmin())
+		if (isAdmin(db))
 			printf("\n%d Associazioni brano-playlist effettuate.", i);
 	} else {
-		inizializzaDatabase(8);
-		if (isAdmin())
+		inizializzaDatabase(db, 8);
+		if (isAdmin(db))
 			printf("\nNessuna associazione brano-playlist da effettuare.");
 	}
+	return db;
 }
 
 /**
@@ -427,7 +437,7 @@ void associaPlaylist() {
  * 7: Associazione genere-brano
  * 8: Associazione playlist-brano
  */
-void inizializzaDatabase(int modalita) {
+database inizializzaDatabase(database db, int modalita) {
 	if (modalita==-1) {
 		db.utente[0].id = 0;
 		strcpy(db.utente[0].username,"0");
@@ -457,11 +467,11 @@ void inizializzaDatabase(int modalita) {
 		strcpy(db.playlist[0].nome,"0");
 		strcpy(db.playlist[0].descrizione,"0");
 	} else if (modalita==5) {
-		db.artistaBrano[0].idArtista = 0;
-		db.artistaBrano[0].idBrano = 0;
+		db.branoArtista[0].idArtista = 0;
+		db.branoArtista[0].idBrano = 0;
 	} else if (modalita==6) {
-		db.albumBrano[0].idAlbum = 0;
-		db.albumBrano[0].idBrano = 0;
+		db.branoAlbum[0].idAlbum = 0;
+		db.branoAlbum[0].idBrano = 0;
 	} else if (modalita==7) {
 		db.branoGenere[0].idGenere = 0;
 		db.branoGenere[0].idBrano = 0;
@@ -469,4 +479,5 @@ void inizializzaDatabase(int modalita) {
 		db.playlistBrano[0].idPlaylist = 0;
 		db.playlistBrano[0].idBrano = 0;
 	}
+	return db;
 }

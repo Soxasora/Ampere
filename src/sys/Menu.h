@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 3000 - 13.05.2020
+ * Ampere 0.1 rev. 4074 - 15.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -8,19 +8,20 @@
 
 #ifndef SYS_MENU_H_
 #define SYS_MENU_H_
+#include "../database/Database.h"
 
-void menuLogin();
-void menu();
-void menuAccount();
-void menuPlaylist();
-void menuDatabase();
-void menuDBInserimento();
-void menuDBModifica();
-void menuDBCancella();
-void menuRicercaAvanzata();
-void menuRicercaInfo();
-void menuRicercaBraniCriterio();
-void menuRicercaInfoCriterio();
-void menuDebug();
+database menuLogin(database db);
+database menu(database db);
+database menuAccount(database db);
+database menuPlaylist(database db);
+database menuDatabase(database db);
+database menuDBInserimento(database db);
+database menuDBModifica(database db);
+database menuDBCancella(database db);
+void menuRicercaAvanzata(database db);
+void menuRicercaInfo(database db);
+void menuRicercaBraniCriterio(database db);
+void menuRicercaInfoCriterio(database db);
+database menuDebug(database db);
 
 #endif /* SYS_MENU_H_ */

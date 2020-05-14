@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 3000 - 13.05.2020
+ * Ampere 0.1 rev. 4074 - 15.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -18,19 +18,18 @@
 #include "sys/Impostazioni.h"
 
 int main() {
-	int esito=0;
-	esito = inizializzazione();
-	if (esito==0) {
-		infoUtenteConnesso();
-		printf("\nPremi invio per continuare.");
-		menu();
-		terminazione();
-	}
+	// Creo database
+	database db;
+	db = inizializzazione(db);
+	infoUtenteConnesso(db);
+	printf("\nPremi invio per continuare.");
+	db = menu(db);
+	terminazione(db);
 	aspetta();
 	return 0;
 }
 
-int inizializzazione() {
+database inizializzazione(database db) {
 	// Mostra info su Ampere
 	info();
 	printf("\nBenvenuto su Ampere.");
@@ -38,30 +37,32 @@ int inizializzazione() {
 	printf("\n----------------------------------------");
 	// Rilevo il sistema operativo in uso al momento dell'esecuzione del programma
 	os = rivelaOS();
-	int esito=0;
-	esito = creaDatabaseSeNonEsiste();
+
+	// Carico il database
+	int esito = creaDatabaseSeNonEsiste();
 	if (esito!=0) {
 		printf("\nSi e' verificato un errore interno. Sto chiudendo Ampere...");
 	} else {
+
 		// Ottengo il database degli utenti prima di caricare completamente il database
-		db = ottieniDatabaseParziale();
+		db = ottieniDatabaseParziale(db);
 
 		printf("\nPremi invio per continuare.");
-		menuLogin();
+		db = menuLogin(db);
 
 		// Ottengo il database e tutti i sotto database con esso
-		db = ottieniDatabase();
+		db = ottieniDatabase(db);
 		printf("\n\nAmpere Pronto.");
 		printf("\n----------------------------------------\n");
 	}
-	return esito;
+	return db;
 }
 
-void terminazione() {
+void terminazione(database db) {
 	printf("\nPreparazione alla chiusura in corso...");
 	if (db_modificato==1) {
 		printf("\nUn momento, sto salvando i dati...");
-		salvaModificheSuFile();
+		salvaModificheSuFile(db);
 		printf(" Fatto.");
 	}
 	printf("\nPronto per essere chiuso.");
