@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 4074 - 15.05.2020
+ * Ampere 0.1 rev. 4075 - 19.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -33,7 +33,7 @@ bool isGivenUserAdmin(database db, int id) {
 
 void infoUtenteConnesso(database db) {
 	int posutente = ottieniPosDaID(db, -1, db.utenteCorrente);
-	char* ruolo = malloc(20);
+	char* ruolo = malloc(15);
 	if (isAdmin(db)==true) {
 		ruolo="Amministratore";
 	} else {
@@ -45,7 +45,7 @@ void infoUtenteConnesso(database db) {
 	free(ruolo);
 }
 
-database login(database db) {
+database loginUtente(database db) {
 	printf("\nEsecuzione Login ad Ampere");
 	int controllo=0, id=0;
 	char *username = malloc(MAX_MEDIO);
@@ -101,7 +101,7 @@ database registrazioneUtente(database db) {
 			printf("\nQuesto utente esiste gia'! Scegline un altro.");
 		}
 	}
-	db = login(db);
+	db = loginUtente(db);
 	free(username); free(password);
 	return db;
 }

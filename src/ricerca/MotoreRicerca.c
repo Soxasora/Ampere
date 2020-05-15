@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 4074 - 15.05.2020
+ * Ampere 0.1 rev. 4075 - 19.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -171,25 +171,7 @@ void mostraSingolaPlaylist(database db, int modalita, int id) {
 		printf("\nMostrare i brani della playlist? [Y/N]");
 		scanf("%c", &scelta);
 		if (scelta=='Y'||scelta=='y') {
-			int i=0, j=0, n=contaNelDatabase(db,8), controllo=0, nbraniplaylist=(contaBraniPlaylist(db, id));
-			printf("\n\n===[Brani Playlist %s]===", db.playlist[posplaylist].nome);
-			while (i<n&&controllo!=-1) {
-				if (db.playlistBrano[i].idPlaylist==id) {
-					printf("\n");
-					mostraSingoloBrano(db, db.playlistBrano[i].idBrano);
-					if ((nbraniplaylist+1)>5 && (j+1)%5==0) {
-						char scelta='Y';
-						pulisciBuffer();
-						printf("\nElencare i prossimi 5 brani? [Y/N]: ");
-						scanf("%c", &scelta);
-						if(scelta=='N'||scelta=='n') {
-							controllo=-1;
-						}
-					}
-					j++;
-				}
-				i++;
-			}
+			mostraBraniPlaylistDaID(db, id);
 		}
 	}
 }
@@ -306,6 +288,8 @@ void mostraTuttiUtenti(database db) {
  * 0 == per Artista
  * 1 == per Album
  * 2 == per Genere
+ * 3 == per Playlist
+ * 4 == per Utente
  */
 int mostraInfo(database db, int modalita) {
 	int esiste=0;
@@ -583,4 +567,27 @@ int mostraPlaylistUtenteGuidato(database db) {
 	}
 	free(utente);
 	return esiste;
+}
+
+void mostraBraniPlaylistDaID(database db, int id) {
+	int posplaylist = ottieniPosDaID(db,4,id);
+	int i=0, j=0, n=contaNelDatabase(db,8), controllo=0, nbraniplaylist=(contaBraniPlaylist(db, id));
+	printf("\n\n===[Brani Playlist %s]===", db.playlist[posplaylist].nome);
+	while (i<n&&controllo!=-1) {
+		if (db.playlistBrano[i].idPlaylist==id) {
+			printf("\n");
+			mostraSingoloBrano(db, db.playlistBrano[i].idBrano);
+			if ((nbraniplaylist+1)>5 && (j+1)%5==0) {
+				char scelta='Y';
+				pulisciBuffer();
+				printf("\nElencare i prossimi 5 brani? [Y/N]: ");
+				scanf("%c", &scelta);
+				if(scelta=='N'||scelta=='n') {
+					controllo=-1;
+				}
+			}
+			j++;
+		}
+		i++;
+	}
 }

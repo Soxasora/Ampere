@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 4074 - 15.05.2020
+ * Ampere 0.1 rev. 4075 - 19.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -10,7 +10,18 @@
 #define SRC_AMPERE_H_
 #include "database/Database.h"
 
+/**
+ *	@input istanza database
+ *	Operazioni fondamentali per l'inizializzazione di Ampere, dunque per garantire un corretto
+ *	funzionamento sin dall'inizio.
+ *	@output database modificato
+ */
 database inizializzazione(database db);
+
+/**
+ *	Operazioni fondamentali per la terminazione di Ampere, dunque per garantire il salvataggio
+ *	e l'integrita' dei dati inseriti durante l'esecuzione di Ampere
+ */
 void terminazione();
 
 #endif /* SRC_AMPERE_H_ */

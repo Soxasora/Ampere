@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 4074 - 15.05.2020
+ * Ampere 0.1 rev. 4075 - 19.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -30,16 +30,11 @@ database inserimentoGenereGuidato(database db) {
 	return db;
 }
 
-database creaGenereGuidato(database db, char nome[]) {
-	printf("\nSembra che questo genere non esista nel database, provvedo ad inserirlo...");
-	db = inserireGenere(db,creaGenere(db,nome));
-	return db;
-}
-
 database creaGenereSeNonEsiste(database db, char nome[]) {
 	int id = controlloEsistenzaGenere(db, nome);
 	if (id==0) {
-		db = creaGenereGuidato(db, nome);
+		printf("\nSembra che questo genere non esista nel database, provvedo ad inserirlo...");
+		db = inserireGenere(db,creaGenere(db,nome));
 		printf("\nGenere inserito, continuiamo...");
 	} else {
 		printf("\nGenere esistente.");

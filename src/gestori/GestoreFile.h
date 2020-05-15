@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 4074 - 15.05.2020
+ * Ampere 0.1 rev. 4075 - 19.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -10,18 +10,118 @@
 #define GESTORI_GESTOREFILE_H_
 #include "../database/Database.h"
 
+/**
+ *	Funzione logica per la cancellazione di tutti i file del database
+ *	Si avvale della funzione "remove"
+ */
 void cancellaDatabaseFile();
+
+/**
+ * 	@input istanza database
+ *	Serve a chiamare le varie funzioni stand-alone per il salvataggio delle modifiche effettuate al database
+ */
 void salvaModificheSuFile(database db);
+
+/**
+ *	@input istanza database
+ *	Operazioni per il salvataggio dei brani nel file "file_brani"
+ *	Si avvale di backupFile per salvare, temporaneamente, "file_brani" su "temp_brani.txt"
+ *	Cancella "file_brani" attraverso "remove"
+ *	Esegue inserisciBranoSuFile, ricreando, dunque, "file_brani" ed inserendo record per record le informazioni
+ *	Cancella "temp_brani.txt" attraverso "remove" una volta finito il processo di inserimento
+ */
 void salvaBraniSuFile(database db);
+
+/**
+ *	@input istanza database
+ *	Operazioni per il salvataggio degli album nel file "file_albums"
+ *	Si avvale di backupFile per salvare, temporaneamente, "file_albums" su "temp_albums.txt"
+ *	Cancella "file_albums" attraverso "remove"
+ *	Esegue inserisciAlbumSuFile, ricreando, dunque, "file_albums" ed inserendo record per record le informazioni
+ *	Cancella "temp_albums.txt" attraverso "remove" una volta finito il processo di inserimento
+ */
 void salvaAlbumSuFile(database db);
+
+/**
+ *	@input istanza database
+ *	Operazioni per il salvataggio degli artisti nel file "file_artisti"
+ *	Si avvale di backupFile per salvare, temporaneamente, "file_artisti" su "temp_artisti.txt"
+ *	Cancella "file_artisti" attraverso "remove"
+ *	Esegue inserisciArtistaSuFile, ricreando, dunque, "file_artisti" ed inserendo record per record le informazioni
+ *	Cancella "temp_artisti.txt" attraverso "remove" una volta finito il processo di inserimento
+ */
 void salvaArtistiSuFile(database db);
+
+/**
+ *	@input istanza database
+ *	Operazioni per il salvataggio dei generi nel file "file_generi"
+ *	Si avvale di backupFile per salvare, temporaneamente, "file_generi" su "temp_generi.txt"
+ *	Cancella "file_generi" attraverso "remove"
+ *	Esegue inserisciGenereSuFile, ricreando, dunque, "file_generi" ed inserendo record per record le informazioni
+ *	Cancella "temp_generi.txt" attraverso "remove" una volta finito il processo di inserimento
+ */
 void salvaGeneriSuFile(database db);
+
+/**
+ *	@input istanza database
+ *	Operazioni per il salvataggio delle playlist nel file "file_playlists"
+ *	Si avvale di backupFile per salvare, temporaneamente, "file_playlists" su "temp_playlists.txt"
+ *	Cancella "file_playlists" attraverso "remove"
+ *	Esegue inserisciPlaylistSuFile, ricreando, dunque, "file_playlists" ed inserendo record per record le informazioni
+ *	Cancella "temp_playlists.txt" attraverso "remove" una volta finito il processo di inserimento
+ */
 void salvaPlaylistSuFile(database db);
+
+/**
+ *	@input istanza database
+ *	Operazioni per il salvataggio degli utenti nel file "file_utenti"
+ *	Si avvale di backupFile per salvare, temporaneamente, "file_utenti" su "temp_utenti.txt"
+ *	Cancella "file_utenti" attraverso "remove"
+ *	Esegue inserisciUtenteSuFile, ricreando, dunque, "file_utenti" ed inserendo record per record le informazioni
+ *	Cancella "temp_utenti.txt" attraverso "remove" una volta finito il processo di inserimento
+ */
 void salvaUtentiSuFile(database db);
+
 // Associazioni
+/**
+ *	@input istanza database
+ *	Operazioni per il salvataggio delle associazioni brano-album nel file "file_collezione"
+ *	Si avvale di backupFile per salvare, temporaneamente, "file_collezione" su "temp_collezione.txt"
+ *	Cancella "file_collezione" attraverso "remove"
+ *	Esegue inserisciCollezioneSuFile, ricreando, dunque, "file_collezione" ed inserendo record per record le informazioni
+ *	Cancella "temp_collezione.txt" attraverso "remove" una volta finito il processo di inserimento
+ */
 void salvaCollezioneSuFile(database db);
+
+/**
+ *	@input istanza database
+ *	Operazioni per il salvataggio delle associazioni brano-artista nel file "file_associazioneartisti"
+ *	Si avvale di backupFile per salvare, temporaneamente, "file_associazioneartisti" su "temp_associazioneartisti.txt"
+ *	Cancella "file_associazioneartisti" attraverso "remove"
+ *	Esegue inserisciAssociazioneArtistiSuFile, ricreando, dunque, "file_associazioneartisti"
+ *	ed inserendo record per record le informazioni
+ *	Cancella "temp_associazioneartisti.txt" attraverso "remove" una volta finito il processo di inserimento
+ */
 void salvaAssociazioniArtistiSuFile(database db);
+
+/**
+ *	@input istanza database
+ *	Operazioni per il salvataggio delle associazioni brano-genere nel file "file_tipobrano"
+ *	Si avvale di backupFile per salvare, temporaneamente, "file_tipobrano" su "temp_tipobrano.txt"
+ *	Cancella "file_tipobrano" attraverso "remove"
+ *	Esegue inserisciTipiBraniSuFile, ricreando, dunque, "file_tipobrano" ed inserendo record per record le informazioni
+ *	Cancella "temp_tipobrano.txt" attraverso "remove" una volta finito il processo di inserimento
+ */
 void salvaTipiBraniSuFile(database db);
+
+/**
+ *	@input istanza database
+ *	Operazioni per il salvataggio delle associazioni playlist-brano nel file "file_raccolta"
+ *	Si avvale di backupFile per salvare, temporaneamente, "file_raccolta" su "temp_raccolta.txt"
+ *	Cancella "file_raccolta" attraverso "remove"
+ *	Esegue inserisciRaccoltaSuFile, ricreando, dunque, "file_raccolta" ed inserendo record per record le informazioni
+ *	Cancella "temp_raccolta.txt" attraverso "remove" una volta finito il processo di inserimento
+ */
 void salvaRaccoltaSuFile(database db);
 
 #endif /* GESTORI_GESTOREFILE_H_ */
