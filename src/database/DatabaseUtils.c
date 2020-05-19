@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 4075 - 19.05.2020
+ * Ampere 0.2 rev. 1 - 28.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -29,7 +29,7 @@
  * 8: Associazione playlist-brano
  */
 
-int contaNelDatabase(database db,int modalita) {
+int contareNelDatabase(database db,int modalita) {
 	int i=0;
 	if (modalita==-1) {
 		while(db.utente[i].id!=0) {
@@ -76,12 +76,12 @@ int contaNelDatabase(database db,int modalita) {
 	return i;
 }
 
-int trovaUltimoId(database db, int modalita) {
+int trovareUltimoId(database db, int modalita) {
 	int i=0, n=0, max=0;
 	bool vuoto=true;
-	n = contaNelDatabase(db,modalita);
+	n = contareNelDatabase(db,modalita);
 	if (modalita==-1) {
-		if (contaNelDatabase(db,-1)==0)
+		if (contareNelDatabase(db,-1)==0)
 			vuoto=true;
 		else
 			vuoto=false;
@@ -96,7 +96,7 @@ int trovaUltimoId(database db, int modalita) {
 			max=0;
 		}
 	} else if (modalita==0) {
-		if (contaNelDatabase(db,0)==0)
+		if (contareNelDatabase(db,0)==0)
 			vuoto=true;
 		else
 			vuoto=false;
@@ -111,7 +111,7 @@ int trovaUltimoId(database db, int modalita) {
 			max=0;
 		}
 	} else if (modalita==1) {
-		if (contaNelDatabase(db,1)==0)
+		if (contareNelDatabase(db,1)==0)
 			vuoto=true;
 		else
 			vuoto=false;
@@ -126,7 +126,7 @@ int trovaUltimoId(database db, int modalita) {
 			max=0;
 		}
 	} else if (modalita==2) {
-		if (contaNelDatabase(db,2)==0)
+		if (contareNelDatabase(db,2)==0)
 			vuoto=true;
 		else
 			vuoto=false;
@@ -141,7 +141,7 @@ int trovaUltimoId(database db, int modalita) {
 			max=0;
 		}
 	} else if (modalita==3) {
-		if (contaNelDatabase(db,3)==0)
+		if (contareNelDatabase(db,3)==0)
 			vuoto=true;
 		else
 			vuoto=false;
@@ -156,7 +156,7 @@ int trovaUltimoId(database db, int modalita) {
 			max=0;
 		}
 	} else if (modalita==4) {
-		if (contaNelDatabase(db,4)==0)
+		if (contareNelDatabase(db,4)==0)
 			vuoto=true;
 		else
 			vuoto=false;
@@ -174,9 +174,9 @@ int trovaUltimoId(database db, int modalita) {
 	return max;
 }
 
-int ottieniPosDaID(database db, int modalita, int id) {
+int ottenerePosDaID(database db, int modalita, int id) {
 	int pos=0, i=0, controllo=0, n=0;
-	n = contaNelDatabase(db,modalita);
+	n = contareNelDatabase(db,modalita);
 	if (modalita==-1) { // Utente
 		while(i<n&&controllo!=-1) {
 			if (db.utente[i].id == id) {
@@ -275,10 +275,57 @@ int ottieniPosDaID(database db, int modalita, int id) {
 			} else {
 				pos=-1;
 			}
+			i++;
 		}
 	}
 
 	return pos;
+}
+
+/**
+ * 5: Associazione artista-brano
+ * 6: Associazione album-brano
+ * 7: Associazione genere-brano
+ * 8: Associazione playlist-brano
+ */
+int* ottenerePosAssociazioniDaID(database db, int modalita, int id) {
+	int i=0, j=0;
+	int n=contareNelDatabase(db, modalita);
+	int* n_associazioni = calloc(10, sizeof(int));
+	if (modalita==5) {
+		while(i<n) {
+			if (db.branoArtista[i].idBrano==id) {
+				n_associazioni[j]=i;
+				j++;
+			}
+			i++;
+		}
+	} else if (modalita==6) {
+		while (i<n) {
+			if (db.branoAlbum[i].idBrano==id) {
+				n_associazioni[j]=i;
+				j++;
+			}
+			i++;
+		}
+	} else if (modalita==7) {
+		while (i<n) {
+			if (db.branoGenere[i].idBrano==id) {
+				n_associazioni[j]=i;
+				j++;
+			}
+			i++;
+		}
+	} else if (modalita==8) {
+		while (i<n) {
+			if (db.playlistBrano[i].idPlaylist==id) {
+				n_associazioni[j]=i;
+				j++;
+			}
+			i++;
+		}
+	}
+	return n_associazioni;
 }
 
 void backupDatabase() {
@@ -355,7 +402,7 @@ database ripristinaDatabase(database db) {
 			backupFile(percorso_backup, file_raccolta);
 			sprintf(percorso_backup, "backup\\%s\\utenti.txt", nome_backup);
 			backupFile(percorso_backup, file_utenti);
-			db = ottieniDatabase(db);
+			db = ottieniDatabase(1, db);
 			printf(" Ripristino dal backup %s effettuato.", nome_backup);
 		} else {
 			printf("\nUscendo dal ripristino...");

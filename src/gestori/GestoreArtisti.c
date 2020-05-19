@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 4075 - 19.05.2020
+ * Ampere 0.2 rev. 1 - 28.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -21,64 +21,92 @@
 #include "../sys/Impostazioni.h"
 
 database inserimentoArtistaGuidato(database db) {
-	pulisciBuffer();
 	char *nomearte = malloc(MAX_MEDIO);
-	printf("\nInserisci nome d'arte dell'artista: ");
-	nomearte = inputStringaSicuro(MAX_MEDIO,nomearte);
-	db = creaArtistaSeNonEsiste(db,nomearte);
-	free(nomearte);
+	do {
+		pulisciBuffer();
+		printf("\nInserisci nome d'arte dell'artista: ");
+		nomearte = inputStringaSicuro(MAX_MEDIO,nomearte);
+		db = creaArtistaSeNonEsiste(db,nomearte);
+	} while (db.ultimoEsito!=0);
 	return db;
 }
 
 database creaArtistaGuidato(database db, char nomearte[]) {
+	char scelta='a';
+	int controllo=0;
 	char *nome = malloc(MAX_MEDIO);
 	char *cognome = malloc(MAX_MEDIO);
 	char *linkbio = malloc(MAX_ENORME);
-	printf("\nSembra che quest'artista non esista nel database, inseriamolo.");
-	printf("\n===[Inserimento guidato di un artista]===");
-	printf("\nNome d'arte: %s", nomearte);
+	printf("\n===[Inserimento guidato di un artista]==="
+	       "\nNome d'arte: %s", nomearte);
 	pulisciBuffer();
-	printf("\nInserisci nome ANAGRAFICO dell'artista: ");
+	printf("\n[Premi invio per saltare] Inserisci nome ANAGRAFICO dell'artista: ");
 	nome = inputStringaSicuro(MAX_MEDIO,nome);
-	printf("\nInserisci cognome ANAGRAFICO dell'artista: ");
+	printf("\n[Premi invio per saltare] Inserisci cognome ANAGRAFICO dell'artista: ");
 	cognome = inputStringaSicuro(MAX_MEDIO,cognome);
-	printf("\nInserisci il link della biografia dell'artista: ");
+	printf("\n[Premi invio per saltare] Inserisci il link della biografia dell'artista: ");
 	linkbio = inputStringaSicuro(MAX_ENORME,linkbio);
-	db = inserireArtista(db, creaArtista(db,nome, cognome, nomearte, linkbio));
-	free(nome); free(cognome);
+	struct artisti nuovoArtista = creaArtista(nome, cognome, nomearte, linkbio);
+	mostrareAnteprimaArtista(nuovoArtista);
+	pulisciBuffer();
+	while (controllo!=-1) {
+		printf("\nSicuro di voler continuare? [Y/N]: ");
+		scanf("%c", &scelta);
+		if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
+			controllo=-1;
+		}
+	}
+	if (scelta=='Y'||scelta=='y') {
+		db = inserireArtista(db, nuovoArtista);
+		printf("\nArtista inserito, continuiamo...");
+		db.ultimoEsito=0;
+	} else {
+		db.ultimoEsito = -1;
+	}
 	return db;
 }
 
 database creaArtistaSeNonEsiste(database db, char nomearte[]) {
 	int id = controlloEsistenzaArtista(db, nomearte);
 	if (id==0) {
+		printf("\nSembra che quest'artista non esista nel database, inseriamolo.");
 		db = creaArtistaGuidato(db, nomearte);
-		printf("\nArtista inserito, continuiamo...");
 	} else {
 		printf("\nArtista esistente.");
+		db.ultimoEsito = 0;
 	}
 	return db;
 }
 
-struct artisti creaArtista(database db, char nome[], char cognome[], char nomearte[], char linkbio[]) {
-	struct artisti artista;
-	artista.id = trovaUltimoId(db, 2)+1;
-	strcpy(artista.nome,nome);
-	strcpy(artista.cognome,cognome);
-	strcpy(artista.nomearte,nomearte);
-	strcpy(artista.linkbio,linkbio);
-	return artista;
+struct artisti creaArtista(char nome[], char cognome[], char nomearte[], char linkbio[]) {
+	struct artisti nuovoArtista;
+	nuovoArtista.id = -1;
+	strcpy(nuovoArtista.nome,nome);
+	strcpy(nuovoArtista.cognome,cognome);
+	strcpy(nuovoArtista.nomearte,nomearte);
+	strcpy(nuovoArtista.linkbio,linkbio);
+	return nuovoArtista;
 }
 
-database inserireArtista(database db, struct artisti artista) {
+void mostrareAnteprimaArtista(struct artisti nuovoArtista) {
+	printf("\nL'artista che stai per inserire ha questi dettagli:"
+		   "\nNome: %s"
+		   "\nCognome: %s"
+		   "\nNome d'arte: %s"
+		   "\nLink alla biografia: %s", nuovoArtista.nome, nuovoArtista.cognome,
+		   nuovoArtista.nomearte, nuovoArtista.linkbio);
+}
+
+database inserireArtista(database db, struct artisti nuovoArtista) {
 	db_modificato=1;
-	int n = contaNelDatabase(db, 2);
-	db.artista[n] = artista;
+	int n = contareNelDatabase(db, 2);
+	nuovoArtista.id = trovareUltimoId(db, 2)+1;
+	db.artista[n] = nuovoArtista;
 	return db;
 }
 
 int controlloEsistenzaArtista(database db, char nomearte[]) {
-	int id=0, i=0, n=contaNelDatabase(db,2), controllo=0;
+	int id=0, i=0, n=contareNelDatabase(db,2), controllo=0;
 	while (i<n&&controllo!=-1) {
 		if (comparaStringhe(db.artista[i].nomearte, nomearte)==0) {
 			id = db.artista[i].id;
@@ -113,10 +141,10 @@ database modificaArtista(database db) {
 	int id=0, modalita=-1, controllo=0;
 	char scelta='a';
 	mostraTuttiArtisti(db);
-	while (ottieniPosDaID(db, 2, id)==-1) {
+	while (ottenerePosDaID(db, 2, id)==-1) {
 		printf("\n\nInserire l'identificativo dell'artista da modificare: ");
 		scanf("%d", &id);
-		if (ottieniPosDaID(db, 2,id)==-1) {
+		if (ottenerePosDaID(db, 2,id)==-1) {
 			printf("\nArtista non trovato, riprovare");
 		}
 	}
@@ -131,12 +159,12 @@ database modificaArtista(database db) {
 		}
 	}
 	if (scelta=='Y'||scelta=='y') {
-		printf("\n===[Sistema di modifica artista]===");
-		printf("\n[1] Modifica il Nome");
-		printf("\n[2] Modifica il Cognome");
-		printf("\n[3] Modifica il Nome d'arte");
-		printf("\n[4] Modifica il link della biografia");
-		printf("\n[0] Esci");
+		printf("\n===[Sistema di modifica artista]==="
+			   "\n[1] Modifica il Nome"
+			   "\n[2] Modifica il Cognome"
+			   "\n[3] Modifica il Nome d'arte"
+			   "\n[4] Modifica il link della biografia"
+			   "\n[0] Esci");
 		while (modalita<0||modalita>3) {
 			printf("\nInserisci la tua scelta: ");
 			scanf("%d", &modalita);
@@ -150,7 +178,7 @@ database modificaArtista(database db) {
 
 database modificaSingoloArtista(database db, int modalita, int id) {
 	pulisciBuffer();
-	int pos = ottieniPosDaID(db, 2,id);
+	int pos = ottenerePosDaID(db, 2,id);
 	if (modalita==1) {
 		char *nome = malloc(MAX_MEDIO);
 		printf("\nInserisci nuovo nome: ");
@@ -186,10 +214,10 @@ database cancellaArtista(database db) {
 	int id=0;
 	char scelta='N';
 	mostraTuttiArtisti(db);
-	while (ottieniPosDaID(db, 2,id)==-1) {
+	while (ottenerePosDaID(db, 2,id)==-1) {
 		printf("\n\nInserire l'identificativo dell'artista da cancellare: ");
 		scanf("%d", &id);
-		if (ottieniPosDaID(db, 2,id)==-1) {
+		if (ottenerePosDaID(db, 2,id)==-1) {
 			printf("\nArtista non trovato, riprovare");
 		}
 
@@ -206,15 +234,15 @@ database cancellaArtista(database db) {
 }
 
 database cancellaSingoloArtista(database db, int id) {
-	int n=contaNelDatabase(db,2);
-	int i=ottieniPosDaID(db, 2, id);
+	int n=contareNelDatabase(db,2);
+	int i=ottenerePosDaID(db, 2, id);
 	while(i<n-1) {
 		db.artista[i] = db.artista[i+1];
 		i++;
 	}
 	db.artista[n-1].id = 0;
 
-	int nbrani=contaNelDatabase(db,5);
+	int nbrani=contareNelDatabase(db,5);
 	i=0;
 	while (i<nbrani) {
 		if(db.branoArtista[i].idArtista==id) {
@@ -228,20 +256,33 @@ database cancellaSingoloArtista(database db, int id) {
 	return db;
 }
 
+database cancellaAssociazioniArtisti(database db, int id) {
+	int n = contareNelDatabase(db,5);
+	int i = ottenerePosDaID(db, 5, id);
+
+	while (i<n-1) {
+		db.branoArtista[i] = db.branoArtista[i+1];
+		i++;
+	}
+	db.branoArtista[n-1].idBrano = 0;
+	db.branoArtista[n-1].idArtista = 0;
+	return db;
+}
+
 void visualizzaBiografiaArtista(database db) {
 	int id=0, pos=0, esito=0;
 	printf("\nCerca biografia dell'artista: ");
 	esito = mostraInfo(db, 0);
 	if (esito==1) {
 		pulisciBuffer();
-		while(ottieniPosDaID(db, 2,id)==-1) {
+		while(ottenerePosDaID(db, 2,id)==-1) {
 			printf("\n\nInserisci l'identificativo dell'artista: ");
 			scanf("%d", &id);
-			if (ottieniPosDaID(db, 2,id)==1) {
+			if (ottenerePosDaID(db, 2,id)==1) {
 				printf("\nArtista non trovato, riprovare");
 			}
 		}
-		pos=ottieniPosDaID(db, 2,id);
+		pos=ottenerePosDaID(db, 2,id);
 		apriLink(db.artista[pos].linkbio);
 	} else {
 		printf("\n\nNessun artista trovato.");

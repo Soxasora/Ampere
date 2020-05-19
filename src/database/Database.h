@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 4075 - 19.05.2020
+ * Ampere 0.2 rev. 1 - 28.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -59,17 +59,14 @@ int db_modificato;
 int creaDatabaseSeNonEsiste();
 
 /**
- *	Carica in memoria solo la parte del database contenente gli utenti per poter effettuare il login e/o
- *	la registrazione evitando di caricare completamente il database
- *	@return database carico solo nella parte utente
- */
-database ottieniDatabaseParziale(database db);
-
-/**
+ * -1: caricamento solo utente
+ * 0: caricamento iniziale
+ * 1: caricamento completo
+ *
  *	Carica in memoria l'intero database presente nei file
  *	@return database carico
  */
-database ottieniDatabase(database db);
+database ottieniDatabase(int modalita, database db);
 
 /**
  * 	@input istanza database

@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 4075 - 19.05.2020
+ * Ampere 0.2 rev. 1 - 28.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -23,17 +23,18 @@
 #include "../sys/Menu.h"
 #include "../sys/Impostazioni.h"
 #include "../Ampere.h"
+#include "Messaggi.h"
 
 database menuLogin(database db) {
 	int scelta=-1;
 	while (scelta<0||scelta>1) {
-		printf("\nDesideri effettuare il login[0] o registrarti[1] ad Ampere? ");
+		printf("\nDesideri effettuare il "C_VERDE"login[0]"C_RESET" o "C_GIALLO"registrarti[1]"C_RESET" ad Ampere? ");
 		scanf("%d", &scelta);
 	}
 	if (scelta==0) {
 		db = loginUtente(db);
 	} else {
-		db = registrazioneUtente(db);
+		db = registrareUtente(db);
 	}
 	return db;
 }
@@ -42,16 +43,16 @@ database menuLogin(database db) {
 database menu(database db) {
 	pulisciBuffer();
 	int scelta=-1;
-	printf("\n===[AMPERE: Menu Principale]===");
-	printf("\n[1] Effettua una ricerca");
-	printf("\n[2] Effettua una ricerca avanzata");
-	printf("\n[3] La mia libreria musicale");
-	printf("\n[4] Gestisci il tuo account");
-	if (isAdmin(db)==true) {
-		printf("\n[9] Menu Manipolazione Database");
-		printf("\n[10] Menu Debug");
+	printf("\n===["C_CIANO"Menu Principale"C_RESET"]===");
+	printf("\n[1] Effettua una "C_CIANO"Ricerca"C_RESET);
+	printf("\n[2] Effettua una "C_CIANO"Ricerca Avanzata"C_RESET);
+	printf("\n[3] "C_CIANO"La mia libreria musicale"C_RESET);
+	printf("\n[4] "C_GIALLO"Gestisci il tuo account"C_RESET);
+	if (controllareSeAdmin(db)==true) {
+		printf("\n[9] "C_ROSSO"Menu Manipolazione Database"C_RESET);
+		printf("\n[10] "C_ROSSO"Menu Debug"C_RESET);
 	}
-	printf("\n[0] Esci dal programma");
+	printf("\n[0] "C_ROSSO"Esci dal programma"C_RESET);
 	while (scelta<0||scelta==5||scelta==6||scelta==7||scelta==8||scelta>10) {
 		printf("\nInserisci la tua scelta: ");
 		scanf("%d", &scelta);
@@ -67,19 +68,19 @@ database menu(database db) {
 	} else if (scelta==4) {
 		db = menuAccount(db);
 	} else if (scelta==9) {
-		if (isAdmin(db))
+		if (controllareSeAdmin(db))
 			db = menuDatabase(db);
 		else
-			printf("\nNon puoi accedere a questa funzione in quanto utente normale.");
+			errore(16);
 	} else if (scelta==10) {
-		if (isAdmin(db))
+		if (controllareSeAdmin(db))
 			db = menuDebug(db);
 		else
-			printf("\nNon puoi accedere a questa funzione in quanto utente normale.");
+			errore(16);
 	} else if (scelta==0) {
 		printf("\nUscendo dal programma...\n");
 	} else {
-		printf("\nInserita scelta non riconosciuta, riprovare. ");
+		attenzione(20);
 		db = menu(db);
 	}
 	return db;
@@ -97,19 +98,19 @@ database menuAccount(database db) {
 		scanf("%d", &scelta);
 	}
 	if (scelta==1) {
-		db = modificaUtente(db);
+		db = modificareUtenteGuidato(db);
 		aspetta();
 		menuAccount(db);
 	} else if (scelta==2) {
-		db = cancellaUtente(db);
-		aspetta();
+		db = cancellareUtenteGuidato(db);
 		printf("\nPer rendere effettive le modifiche, ora chiudero' Ampere.");
+		aspetta();
 		terminazione(db);
 		exit(0);
 	} else if (scelta==0) {
 		db = menu(db);
 	} else {
-		printf("\nInserita scelta non riconosciuta, riprovare. ");
+		attenzione(20);
 		db = menuAccount(db);
 	}
 	return db;
@@ -155,7 +156,7 @@ database menuPlaylist(database db) {
 	} else if (scelta==0) {
 		db = menu(db);
 	} else {
-		printf("\nInserita scelta non riconosciuta, riprovare. ");
+		attenzione(20);
 		db = menuPlaylist(db);
 	}
 	return db;
@@ -187,12 +188,14 @@ database menuDatabase(database db) {
 		db = menuDatabase(db);
 	} else if (scelta==5) {
 		db = ripristinaDatabase(db);
+		printf("\nPer rendere effettive le modifiche, ora chiudero' Ampere.");
 		aspetta();
-		db = menuDatabase(db);
+		terminazione(db);
+		exit(0);
 	} else if (scelta==0) {
 		db = menu(db);
 	} else {
-		printf("\nInserita scelta non riconosciuta, riprovare. ");
+		attenzione(20);
 		db = menuDatabase(db);
 	}
 	return db;
@@ -225,17 +228,17 @@ database menuDBInserimento(database db) {
 		aspetta();
 		db = menuDBInserimento(db);
 	} else if (scelta==4) {
-		db = inserimentoGenereGuidato(db);
+		db = inserireGenereGuidato(db);
 		aspetta();
 		db = menuDBInserimento(db);
 	} else if (scelta==5) {
-		db = inserimentoUtenteGuidato(db);
+		db = registrareUtente(db);
 		aspetta();
 		db = menuDBInserimento(db);
 	} else if (scelta==0) {
 		db = menuDatabase(db);
 	} else {
-		printf("\nInserita scelta non riconosciuta, riprovare. ");
+		attenzione(20);
 		db = menuDBInserimento(db);
 	}
 	return db;
@@ -269,7 +272,7 @@ database menuDBModifica(database db) {
 		aspetta();
 		db = menuDBModifica(db);
 	} else if (scelta==4) {
-		db = modificaGenere(db);
+		db = modificareGenereGuidato(db);
 		aspetta();
 		db = menuDBModifica(db);
 	} else if (scelta==5) {
@@ -277,13 +280,13 @@ database menuDBModifica(database db) {
 		aspetta();
 		db = menuDBModifica(db);
 	} else if (scelta==6) {
-		db = modificaUtente(db);
+		db = modificareUtenteGuidato(db);
 		aspetta();
 		db = menuDBModifica(db);
 	} else if (scelta==0) {
 		db = menuDatabase(db);
 	} else {
-		printf("\nInserita scelta non riconosciuta, riprovare. ");
+		attenzione(20);
 		db = menuDBModifica(db);
 	}
 	return db;
@@ -317,7 +320,7 @@ database menuDBCancella(database db) {
 		aspetta();
 		db = menuDBCancella(db);
 	} else if (scelta==4) {
-		db = cancellaGenere(db);
+		db = cancellareGenereGuidato(db);
 		aspetta();
 		db = menuDBCancella(db);
 	} else if (scelta==5) {
@@ -325,13 +328,13 @@ database menuDBCancella(database db) {
 		aspetta();
 		db = menuDBCancella(db);
 	} else if (scelta==6) {
-		db = cancellaUtente(db);
+		db = cancellareUtenteGuidato(db);
 		aspetta();
 		db = menuDBCancella(db);
 	} else if (scelta==0) {
 		db = menuDatabase(db);
 	} else {
-		printf("\nInserita scelta non riconosciuta, riprovare. ");
+		attenzione(20);
 		db = menuDBCancella(db);
 	}
 	return db;
@@ -378,7 +381,7 @@ void menuRicercaAvanzata(database db) {
 	} else if (scelta==0) {
 		menu(db);
 	} else {
-		printf("\nInserita scelta non riconosciuta, riprovare. ");
+		attenzione(20);
 		menuRicercaAvanzata(db);
 	}
 }
@@ -392,7 +395,7 @@ void menuRicercaInfo(database db) {
 	printf("\n[3] Mostra info su tutti gli album");
 	printf("\n[4] Mostra info su tutti i generi");
 	printf("\n[5] Mostra info su tutte le tue playlist");
-	if (isAdmin(db)) {
+	if (controllareSeAdmin(db)) {
 		printf("\n[6] Mostra info su tutte le playlist");
 		printf("\n[7] Mostra info su tutti gli utenti");
 	}
@@ -422,25 +425,25 @@ void menuRicercaInfo(database db) {
 		aspetta();
 		menuRicercaInfo(db);
 	} else if (scelta==6) {
-		if (isAdmin(db)) {
+		if (controllareSeAdmin(db)) {
 			mostraTuttePlaylist(db, 0);
 			aspetta();
 			menuRicercaInfo(db);
 		} else {
-			printf("\nNon puoi accedere a questa funzione in quanto utente normale.");
+			errore(16);
 		}
 	} else if (scelta==7) {
-		if (isAdmin(db)) {
+		if (controllareSeAdmin(db)) {
 			mostraTuttiUtenti(db);
 			aspetta();
 			menuRicercaInfo(db);
 		} else {
-			printf("\nNon puoi accedere a questa funzione in quanto utente normale.");
+			errore(16);
 		}
 	} else if (scelta==0) {
 		menuRicercaAvanzata(db);
 	} else {
-		printf("\nInserita scelta non riconosciuta, riprovare. ");
+		attenzione(20);
 		menuRicercaInfo(db);
 	}
 }
@@ -487,7 +490,7 @@ void menuRicercaBraniCriterio(database db) {
 	} else if (scelta==0) {
 		menuRicercaAvanzata(db);
 	} else {
-		printf("\nInserita scelta non riconosciuta, riprovare. ");
+		attenzione(20);
 		menuRicercaBraniCriterio(db);
 	}
 }
@@ -500,7 +503,7 @@ void menuRicercaInfoCriterio(database db) {
 	printf("\n[2] Ricerca info su un Album");
 	printf("\n[3] Ricerca info su un Genere");
 	printf("\n[4] Ricerca info su una playlist");
-	if (isAdmin(db)) {
+	if (controllareSeAdmin(db)) {
 		printf("\n[5] Ricerca info su un Utente");
 	}
 	printf("\n[0] Ritorna al menu precedente");
@@ -525,17 +528,17 @@ void menuRicercaInfoCriterio(database db) {
 		aspetta();
 		menuRicercaInfoCriterio(db);
 	} else if (scelta==5) {
-		if (isAdmin(db)) {
+		if (controllareSeAdmin(db)) {
 			mostraInfo(db, 4);
 			aspetta();
 			menuRicercaInfoCriterio(db);
 		} else {
-			printf("\nNon puoi accedere a questa funzione in quanto utente normale.");
+			errore(16);
 		}
 	} else if (scelta==0) {
 		menuRicercaAvanzata(db);
 	} else {
-		printf("\nInserita scelta non riconosciuta, riprovare. ");
+		attenzione(20);
 		menuRicercaInfoCriterio(db);
 	}
 }
@@ -552,10 +555,12 @@ database menuDebug(database db) {
 	}
 	if (scelta==1) {
 		//TODO
+		aspetta();
+		menuDebug(db);
 	} else if (scelta==0) {
 		menu(db);
 	} else {
-		printf("\nInserita scelta non riconosciuta, riprovare. ");
+		attenzione(20);
 		menuDebug(db);
 	}
 	return db;

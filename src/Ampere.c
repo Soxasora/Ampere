@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 4075 - 19.05.2020
+ * Ampere 0.2 rev. 1 - 28.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -26,32 +26,36 @@ int main() {
 	db = menu(db);
 	terminazione(db);
 	aspetta();
+	pulisciBuffer();
 	return 0;
 }
 
 database inizializzazione(database db) {
+	// Rilevo il sistema operativo in uso al momento dell'esecuzione del programma
+	os = rivelaOS();
+	// Abilito i colori se su Windows, altrimenti non serve
+	if (os==0)
+		abilitaColori();
 	// Mostra info su Ampere
 	info();
 	printf("\nBenvenuto su Ampere.");
 	printf("\nInizializzazione in corso...");
 	printf("\n----------------------------------------");
-	// Rilevo il sistema operativo in uso al momento dell'esecuzione del programma
-	os = rivelaOS();
 
 	// Carico il database
 	int esito = creaDatabaseSeNonEsiste();
 	if (esito!=0) {
-		printf("\nSi e' verificato un errore interno. Sto chiudendo Ampere...");
+		printf(C_ROSSO"\nSi e' verificato un errore interno. Sto chiudendo Ampere..."C_RESET);
 	} else {
 
 		// Ottengo il database degli utenti prima di caricare completamente il database
-		db = ottieniDatabaseParziale(db);
+		db = ottieniDatabase(-1,db);
 
-		printf("\nPremi invio per continuare.");
+		// Effettuo il login
 		db = menuLogin(db);
 
-		// Ottengo il database e tutti i sotto database con esso
-		db = ottieniDatabase(db);
+		// Ottengo il resto del database e tutti i sotto database con esso
+		db = ottieniDatabase(0,db);
 		printf("\n\nAmpere Pronto.");
 		printf("\n----------------------------------------\n");
 	}
@@ -59,11 +63,11 @@ database inizializzazione(database db) {
 }
 
 void terminazione(database db) {
-	printf("\nPreparazione alla chiusura in corso...");
+	printf(C_GIALLO"\nPreparazione alla chiusura in corso...");
 	if (db_modificato==1) {
-		printf("\nUn momento, sto salvando i dati...");
+		printf("\nUn momento, sto salvando i dati... "C_ROSSO"Non chiudere Ampere in questo momento."C_RESET);
 		salvaModificheSuFile(db);
 		printf(" Fatto.");
 	}
-	printf("\nPronto per essere chiuso.");
+	printf(C_VERDE"\nPronto per essere chiuso."C_RESET);
 }

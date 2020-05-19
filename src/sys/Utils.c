@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 4075 - 19.05.2020
+ * Ampere 0.2 rev. 1 - 28.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 // WINDOWS
 #include <strings.h>
 #include <io.h>
@@ -26,25 +27,22 @@
 
 
 void info() {
-	printf("    ___                                 \n");
-	printf("   /   |  ____ ___  ____  ___  ________ \n");
-	printf("  / /| | / __ `__ \\/ __ \\/ _ \\/ ___/ _ \\\n");
-	printf(" / ___ |/ / / / / / /_/ /  __/ /  /  __/\n");
-	printf("/_/  |_/_/ /_/ /_/ .___/\\___/_/   \\___/ \n");
-	printf("                /_/                     \n");
-	printf("\nAmpere 0.1 rev. 4075 - 19.05.2020\n");
-	printf("\nGruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino");
-	printf("\nProgetto universitario di gruppo intento alla creazione di un gestore dati per la musica\n");
+	printf("    ___                     "C_GIALLO"_/  /"C_RESET
+	"\n   /   |  ____ ___  ____   "C_GIALLO"/  _/"C_RESET"_  ________"
+	"\n  / /| | / __ `__ \\/ __ \\"C_GIALLO"_/  /"C_RESET" _ \\/ ___/ _ \\"
+	"\n / ___ |/ / / / / / /_/ "C_GIALLO"/ __/"C_RESET"  __/ /  /  __/"
+	"\n/_/  |_/_/ /_/ /_/ .___"C_GIALLO"/ /  "C_RESET"\\___/_/   \\___/ "C_CIANO"perennemente in pre-alpha!"C_RESET
+	"\n                /_/   "C_GIALLO"/_/      "
+	"\n                     //"
+	"\n                    /,"C_RESET"\n"
+	"\nAmpere 0.2 rev. 1 - 28.05.2020"
+	"\nGruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino"
+	"\nProgetto universitario di gruppo intento alla creazione di un gestore dati per la musica\n");
 }
 
 void aspetta() {
-	if(os==0) {
-		printf("\n");
-		system("PAUSE");
-	} else {
-		printf("\nPremere qualunque tasto per continuare...");
-		char w = scanf("%c", &w);
-	}
+	printf("\nPremere invio per continuare...");
+	char w = scanf("%c", &w);
 }
 
 void apriLink(char link[]) {
@@ -52,13 +50,13 @@ void apriLink(char link[]) {
 	printf("\nAprendo il browser predefinito...");
 	if (os==0) {
 		sprintf(comando, "start %s", link);
-		int a = system(comando);
+		system(comando);
 	} else if (os==1||os==3) {
 		sprintf(comando, "firefox %s", link);
-		int a = system(comando);
+		system(comando);
 	} else if (os==2) {
 		sprintf(comando, "open %s", link);
-		int a = system(comando);
+		system(comando);
 	}
 }
 
@@ -183,4 +181,8 @@ char *convertiSecondiInTempo(int secondi) {
 	char *hhmmss = malloc(MAX_MEDIO);
 	sprintf(hhmmss, "%d:%d:%d", h, m, s);
 	return hhmmss;
+}
+
+void abilitaColori() {
+	system("color 07");
 }

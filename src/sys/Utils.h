@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 4075 - 19.05.2020
+ * Ampere 0.2 rev. 1 - 28.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -87,5 +87,11 @@ void backupFile(char *file1, char *file2);
  * 	@output stringa hh:mm:ss
  */
 char *convertiSecondiInTempo(int secondi);
+
+/**
+ *	Abilita i colori ANSI per la linea di comando attraverso il comando color
+ *	Funziona solo su Windows.
+ */
+void abilitaColori();
 
 #endif /* SRC_SYS_UTILS_H_ */

@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 4075 - 19.05.2020
+ * Ampere 0.2 rev. 1 - 28.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -11,9 +11,9 @@
 #include <string.h>
 #include "../gestori/GestoreUtenti.h"
 #include "../database/Database.h"
-#include "../sys/Errore.h"
 #include "../sys/Utils.h"
 #include "../sys/Impostazioni.h"
+#include "../sys/Messaggi.h"
 
 int creaDatabaseSeNonEsiste() {
 	int esito=0;
@@ -52,26 +52,32 @@ int creaDatabaseSeNonEsiste() {
 	return esito;
 }
 
-database ottieniDatabaseParziale(database db) {
-	db = ottieniUtenti(db);
-	return db;
-}
-
-database ottieniDatabase(database db) {
+/**
+ * -1: caricamento solo utente
+ * 0: caricamento iniziale
+ * 1: caricamento completo
+ */
+database ottieniDatabase(int modalita, database db) {
 	// Blocco ottenimenti
-	db = ottieniBrani(db);
-	db = ottieniAlbums(db);
-	db = ottieniArtisti(db);
-	db = ottieniGeneri(db);
-	db = ottieniPlaylists(db);
-	db = ottieniUtenti(db);
-	// Blocco associazioni
-	db = associaArtisti(db);
-	db = associaAlbum(db);
-	db = associaGeneri(db);
-	db = associaPlaylist(db);
-	if (isAdmin(db))
-		printf("\nDatabase caricato con successo.");
+	if (modalita==-1) {
+		db = ottieniUtenti(db);
+	} else if (modalita==0) {
+		db = ottieniBrani(db);
+		db = ottieniAlbums(db);
+		db = ottieniArtisti(db);
+		db = ottieniGeneri(db);
+		db = ottieniPlaylists(db);
+		// Blocco associazioni
+		db = associaArtisti(db);
+		db = associaAlbum(db);
+		db = associaGeneri(db);
+		db = associaPlaylist(db);
+	} else if (modalita==1) {
+		db = ottieniDatabase(-1, db);
+		db = ottieniDatabase(0, db);
+	}
+	if (controllareSeAdmin(db))
+		printf(C_VERDE"\nDatabase caricato."C_RESET);
 	return db;
 }
 
@@ -96,18 +102,17 @@ database ottieniBrani(database db) {
 			strtok(dati[1], "\n");
 			strcpy(db.brano[i].titolo,dati[1]);
 			db.brano[i].durata = atoi(dati[2]);
-			db.brano[i].album = atoi(dati[3]);
-			db.brano[i].anno = atoi(dati[4]);
-			db.brano[i].ascolti = atoi(dati[5]);
+			db.brano[i].anno = atoi(dati[3]);
+			db.brano[i].ascolti = atoi(dati[4]);
 			i++;
 		}
 		fclose(fp);
-		if (isAdmin(db))
-			printf("\n%d Brani caricati con successo.", i);
+		if (controllareSeAdmin(db))
+			printf("\n%d Brani caricati con "C_VERDE"successo."C_RESET, i);
 	} else {
 		inizializzaDatabase(db, 0);
-		if (isAdmin(db))
-			printf("\nNessun brano da caricare.");
+		if (controllareSeAdmin(db))
+			printf(C_GIALLO"\nNessun brano da caricare."C_RESET);
 	}
 	return db;
 }
@@ -136,12 +141,12 @@ database ottieniAlbums(database db) {
 			i++;
 		}
 		fclose(fp);
-		if (isAdmin(db))
-			printf("\n%d Album caricati con successo.", i);
+		if (controllareSeAdmin(db))
+			printf("\n%d Album caricati con "C_VERDE"successo."C_RESET, i);
 	} else {
 		inizializzaDatabase(db, 1);
-		if (isAdmin(db))
-			printf("\nNessun album da caricare.");
+		if (controllareSeAdmin(db))
+			printf(C_GIALLO"\nNessun album da caricare."C_RESET);
 	}
 	return db;
 }
@@ -175,12 +180,12 @@ database ottieniArtisti(database db) {
 			i++;
 		}
 		fclose(fp);
-		if (isAdmin(db))
-			printf("\n%d Artisti caricati con successo.", i);
+		if (controllareSeAdmin(db))
+			printf("\n%d Artisti caricati con "C_VERDE"successo."C_RESET, i);
 	} else {
 		inizializzaDatabase(db, 2);
-		if (isAdmin(db))
-			printf("\nNessun artista da caricare.");
+		if (controllareSeAdmin(db))
+			printf(C_GIALLO"\nNessun artista da caricare."C_RESET);
 	}
 	return db;
 }
@@ -208,12 +213,12 @@ database ottieniGeneri(database db) {
 			i++;
 		}
 		fclose(fp);
-		if (isAdmin(db))
-			printf("\n%d Generi caricati con successo.", i);
+		if (controllareSeAdmin(db))
+			printf("\n%d Generi caricati con "C_VERDE"successo."C_RESET, i);
 	} else {
 		inizializzaDatabase(db, 3);
-		if (isAdmin(db))
-			printf("\nNessun genere da caricare.");
+		if (controllareSeAdmin(db))
+			printf(C_GIALLO"\nNessun genere da caricare."C_RESET);
 	}
 	return db;
 }
@@ -249,12 +254,12 @@ database ottieniPlaylists(database db) {
 			i++;
 		}
 		fclose(fp);
-		if (isAdmin(db))
-			printf("\n%d Playlist caricate con successo.", i);
+		if (controllareSeAdmin(db))
+			printf("\n%d Playlist caricate con "C_VERDE"successo."C_RESET, i);
 	} else {
 		inizializzaDatabase(db, 4);
-		if (isAdmin(db))
-			printf("\nNessuna playlist da caricare.");
+		if (controllareSeAdmin(db))
+			printf(C_GIALLO"\nNessuna playlist da caricare."C_RESET);
 	}
 	return db;
 }
@@ -289,10 +294,10 @@ database ottieniUtenti(database db) {
 			i++;
 		}
 		fclose(fp);
-		printf("\n%d Utenti caricati con successo.", i);
+		printf("\n%d Utenti caricati con "C_VERDE"successo."C_RESET, i);
 	} else {
 		inizializzaDatabase(db, -1);
-		printf("\nNessun utente da caricare.");
+		printf(C_GIALLO"\nNessun utente da caricare."C_RESET);
 	}
 	return db;
 }
@@ -319,12 +324,12 @@ database associaArtisti(database db) {
 			i++;
 		}
 		fclose(fp);
-		if (isAdmin(db))
-			printf("\n%d Associazioni brano-artista effettuate.", i);
+		if (controllareSeAdmin(db))
+			printf("\n%d Associazioni brano-artista "C_VERDE"effettuate."C_RESET, i);
 	} else {
 		inizializzaDatabase(db, 5);
-		if (isAdmin(db))
-			printf("\nNessuna associazione brano-artista da effettuare.");
+		if (controllareSeAdmin(db))
+			printf(C_GIALLO"\nNessuna associazione brano-artista da effettuare."C_RESET);
 	}
 	return db;
 }
@@ -351,12 +356,12 @@ database associaAlbum(database db) {
 			i++;
 		}
 		fclose(fp);
-		if (isAdmin(db))
-			printf("\n%d associazioni brano-album effettuate.", i);
+		if (controllareSeAdmin(db))
+			printf("\n%d associazioni brano-album "C_VERDE"effettuate."C_RESET, i);
 	} else {
 		inizializzaDatabase(db, 6);
-		if (isAdmin(db))
-			printf("\nNessuna associazione brano-album da effettuare.");
+		if (controllareSeAdmin(db))
+			printf(C_GIALLO"\nNessuna associazione brano-album da effettuare."C_RESET);
 	}
 	return db;
 }
@@ -383,12 +388,12 @@ database associaGeneri(database db) {
 			i++;
 		}
 		fclose(fp);
-		if (isAdmin(db))
-			printf("\n%d Associazioni genere-brano effettuate.", i);
+		if (controllareSeAdmin(db))
+			printf("\n%d Associazioni genere-brano "C_VERDE"effettuate."C_RESET, i);
 	} else {
 		inizializzaDatabase(db, 7);
-		if (isAdmin(db))
-			printf("\nNessuna associazione genere-brano da effettuare.");
+		if (controllareSeAdmin(db))
+			printf(C_GIALLO"\nNessuna associazione genere-brano da effettuare."C_RESET);
 	}
 	return db;
 }
@@ -415,12 +420,12 @@ database associaPlaylist(database db) {
 			i++;
 		}
 		fclose(fp);
-		if (isAdmin(db))
-			printf("\n%d Associazioni brano-playlist effettuate.", i);
+		if (controllareSeAdmin(db))
+			printf("\n%d Associazioni brano-playlist "C_VERDE"effettuate."C_RESET, i);
 	} else {
 		inizializzaDatabase(db, 8);
-		if (isAdmin(db))
-			printf("\nNessuna associazione brano-playlist da effettuare.");
+		if (controllareSeAdmin(db))
+			printf(C_GIALLO"\nNessuna associazione brano-playlist da effettuare."C_RESET);
 	}
 	return db;
 }

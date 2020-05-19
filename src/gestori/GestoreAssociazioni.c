@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 4075 - 19.05.2020
+ * Ampere 0.2 rev. 1 - 28.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -27,7 +27,7 @@ struct associazioneArtisti creaAssociazioneArtista(int idBrano, int idArtista) {
 
 database inserireAssociazioneArtista(database db, struct associazioneArtisti branoArtista) {
 	db_modificato=1;
-	int n = contaNelDatabase(db,5);
+	int n = contareNelDatabase(db,5);
 	db.branoArtista[n] = branoArtista;
 	return db;
 }
@@ -41,7 +41,7 @@ struct collezione creaAssociazioneAlbum(int idBrano, int idAlbum) {
 
 database inserireAssociazioneAlbum(database db, struct collezione branoAlbum) {
 	db_modificato=1;
-	int n = contaNelDatabase(db,6);
+	int n = contareNelDatabase(db,6);
 	db.branoAlbum[n] = branoAlbum;
 	return db;
 }
@@ -55,7 +55,7 @@ struct tipoBrano creaAssociazioneGenere(int idBrano, int idGenere) {
 
 database inserireAssociazioneGenere(database db, struct tipoBrano branoGenere) {
 	db_modificato=1;
-	int n=contaNelDatabase(db,7);
+	int n=contareNelDatabase(db,7);
 	db.branoGenere[n] = branoGenere;
 	return db;
 }
@@ -69,7 +69,7 @@ struct raccolta creaAssociazionePlaylist(int idPlaylist, int idBrano) {
 
 database inserireAssociazionePlaylist(database db, struct raccolta playlistBrano) {
 	db_modificato=1;
-	int n = contaNelDatabase(db, 8);
+	int n = contareNelDatabase(db, 8);
 	db.playlistBrano[n] = playlistBrano;
 	return db;
 }

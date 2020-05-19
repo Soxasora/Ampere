@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 4075 - 19.05.2020
+ * Ampere 0.2 rev. 1 - 28.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -29,8 +29,9 @@ database inserimentoBranoGuidato(database db);
  *	e crea un record con esse. Si avvale del database in input per ottenere l'ultimo identificativo
  *	@output record brano compilato
  */
-struct brani creaBrano(database db, char titolo[], int id_album, int durata, int anno, int ascolti);
+struct brani creaBrano(char titolo[], int durata, int anno, int ascolti);
 
+void mostrareAnteprimaBrano(database db, struct brani nuovoBrano, int id_artisti[], int id_album[], int id_generi[]);
 /**
  *	@input istanza database, record brani brano
  *	Ottiene in input il record brano gia' compilato con creaBrano e gli assegna l'ultima posizione
@@ -38,8 +39,8 @@ struct brani creaBrano(database db, char titolo[], int id_album, int durata, int
  *	inserireAssociazione...
  *	@output database modificato
  */
-database inserireBrano(database db, struct brani brano, int id_artista, int id_genere);
-
+database inserireBrano(database db, struct brani nuovoBrano, int id_artisti[], int id_album[], int id_generi[]);
+database controllaEsistenzaBrano(database db, struct brani nuovoBrano);
 /**
  * 	TODO: passare a valori veri e non tutte stringhe
  *	@input numero intero identificativo, stringa titolo, numero intero identificativo album, numero intero
@@ -47,13 +48,13 @@ database inserireBrano(database db, struct brani brano, int id_artista, int id_g
  *	Scrive sul file "file_brani", le informazioni date in input, separate con separatore pipe "|"
  *	@output FILE modificato
  */
-void inserisciBranoSuFile(char id[], char titolo[], char durata[], char id_album[], char anno[], char ascolti[]);
+void inserisciBranoSuFile(char id[], char titolo[], char durata[], char anno[], char ascolti[]);
 
 /**
  *	TODO: adeguare modifica allo standard imposto dalle specifiche
  *	@input istanza database
  *	Interfaccia utente per modificare informazioni del brano presente nel database
- *	Si avvale di ottieniPosDaID per controllare l'esistenza di esso attraverso l'identificativo
+ *	Si avvale di ottenerePosDaID per controllare l'esistenza di esso attraverso l'identificativo
  *	Se il brano e' presente, procede alla modifica dell'informazione scelta con modificaSingoloBrano
  *	@output database modificato
  */
@@ -73,7 +74,7 @@ database modificaSingoloBrano(database db, int modalita, int id);
  *	TODO: adeguare cancellazione allo standard imposto dalle specifiche
  *	@input istanza database
  *	Interfaccia utente per la cancellazione di un brano presente nel database
- *	Si avvale di ottieniPosDaID per controllare l'esistenza di esso attraverso l'identificativo
+ *	Si avvale di ottenerePosDaID per controllare l'esistenza di esso attraverso l'identificativo
  *	Se il brano  e' presente, procede alla cancellazione di esso con cancellaSingoloBrano
  *	@output database modificato
  */

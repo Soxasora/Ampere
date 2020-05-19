@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 4075 - 19.05.2020
+ * Ampere 0.2 rev. 1 - 28.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -57,7 +57,7 @@ void salvaArtistiSuFile(database db);
  *	Operazioni per il salvataggio dei generi nel file "file_generi"
  *	Si avvale di backupFile per salvare, temporaneamente, "file_generi" su "temp_generi.txt"
  *	Cancella "file_generi" attraverso "remove"
- *	Esegue inserisciGenereSuFile, ricreando, dunque, "file_generi" ed inserendo record per record le informazioni
+ *	Esegue inserireGenereSuFile, ricreando, dunque, "file_generi" ed inserendo record per record le informazioni
  *	Cancella "temp_generi.txt" attraverso "remove" una volta finito il processo di inserimento
  */
 void salvaGeneriSuFile(database db);
@@ -77,7 +77,7 @@ void salvaPlaylistSuFile(database db);
  *	Operazioni per il salvataggio degli utenti nel file "file_utenti"
  *	Si avvale di backupFile per salvare, temporaneamente, "file_utenti" su "temp_utenti.txt"
  *	Cancella "file_utenti" attraverso "remove"
- *	Esegue inserisciUtenteSuFile, ricreando, dunque, "file_utenti" ed inserendo record per record le informazioni
+ *	Esegue inserireUtenteSuFile, ricreando, dunque, "file_utenti" ed inserendo record per record le informazioni
  *	Cancella "temp_utenti.txt" attraverso "remove" una volta finito il processo di inserimento
  */
 void salvaUtentiSuFile(database db);
@@ -109,7 +109,7 @@ void salvaAssociazioniArtistiSuFile(database db);
  *	Operazioni per il salvataggio delle associazioni brano-genere nel file "file_tipobrano"
  *	Si avvale di backupFile per salvare, temporaneamente, "file_tipobrano" su "temp_tipobrano.txt"
  *	Cancella "file_tipobrano" attraverso "remove"
- *	Esegue inserisciTipiBraniSuFile, ricreando, dunque, "file_tipobrano" ed inserendo record per record le informazioni
+ *	Esegue inserireTipiBraniSuFile, ricreando, dunque, "file_tipobrano" ed inserendo record per record le informazioni
  *	Cancella "temp_tipobrano.txt" attraverso "remove" una volta finito il processo di inserimento
  */
 void salvaTipiBraniSuFile(database db);

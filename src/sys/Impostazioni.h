@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 4075 - 19.05.2020
+ * Ampere 0.2 rev. 1 - 28.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -8,6 +8,9 @@
 
 #ifndef SRC_SYS_IMPOSTAZIONI_H_
 #define SRC_SYS_IMPOSTAZIONI_H_
+
+// ASCII Hotkeys
+#define ESC 27
 
 // Costanti di lunghezza
 #define MAX_ENORME 1000
@@ -27,6 +30,36 @@
 #define file_playlists "database\\playlists.txt"
 	#define file_raccolta "database\\raccolta.txt"
 #define file_utenti "database\\utenti.txt"
+
+// Colori
+/**
+ * 	COLORI
+ * 	L'utilizzo dei colori e' il seguente:
+ * 	C_COLORE"testo"C_RESET
+ * 	In questo modo dai colore al testo e ritorni allo schema colori originale alla fine
+ * 	per evitare problemi di colori in seguito, un esempio con printf:
+ * 	printf(C_ROSSO"Errore critico! Contattare l'amministratore"C_RESET);
+ */
+#define C_ROSSO		"\x1b[31m"
+#define C_VERDE   	"\x1b[32m"
+#define C_GIALLO  	"\x1b[33m"
+#define C_CIANO	  	"\x1b[36m"
+#define C_BLU    	"\x1b[34m"
+#define C_MAGENTA	"\x1b[35m"
+#define C_RESET   	"\x1b[0m"
+
+// Messaggi di default
+#define ADMIN "Amministratore"
+#define COLOR_ADMIN C_ROSSO ADMIN C_RESET
+#define UTENTE "Utente normale"
+#define COLOR_UTENTE C_CIANO UTENTE C_RESET
+
+#define ERRORE "[ERRORE]"
+#define COLOR_ERRORE C_ROSSO ERRORE C_RESET
+#define ATTENZIONE "[ATTENZIONE]"
+#define COLOR_ATTENZIONE C_GIALLO ATTENZIONE C_RESET
+#define SUCCESSO "[SUCCESSO]"
+#define COLOR_SUCCESSO C_VERDE SUCCESSO C_RESET
 
 // Sistema operativo attualmente in uso
 int os;

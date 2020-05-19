@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 4075 - 19.05.2020
+ * Ampere 0.2 rev. 1 - 28.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -26,11 +26,11 @@ void ricerca(database db, int modalita, char interrogazione[], bool light) {
 	int i=0, n=0, conta=0;
 	if (modalita==0) {
 		printf("\n\nBrani:");
-		n = contaNelDatabase(db,0);
+		n = contareNelDatabase(db,0);
 		while (i<n) {
 			if (comparaStringheParziale(db.brano[i].titolo, interrogazione)
-				||comparaStringheParziale(db.album[ottieniPosDaID(db, 1,db.brano[i].album)].titolo, interrogazione)
-				||comparaStringheParziale(db.artista[ottieniPosDaID(db, 2,db.branoArtista[ottieniPosDaID(db, 5, db.brano[i].id)].idArtista)].nomearte, interrogazione)
+				||comparaStringheParziale(db.album[ottenerePosDaID(db, 1,db.branoAlbum[ottenerePosDaID(db, 6, db.brano[i].id)].idAlbum)].titolo, interrogazione)
+				||comparaStringheParziale(db.artista[ottenerePosDaID(db, 2,db.branoArtista[ottenerePosDaID(db, 5, db.brano[i].id)].idArtista)].nomearte, interrogazione)
 				||db.brano[i].anno==atoi(interrogazione)) {
 				if (light) {
 					if (conta<3) {
@@ -57,7 +57,7 @@ void ricerca(database db, int modalita, char interrogazione[], bool light) {
 		}
 	} else if (modalita==1) {
 		printf("\n\nAlbum:");
-		n = contaNelDatabase(db,1);
+		n = contareNelDatabase(db,1);
 		while (i<n) {
 			if (comparaStringheParziale(db.album[i].titolo, interrogazione)
 				||db.album[i].anno==atoi(interrogazione)) {
@@ -93,7 +93,7 @@ void ricerca(database db, int modalita, char interrogazione[], bool light) {
 		}
 	} else if (modalita==2) {
 		printf("\n\nArtisti:");
-		n = contaNelDatabase(db,2);
+		n = contareNelDatabase(db,2);
 		while (i<n) {
 			if (comparaStringheParziale(db.artista[i].nome, interrogazione)
 				||comparaStringheParziale(db.artista[i].cognome, interrogazione)
@@ -130,7 +130,7 @@ void ricerca(database db, int modalita, char interrogazione[], bool light) {
 		}
 	} else if (modalita==3) {
 		printf("\n\nGeneri:");
-		n = contaNelDatabase(db,3);
+		n = contareNelDatabase(db,3);
 		while (i<n) {
 			if (comparaStringheParziale(db.genere[i].nome, interrogazione)) {
 				if (light) {
@@ -165,14 +165,14 @@ void ricerca(database db, int modalita, char interrogazione[], bool light) {
 		}
 	} else if (modalita==4) {
 		printf("\n\nPlaylists:");
-		n = contaNelDatabase(db,4);
+		n = contareNelDatabase(db,4);
 		while (i<n) {
 			if (comparaStringheParziale(db.playlist[i].nome, interrogazione)) {
 				if (isPublicPlaylist(db, db.playlist[i].id)||isUserPlaylist(db, db.playlist[i].id, db.utenteCorrente)) {
 					if (light) {
 						if (conta<3) {
 							printf("\n%d. Nome: %s", conta+1, db.playlist[i].nome);
-							printf("\n   Autore: %s", db.utente[ottieniPosDaID(db, -1,db.playlist[i].idUtente)].username);
+							printf("\n   Autore: %s", db.utente[ottenerePosDaID(db, -1,db.playlist[i].idUtente)].username);
 						}
 					} else {
 						printf("\n");
@@ -203,7 +203,7 @@ void ricerca(database db, int modalita, char interrogazione[], bool light) {
 		}
 	} else if (modalita==5) {
 		printf("\n\nUtenti:");
-		n = contaNelDatabase(db,-1);
+		n = contareNelDatabase(db,-1);
 		while (i<n) {
 			if (comparaStringheParziale(db.utente[i].username, interrogazione)) {
 				if (light) {

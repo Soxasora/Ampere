@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 4075 - 19.05.2020
+ * Ampere 0.2 rev. 1 - 28.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -23,82 +23,233 @@
 #include "../sys/Impostazioni.h"
 
 database inserimentoBranoGuidato(database db) {
-	char *titolo = malloc(MAX_MEDIO);
-	char *artista = malloc(MAX_MEDIO);
-	int id_artista=0;
-	char *album = malloc(MAX_MEDIO);
-	int id_album=0;
-	char *genere = malloc(MAX_MEDIO);
-	int id_genere=0;
-	int durata=0;
-	int anno=0;
-	int ascolti=0;
+	char scelta='a';
+	int i=0, controllo=0, n_artisti=0, n_album=0, n_generi=0;
+	int* id_artisti = calloc(10, sizeof(int));
+	int* id_album = calloc(10, sizeof(int));
+	int* id_generi = calloc(10, sizeof(int));
+	char *titolo, *artista, *album, *genere;
+	int durata=0, anno=0, ascolti=0;
 	// Registrazione
-	pulisciBuffer();
-	printf("\nInserisci titolo: ");
-	titolo = inputStringaSicuro(MAX_MEDIO,titolo);
-	printf("\nInserisci nome artista: ");
-	artista = inputStringaSicuro(MAX_MEDIO,artista);
-	db = creaArtistaSeNonEsiste(db, artista);
-	id_artista = controlloEsistenzaArtista(db, artista);
-	printf("\nInserisci nome album: ");
-	album = inputStringaSicuro(MAX_MEDIO,album);
-	db = creaAlbumSeNonEsiste(db, album);
-	id_album = controlloEsistenzaAlbum(db, album);
-	pulisciBuffer();
-	printf("\nInserisci genere del brano: ");
-	genere = inputStringaSicuro(MAX_MEDIO,genere);
-	db = creaGenereSeNonEsiste(db, genere);
-	id_genere = controlloEsistenzaGenere(db, genere);
-	pulisciBuffer();
-	while (durata<=0||durata>9999) {
-		printf("\nInserisci durata del brano in secondi: ");
-		scanf("%d", &durata);
-	}
-	while (anno<=1950||anno>2020) {
-		printf("\nInserisci anno d'uscita del brano: ");
-		scanf("%d", &anno);
-	}
-	while (ascolti<=0) {
-		printf("\nInserisci numero d'ascolti del brano: ");
-		scanf("%d", &ascolti);
-	}
-	db = inserireBrano(db, creaBrano(db, titolo, id_album, durata, anno, ascolti), id_artista, id_genere);
-	free(titolo); free(artista); free(album); free(genere);
-	printf("\n\nBrano Inserito.");
+	do {
+		if ((titolo=malloc(MAX_MEDIO))) {
+			pulisciBuffer();
+			printf("\nInserisci titolo: ");
+			titolo = inputStringaSicuro(MAX_MEDIO,titolo);
+		}
+		printf("\nQuanti artisti hanno lavorato su questo brano? ");
+		scanf("%d", &n_artisti);
+		i=0;
+		while (i<n_artisti) {
+			do {
+				if ((artista=malloc(MAX_MEDIO))) {
+					pulisciBuffer();
+					printf("\nInserisci nome artista n.%d: ", i+1);
+					artista = inputStringaSicuro(MAX_MEDIO,artista);
+					db = creaArtistaSeNonEsiste(db, artista);
+				}
+			} while (db.ultimoEsito!=0);
+			id_artisti[i] = controlloEsistenzaArtista(db, artista);
+			free(artista); artista=NULL;
+			i++;
+		}
+		printf("\nDi quanti album fa parte questa canzone? ");
+		scanf("%d", &n_album);
+		i=0;
+		while (i<n_album) {
+			do {
+				if ((album=malloc(MAX_MEDIO))) {
+					pulisciBuffer();
+					printf("\nInserisci nome album n.%d: ", i+1);
+					album = inputStringaSicuro(MAX_MEDIO,album);
+					db = creaAlbumSeNonEsiste(db, album);
+				}
+			} while (db.ultimoEsito!=0);
+			id_album[i] = controlloEsistenzaAlbum(db, album);
+			free(album); album=NULL;
+			i++;
+		}
+		printf("\nQuanti generi ha questa canzone? ");
+		scanf("%d", &n_generi);
+		i=0;
+		while (i<n_generi) {
+			do {
+				if ((genere=malloc(MAX_MEDIO))) {
+					pulisciBuffer();
+					printf("\nInserisci genere n.%d del brano: ", i+1);
+					genere = inputStringaSicuro(MAX_MEDIO,genere);
+					db = creareGenereSeNonEsiste(db, genere);
+				}
+			} while (db.ultimoEsito!=0);
+			id_generi[i] = controllareEsistenzaGenere(db, genere);
+			free(genere); genere=NULL;
+			i++;
+		}
+		pulisciBuffer();
+		while (durata<=0||durata>9999) {
+			printf("\nInserisci durata del brano in secondi: ");
+			scanf("%d", &durata);
+		}
+		while (anno<=1950||anno>2020) {
+			printf("\nInserisci anno d'uscita del brano: ");
+			scanf("%d", &anno);
+		}
+		while (ascolti<=0) {
+			printf("\nInserisci numero d'ascolti del brano: ");
+			scanf("%d", &ascolti);
+		}
+		// Mostra anteprima del brano
+		struct brani nuovoBrano = creaBrano(titolo, durata, anno, ascolti);
+		mostrareAnteprimaBrano(db, nuovoBrano, id_artisti, id_album, id_generi);
+		db = controllaEsistenzaBrano(db, nuovoBrano);
+		if (db.ultimoEsito==0) {
+			pulisciBuffer();
+			while (controllo!=-1) {
+				printf("\nSicuro di voler continuare? [Y/N]: ");
+				scanf("%c", &scelta);
+				if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
+					controllo=-1;
+				}
+			}
+			if (scelta=='Y'||scelta=='y') {
+				db = inserireBrano(db, nuovoBrano, id_artisti, id_album, id_generi);
+				printf("\n\nBrano Inserito.");
+				db.ultimoEsito=0;
+			} else {
+				db.ultimoEsito=-1;
+			}
+		}
+	} while (db.ultimoEsito!=0);
 	return db;
 }
 
-struct brani creaBrano(database db, char titolo[], int id_album, int durata, int anno, int ascolti) {
-	struct brani brano;
-	brano.id = trovaUltimoId(db, 0)+1;
-	strcpy(brano.titolo,titolo);
-	brano.durata = durata;
-	brano.album = id_album;
-	brano.anno = anno;
-	brano.ascolti = ascolti;
-	return brano;
+struct brani creaBrano(char titolo[], int durata, int anno, int ascolti) {
+	struct brani nuovoBrano;
+	nuovoBrano.id = -1;
+	strcpy(nuovoBrano.titolo,titolo);
+	nuovoBrano.durata = durata;
+	nuovoBrano.anno = anno;
+	nuovoBrano.ascolti = ascolti;
+	return nuovoBrano;
 }
 
-database inserireBrano(database db, struct brani brano, int id_artista, int id_genere) {
+void mostrareAnteprimaBrano(database db, struct brani nuovoBrano, int* id_artisti, int* id_album, int* id_generi) {
+	int i=0;
+	int posalbum = 0, posartista = 0, posgenere = 0;
+	printf("\nIl brano che stai per inserire ha questi dettagli:"
+		   "\nTitolo: %s"
+		   "\nDurata: %s"
+		   "\nArtisti: ", nuovoBrano.titolo, convertiSecondiInTempo(nuovoBrano.durata));
+	i=0;
+	while (id_artisti[i]!=0) {
+		posartista = ottenerePosDaID(db, 2, id_artisti[i]);
+		if (i!=0)
+			printf(", ");
+		printf("%s", db.artista[posartista].nomearte);
+		i++;
+	}
+	printf("\nAlbum: ");
+	i=0;
+	while (id_album[i]!=0) {
+		posalbum = ottenerePosDaID(db, 1, id_album[i]);
+		if (i!=0)
+			printf(", ");
+		printf("%s", db.album[posalbum].titolo);
+		i++;
+	}
+	printf("\nGeneri: ");
+	i=0;
+	while (id_generi[i]!=0) {
+		posgenere = ottenerePosDaID(db, 3, id_generi[i]);
+		if (i!=0)
+			printf(", ");
+		printf("%s", db.genere[posgenere].nome);
+		i++;
+	}
+	printf("\nAnno: %d"
+		   "\nAscolti: %d", nuovoBrano.anno, nuovoBrano.ascolti);
+}
+
+database inserireBrano(database db, struct brani nuovoBrano, int id_artisti[], int id_album[], int id_generi[]) {
+	int i=0;
 	db_modificato=1;
-	int n=contaNelDatabase(db,0);
-	db.brano[n] = brano;
+	int n=contareNelDatabase(db,0);
+	nuovoBrano.id = trovareUltimoId(db, 0)+1;
+	db.brano[n] = nuovoBrano;
 
 	// Associazioni
-	inserireAssociazioneArtista(db,creaAssociazioneArtista(brano.id, id_artista));
-	inserireAssociazioneAlbum(db,creaAssociazioneAlbum(brano.id, brano.album));
-	inserireAssociazioneGenere(db,creaAssociazioneGenere(brano.id, id_genere));
+	i=0;
+	while (id_artisti[i]!=0) {
+		inserireAssociazioneArtista(db,creaAssociazioneArtista(nuovoBrano.id, id_artisti[i]));
+		i++;
+	}
+	i=0;
+	while (id_album[i]!=0) {
+		inserireAssociazioneAlbum(db,creaAssociazioneAlbum(nuovoBrano.id, id_album[i]));
+		i++;
+	}
+	i=0;
+	while (id_generi[i]!=0) {
+		inserireAssociazioneGenere(db,creaAssociazioneGenere(nuovoBrano.id, id_generi[i]));
+		i++;
+	}
 
 	return db;
 }
 
-void inserisciBranoSuFile(char id[], char titolo[], char durata[], char id_album[], char anno[], char ascolti[]) {
+database controllaEsistenzaBrano(database db, struct brani nuovoBrano) {
+	// Ricerca su base
+	printf("\nRicerco eventuali similitudini con i brani gia' presenti...");
+	char scelta='a';
+	int controllo=0, occorrenze=0, i=0, n=contareNelDatabase(db, 0);
+	bool trovato=false;
+	while (i<n) {
+		occorrenze=0;
+		if (comparaStringhe(db.brano[i].titolo, nuovoBrano.titolo)==0) {
+			occorrenze++;
+		}
+		if (db.brano[i].anno == nuovoBrano.anno) {
+			occorrenze++;
+		}
+		if (db.brano[i].durata == nuovoBrano.durata) {
+			occorrenze++;
+		}
+		if (occorrenze>0) {
+			printf("\nTrovata similitudine");
+			trovato=true;
+			printf("\n\nBrano simile: ");
+			mostraSingoloBrano(db, db.brano[i].id);
+		}
+		i++;
+	}
+
+	if (trovato) {
+		pulisciBuffer();
+		while (controllo!=-1) {
+			printf("\nSulla base delle suddette scoperte, vuoi continuare ugualmente con l'inserimento? [Y/N]: ");
+			scanf("%c", &scelta);
+			if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
+				controllo=-1;
+			}
+		}
+		if (scelta=='N'||scelta=='n') {
+			db.ultimoEsito=-1;
+		} else {
+			db.ultimoEsito=0;
+		}
+	} else {
+		printf("\nNessuna similitudine trovata, procediamo");
+		db.ultimoEsito=0;
+	}
+	return db;
+}
+
+void inserisciBranoSuFile(char id[], char titolo[], char durata[], char anno[], char ascolti[]) {
 	FILE* fp=fopen(file_brani, "a");
 	if (controllaSeFileVuoto(file_brani)==1) {
-		fprintf(fp, "%s|%s|%s|%s|%s|%s", id, titolo, durata, id_album, anno, ascolti);
+		fprintf(fp, "%s|%s|%s|%s|%s", id, titolo, durata, anno, ascolti);
 	} else {
-		fprintf(fp, "\n%s|%s|%s|%s|%s|%s", id, titolo, durata, id_album, anno, ascolti);
+		fprintf(fp, "\n%s|%s|%s|%s|%s", id, titolo, durata, anno, ascolti);
 	}
 	fclose(fp);
 }
@@ -107,10 +258,10 @@ database modificaBrano(database db) {
 	int id=0, modalita=-1, controllo=0;
 	char scelta='a';
 	mostraTuttiBrani(db);
-	while (ottieniPosDaID(db, 0,id)==-1) {
+	while (ottenerePosDaID(db, 0,id)==-1) {
 		printf("\n\nInserire l'identificativo del brano da modificare: ");
 		scanf("%d", &id);
-		if (ottieniPosDaID(db, 0,id)==-1) {
+		if (ottenerePosDaID(db, 0,id)==-1) {
 			printf("\nBrano non trovato, riprovare");
 		}
 	}
@@ -130,10 +281,11 @@ database modificaBrano(database db) {
 		printf("\n[2] Modifica la Durata");
 		printf("\n[3] Modifica l'Anno");
 		printf("\n[4] Modifica gli Ascolti");
-		printf("\n[5] Modifica l'album d'appartenenza");
-		printf("\n[6] Modifica artista d'appartenenza");
+		printf("\n[5] Modifica gli album d'appartenenza");
+		printf("\n[6] Modifica gli artisti d'appartenenza");
+		printf("\n[7] Modifica i generi d'appartenenza");
 		printf("\n[0] Esci");
-		while (modalita<0||modalita>6) {
+		while (modalita<0||modalita>7) {
 			printf("\nInserisci la tua scelta: ");
 			scanf("%d", &modalita);
 		}
@@ -146,7 +298,7 @@ database modificaBrano(database db) {
 
 database modificaSingoloBrano(database db, int modalita, int id) {
 	pulisciBuffer();
-	int pos = ottieniPosDaID(db, 0, id);
+	int pos = ottenerePosDaID(db, 0, id);
 	if (modalita==1) {
 		char *titolo = malloc(MAX_MEDIO);
 		printf("\nInserisci nuovo titolo: ");
@@ -175,36 +327,79 @@ database modificaSingoloBrano(database db, int modalita, int id) {
 		}
 		db.brano[pos].durata = ascolti;
 	} else if (modalita==5) {
-		char *album = malloc(MAX_MEDIO);
-		int id_album=0;
-		printf("\nInserisci nome album: ");
-		album = inputStringaSicuro(MAX_MEDIO,album);
-		db = creaAlbumSeNonEsiste(db, album);
-		id_album = controlloEsistenzaAlbum(db, album);
-		free(album);
-		int n_album_brano=contaNelDatabase(db,6);
-		int i=0;
-		while (i<n_album_brano) {
-			if (db.branoAlbum[i].idBrano==db.brano[pos].id) {
-				db.branoAlbum[i].idAlbum = id_album;
-			}
+		char *album;
+		int i=0, n_album=0;
+		int id_album[10];
+		printf("\nQuanti album ha il brano? ");
+		scanf("%d", &n_album);
+		i=0;
+		while (i<n_album) {
+			do {
+				if ((album = malloc(MAX_MEDIO))) {
+					printf("\nInserisci nome album n.%d: ", i+1);
+					album = inputStringaSicuro(MAX_MEDIO,album);
+					db = creaAlbumSeNonEsiste(db, album);
+					id_album[i] = controlloEsistenzaAlbum(db, album);
+				}
+			} while (db.ultimoEsito!=0);
+			free(album); album=NULL;
 			i++;
 		}
-		db.brano[pos].album = id_album;
+		db = cancellaAssociazioniAlbum(db, id);
+		i=0;
+		while (id_album[i]!=0) {
+			inserireAssociazioneAlbum(db,creaAssociazioneAlbum(id, id_album[i]));
+			i++;
+		}
 	} else if (modalita==6) {
-		char *artista = malloc(MAX_MEDIO);
-		int id_artista=0;
-		printf("\nInserisci nome d'arte artista: ");
-		artista = inputStringaSicuro(MAX_MEDIO,artista);
-		db = creaArtistaSeNonEsiste(db, artista);
-		id_artista = controlloEsistenzaArtista(db, artista);
-		free(artista);
-		int n_artista_brano=contaNelDatabase(db,5);
-		int i=0;
-		while(i<n_artista_brano) {
-			if (db.branoArtista[i].idBrano==db.brano[pos].id) {
-				db.branoArtista[i].idArtista = id_artista;
-			}
+		char *artista;
+		int i=0, n_artisti=0;
+		int id_artista[10];
+		printf("\nQuanti artisti ha il brano? ");
+		scanf("%d", &n_artisti);
+		i=0;
+		while (i<n_artisti) {
+			do {
+				if ((artista = malloc(MAX_MEDIO))) {
+					printf("\nInserisci nome d'arte artista n.%d: ", i+1);
+					artista = inputStringaSicuro(MAX_MEDIO,artista);
+					db = creaArtistaSeNonEsiste(db, artista);
+					id_artista[i] = controlloEsistenzaArtista(db, artista);
+				}
+			} while (db.ultimoEsito!=0);
+			free(artista); artista=NULL;
+			i++;
+		}
+		db = cancellaAssociazioniArtisti(db, id);
+		i=0;
+		while (id_artista[i]!=0) {
+			inserireAssociazioneArtista(db,creaAssociazioneArtista(id, id_artista[i]));
+			i++;
+		}
+	} else if (modalita==7) {
+		char *genere;
+		int i=0, n_generi=0;
+		int id_genere[10];
+		printf("\nQuanti generi ha il brano? ");
+		scanf("%d", &n_generi);
+		i=0;
+		while (i<n_generi) {
+			do {
+				if ((genere = malloc(MAX_MEDIO))) {
+					printf("\nInserisci nome del genere n.%d: ", i+1);
+					genere = inputStringaSicuro(MAX_MEDIO, genere);
+					db = creareGenereSeNonEsiste(db, genere);
+					id_genere[i] = controllareEsistenzaGenere(db, genere);
+				}
+			} while (db.ultimoEsito!=0);
+			free(genere); genere=NULL;
+			i++;
+		}
+		db = cancellaAssociazioniGenere(db, id);
+		i=0;
+		while (id_genere[i]!=0) {
+			inserireAssociazioneGenere(db, creaAssociazioneGenere(id, id_genere[i]));
+			i++;
 		}
 	}
 	db_modificato = 1;
@@ -217,10 +412,10 @@ database cancellaBrano(database db) {
 	int id=0, controllo=0;
 	char scelta='a';
 	mostraTuttiBrani(db);
-	while (ottieniPosDaID(db, 0,id)==-1) {
+	while (ottenerePosDaID(db, 0,id)==-1) {
 		printf("\n\nInserire l'identificativo del brano da cancellare: ");
 		scanf("%d", &id);
-		if (ottieniPosDaID(db, 0,id)==-1) {
+		if (ottenerePosDaID(db, 0,id)==-1) {
 			printf("\nBrano non trovato, riprovare");
 		}
 	}
@@ -242,8 +437,8 @@ database cancellaBrano(database db) {
 }
 
 database cancellaSingoloBrano(database db, int id) {
-	int n = contaNelDatabase(db,0);
-	int i = ottieniPosDaID(db, 0, id);
+	int n = contareNelDatabase(db,0);
+	int i = ottenerePosDaID(db, 0, id);
 	while (i<n-1) {
 		db.brano[i] = db.brano[i+1];
 		i++;
@@ -257,36 +452,14 @@ database cancellaSingoloBrano(database db, int id) {
 
 database cancellaAssociazioniBrano(database db, int id) {
 	//Cancella Associazioni
-	int n = contaNelDatabase(db,5);
-	int i = ottieniPosDaID(db, 5, id);
+	db = cancellaAssociazioniArtisti(db, id);
 
-	while (i<n-1) {
-		db.branoArtista[i] = db.branoArtista[i+1];
-		i++;
-	}
-	db.branoArtista[n-1].idBrano = 0;
-	db.branoArtista[n-1].idArtista = 0;
+	db = cancellaAssociazioniAlbum(db, id);
 
-	n = contaNelDatabase(db,6);
-	i = ottieniPosDaID(db, 6, id);
-	while (i<n-1) {
-		db.branoAlbum[i] = db.branoAlbum[i+1];
-		i++;
-	}
-	db.branoAlbum[n-1].idBrano = 0;
-	db.branoAlbum[n-1].idAlbum = 0;
-
-	n = contaNelDatabase(db,7);
-	i = ottieniPosDaID(db, 7, id);
-	while (i<n-1) {
-		db.branoGenere[i] = db.branoGenere[i+1];
-		i++;
-	}
-	db.branoGenere[n-1].idBrano = 0;
-	db.branoGenere[n-1].idGenere = 0;
-
-	n = contaNelDatabase(db,8);
-	i = ottieniPosDaID(db, 8, id);
+	db = cancellaAssociazioniGenere(db, id);
+	int n=0, i=0;
+	n = contareNelDatabase(db,8);
+	i = ottenerePosDaID(db, 8, id);
 	while (i<n-1) {
 		db.playlistBrano[i] = db.playlistBrano[i+1];
 		i++;
@@ -334,7 +507,6 @@ void apriTesto(int idBrano) {
 		}
 		fclose(fp);
 	}
-	free(posizione_testo); free(comando);
 }
 
 void apriTestoDaRicerca(database db) {
@@ -366,10 +538,10 @@ void apriTestoDaRicerca(database db) {
 		}
 	}
 	if (esito==1) {
-		while (ottieniPosDaID(db, 0,idbrano)==-1) {
+		while (ottenerePosDaID(db, 0,idbrano)==-1) {
 			printf("\nInserisci id del brano selezionato: ");
 			scanf("%d", &idbrano);
-			if (ottieniPosDaID(db, 0,idbrano)==-1) {
+			if (ottenerePosDaID(db, 0,idbrano)==-1) {
 				printf("\nBrano non trovato, riprovare");
 			} else {
 				apriTesto(idbrano);
@@ -383,10 +555,10 @@ void apriTestoDaRicerca(database db) {
 void apriTestoDaID(database db) {
 	int idbrano=0;
 	pulisciBuffer();
-	while (ottieniPosDaID(db, 0,idbrano)==-1) {
+	while (ottenerePosDaID(db, 0,idbrano)==-1) {
 		printf("\nInserisci l'id del brano del quale si vuole aprire il testo: ");
 		scanf("%d", &idbrano);
-		if (ottieniPosDaID(db, 0,idbrano)==-1) {
+		if (ottenerePosDaID(db, 0,idbrano)==-1) {
 			printf("\nBrano non trovato, riprovare");
 		}
 	}

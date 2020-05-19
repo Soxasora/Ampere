@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 4075 - 19.05.2020
+ * Ampere 0.2 rev. 1 - 28.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -42,14 +42,16 @@ database creaArtistaSeNonEsiste(database db, char nomearte[]);
  *	e crea un record con esse. Si avvale del database in input per ottenere l'ultimo identificativo
  *	@output record album compilato
  */
-struct artisti creaArtista(database db, char nome[], char cognome[], char nomearte[], char linkbio[]);
+struct artisti creaArtista(char nome[], char cognome[], char nomearte[], char linkbio[]);
+
+void mostrareAnteprimaArtista(struct artisti nuovoArtista);
 
 /**
  *	@input istanza database, record artisti artista
  *	Ottiene in input il record artista gia' compilato con creaArtista e gli assegna l'ultima posizione
  *	@output database modificato
  */
-database inserireArtista(database db, struct artisti artista);
+database inserireArtista(database db, struct artisti nuovoArtista);
 
 /**
  *	@input istanza database, stringa nome d'arte dell'artista
@@ -79,7 +81,7 @@ void inserisciAssociazioneArtistiSuFile(char idbrano[], char idartista[]);
  *	TODO: adeguare modifica allo standard imposto dalle specifiche
  *	@input istanza database
  *	Interfaccia utente per modificare informazioni dell'artista presente nel database
- *	Si avvale di ottieniPosDaID per controllare l'esistenza di esso attraverso l'identificativo
+ *	Si avvale di ottenerePosDaID per controllare l'esistenza di esso attraverso l'identificativo
  *	Se l'artista e' presente, procede alla modifica dell'informazione scelta con modificaSingoloArtista
  *	@output database modificato
  */
@@ -99,7 +101,7 @@ database modificaSingoloArtista(database db, int modalita, int id);
  *	TODO: adeguare cancellazione allo standard imposto dalle specifiche
  *	@input istanza database
  *	Interfaccia utente per la cancellazione di un artista presente nel database
- *	Si avvale di ottieniPosDaID per controllare l'esistenza di esso attraverso l'identificativo
+ *	Si avvale di ottenerePosDaID per controllare l'esistenza di esso attraverso l'identificativo
  *	Se l'artista e' presente, procede alla cancellazione dell'artista con cancellaSingoloArtista
  *	@output database modificato
  */
@@ -116,6 +118,8 @@ database cancellaArtista(database db);
  *	@output database modificato
  */
 database cancellaSingoloArtista(database db, int id);
+
+database cancellaAssociazioniArtisti(database db, int id);
 
 /**
  *	TODO: Trovare un posto migliore

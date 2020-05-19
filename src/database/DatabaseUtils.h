@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 4075 - 19.05.2020
+ * Ampere 0.2 rev. 1 - 28.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -35,18 +35,18 @@
  * 	(nel caso delle associazioni), dunque non appena trovera' valore zero, si fermera' dal conteggio
  *	@output occorrenze del dato richiesto
  */
-int contaNelDatabase(database db,int modalita);
+int contareNelDatabase(database db,int modalita);
 
 /**
  *	@input istanza database, modalita' di esecuzione
  *	In base alla modalita' scelta, individua l'ultimo identificativo utilizzato
  *	L'individuazione si basa sull'analisi del massimo numero intero trovato all'interno della parte
  *	di database scelta in base alla modalita'. Controlla inoltre se la parte di database soggetta
- *	al controllo e' vuota avvalendosi di contaNelDatabase, nel caso in cui dovesse essere vuota
+ *	al controllo e' vuota avvalendosi di contareNelDatabase, nel caso in cui dovesse essere vuota
  *	restituira' come id, il valore zero.
  *	@output il maggior identificativo trovato
  */
-int trovaUltimoId(database db, int modalita);
+int trovareUltimoId(database db, int modalita);
 
 /**
  *	@input istanza database, modalita' di esecuzione, identificativo
@@ -56,7 +56,9 @@ int trovaUltimoId(database db, int modalita);
  *	dato in input, restituira' il valore negativo -1
  *	@output posizione all'interno del database
  */
-int ottieniPosDaID(database db, int modalita, int id);
+int ottenerePosDaID(database db, int modalita, int id);
+
+int* ottenerePosAssociazioniDaID(database db, int modalita, int id);
 
 /**
  *	Chiede in input, all'utente, il nome del backup da generare, in base ad esso creera' una cartella

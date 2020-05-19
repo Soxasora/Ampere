@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 4075 - 19.05.2020
+ * Ampere 0.2 rev. 1 - 28.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -42,14 +42,16 @@ database creaAlbumSeNonEsiste(database db, char titolo_album[]);
  *	e crea un record con esse. Si avvale del database in input per ottenere l'ultimo identificativo
  *	@output record album compilato
  */
-struct albums creaAlbum(database db, char titolo[], int anno);
+struct albums creaAlbum(char titolo[], int anno);
+
+void mostrareAnteprimaAlbum(struct albums nuovoAlbum);
 
 /**
  *	@input istanza database, record albums album
  *	Ottiene in input il record album gia' compilato con creaAlbum e gli assegna l'ultima posizione
  *	@output database modificato
  */
-database inserireAlbum(database db, struct albums album);
+database inserireAlbum(database db, struct albums nuovoAlbum);
 
 /**
  * 	TODO: passare a valori veri e non tutte stringhe
@@ -79,7 +81,7 @@ int controlloEsistenzaAlbum(database db, char album[]);
  *	TODO: adeguare modifica allo standard imposto dalle specifiche
  *	@input istanza database
  *	Interfaccia utente per modificare informazioni dell'album presente nel database
- *	Si avvale di ottieniPosDaID per controllare l'esistenza di esso attraverso l'identificativo
+ *	Si avvale di ottenerePosDaID per controllare l'esistenza di esso attraverso l'identificativo
  *	Se l'album e' presente, procede alla modifica dell'informazione scelta con modificaSingoloAlbum
  *	@output database modificato
  */
@@ -99,7 +101,7 @@ database modificaSingoloAlbum(database db, int modalita, int id);
  *	TODO: adeguare cancellazione allo standard imposto dalle specifiche
  *	@input istanza database
  *	Interfaccia utente per la cancellazione di un album presente nel database
- *	Si avvale di ottieniPosDaID per controllare l'esistenza di esso attraverso l'identificativo
+ *	Si avvale di ottenerePosDaID per controllare l'esistenza di esso attraverso l'identificativo
  *	Se l'album e' presente, procede alla cancellazione dell'album con cancellaSingoloAlbum
  *	@output database modificato
  */
@@ -116,5 +118,7 @@ database cancellaAlbum(database db);
  *	@output database modificato
  */
 database cancellaSingoloAlbum(database db, int id);
+
+database cancellaAssociazioniAlbum(database db, int idBrano);
 
 #endif /* SRC_GESTORI_GESTOREALBUM_H_ */

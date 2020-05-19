@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 4075 - 19.05.2020
+ * Ampere 0.2 rev. 1 - 28.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -16,7 +16,7 @@
  * 	@input istanza database, identificativo della playlist, identificativo dell'utente
  *	Serve a controllare se la playlist data in input appartiene all'utente dato in input
  *	Restituisce vero se la playlist e' dell'utente, altrimenti falso
- *	Si avvale di ottieniPosDaID per ottenere la posizione dell'identificativo playlist dato in input
+ *	Si avvale di ottenerePosDaID per ottenere la posizione dell'identificativo playlist dato in input
  *	@output risultato booleano
  */
 bool isUserPlaylist(database db, int idPlaylist, int idUtente);
@@ -25,7 +25,7 @@ bool isUserPlaylist(database db, int idPlaylist, int idUtente);
  *	@input istanza database, identificativo della playlist
  *	Serve a controllare se la playlist data in input, ha privacy pubblica
  *	Restituisce vero se la playlist e' pubblica, altrimenti falso
- *	Si avvale di ottieniPosDaID per ottenere la posizione dell'identificativo playlist dato in input
+ *	Si avvale di ottenerePosDaID per ottenere la posizione dell'identificativo playlist dato in input
  *	@output risultato booleano
  */
 bool isPublicPlaylist(database db, int idPlaylist);
@@ -34,7 +34,7 @@ bool isPublicPlaylist(database db, int idPlaylist);
  *	@input istanza database, identificativo dell'utente
  *	Serve a conteggiare le playlist appartenenti all'utente dato in input
  *	Restituisce il numero intero di playlist trovate
- *	Si avvale di contaNelDatabase per far funzionare il ciclo atto al controllo
+ *	Si avvale di contareNelDatabase per far funzionare il ciclo atto al controllo
  *	@ouput numero intero conta
  */
 int contaPlaylistUtente(database db, int idUtente);
@@ -43,7 +43,7 @@ int contaPlaylistUtente(database db, int idUtente);
  *	@input istanza database, identificativo della playlist
  *	Serve a conteggiare quanti brani sono presenti nella playlist data in input
  *	Restituisce il numero intero di brani trovati all'interno della playlist
- *	Si avvale di contaNelDatabase per far funzionare il ciclo atto al controllo
+ *	Si avvale di contareNelDatabase per far funzionare il ciclo atto al controllo
  *	@ouput numero intero conta
  */
 int contaBraniPlaylist(database db, int idPlaylist);
@@ -116,7 +116,7 @@ int controlloEsistenzaPlaylist(database db, char playlist[]);
  *	TODO: adeguare modifica allo standard imposto dalle specifiche
  *	@input istanza database
  *	Interfaccia utente per modificare informazioni della playlist presente nel database
- *	Si avvale di ottieniPosDaID per controllare l'esistenza di essa attraverso l'identificativo
+ *	Si avvale di ottenerePosDaID per controllare l'esistenza di essa attraverso l'identificativo
  *	Se la playlist e' presente ed e' dell'utente oppure ad eseguire la funzione e' un admin,
  *	procede alla modifica dell'informazione scelta con modificaSingolaPlaylist
  *	@output database modificato
@@ -139,7 +139,7 @@ database modificaSingolaPlaylist(database db, int modalita, int id);
  *	TODO: adeguare cancellazione allo standard imposto dalle specifiche
  *	@input istanza database
  *	Interfaccia utente per la cancellazione di una playlist presente nel database
- *	Si avvale di ottieniPosDaID per controllare l'esistenza di essa attraverso l'identificativo
+ *	Si avvale di ottenerePosDaID per controllare l'esistenza di essa attraverso l'identificativo
  *	Se la playlist e' presente ed e' dell'utente oppure ad eseguire la funzione e' un admin,
  *	procede alla cancellazione della playlist con cancellaSingolaPlaylist
  *	@output database modificato

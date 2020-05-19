@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 4075 - 19.05.2020
+ * Ampere 0.2 rev. 1 - 28.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -16,34 +16,36 @@
  * 	@input istanza database
  *	Serve a controllare se l'utente connesso al momento e' un amministratore
  *	Restituisce vero se l'utente e' amministratore, altrimenti falso
- *	Si avvale di ottieniPosDaID per ottenere la posizione in base all'identificativo dell'utente connesso
+ *	Si avvale di ottenerePosDaID per ottenere la posizione in base all'identificativo dell'utente connesso
  *	@output risultato booleano
  */
-bool isAdmin(database db);
+bool controllareSeAdmin(database db);
 
 /**
  * 	@input istanza database, numero intero identificativo utente
  *	Serve a controllare se l'utente dato in input e' un amministratore
  *	Restituisce vero se l'utente e' amministratore, altrimenti falso
- *	Si avvale di ottieniPosDaID per ottenere la posizione in base all'identificativo dell'utente
+ *	Si avvale di ottenerePosDaID per ottenere la posizione in base all'identificativo dell'utente
  *	@output risultato booleano
  */
-bool isGivenUserAdmin(database db, int id);
+bool controllareSeAdminUtente(database db, int id);
+
+bool controllareSePrescelto(database db);
 
 /**
  *	@input istanza database
  *	Serie di stampe per mostrare un riepilogo breve dell'utente connesso al momento
- *	Si avvale di ottieniPosDaID per ottenere la posizione in base all'identificativo dell'utente connesso
+ *	Si avvale di ottenerePosDaID per ottenere la posizione in base all'identificativo dell'utente connesso
  *	e serve unicamente per mostrare il nome utente.
- *	Si avvale, inoltre, di isAdmin per controllare se l'utente connesso e' amministratore
+ *	Si avvale, inoltre, di controllareSeAdmin per controllare se l'utente connesso e' amministratore
  */
 void infoUtenteConnesso(database db);
 
 /**
  *	@input istanza database
  *	Interfaccia utente per il login con nome utente e password
- *	Si avvale di controllaDatiUtente per controllare la veridicita' della combinazione nome utente/password
- *	Se il login viene eseguito con successo, assegna l'id, ottenuto attraverso controllaDatiUtente,
+ *	Si avvale di controllareDatiUtente per controllare la veridicita' della combinazione nome utente/password
+ *	Se il login viene eseguito con successo, assegna l'id, ottenuto attraverso controllareDatiUtente,
  *	dell'utente ad utente_connesso, altrimenti ripropone l'inserimento dei dati
  *	@output database modificato
  */
@@ -57,26 +59,18 @@ database loginUtente(database db);
  *	Restituisce l'identificativo dell'utente trovato in base ai valori dati in input
  *	@output identificativo utente
  */
-int controllaDatiUtente(database db, char username[], char password[]);
+int controllareDatiUtente(database db, char username[], char password[]);
 
 /**
  *	@input istanza database
  *	Interfaccia utente pubblica stand-alone per la registrazione guidata di un nuovo utente
- *	Si avvale di controllaEsistenzaUtente per evitare duplicati al momento dell'inserimento del nome utente.
- *	Crea l'utente con creaUtente ed utilizza l'output di esso per inserire l'utente con inserireUtente
- *	Alla fine della registrazione, manda l'utente al login.
+ *	Se ad eseguire la funzione, e' un admin, non mostra le informazioni destinate ad un utente normale
+ *	Si avvale di controllareEsistenzaUtente per evitare duplicati al momento dell'inserimento del nome utente.
+ *	Crea l'utente con creareUtente ed utilizza l'output di esso per inserire l'utente con inserireUtente
+ *	Alla fine della registrazione, se ad avviarla non e' stato un admin gia' connesso, manda l'utente al login.
  *	@output database modificato
  */
-database registrazioneUtente(database db);
-
-/**
- *	@input istanza database
- *	Interfaccia utente privata stand-alone per l'inserimento di un nuovo utente nel database
- *	Il meccanismo di funzionamento e' lo stesso di registrazioneUtente ma, essendo disponibile solo agli admin,
- *	non ha forme di controllo per la protezione dell'esperienza utente.
- *	@output database modificato
- */
-database inserimentoUtenteGuidato(database db);
+database registrareUtente(database db);
 
 /**
  * 	@input istanza database, stringa nome utente, password
@@ -84,11 +78,11 @@ database inserimentoUtenteGuidato(database db);
  *	e crea un record con esse. Si avvale del database in input per ottenere l'ultimo identificativo
  *	@output record nuovoUtente compilato
  */
-struct utenti creaUtente(database db, char username[], char password[]);
+struct utenti creareUtente(database db, char username[], char password[], bool admin);
 
 /**
  *	@input istanza database, record Utente nuovoUtente
- *	Ottiene in input il record nuovoUtente gia' compilato con creaUtente e gli assegna l'ultima posizione
+ *	Ottiene in input il record nuovoUtente gia' compilato con creareUtente e gli assegna l'ultima posizione
  *	@output database modificato
  */
 database inserireUtente(database db, struct utenti utente);
@@ -99,7 +93,7 @@ database inserireUtente(database db, struct utenti utente);
  *  dato in input e se esiste allora esce dal ciclo dando in output vero o falso
  *	@output risultato booleano dell'esistenza dell'utente
  */
-bool controllaEsistenzaUtente(database db, char username[]);
+bool controllareEsistenzaUtente(database db, char username[]);
 
 /**
  * 	TODO: passare a valori veri e non tutte stringhe
@@ -107,40 +101,40 @@ bool controllaEsistenzaUtente(database db, char username[]);
  *	Scrive sul file "file_utenti", le informazioni date in input, separate con separatore pipe "|"
  *	@output FILE modificato
  */
-void inserisciUtenteSuFile(char id[], char username[], char password[], char admin[]);
+void inserireUtenteSuFile(char id[], char username[], char password[], char admin[]);
 
 /**
  *	TODO: adeguare modifica allo standard imposto dalle specifiche
  *	@input istanza database
  *	Interfaccia utente per modificare informazioni dell'utente presente nel database
- *	Si avvale di ottieniPosDaID per controllare l'esistenza di esso attraverso l'identificativo
+ *	Si avvale di ottenerePosDaID per controllare l'esistenza di esso attraverso l'identificativo
  *	Se l'utente e' presente procede alla modifica dell'informazione scelta con modificaSingolaUtente
  *	@output database modificato
  */
-database modificaUtente(database db);
+database modificareUtenteGuidato(database db);
 
 /**
  *	TODO: adeguare modifica allo standard imposto dalle specifiche
  *	@input istanza database, numero intero modalita' di esecuzione, numero intero identificativo
- *	In base alla modalita' scelta e data in input da modificaUtente, chiede all'utente la nuova informazione
+ *	In base alla modalita' scelta e data in input da modificareUtenteGuidato, chiede all'utente la nuova informazione
  *	da inserire al posto della vecchia, sovrascrivendola
  *	Presenta una modalita' utilizzabile unicamente da un amministratore,
  *	ovvero la modifica del suo ruolo (utente o admin)
  *	Successivamente procede a mostrare all'utente il risultato delle modifiche effettuate
  *	@output database modificato
  */
-database modificaSingoloUtente(database db, int modalita, int id);
+database modificareUtente(database db, int modalita, int id);
 
 /**
  *	TODO: adeguare cancellazione allo standard imposto dalle specifiche
  *	@input istanza database
  *	Interfaccia utente per la cancellazione di un utente presente nel database
- *	Si avvale di ottieniPosDaID per controllare l'esistenza di esso attraverso l'identificativo
+ *	Si avvale di ottenerePosDaID per controllare l'esistenza di esso attraverso l'identificativo
  *	Se a cancellare l'utente e' l'autore stesso oppure ad eseguire la funzione e' un admin,
- *	procede alla cancellazione dell'utente con cancellaSingoloUtente
+ *	procede alla cancellazione dell'utente con cancellareUtente
  *	@output database modificato
  */
-database cancellaUtente(database db);
+database cancellareUtenteGuidato(database db);
 
 /**
  *	TODO: adeguare cancellazione allo standard imposto dalle specifiche
@@ -150,6 +144,6 @@ database cancellaUtente(database db);
  *	effettivamente causando la cancellazione dell'utente all'interno del database presente in memoria.
  *	@output database modificato
  */
-database cancellaSingoloUtente(database db, int id);
+database cancellareUtente(database db, int id);
 
 #endif /* GESTORI_GESTOREUTENTI_H_ */

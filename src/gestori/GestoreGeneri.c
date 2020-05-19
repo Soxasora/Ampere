@@ -1,5 +1,5 @@
 /*
- * Ampere 0.1 rev. 4075 - 19.05.2020
+ * Ampere 0.2 rev. 1 - 28.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -20,43 +20,68 @@
 #include "../sys/Utils.h"
 #include "../sys/Impostazioni.h"
 
-database inserimentoGenereGuidato(database db) {
-	pulisciBuffer();
+database inserireGenereGuidato(database db) {
 	char *nome = malloc(MAX_MEDIO);
-	printf("\nInserisci nome del genere: ");
-	nome = inputStringaSicuro(MAX_MEDIO,nome);
-	db = creaGenereSeNonEsiste(db, nome);
-	free(nome);
+	do {
+		pulisciBuffer();
+		printf("\nInserisci nome del genere: ");
+		nome = inputStringaSicuro(MAX_MEDIO,nome);
+		db = creareGenereSeNonEsiste(db, nome);
+	} while (db.ultimoEsito!=0);
 	return db;
 }
 
-database creaGenereSeNonEsiste(database db, char nome[]) {
-	int id = controlloEsistenzaGenere(db, nome);
+database creareGenereSeNonEsiste(database db, char nome[]) {
+	char scelta='a';
+	int controllo=0;
+	int id = controllareEsistenzaGenere(db, nome);
 	if (id==0) {
-		printf("\nSembra che questo genere non esista nel database, provvedo ad inserirlo...");
-		db = inserireGenere(db,creaGenere(db,nome));
-		printf("\nGenere inserito, continuiamo...");
+		printf("\nSembra che questo genere non esista nel database");
+		struct generi nuovoGenere = creareGenere(nome);
+		mostrareAnteprimaGenere(nuovoGenere);
+		pulisciBuffer();
+		while (controllo!=-1) {
+			printf("\nSicuro di voler continuare? [Y/N]: ");
+			scanf("%c", &scelta);
+			if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
+				controllo=-1;
+			}
+		}
+		if (scelta=='Y'||scelta=='y') {
+			db = inserireGenere(db, nuovoGenere);
+			printf("\nGenere inserito, continuiamo...");
+			db.ultimoEsito=0;
+		} else {
+			db.ultimoEsito=-1;
+		}
 	} else {
 		printf("\nGenere esistente.");
+		db.ultimoEsito=0;
 	}
 	return db;
 }
 
-struct generi creaGenere(database db, char nome[]) {
-	struct generi genere;
-	genere.id = trovaUltimoId(db, 3)+1;
-	strcpy(genere.nome, nome);
-	return genere;
+struct generi creareGenere(char nome[]) {
+	struct generi nuovoGenere;
+	nuovoGenere.id = -1;
+	strcpy(nuovoGenere.nome, nome);
+	return nuovoGenere;
 }
 
-database inserireGenere(database db, struct generi genere) {
+void mostrareAnteprimaGenere(struct generi nuovoGenere) {
+	printf("\nIl genere che stai per inserire ha questi dettagli:"
+		   "\nNome: %s", nuovoGenere.nome);
+}
+
+database inserireGenere(database db, struct generi nuovoGenere) {
 	db_modificato=1;
-	int n = contaNelDatabase(db, 3);
-	db.genere[n] = genere;
+	int n = contareNelDatabase(db, 3);
+	nuovoGenere.id = trovareUltimoId(db, 3)+1;
+	db.genere[n] = nuovoGenere;
 	return db;
 }
 
-void inserisciGenereSuFile(char id[], char nome[]) {
+void inserireGenereSuFile(char id[], char nome[]) {
 	FILE* fp=fopen(file_generi, "a");
 	if (controllaSeFileVuoto(file_generi)==1) {
 		fprintf(fp, "%s|%s", id, nome);
@@ -66,7 +91,7 @@ void inserisciGenereSuFile(char id[], char nome[]) {
 	fclose(fp);
 }
 
-void inserisciTipiBraniSuFile(char idbrano[], char idgenere[]) {
+void inserireTipiBraniSuFile(char idbrano[], char idgenere[]) {
 	FILE* fp=fopen(file_tipobrano, "a");
 	if (controllaSeFileVuoto(file_tipobrano)==1) {
 		fprintf(fp, "%s|%s", idbrano, idgenere);
@@ -76,8 +101,8 @@ void inserisciTipiBraniSuFile(char idbrano[], char idgenere[]) {
 	fclose(fp);
 }
 
-int controlloEsistenzaGenere(database db, char genere[]) {
-	int id=0, i=0, n=contaNelDatabase(db,3), controllo=0;
+int controllareEsistenzaGenere(database db, char genere[]) {
+	int id=0, i=0, n=contareNelDatabase(db,3), controllo=0;
 	while (i<n&&controllo!=-1) {
 		if (comparaStringhe(db.genere[i].nome, genere)==0) {
 			id = db.genere[i].id;
@@ -88,14 +113,14 @@ int controlloEsistenzaGenere(database db, char genere[]) {
 	return id;
 }
 
-database modificaGenere(database db) {
+database modificareGenereGuidato(database db) {
 	int id=0, modalita=-1, controllo=0;
 	char scelta='a';
 	mostraTuttiGeneri(db);
-	while(ottieniPosDaID(db, 3,id)==-1) {
+	while(ottenerePosDaID(db, 3,id)==-1) {
 		printf("\n\nInserire l'identificativo del genere da modificare: ");
 		scanf("%d", &id);
-		if (ottieniPosDaID(db, 3,id)==-1) {
+		if (ottenerePosDaID(db, 3,id)==-1) {
 			printf("\nGenere non trovato, riprovare");
 		}
 	}
@@ -118,15 +143,15 @@ database modificaGenere(database db) {
 			scanf("%d", &modalita);
 		}
 		if (modalita!=0) {
-			db = modificaSingoloGenere(db, id);
+			db = modificareGenere(db, id);
 		}
 	}
 	return db;
 }
 
-database modificaSingoloGenere(database db, int id) {
+database modificareGenere(database db, int id) {
 	pulisciBuffer();
-	int pos = ottieniPosDaID(db, 3,id);
+	int pos = ottenerePosDaID(db, 3,id);
 	char *nome = malloc(MAX_MEDIO);
 	printf("\nInserisci nuovo nome: ");
 	nome = inputStringaSicuro(MAX_MEDIO,nome);
@@ -138,14 +163,14 @@ database modificaSingoloGenere(database db, int id) {
 	return db;
 }
 
-database cancellaGenere(database db) {
+database cancellareGenereGuidato(database db) {
 	int id=0, controllo=0;
 	char scelta='a';
 	mostraTuttiGeneri(db);
-	while(ottieniPosDaID(db, 3,id)==-1) {
+	while(ottenerePosDaID(db, 3,id)==-1) {
 		printf("\n\nInserire l'identificativo del genere da cancellare: ");
 		scanf("%d", &id);
-		if (ottieniPosDaID(db, 3,id)==-1) {
+		if (ottenerePosDaID(db, 3,id)==-1) {
 			printf("\nGenere non trovato, riprovare");
 		}
 	}
@@ -160,20 +185,20 @@ database cancellaGenere(database db) {
 		}
 	}
 	if (scelta=='Y'||scelta=='y') {
-		db = cancellaSingoloGenere(db, id);
+		db = cancellareGenere(db, id);
 	}
 	return db;
 }
 
-database cancellaSingoloGenere(database db, int id) {
-	int n=contaNelDatabase(db,3);
-	int i=ottieniPosDaID(db, 3, id);
+database cancellareGenere(database db, int id) {
+	int n=contareNelDatabase(db,3);
+	int i=ottenerePosDaID(db, 3, id);
 	while(i<n-1) {
 		db.genere[i] = db.genere[i+1];
 		i++;
 	}
 	db.genere[n-1].id = 0;
-	int nbrani=contaNelDatabase(db,7);
+	int nbrani=contareNelDatabase(db,7);
 	i=0;
 	while (i<nbrani) {
 		if(db.branoGenere[i].idGenere==id) {
@@ -184,5 +209,17 @@ database cancellaSingoloGenere(database db, int id) {
 	}
 	db_modificato=1;
 	printf("\nGenere cancellato.");
+	return db;
+}
+
+database cancellaAssociazioniGenere(database db, int idBrano) {
+	int n = contareNelDatabase(db,7);
+	int i = ottenerePosDaID(db, 7, idBrano);
+	while (i<n-1) {
+		db.branoGenere[i] = db.branoGenere[i+1];
+		i++;
+	}
+	db.branoGenere[n-1].idBrano = 0;
+	db.branoGenere[n-1].idGenere = 0;
 	return db;
 }
