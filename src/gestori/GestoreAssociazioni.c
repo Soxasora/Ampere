@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 1 - 28.05.2020
+ * Ampere 0.2 rev. 5 - 29.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -9,6 +9,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../gestori/GestoreAssociazioni.h"
+#include "../gestori/GestoreFile.h"
+#include "../gestori/GestoreBrani.h"
+#include "../gestori/GestoreArtisti.h"
+#include "../gestori/GestoreAlbum.h"
+#include "../gestori/GestoreGeneri.h"
 #include "../database/Albums.h"
 #include "../database/Artisti.h"
 #include "../database/Generi.h"
@@ -71,5 +77,61 @@ database inserireAssociazionePlaylist(database db, struct raccolta playlistBrano
 	db_modificato=1;
 	int n = contareNelDatabase(db, 8);
 	db.playlistBrano[n] = playlistBrano;
+	return db;
+}
+
+database cancellaAssociazioniBrano(database db, int id) {
+	//Cancella Associazioni
+	db = cancellaAssociazioniArtisti(db, id);
+
+	db = cancellaAssociazioniAlbum(db, id);
+
+	db = cancellaAssociazioniGenere(db, id);
+	int n=0, i=0;
+	n = contareNelDatabase(db,8);
+	i = ottenerePosDaID(db, 8, id);
+	while (i<n-1) {
+		db.playlistBrano[i] = db.playlistBrano[i+1];
+		i++;
+	}
+	db.playlistBrano[n-1].idPlaylist = 0;
+	db.playlistBrano[n-1].idBrano = 0;
+	return db;
+}
+
+database cancellaAssociazioniArtisti(database db, int id) {
+	int n = contareNelDatabase(db,5);
+	int i = ottenerePosDaID(db, 5, id);
+
+	while (i<n-1) {
+		db.branoArtista[i] = db.branoArtista[i+1];
+		i++;
+	}
+	db.branoArtista[n-1].idBrano = 0;
+	db.branoArtista[n-1].idArtista = 0;
+	return db;
+}
+
+database cancellaAssociazioniAlbum(database db, int idBrano) {
+	int n = contareNelDatabase(db,6);
+	int i = ottenerePosDaID(db, 6, idBrano);
+	while (i<n-1) {
+		db.branoAlbum[i] = db.branoAlbum[i+1];
+		i++;
+	}
+	db.branoAlbum[n-1].idBrano = 0;
+	db.branoAlbum[n-1].idAlbum = 0;
+	return db;
+}
+
+database cancellaAssociazioniGenere(database db, int idBrano) {
+	int n = contareNelDatabase(db,7);
+	int i = ottenerePosDaID(db, 7, idBrano);
+	while (i<n-1) {
+		db.branoGenere[i] = db.branoGenere[i+1];
+		i++;
+	}
+	db.branoGenere[n-1].idBrano = 0;
+	db.branoGenere[n-1].idGenere = 0;
 	return db;
 }

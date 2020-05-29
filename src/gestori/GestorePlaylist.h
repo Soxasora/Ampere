@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 1 - 28.05.2020
+ * Ampere 0.2 rev. 5 - 29.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -93,7 +93,7 @@ database inserimentoBraniPlaylistGuidato(database db);
  *	Scrive sul file "file_playlists", le informazioni date in input, separate con separatore pipe "|"
  *	@output FILE modificato
  */
-void inserisciPlaylistSuFile(char id[], char idUtente[], char nome[], char descrizione[], char pubblica[]);
+void inserisciPlaylistSuFile(int id, int idUtente, char nome[], char descrizione[], char pubblica[]);
 
 /**
  *	TODO: passare a valori veri e non tutte stringhe
@@ -101,7 +101,7 @@ void inserisciPlaylistSuFile(char id[], char idUtente[], char nome[], char descr
  *	Scrive sul file "file_raccolta", le informazioni date in input, separate con separatore pipe "|"
  *	@output FILE modificato
  */
-void inserisciRaccoltaSuFile(char idplaylist[], char idbrano[]);
+void inserisciRaccoltaSuFile(int idplaylist, int idbrano);
 
 /**
  * 	TODO: Migliorare funzione, potrebbe esserci piu' di un'occorrenza

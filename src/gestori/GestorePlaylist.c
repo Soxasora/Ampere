@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 1 - 28.05.2020
+ * Ampere 0.2 rev. 5 - 29.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -189,22 +189,22 @@ database inserimentoBraniPlaylistGuidato(database db) {
 	return db;
 }
 
-void inserisciPlaylistSuFile(char id[], char idUtente[], char nome[], char descrizione[], char pubblica[]) {
+void inserisciPlaylistSuFile(int id, int idUtente, char nome[], char descrizione[], char pubblica[]) {
 	FILE* fp=fopen(file_playlists,"a");
 	if (controllaSeFileVuoto(file_playlists)==1) {
-		fprintf(fp, "%s|%s|%s|%s|%s", id, idUtente, nome, descrizione, pubblica);
+		fprintf(fp, "%d|%d|%s|%s|%s", id, idUtente, nome, descrizione, pubblica);
 	} else {
-		fprintf(fp, "\n%s|%s|%s|%s|%s", id, idUtente, nome, descrizione, pubblica);
+		fprintf(fp, "\n%d|%d|%s|%s|%s", id, idUtente, nome, descrizione, pubblica);
 	}
 	fclose(fp);
 }
 
-void inserisciRaccoltaSuFile(char idplaylist[], char idbrano[]) {
+void inserisciRaccoltaSuFile(int idplaylist, int idbrano) {
 	FILE* fp=fopen(file_raccolta,"a");
 	if (controllaSeFileVuoto(file_raccolta)==1) {
-		fprintf(fp, "%s|%s", idplaylist, idbrano);
+		fprintf(fp, "%d|%d", idplaylist, idbrano);
 	} else {
-		fprintf(fp, "\n%s|%s", idplaylist, idbrano);
+		fprintf(fp, "\n%d|%d", idplaylist, idbrano);
 	}
 	fclose(fp);
 }

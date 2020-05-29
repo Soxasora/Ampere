@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 1 - 28.05.2020
+ * Ampere 0.2 rev. 5 - 29.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -165,12 +165,12 @@ bool controllareEsistenzaUtente(database db, char username[]) {
 	return esistenza;
 }
 
-void inserireUtenteSuFile(char id[], char username[], char password[], char admin[]) {
+void inserireUtenteSuFile(int id, char username[], char password[], char admin[]) {
 	FILE* fp=fopen(file_utenti, "a");
 	if (controllaSeFileVuoto(file_utenti)==1) {
-		fprintf(fp, "%s|%s|%s|%s", id, username, password, admin);
+		fprintf(fp, "%d|%s|%s|%s", id, username, password, admin);
 	} else {
-		fprintf(fp, "\n%s|%s|%s|%s", id, username, password, admin);
+		fprintf(fp, "\n%d|%s|%s|%s", id, username, password, admin);
 	}
 	fclose(fp);
 }

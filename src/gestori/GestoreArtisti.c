@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 1 - 28.05.2020
+ * Ampere 0.2 rev. 5 - 29.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../ricerca/MotoreRicerca.h"
+#include "../gestori/GestoreAssociazioni.h"
 #include "../gestori/GestoreUtenti.h"
 #include "../gestori/GestoreBrani.h"
 #include "../gestori/GestoreAlbum.h"
@@ -117,22 +118,22 @@ int controlloEsistenzaArtista(database db, char nomearte[]) {
 	return id;
 }
 
-void inserisciArtistiSuFile(char id[], char nome[], char cognome[], char nomearte[], char linkbio[]) {
+void inserisciArtistiSuFile(int id, char nome[], char cognome[], char nomearte[], char linkbio[]) {
 	FILE* fp=fopen(file_artisti, "a");
 	if (controllaSeFileVuoto(file_artisti)==1) {
-		fprintf(fp, "%s|%s|%s|%s|%s", id, nome, cognome, nomearte, linkbio);
+		fprintf(fp, "%d|%s|%s|%s|%s", id, nome, cognome, nomearte, linkbio);
 	} else {
-		fprintf(fp, "\n%s|%s|%s|%s|%s", id, nome, cognome, nomearte, linkbio);
+		fprintf(fp, "\n%d|%s|%s|%s|%s", id, nome, cognome, nomearte, linkbio);
 	}
 	fclose(fp);
 }
 
-void inserisciAssociazioneArtistiSuFile(char idbrano[], char idartista[]) {
+void inserisciAssociazioneArtistiSuFile(int idbrano, int idartista) {
 	FILE* fp=fopen(file_associazioneartisti, "a");
 	if (controllaSeFileVuoto(file_associazioneartisti)==1) {
-		fprintf(fp, "%s|%s", idbrano, idartista);
+		fprintf(fp, "%d|%d", idbrano, idartista);
 	} else {
-		fprintf(fp, "\n%s|%s", idbrano, idartista);
+		fprintf(fp, "\n%d|%d", idbrano, idartista);
 	}
 	fclose(fp);
 }
@@ -253,19 +254,6 @@ database cancellaSingoloArtista(database db, int id) {
 	}
 	db_modificato=1;
 	printf("\nAlbum cancellato.");
-	return db;
-}
-
-database cancellaAssociazioniArtisti(database db, int id) {
-	int n = contareNelDatabase(db,5);
-	int i = ottenerePosDaID(db, 5, id);
-
-	while (i<n-1) {
-		db.branoArtista[i] = db.branoArtista[i+1];
-		i++;
-	}
-	db.branoArtista[n-1].idBrano = 0;
-	db.branoArtista[n-1].idArtista = 0;
 	return db;
 }
 

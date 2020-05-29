@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 1 - 28.05.2020
+ * Ampere 0.2 rev. 5 - 29.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../ricerca/MotoreRicerca.h"
+#include "../gestori/GestoreAssociazioni.h"
 #include "../gestori/GestoreUtenti.h"
 #include "../gestori/GestoreBrani.h"
 #include "../gestori/GestoreAlbum.h"
@@ -96,22 +97,22 @@ database inserireAlbum(database db, struct albums nuovoAlbum) {
 	return db;
 }
 
-void inserisciAlbumSuFile(char id[], char titolo[], char anno[]) {
+void inserisciAlbumSuFile(int id, char titolo[], int anno) {
 	FILE* fp=fopen(file_albums, "a");
 	if (controllaSeFileVuoto(file_albums)==1) {
-		fprintf(fp, "%s|%s|%s", id, titolo, anno);
+		fprintf(fp, "%d|%s|%d", id, titolo, anno);
 	} else {
-		fprintf(fp, "\n%s|%s|%s", id, titolo, anno);
+		fprintf(fp, "\n%d|%s|%d", id, titolo, anno);
 	}
 	fclose(fp);
 }
 
-void inserisciCollezioneSuFile(char idalbum[], char idbrano[]) {
+void inserisciCollezioneSuFile(int idalbum, int idbrano) {
 	FILE* fp=fopen(file_collezione, "a");
 	if (controllaSeFileVuoto(file_collezione)==1) {
-		fprintf(fp, "%s|%s", idalbum, idbrano);
+		fprintf(fp, "%d|%d", idalbum, idbrano);
 	} else {
-		fprintf(fp, "\n%s|%s", idalbum, idbrano);
+		fprintf(fp, "\n%d|%d", idalbum, idbrano);
 	}
 	fclose(fp);
 }
@@ -230,17 +231,5 @@ database cancellaSingoloAlbum(database db, int id) {
 	}
 	db_modificato=1;
 	printf("\nAlbum cancellato.");
-	return db;
-}
-
-database cancellaAssociazioniAlbum(database db, int idBrano) {
-	int n = contareNelDatabase(db,6);
-	int i = ottenerePosDaID(db, 6, idBrano);
-	while (i<n-1) {
-		db.branoAlbum[i] = db.branoAlbum[i+1];
-		i++;
-	}
-	db.branoAlbum[n-1].idBrano = 0;
-	db.branoAlbum[n-1].idAlbum = 0;
 	return db;
 }

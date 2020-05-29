@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 1 - 28.05.2020
+ * Ampere 0.2 rev. 5 - 29.05.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../ricerca/MotoreRicerca.h"
+#include "../gestori/GestoreAssociazioni.h"
 #include "../gestori/GestoreUtenti.h"
 #include "../gestori/GestoreBrani.h"
 #include "../gestori/GestoreAlbum.h"
@@ -81,22 +82,22 @@ database inserireGenere(database db, struct generi nuovoGenere) {
 	return db;
 }
 
-void inserireGenereSuFile(char id[], char nome[]) {
+void inserireGenereSuFile(int id, char nome[]) {
 	FILE* fp=fopen(file_generi, "a");
 	if (controllaSeFileVuoto(file_generi)==1) {
-		fprintf(fp, "%s|%s", id, nome);
+		fprintf(fp, "%d|%s", id, nome);
 	} else {
-		fprintf(fp, "\n%s|%s", id, nome);
+		fprintf(fp, "\n%d|%s", id, nome);
 	}
 	fclose(fp);
 }
 
-void inserireTipiBraniSuFile(char idbrano[], char idgenere[]) {
+void inserireTipiBraniSuFile(int idbrano, char idgenere) {
 	FILE* fp=fopen(file_tipobrano, "a");
 	if (controllaSeFileVuoto(file_tipobrano)==1) {
-		fprintf(fp, "%s|%s", idbrano, idgenere);
+		fprintf(fp, "%d|%d", idbrano, idgenere);
 	} else {
-		fprintf(fp, "\n%s|%s", idbrano, idgenere);
+		fprintf(fp, "\n%d|%d", idbrano, idgenere);
 	}
 	fclose(fp);
 }
@@ -209,17 +210,5 @@ database cancellareGenere(database db, int id) {
 	}
 	db_modificato=1;
 	printf("\nGenere cancellato.");
-	return db;
-}
-
-database cancellaAssociazioniGenere(database db, int idBrano) {
-	int n = contareNelDatabase(db,7);
-	int i = ottenerePosDaID(db, 7, idBrano);
-	while (i<n-1) {
-		db.branoGenere[i] = db.branoGenere[i+1];
-		i++;
-	}
-	db.branoGenere[n-1].idBrano = 0;
-	db.branoGenere[n-1].idGenere = 0;
 	return db;
 }
