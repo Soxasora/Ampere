@@ -135,7 +135,7 @@ database inserimentoBraniPlaylistGuidato(database db) {
 			printf("\nNessuna playlist trovata, riprovare");
 	}
 	printf("\nInserisci fino a %d brani nella playlist %s", nbrani, db.playlist[ottenerePosDaID(db, 4,id)].nome);
-	while (n<=0||n>nbrani) {
+	while (n<1||n>nbrani) {
 		printf("\nQuanti brani vuoi inserire? ");
 		scanf("%d", &n);
 	}
