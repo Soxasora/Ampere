@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 5 - 29.05.2020
+ * Ampere 0.2 rev. 12 -01.06.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -22,13 +22,13 @@
  * utenteCorrente: Identificativo dell'utente che sta usando il database
  * brano: Struttura 'brani'
  * artista: Struttura 'artisti'
- * branoArtista: Struttura 'associazioneArtisti' di supporto
+ * branoArtista: Struttura 'BranoArtista' di supporto
  * album: Struttura 'albums'
- * branoAlbum: Struttura 'collezione' di supporto
+ * branoAlbum: Struttura 'BranoAlbum' di supporto
  * genere: Struttura 'generi'
- * branoGenere: Struttura 'tipoBrano' di supporto
+ * branoGenere: Struttura 'BranoGenere' di supporto
  * playlist: Struttura 'playlists'
- * playlistBrano: Struttura 'raccolta' di supporto
+ * playlistBrano: Struttura 'PlaylistBrano' di supporto
  * utente: Struttura 'utenti'
  * ultimoEsito: Codice di esito, se 0 allora nessun errore, altrimenti errore
  */
@@ -36,13 +36,13 @@ typedef struct database_locale {
 	int utenteCorrente;
 	struct brani* brano;
 	struct artisti* artista;
-		struct associazioneArtisti* branoArtista;
+		struct BranoArtista* branoArtista;
 	struct albums* album;
-		struct collezione* branoAlbum;
+		struct BranoAlbum* branoAlbum;
 	struct generi* genere;
-		struct tipoBrano* branoGenere;
+		struct BranoGenere* branoGenere;
 	struct playlists* playlist;
-		struct raccolta* playlistBrano;
+		struct PlaylistBrano* playlistBrano;
 	struct utenti* utente;
 	int ultimoEsito;
 } database;

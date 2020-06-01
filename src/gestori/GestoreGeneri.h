@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 5 - 29.05.2020
+ * Ampere 0.2 rev. 12 -01.06.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -46,20 +46,11 @@ void mostrareAnteprimaGenere(struct generi nuovoGenere);
 database inserireGenere(database db, struct generi nuovoGenere);
 
 /**
- * 	TODO: passare a valori veri e non tutte stringhe
- *	@input numero intero identificativo, stringa nome del genere
+ *	@input struct generi genere
  *	Scrive sul file "file_generi", le informazioni date in input, separate con separatore pipe "|"
  *	@output FILE modificato
  */
-void inserireGenereSuFile(int id, char nome[]);
-
-/**
- *	TODO: passare a valori veri e non tutte stringhe
- *	@input numero intero identificativo brano, numero intero identificativo genere
- *	Scrive sul file "file_tipobrano", le informazioni date in input, separate con separatore pipe "|"
- *	@output FILE modificato
- */
-void inserireTipiBraniSuFile(int idbrano, char idgenere);
+void inserireGenereSuFile(struct generi genere);
 
 /**
  *	@input istanza database, stringa nome del genere

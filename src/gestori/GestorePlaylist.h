@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 5 - 29.05.2020
+ * Ampere 0.2 rev. 12 -01.06.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -55,11 +55,13 @@ int contaBraniPlaylist(database db, int idPlaylist);
  *	e crea un record con esse. Si avvale del database in input per ottenere l'ultimo identificativo
  *	@output record playlist compilato
  */
-struct playlists creaPlaylist(database db, int idUtente, char nome[], char descrizione[], bool pubblica);
+struct playlists crearePlaylist(int idUtente, char nome[], char descrizione[], bool pubblica);
+
+void mostrareAnteprimaPlaylist(struct playlists nuovaPlaylist);
 
 /**
  *	@input istanza database, record playlists playlist
- *	Ottiene in input il record playlist gia' compilato con creaPlaylist e gli assegna l'ultima posizione
+ *	Ottiene in input il record playlist gia' compilato con crearePlaylist e gli assegna l'ultima posizione
  *	@output database modificato
  */
 database inserirePlaylist(database db, struct playlists playlist);
@@ -69,11 +71,11 @@ database inserirePlaylist(database db, struct playlists playlist);
  *	Interfaccia utente stand-alone per la creazione di una playlist, può essere chiamata
  *	senza dipendere da altre funzioni
  *	Dopo la creazione della playlist, chiede anche all'utente se vuole inserire dei brani in essa
- *	Crea la playlist con creaPlaylist e la passa ad inserirePlaylist
+ *	Crea la playlist con crearePlaylist e la passa ad inserirePlaylist
  *	Se l'utente vuole aggiungere brani, chiama anche inserimentoBraniPlaylistGuidato
  *	@output database modificato
  */
-database creaPlaylistGuidato(database db);
+database crearePlaylistGuidato(database db);
 
 /**
  * 	TODO: Scorporare funzione, migliorare funzione
@@ -87,21 +89,11 @@ database creaPlaylistGuidato(database db);
 database inserimentoBraniPlaylistGuidato(database db);
 
 /**
- * 	TODO: passare a valori veri e non tutte stringhe
- *	@input numero intero identificativo playlist, numero intero identificativo utente,
- *	stringa nome, descrizione, booleano status privacy "pubblica"
+ *	@input struct playlists playlist, booleano status privacy "pubblica"
  *	Scrive sul file "file_playlists", le informazioni date in input, separate con separatore pipe "|"
  *	@output FILE modificato
  */
-void inserisciPlaylistSuFile(int id, int idUtente, char nome[], char descrizione[], char pubblica[]);
-
-/**
- *	TODO: passare a valori veri e non tutte stringhe
- *	@input numero intero identificativo playlist, numero intero identificativo brano
- *	Scrive sul file "file_raccolta", le informazioni date in input, separate con separatore pipe "|"
- *	@output FILE modificato
- */
-void inserisciRaccoltaSuFile(int idplaylist, int idbrano);
+void inserisciPlaylistSuFile(struct playlists playlist, char pubblica[]);
 
 /**
  * 	TODO: Migliorare funzione, potrebbe esserci piu' di un'occorrenza

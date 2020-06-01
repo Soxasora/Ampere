@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 5 - 29.05.2020
+ * Ampere 0.2 rev. 12 -01.06.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -24,11 +24,11 @@ struct albums {
 
 /**
  * E' una struttura che serve a collegare i brani agli album
- * Struttura 'collezione' contenente
+ * Struttura 'BranoAlbum' contenente
  * idAlbum: Identificativo dell'album
  * idBrano: Identificativo del brano
  */
-struct collezione {
+struct BranoAlbum {
 	int idAlbum;
 	int idBrano;
 };

@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 5 - 29.05.2020
+ * Ampere 0.2 rev. 12 -01.06.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -67,46 +67,69 @@ int contaBraniPlaylist(database db, int idPlaylist) {
 	return conta;
 }
 
-struct playlists creaPlaylist(database db, int idUtente, char nome[], char descrizione[], bool pubblica) {
-	struct playlists playlist;
-	playlist.id = trovareUltimoId(db,4)+1;
-	playlist.idUtente = idUtente;
-	strcpy(playlist.nome, nome);
-	strcpy(playlist.descrizione, descrizione);
-	playlist.pubblica = pubblica;
-	return playlist;
+struct playlists crearePlaylist(int idUtente, char nome[], char descrizione[], bool pubblica) {
+	struct playlists nuovaPlaylist;
+	nuovaPlaylist.idUtente = idUtente;
+	strcpy(nuovaPlaylist.nome, nome);
+	strcpy(nuovaPlaylist.descrizione, descrizione);
+	nuovaPlaylist.pubblica = pubblica;
+	return nuovaPlaylist;
 }
 
-database inserirePlaylist(database db, struct playlists playlist) {
+void mostrareAnteprimaPlaylist(struct playlists nuovaPlaylist) {
+	printf("\nLa playlist che stai per inserire ha questi dettagli:"
+		   "\nNome: %s"
+		   "\nDescrizione: %s"
+		   "\nPrivacy: ", nuovaPlaylist.nome, nuovaPlaylist.descrizione);
+
+	if (nuovaPlaylist.pubblica) {
+		printf("Privata");
+	} else if (!nuovaPlaylist.pubblica) {
+		printf("Pubblica");
+	}
+}
+
+database inserirePlaylist(database db, struct playlists nuovaPlaylist) {
 	db_modificato=1;
+	nuovaPlaylist.id = trovareUltimoId(db,4)+1;
 	int n=contareNelDatabase(db,4);
-	db.playlist[n] = playlist;
+	db.playlist[n] = nuovaPlaylist;
 	return db;
 }
 
-database creaPlaylistGuidato(database db) {
+database crearePlaylistGuidato(database db) {
 	char scelta='a';
 	int idUtente = db.utenteCorrente, controllo=0;
-	char *nome = malloc(MAX_MEDIO);
-	char *descrizione = malloc(MAX_GRANDE);
+	char *nome;
+	char *descrizione;
 	int pubblica=-1;
 	printf("\n===[Creazione guidata di una playlist]===");
 	pulisciBuffer();
-	printf("\nInserisci nome della playlist: ");
-	nome = inputStringaSicuro(MAX_MEDIO,nome);
-	printf("\nInserisci descrizione della playlist: ");
-	descrizione = inputStringaSicuro(MAX_GRANDE,descrizione);
+	if ((nome = malloc(MAX_MEDIO))) {
+		printf("\nInserisci nome della playlist: ");
+		nome = inputStringaSicuro(MAX_MEDIO,nome);
+	}
+	if ((descrizione = malloc(MAX_GRANDE))) {
+		printf("\nInserisci descrizione della playlist: ");
+		descrizione = inputStringaSicuro(MAX_GRANDE,descrizione);
+	}
 	while (pubblica<0||pubblica>1) {
 		printf("\nLa playlist e' privata[0] o pubblica[1]? ");
 		scanf("%d", &pubblica);
 	}
+	struct playlists nuovaPlaylist;
 	if (pubblica==0) {
-		db = inserirePlaylist(db, creaPlaylist(db, idUtente, nome, descrizione, false));
+		nuovaPlaylist = crearePlaylist(idUtente, nome, descrizione, false);
 	} else {
-		db = inserirePlaylist(db, creaPlaylist(db, idUtente, nome, descrizione, true));
+		nuovaPlaylist = crearePlaylist(idUtente, nome, descrizione, true);
 	}
-	free(nome); free(descrizione);
+	free(nome); nome=NULL;
+	free(descrizione); descrizione=NULL;
+	//TODO
+	mostrareAnteprimaPlaylist(nuovaPlaylist);
+	db = inserirePlaylist(db, nuovaPlaylist);
 	while (controllo!=-1) {
+		pulisciBuffer();
 		printf("\nVorresti inserire dei brani in questa playlist? [Y/N]: ");
 		scanf("%c", &scelta);
 		if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
@@ -189,25 +212,16 @@ database inserimentoBraniPlaylistGuidato(database db) {
 	return db;
 }
 
-void inserisciPlaylistSuFile(int id, int idUtente, char nome[], char descrizione[], char pubblica[]) {
+void inserisciPlaylistSuFile(struct playlists playlist, char pubblica[]) {
 	FILE* fp=fopen(file_playlists,"a");
 	if (controllaSeFileVuoto(file_playlists)==1) {
-		fprintf(fp, "%d|%d|%s|%s|%s", id, idUtente, nome, descrizione, pubblica);
+		fprintf(fp, "%d|%d|%s|%s|%s", playlist.id, playlist.idUtente, playlist.nome, playlist.descrizione, pubblica);
 	} else {
-		fprintf(fp, "\n%d|%d|%s|%s|%s", id, idUtente, nome, descrizione, pubblica);
+		fprintf(fp, "\n%d|%d|%s|%s|%s", playlist.id, playlist.idUtente, playlist.nome, playlist.descrizione, pubblica);
 	}
 	fclose(fp);
 }
 
-void inserisciRaccoltaSuFile(int idplaylist, int idbrano) {
-	FILE* fp=fopen(file_raccolta,"a");
-	if (controllaSeFileVuoto(file_raccolta)==1) {
-		fprintf(fp, "%d|%d", idplaylist, idbrano);
-	} else {
-		fprintf(fp, "\n%d|%d", idplaylist, idbrano);
-	}
-	fclose(fp);
-}
 
 int controlloEsistenzaPlaylist(database db, char playlist[]) {
 	int id=0, i=0, n=contareNelDatabase(db,4), controllo=0;

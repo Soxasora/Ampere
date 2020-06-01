@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 5 - 29.05.2020
+ * Ampere 0.2 rev. 12 -01.06.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -27,11 +27,11 @@ struct artisti {
 
 /**
  * Serve a collegare i brani agli artisti
- * Struttura 'associazioneArtisti' contenente
+ * Struttura 'BranoArtista' contenente
  * idBrano: Identificativo del brano
  * idArtista: Identificativo dell'artista
  */
-struct associazioneArtisti {
+struct BranoArtista {
 	int idBrano;
 	int idArtista;
 };

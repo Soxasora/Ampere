@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 5 - 29.05.2020
+ * Ampere 0.2 rev. 12 -01.06.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -24,25 +24,25 @@ int creaDatabaseSeNonEsiste() {
 	fp = fopen(file_albums, "a");
 	if (fp==NULL) esito=-1;
 	fclose(fp);
-	fp = fopen(file_associazioneartisti, "a");
+	fp = fopen(file_BranoArtista, "a");
 	if (fp==NULL) esito=-1;
 	fclose(fp);
 	fp = fopen(file_artisti, "a");
 	if (fp==NULL) esito=-1;
 	fclose(fp);
-	fp = fopen(file_collezione, "a");
+	fp = fopen(file_BranoAlbum, "a");
 	if (fp==NULL) esito=-1;
 	fclose(fp);
 	fp = fopen(file_generi, "a");
 	if (fp==NULL) esito=-1;
 	fclose(fp);
-	fp = fopen(file_tipobrano, "a");
+	fp = fopen(file_BranoGenere, "a");
 	if (fp==NULL) esito=-1;
 	fclose(fp);
 	fp = fopen(file_playlists, "a");
 	if (fp==NULL) esito=-1;
 	fclose(fp);
-	fp = fopen(file_raccolta, "a");
+	fp = fopen(file_PlaylistBrano, "a");
 	if (fp==NULL) esito=-1;
 	fclose(fp);
 	fp = fopen(file_utenti, "a");
@@ -304,8 +304,8 @@ database ottieniUtenti(database db) {
 
 database associaArtisti(database db) {
 	db.branoArtista = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.branoArtista));
-	if (controllaSeFileVuoto(file_associazioneartisti)==0) {
-		FILE* fp=fopen(file_associazioneartisti, "r");
+	if (controllaSeFileVuoto(file_BranoArtista)==0) {
+		FILE* fp=fopen(file_BranoArtista, "r");
 		char temp[MAX_ENORME];
 		char dati[MAX_ENORME][MAX_ENORME];
 		char spaziatore[] = "|";
@@ -336,8 +336,8 @@ database associaArtisti(database db) {
 
 database associaAlbum(database db) {
 	db.branoAlbum = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.branoAlbum));
-	if (controllaSeFileVuoto(file_collezione)==0) {
-		FILE* fp=fopen(file_collezione, "r");
+	if (controllaSeFileVuoto(file_BranoAlbum)==0) {
+		FILE* fp=fopen(file_BranoAlbum, "r");
 		char temp[MAX_ENORME];
 		char dati[MAX_ENORME][MAX_ENORME];
 		char spaziatore[] = "|";
@@ -368,8 +368,8 @@ database associaAlbum(database db) {
 
 database associaGeneri(database db) {
 	db.branoGenere = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.branoGenere));
-	if (controllaSeFileVuoto(file_tipobrano)==0) {
-		FILE* fp=fopen(file_tipobrano, "r");
+	if (controllaSeFileVuoto(file_BranoGenere)==0) {
+		FILE* fp=fopen(file_BranoGenere, "r");
 		char temp[MAX_ENORME];
 		char dati[MAX_ENORME][MAX_ENORME];
 		char spaziatore[] = "|";
@@ -400,8 +400,8 @@ database associaGeneri(database db) {
 
 database associaPlaylist(database db) {
 	db.playlistBrano = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.playlistBrano));
-	if (controllaSeFileVuoto(file_raccolta)==0) {
-		FILE* fp=fopen(file_raccolta, "r");
+	if (controllaSeFileVuoto(file_PlaylistBrano)==0) {
+		FILE* fp=fopen(file_PlaylistBrano, "r");
 		char temp[MAX_ENORME];
 		char dati[MAX_ENORME][MAX_ENORME];
 		char spaziatore[] = "|";

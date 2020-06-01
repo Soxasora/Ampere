@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 5 - 29.05.2020
+ * Ampere 0.2 rev. 12 -01.06.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -53,16 +53,20 @@ void infoUtenteConnesso(database db) {
 }
 
 database loginUtente(database db) {
-	printf("\nEsecuzione Login ad Ampere");
+	printf("\n\nEsecuzione Login ad Ampere");
 	int controllo=0, id=0;
 	while (controllo!=-1) {
-		char *username = malloc(MAX_MEDIO);
-		char *password = malloc(MAX_MEDIO);
+		char *username;
+		char *password;
 		pulisciBuffer();
-		printf("\nInserisci "C_GIALLO"username: "C_RESET);
-		username = inputStringaSicuro(MAX_MEDIO,username);
-		printf("\nInserisci "C_GIALLO"password: "C_RESET);
-		password = inputStringaSicuro(MAX_MEDIO,password);
+		if ((username = malloc(MAX_MEDIO))) {
+			printf("\nInserisci "C_GIALLO"username: "C_RESET);
+			username = inputStringaSicuro(MAX_MEDIO,username);
+		}
+		if ((password = malloc(MAX_MEDIO))) {
+			printf("\nInserisci "C_GIALLO"password: "C_RESET);
+			password = inputStringaSicuro(MAX_MEDIO,password);
+		}
 		id = controllareDatiUtente(db, username, password);
 		if (strcmp(username, "N/A")==0||strcmp(password, "N/A")==0) {
 			attenzione(2);
@@ -73,6 +77,8 @@ database loginUtente(database db) {
 		} else {
 			attenzione(1);
 		}
+		free(username); username=NULL;
+		free(password); password=NULL;
 	}
 	return db;
 }
@@ -91,6 +97,7 @@ int controllareDatiUtente(database db, char username[], char password[]) {
 
 database registrareUtente(database db) {
 	pulisciBuffer();
+	char scelta='a';
 	int controllo=0, ruolo=-1;
 	bool admin = false;
 	if (controllareSePrescelto(db)) {
@@ -102,15 +109,21 @@ database registrareUtente(database db) {
 		printf("\n===[Registrazione guidata di un utente]===");
 		printf("\nBenvenuto su Ampere. Procediamo alla creazione del tuo profilo.");
 	}
-	while (controllo!=-1) {
-		char *username = malloc(MAX_MEDIO);
-		char *password = malloc(MAX_MEDIO);
-		printf("\n\nInserisci username: ");
-		username = inputStringaSicuro(MAX_MEDIO,username);
-		printf("\nInserisci password: ");
-		password = inputStringaSicuro(MAX_MEDIO,password);
+	do {
+		pulisciBuffer();
+		char *username;
+		char *password;
+		if ((username = malloc(MAX_MEDIO))) {
+			printf("\nInserisci "C_GIALLO"username: "C_RESET);
+			username = inputStringaSicuro(MAX_MEDIO,username);
+		}
+		if ((password = malloc(MAX_MEDIO))) {
+			printf("\nInserisci "C_GIALLO"password: "C_RESET);
+			password = inputStringaSicuro(MAX_MEDIO,password);
+		}
 		if (strcmp(username,"N/A")==0||strcmp(password,"N/A")==0) {
-			printf("\nInseriti valori non validi. Riprovare.");
+			attenzione(2);
+			db.ultimoEsito=-1;
 		} else if (controllareEsistenzaUtente(db, username)==false) {
 			if (controllareSeAdmin(db)) {
 				while (ruolo<0||ruolo>1) {
@@ -123,32 +136,62 @@ database registrareUtente(database db) {
 					admin=true;
 				}
 			}
-			db = inserireUtente(db, creareUtente(db, username, password, admin));
-			successo(0);
-			controllo=-1;
+			struct utenti nuovoUtente = creareUtente(username, password, admin);
+			mostrareAnteprimaUtente(nuovoUtente);
+			controllo=0;
+			while (controllo!=-1) {
+				pulisciBuffer();
+				printf("\nSicuro di voler continuare? [Y/N]: ");
+				scanf("%c", &scelta);
+				if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
+					controllo=-1;
+				}
+			}
+			if (scelta=='Y'||scelta=='y') {
+				db = inserireUtente(db, nuovoUtente);
+				if (admin) {
+					inserireUtenteSuFile(db.utente[contareNelDatabase(db,-1)-1], "true");
+				} else {
+					inserireUtenteSuFile(db.utente[contareNelDatabase(db,-1)-1], "false");
+				}
+				db.ultimoEsito = 0;
+			} else {
+				db.ultimoEsito = -1;
+			}
 		} else {
-			printf("\nQuesto utente esiste gia'! Scegline un altro.");
+			attenzione(0);
+			db.ultimoEsito = -1;
 		}
-	}
+		free(username); username=NULL;
+		free(password); password=NULL;
+	} while (db.ultimoEsito!=0);
 	if (!controllareSeAdmin(db)||db.utenteCorrente==0) {
 		db = loginUtente(db);
 	}
 	return db;
 }
 
-struct utenti creareUtente(database db, char username[], char password[], bool admin) {
-	struct utenti utente;
-	utente.id = trovareUltimoId(db, -1)+1;
-	strcpy(utente.username, username);
-	strcpy(utente.password, password);
-	utente.admin = admin;
-	return utente;
+struct utenti creareUtente(char username[], char password[], bool admin) {
+	struct utenti nuovoUtente;
+	nuovoUtente.id = -1;
+	strcpy(nuovoUtente.username, username);
+	strcpy(nuovoUtente.password, password);
+	nuovoUtente.admin = admin;
+	return nuovoUtente;
 }
 
-database inserireUtente(database db, struct utenti utente) {
+void mostrareAnteprimaUtente(struct utenti nuovoUtente) {
+	printf("\nStai per registrare un utente con questi dettagli:"
+		   "\nNome Utente: %s"
+		   "\nPassword: %s", nuovoUtente.username, nuovoUtente.password);
+}
+
+database inserireUtente(database db, struct utenti nuovoUtente) {
 	db_modificato=1;
+	nuovoUtente.id = trovareUltimoId(db, -1)+1;
 	int n=contareNelDatabase(db,-1);
-	db.utente[n] = utente;
+	db.utente[n] = nuovoUtente;
+	successo(0);
 	return db;
 }
 
@@ -165,12 +208,12 @@ bool controllareEsistenzaUtente(database db, char username[]) {
 	return esistenza;
 }
 
-void inserireUtenteSuFile(int id, char username[], char password[], char admin[]) {
+void inserireUtenteSuFile(struct utenti utente, char admin[]) {
 	FILE* fp=fopen(file_utenti, "a");
 	if (controllaSeFileVuoto(file_utenti)==1) {
-		fprintf(fp, "%d|%s|%s|%s", id, username, password, admin);
+		fprintf(fp, "%d|%s|%s|%s", utente.id, utente.username, utente.password, admin);
 	} else {
-		fprintf(fp, "\n%d|%s|%s|%s", id, username, password, admin);
+		fprintf(fp, "\n%d|%s|%s|%s", utente.id, utente.username, utente.password, admin);
 	}
 	fclose(fp);
 }

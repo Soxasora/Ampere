@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 5 - 29.05.2020
+ * Ampere 0.2 rev. 12 -01.06.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -24,60 +24,101 @@
 #include "../sys/Utils.h"
 #include "../sys/Impostazioni.h"
 
-struct associazioneArtisti creaAssociazioneArtista(int idBrano, int idArtista) {
-	struct associazioneArtisti branoArtista;
+struct BranoArtista creaAssociazioneArtista(int idBrano, int idArtista) {
+	struct BranoArtista branoArtista;
 	branoArtista.idBrano = idBrano;
 	branoArtista.idArtista = idArtista;
 	return branoArtista;
 }
 
-database inserireAssociazioneArtista(database db, struct associazioneArtisti branoArtista) {
+database inserireAssociazioneArtista(database db, struct BranoArtista branoArtista) {
 	db_modificato=1;
 	int n = contareNelDatabase(db,5);
 	db.branoArtista[n] = branoArtista;
 	return db;
 }
 
-struct collezione creaAssociazioneAlbum(int idBrano, int idAlbum) {
-	struct collezione branoAlbum;
+struct BranoAlbum creaAssociazioneAlbum(int idBrano, int idAlbum) {
+	struct BranoAlbum branoAlbum;
 	branoAlbum.idBrano = idBrano;
 	branoAlbum.idAlbum = idAlbum;
 	return branoAlbum;
 }
 
-database inserireAssociazioneAlbum(database db, struct collezione branoAlbum) {
+database inserireAssociazioneAlbum(database db, struct BranoAlbum branoAlbum) {
 	db_modificato=1;
 	int n = contareNelDatabase(db,6);
 	db.branoAlbum[n] = branoAlbum;
 	return db;
 }
 
-struct tipoBrano creaAssociazioneGenere(int idBrano, int idGenere) {
-	struct tipoBrano branoGenere;
+struct BranoGenere creaAssociazioneGenere(int idBrano, int idGenere) {
+	struct BranoGenere branoGenere;
 	branoGenere.idBrano = idBrano;
 	branoGenere.idGenere = idGenere;
 	return branoGenere;
 }
 
-database inserireAssociazioneGenere(database db, struct tipoBrano branoGenere) {
+database inserireAssociazioneGenere(database db, struct BranoGenere branoGenere) {
 	db_modificato=1;
 	int n=contareNelDatabase(db,7);
 	db.branoGenere[n] = branoGenere;
 	return db;
 }
 
-struct raccolta creaAssociazionePlaylist(int idPlaylist, int idBrano) {
-	struct raccolta playlistBrano;
+struct PlaylistBrano creaAssociazionePlaylist(int idPlaylist, int idBrano) {
+	struct PlaylistBrano playlistBrano;
 	playlistBrano.idPlaylist = idPlaylist;
 	playlistBrano.idBrano = idBrano;
 	return playlistBrano;
 }
 
-database inserireAssociazionePlaylist(database db, struct raccolta playlistBrano) {
+database inserireAssociazionePlaylist(database db, struct PlaylistBrano playlistBrano) {
 	db_modificato=1;
 	int n = contareNelDatabase(db, 8);
 	db.playlistBrano[n] = playlistBrano;
 	return db;
+}
+
+void inserisciBranoAlbumSuFile(struct BranoAlbum branoAlbum) {
+	FILE* fp=fopen(file_BranoAlbum, "a");
+	if (controllaSeFileVuoto(file_BranoAlbum)==1) {
+		fprintf(fp, "%d|%d", branoAlbum.idAlbum, branoAlbum.idBrano);
+	} else {
+		fprintf(fp, "\n%d|%d", branoAlbum.idAlbum, branoAlbum.idBrano);
+	}
+	fclose(fp);
+}
+
+
+void inserisciBranoArtistaSuFile(struct BranoArtista branoArtista) {
+	FILE* fp=fopen(file_BranoArtista, "a");
+	if (controllaSeFileVuoto(file_BranoArtista)==1) {
+		fprintf(fp, "%d|%d", branoArtista.idBrano, branoArtista.idArtista);
+	} else {
+		fprintf(fp, "\n%d|%d", branoArtista.idBrano, branoArtista.idArtista);
+	}
+	fclose(fp);
+}
+
+void inserireBranoGenereSuFile(struct BranoGenere branoGenere) {
+	FILE* fp=fopen(file_BranoGenere, "a");
+	if (controllaSeFileVuoto(file_BranoGenere)==1) {
+		fprintf(fp, "%d|%d", branoGenere.idBrano, branoGenere.idGenere);
+	} else {
+		fprintf(fp, "\n%d|%d", branoGenere.idBrano, branoGenere.idGenere);
+	}
+	fclose(fp);
+}
+
+void inserisciPlaylistBranoSuFile(struct PlaylistBrano playlistBrano) {
+	FILE* fp=fopen(file_PlaylistBrano,"a");
+	if (controllaSeFileVuoto(file_PlaylistBrano)==1) {
+		fprintf(fp, "%d|%d", playlistBrano.idPlaylist, playlistBrano.idBrano);
+	} else {
+		fprintf(fp, "\n%d|%d", playlistBrano.idPlaylist, playlistBrano.idBrano);
+	}
+	fclose(fp);
 }
 
 database cancellaAssociazioniBrano(database db, int id) {

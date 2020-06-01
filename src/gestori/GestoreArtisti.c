@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 5 - 29.05.2020
+ * Ampere 0.2 rev. 12 -01.06.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -118,22 +118,12 @@ int controlloEsistenzaArtista(database db, char nomearte[]) {
 	return id;
 }
 
-void inserisciArtistiSuFile(int id, char nome[], char cognome[], char nomearte[], char linkbio[]) {
+void inserisciArtistiSuFile(struct artisti artista) {
 	FILE* fp=fopen(file_artisti, "a");
 	if (controllaSeFileVuoto(file_artisti)==1) {
-		fprintf(fp, "%d|%s|%s|%s|%s", id, nome, cognome, nomearte, linkbio);
+		fprintf(fp, "%d|%s|%s|%s|%s", artista.id, artista.nome, artista.cognome, artista.nomearte, artista.linkbio);
 	} else {
-		fprintf(fp, "\n%d|%s|%s|%s|%s", id, nome, cognome, nomearte, linkbio);
-	}
-	fclose(fp);
-}
-
-void inserisciAssociazioneArtistiSuFile(int idbrano, int idartista) {
-	FILE* fp=fopen(file_associazioneartisti, "a");
-	if (controllaSeFileVuoto(file_associazioneartisti)==1) {
-		fprintf(fp, "%d|%d", idbrano, idartista);
-	} else {
-		fprintf(fp, "\n%d|%d", idbrano, idartista);
+		fprintf(fp, "\n%d|%s|%s|%s|%s", artista.id, artista.nome, artista.cognome, artista.nomearte, artista.linkbio);
 	}
 	fclose(fp);
 }
@@ -253,7 +243,7 @@ database cancellaSingoloArtista(database db, int id) {
 		i++;
 	}
 	db_modificato=1;
-	printf("\nAlbum cancellato.");
+	printf("\nArtista cancellato.");
 	return db;
 }
 

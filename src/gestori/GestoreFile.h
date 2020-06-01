@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 5 - 29.05.2020
+ * Ampere 0.2 rev. 12 -01.06.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -85,43 +85,43 @@ void salvaUtentiSuFile(database db);
 // Associazioni
 /**
  *	@input istanza database
- *	Operazioni per il salvataggio delle associazioni brano-album nel file "file_collezione"
- *	Si avvale di backupFile per salvare, temporaneamente, "file_collezione" su "temp_collezione.txt"
- *	Cancella "file_collezione" attraverso "remove"
- *	Esegue inserisciCollezioneSuFile, ricreando, dunque, "file_collezione" ed inserendo record per record le informazioni
- *	Cancella "temp_collezione.txt" attraverso "remove" una volta finito il processo di inserimento
+ *	Operazioni per il salvataggio delle associazioni brano-album nel file "file_BranoAlbum"
+ *	Si avvale di backupFile per salvare, temporaneamente, "file_BranoAlbum" su "temp_BranoAlbum.txt"
+ *	Cancella "file_BranoAlbum" attraverso "remove"
+ *	Esegue inserisciBranoArtistaSuFile, ricreando, dunque, "file_BranoAlbum" ed inserendo record per record le informazioni
+ *	Cancella "temp_BranoAlbum.txt" attraverso "remove" una volta finito il processo di inserimento
  */
-void salvaCollezioneSuFile(database db);
+void salvaBranoAlbumSuFile(database db);
 
 /**
  *	@input istanza database
- *	Operazioni per il salvataggio delle associazioni brano-artista nel file "file_associazioneartisti"
- *	Si avvale di backupFile per salvare, temporaneamente, "file_associazioneartisti" su "temp_associazioneartisti.txt"
- *	Cancella "file_associazioneartisti" attraverso "remove"
- *	Esegue inserisciAssociazioneArtistiSuFile, ricreando, dunque, "file_associazioneartisti"
+ *	Operazioni per il salvataggio delle associazioni brano-artista nel file "file_BranoArtista"
+ *	Si avvale di backupFile per salvare, temporaneamente, "file_BranoArtista" su "temp_BranoArtista.txt"
+ *	Cancella "file_BranoArtista" attraverso "remove"
+ *	Esegue inserisciBranoArtistaSuFile, ricreando, dunque, "file_BranoArtista"
  *	ed inserendo record per record le informazioni
- *	Cancella "temp_associazioneartisti.txt" attraverso "remove" una volta finito il processo di inserimento
+ *	Cancella "temp_BranoArtista.txt" attraverso "remove" una volta finito il processo di inserimento
  */
 void salvaAssociazioniArtistiSuFile(database db);
 
 /**
  *	@input istanza database
- *	Operazioni per il salvataggio delle associazioni brano-genere nel file "file_tipobrano"
- *	Si avvale di backupFile per salvare, temporaneamente, "file_tipobrano" su "temp_tipobrano.txt"
- *	Cancella "file_tipobrano" attraverso "remove"
- *	Esegue inserireTipiBraniSuFile, ricreando, dunque, "file_tipobrano" ed inserendo record per record le informazioni
- *	Cancella "temp_tipobrano.txt" attraverso "remove" una volta finito il processo di inserimento
+ *	Operazioni per il salvataggio delle associazioni brano-genere nel file "file_BranoGenere"
+ *	Si avvale di backupFile per salvare, temporaneamente, "file_BranoGenere" su "temp_BranoGenere.txt"
+ *	Cancella "file_BranoGenere" attraverso "remove"
+ *	Esegue inserireBranoGenereSuFile, ricreando, dunque, "file_BranoGenere" ed inserendo record per record le informazioni
+ *	Cancella "temp_BranoGenere.txt" attraverso "remove" una volta finito il processo di inserimento
  */
-void salvaTipiBraniSuFile(database db);
+void salvaBranoGenereSuFile(database db);
 
 /**
  *	@input istanza database
- *	Operazioni per il salvataggio delle associazioni playlist-brano nel file "file_raccolta"
- *	Si avvale di backupFile per salvare, temporaneamente, "file_raccolta" su "temp_raccolta.txt"
- *	Cancella "file_raccolta" attraverso "remove"
- *	Esegue inserisciRaccoltaSuFile, ricreando, dunque, "file_raccolta" ed inserendo record per record le informazioni
- *	Cancella "temp_raccolta.txt" attraverso "remove" una volta finito il processo di inserimento
+ *	Operazioni per il salvataggio delle associazioni playlist-brano nel file "file_PlaylistBrano"
+ *	Si avvale di backupFile per salvare, temporaneamente, "file_PlaylistBrano" su "temp_PlaylistBrano.txt"
+ *	Cancella "file_PlaylistBrano" attraverso "remove"
+ *	Esegue inserisciPlaylistBranoSuFile, ricreando, dunque, "file_PlaylistBrano" ed inserendo record per record le informazioni
+ *	Cancella "temp_PlaylistBrano.txt" attraverso "remove" una volta finito il processo di inserimento
  */
-void salvaRaccoltaSuFile(database db);
+void salvaPlaylistBranoSuFile(database db);
 
 #endif /* GESTORI_GESTOREFILE_H_ */
