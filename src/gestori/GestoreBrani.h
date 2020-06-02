@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 12 -01.06.2020
+ * Ampere 0.2 rev. 17 - 02.06.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -29,9 +29,9 @@ database inserimentoBranoGuidato(database db);
  *	e crea un record con esse. Si avvale del database in input per ottenere l'ultimo identificativo
  *	@output record brano compilato
  */
-struct brani creaBrano(char titolo[], int durata, int anno, int ascolti);
+struct Brano creaBrano(char titolo[], int durata, int anno, int ascolti);
 
-void mostrareAnteprimaBrano(database db, struct brani nuovoBrano, int id_artisti[], int id_album[], int id_generi[]);
+void mostrareAnteprimaBrano(database db, struct Brano nuovoBrano, int idArtisti[], int idAlbum[], int idGeneri[]);
 /**
  *	@input istanza database, record brani brano
  *	Ottiene in input il record brano gia' compilato con creaBrano e gli assegna l'ultima posizione
@@ -39,15 +39,15 @@ void mostrareAnteprimaBrano(database db, struct brani nuovoBrano, int id_artisti
  *	inserireAssociazione...
  *	@output database modificato
  */
-database inserireBrano(database db, struct brani nuovoBrano, int id_artisti[], int id_album[], int id_generi[]);
-database controllaEsistenzaBrano(database db, struct brani nuovoBrano);
+database inserireBrano(database db, struct Brano nuovoBrano, int idArtisti[], int idAlbum[], int idGeneri[]);
+database controllaEsistenzaBrano(database db, struct Brano nuovoBrano);
 
 /**
- *	@input struct brani brano
+ *	@input struct Brano brano
  *	Scrive sul file "file_brani", le informazioni date in input, separate con separatore pipe "|"
  *	@output FILE modificato
  */
-void inserisciBranoSuFile(struct brani brano);
+void inserisciBranoSuFile(struct Brano brano);
 
 /**
  *	TODO: adeguare modifica allo standard imposto dalle specifiche

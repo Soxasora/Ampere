@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 12 -01.06.2020
+ * Ampere 0.2 rev. 17 - 02.06.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -38,7 +38,7 @@ database creareGenereSeNonEsiste(database db, char nome[]) {
 	int id = controllareEsistenzaGenere(db, nome);
 	if (id==0) {
 		printf("\nSembra che questo genere non esista nel database");
-		struct generi nuovoGenere = creareGenere(nome);
+		struct Genere nuovoGenere = creareGenere(nome);
 		mostrareAnteprimaGenere(nuovoGenere);
 		pulisciBuffer();
 		while (controllo!=-1) {
@@ -62,19 +62,19 @@ database creareGenereSeNonEsiste(database db, char nome[]) {
 	return db;
 }
 
-struct generi creareGenere(char nome[]) {
-	struct generi nuovoGenere;
+struct Genere creareGenere(char nome[]) {
+	struct Genere nuovoGenere;
 	nuovoGenere.id = -1;
 	strcpy(nuovoGenere.nome, nome);
 	return nuovoGenere;
 }
 
-void mostrareAnteprimaGenere(struct generi nuovoGenere) {
+void mostrareAnteprimaGenere(struct Genere nuovoGenere) {
 	printf("\nIl genere che stai per inserire ha questi dettagli:"
 		   "\nNome: %s", nuovoGenere.nome);
 }
 
-database inserireGenere(database db, struct generi nuovoGenere) {
+database inserireGenere(database db, struct Genere nuovoGenere) {
 	db_modificato=1;
 	int n = contareNelDatabase(db, 3);
 	nuovoGenere.id = trovareUltimoId(db, 3)+1;
@@ -82,7 +82,7 @@ database inserireGenere(database db, struct generi nuovoGenere) {
 	return db;
 }
 
-void inserireGenereSuFile(struct generi genere) {
+void inserireGenereSuFile(struct Genere genere) {
 	FILE* fp=fopen(file_generi, "a");
 	if (controllaSeFileVuoto(file_generi)==1) {
 		fprintf(fp, "%d|%s", genere.id, genere.nome);
@@ -189,9 +189,9 @@ database cancellareGenere(database db, int id) {
 		i++;
 	}
 	db.genere[n-1].id = 0;
-	int nbrani=contareNelDatabase(db,7);
+	int nBrani=contareNelDatabase(db,7);
 	i=0;
-	while (i<nbrani) {
+	while (i<nBrani) {
 		if(db.branoGenere[i].idGenere==id) {
 			db = cancellaSingoloBrano(db, db.branoGenere[i].idBrano);
 			i=-1;

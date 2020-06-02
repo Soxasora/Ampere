@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 12 -01.06.2020
+ * Ampere 0.2 rev. 17 - 02.06.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -25,7 +25,7 @@ database inserimentoAlbumGuidato(database db);
  *	Crea l'album con creaAlbum e lo passa a inserireAlbum
  *	@output database modificato
  */
-database creaAlbumGuidato(database db, char titolo_album[]);
+database creaAlbumGuidato(database db, char titoloAlbum[]);
 
 /**
  *	@input istanza database, stringa titolo dell'album
@@ -34,7 +34,7 @@ database creaAlbumGuidato(database db, char titolo_album[]);
  *	altrimenti comunica all'utente che l'album esiste gia', dunque non procedendo con l'inserimento
  *	@output database modificato
  */
-database creaAlbumSeNonEsiste(database db, char titolo_album[]);
+database creaAlbumSeNonEsiste(database db, char titoloAlbum[]);
 
 /**
  * 	@input istanza database, stringa titolo dell'album, numero intero anno di uscita
@@ -42,23 +42,23 @@ database creaAlbumSeNonEsiste(database db, char titolo_album[]);
  *	e crea un record con esse. Si avvale del database in input per ottenere l'ultimo identificativo
  *	@output record album compilato
  */
-struct albums creaAlbum(char titolo[], int anno);
+struct Album creaAlbum(char titolo[], int anno);
 
-void mostrareAnteprimaAlbum(struct albums nuovoAlbum);
+void mostrareAnteprimaAlbum(struct Album nuovoAlbum);
 
 /**
  *	@input istanza database, record albums album
  *	Ottiene in input il record album gia' compilato con creaAlbum e gli assegna l'ultima posizione
  *	@output database modificato
  */
-database inserireAlbum(database db, struct albums nuovoAlbum);
+database inserireAlbum(database db, struct Album nuovoAlbum);
 
 /**
- *	@input struct albums album
+ *	@input struct Album album
  *	Scrive sul file "file_albums", le informazioni date in input, separate con separatore pipe "|"
  *	@output FILE modificato
  */
-void inserisciAlbumSuFile(struct albums album);
+void inserisciAlbumSuFile(struct Album album);
 
 /**
  *	@input istanza database, stringa titolo album

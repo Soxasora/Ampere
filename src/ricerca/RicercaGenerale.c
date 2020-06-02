@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 12 -01.06.2020
+ * Ampere 0.2 rev. 17 - 02.06.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -30,7 +30,7 @@ void ricerca(database db, int modalita, char interrogazione[], bool light) {
 		while (i<n) {
 			if (comparaStringheParziale(db.brano[i].titolo, interrogazione)
 				||comparaStringheParziale(db.album[ottenerePosDaID(db, 1,db.branoAlbum[ottenerePosDaID(db, 6, db.brano[i].id)].idAlbum)].titolo, interrogazione)
-				||comparaStringheParziale(db.artista[ottenerePosDaID(db, 2,db.branoArtista[ottenerePosDaID(db, 5, db.brano[i].id)].idArtista)].nomearte, interrogazione)
+				||comparaStringheParziale(db.artista[ottenerePosDaID(db, 2,db.branoArtista[ottenerePosDaID(db, 5, db.brano[i].id)].idArtista)].nomeArte, interrogazione)
 				||db.brano[i].anno==atoi(interrogazione)) {
 				if (light) {
 					if (conta<3) {
@@ -97,10 +97,10 @@ void ricerca(database db, int modalita, char interrogazione[], bool light) {
 		while (i<n) {
 			if (comparaStringheParziale(db.artista[i].nome, interrogazione)
 				||comparaStringheParziale(db.artista[i].cognome, interrogazione)
-				||comparaStringheParziale(db.artista[i].nomearte, interrogazione)) {
+				||comparaStringheParziale(db.artista[i].nomeArte, interrogazione)) {
 				if (light) {
 					if (conta<3) {
-						printf("\n%d. Nome d'Arte: %s", conta+1, db.artista[i].nomearte);
+						printf("\n%d. Nome d'Arte: %s", conta+1, db.artista[i].nomeArte);
 					}
 				} else {
 					printf("\n");

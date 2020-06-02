@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 12 -01.06.2020
+ * Ampere 0.2 rev. 17 - 02.06.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -10,17 +10,18 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../gestori/GestoreAssociazioni.h"
+
+#include "../database/Album.h"
+#include "../database/Artista.h"
+#include "../database/Brano.h"
 #include "../gestori/GestoreFile.h"
 #include "../gestori/GestoreBrani.h"
 #include "../gestori/GestoreArtisti.h"
 #include "../gestori/GestoreAlbum.h"
 #include "../gestori/GestoreGeneri.h"
-#include "../database/Albums.h"
-#include "../database/Artisti.h"
-#include "../database/Generi.h"
-#include "../database/Brani.h"
 #include "../database/Database.h"
 #include "../database/DatabaseUtils.h"
+#include "../database/Genere.h"
 #include "../sys/Utils.h"
 #include "../sys/Impostazioni.h"
 

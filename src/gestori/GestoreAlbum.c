@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 12 -01.06.2020
+ * Ampere 0.2 rev. 17 - 02.06.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -32,18 +32,18 @@ database inserimentoAlbumGuidato(database db) {
 	return db;
 }
 
-database creaAlbumGuidato(database db, char titolo_album[]) {
+database creaAlbumGuidato(database db, char titoloAlbum[]) {
 	char scelta='a';
 	int controllo=0;
 	int anno=0;
 	printf("\n===[Inserimento guidato di un album]===");
-	printf("\nTitolo: %s", titolo_album);
+	printf("\nTitolo: %s", titoloAlbum);
 	pulisciBuffer();
 	while (anno<=1950||anno>2020) {
 		printf("\nInserisci l'anno di uscita di quest'album: ");
 		scanf("%d", &anno);
 	}
-	struct albums nuovoAlbum = creaAlbum(titolo_album, anno);
+	struct Album nuovoAlbum = creaAlbum(titoloAlbum, anno);
 	mostrareAnteprimaAlbum(nuovoAlbum);
 	pulisciBuffer();
 	while (controllo!=-1) {
@@ -63,11 +63,11 @@ database creaAlbumGuidato(database db, char titolo_album[]) {
 	return db;
 }
 
-database creaAlbumSeNonEsiste(database db, char titolo_album[]) {
-	int id = controlloEsistenzaAlbum(db, titolo_album);
+database creaAlbumSeNonEsiste(database db, char titoloAlbum[]) {
+	int id = controlloEsistenzaAlbum(db, titoloAlbum);
 	if (id==0) {
 		printf("\nSembra che quest'album non esista nel database, inseriamolo.");
-		db = creaAlbumGuidato(db, titolo_album);
+		db = creaAlbumGuidato(db, titoloAlbum);
 	} else {
 		printf("\nAlbum esistente.");
 		db.ultimoEsito=0;
@@ -75,21 +75,21 @@ database creaAlbumSeNonEsiste(database db, char titolo_album[]) {
 	return db;
 }
 
-struct albums creaAlbum(char titolo[], int anno) {
-	struct albums nuovoAlbum;
+struct Album creaAlbum(char titolo[], int anno) {
+	struct Album nuovoAlbum;
 	nuovoAlbum.id = -1;
 	strcpy(nuovoAlbum.titolo, titolo);
 	nuovoAlbum.anno = anno;
 	return nuovoAlbum;
 }
 
-void mostrareAnteprimaAlbum(struct albums nuovoAlbum) {
+void mostrareAnteprimaAlbum(struct Album nuovoAlbum) {
 	printf("\nL'album che stai per inserire ha questi dettagli:"
 		   "\nNome: %s"
 		   "\nAnno: %d", nuovoAlbum.titolo, nuovoAlbum.anno);
 }
 
-database inserireAlbum(database db, struct albums nuovoAlbum) {
+database inserireAlbum(database db, struct Album nuovoAlbum) {
 	db_modificato=1;
 	int n = contareNelDatabase(db, 1);
 	nuovoAlbum.id = trovareUltimoId(db,1)+1;
@@ -97,7 +97,7 @@ database inserireAlbum(database db, struct albums nuovoAlbum) {
 	return db;
 }
 
-void inserisciAlbumSuFile(struct albums album) {
+void inserisciAlbumSuFile(struct Album album) {
 	FILE* fp=fopen(file_albums, "a");
 	if (controllaSeFileVuoto(file_albums)==1) {
 		fprintf(fp, "%d|%s|%d", album.id, album.titolo, album.anno);
@@ -210,9 +210,9 @@ database cancellaSingoloAlbum(database db, int id) {
 	}
 	db.album[n-1].id = 0;
 
-	int nbrani=contareNelDatabase(db,6);
+	int nBrani=contareNelDatabase(db,6);
 	i=0;
-	while (i<nbrani) {
+	while (i<nBrani) {
 		if(db.branoAlbum[i].idAlbum==id) {
 			db = cancellaSingoloBrano(db, db.branoAlbum[i].idBrano);
 			i=-1;

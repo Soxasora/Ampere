@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 12 -01.06.2020
+ * Ampere 0.2 rev. 17 - 02.06.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -291,11 +291,11 @@ int ottenerePosDaID(database db, int modalita, int id) {
 int* ottenerePosAssociazioniDaID(database db, int modalita, int id) {
 	int i=0, j=0;
 	int n=contareNelDatabase(db, modalita);
-	int* n_associazioni = calloc(MAX_MEDIO, sizeof(int));
+	int* nAssociazioni = calloc(MAX_MEDIO, sizeof(int));
 	if (modalita==5) {
 		while(i<n) {
 			if (db.branoArtista[i].idBrano==id) {
-				n_associazioni[j]=i;
+				nAssociazioni[j]=i;
 				j++;
 			}
 			i++;
@@ -303,7 +303,7 @@ int* ottenerePosAssociazioniDaID(database db, int modalita, int id) {
 	} else if (modalita==6) {
 		while (i<n) {
 			if (db.branoAlbum[i].idBrano==id) {
-				n_associazioni[j]=i;
+				nAssociazioni[j]=i;
 				j++;
 			}
 			i++;
@@ -311,7 +311,7 @@ int* ottenerePosAssociazioniDaID(database db, int modalita, int id) {
 	} else if (modalita==7) {
 		while (i<n) {
 			if (db.branoGenere[i].idBrano==id) {
-				n_associazioni[j]=i;
+				nAssociazioni[j]=i;
 				j++;
 			}
 			i++;
@@ -319,13 +319,13 @@ int* ottenerePosAssociazioniDaID(database db, int modalita, int id) {
 	} else if (modalita==8) {
 		while (i<n) {
 			if (db.playlistBrano[i].idPlaylist==id) {
-				n_associazioni[j]=i;
+				nAssociazioni[j]=i;
 				j++;
 			}
 			i++;
 		}
 	}
-	return n_associazioni;
+	return nAssociazioni;
 }
 
 void backupDatabase() {
@@ -402,7 +402,7 @@ database ripristinaDatabase(database db) {
 			backupFile(percorso_backup, file_PlaylistBrano);
 			sprintf(percorso_backup, "backup\\%s\\utenti.txt", nome_backup);
 			backupFile(percorso_backup, file_utenti);
-			db = ottieniDatabase(1, db);
+			db = ottenereDatabase(1, db);
 			printf(" Ripristino dal backup %s effettuato.", nome_backup);
 		} else {
 			printf("\nUscendo dal ripristino...");

@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 12 -01.06.2020
+ * Ampere 0.2 rev. 17 - 02.06.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -72,7 +72,7 @@ void backupDatabase();
  *	Chiede in input, all'utente, il nome del backup da ripristinare, in base ad esso, si posizionera'
  *	sulla cartella del backup selezionato e successivamente copiera' i file all'interno di essa, nella
  *	cartella originale del database.
- *	Infine procedera' a chiamare ottieniDatabase per ricaricare in memoria il database appena ripristinato
+ *	Infine procedera' a chiamare ottenereDatabase per ricaricare in memoria il database appena ripristinato
  *	@output database ripristinato
  */
 database ripristinaDatabase(database db);

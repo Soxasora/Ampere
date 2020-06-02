@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 12 -01.06.2020
+ * Ampere 0.2 rev. 17 - 02.06.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -24,7 +24,7 @@ int main() {
 	infoUtenteConnesso(db);
 	printf("\nPremi invio per continuare.");
 	db = menu(db);
-	terminazione(db);
+	db = terminazione(db);
 	aspetta();
 	pulisciBuffer();
 	return 0;
@@ -43,31 +43,33 @@ database inizializzazione(database db) {
 	printf("\n----------------------------------------");
 
 	// Carico il database
-	int esito = creaDatabaseSeNonEsiste();
+	int esito = creareDatabaseSeNonEsiste();
 	if (esito!=0) {
 		printf(C_ROSSO"\nSi e' verificato un errore interno. Sto chiudendo Ampere..."C_RESET);
 	} else {
 
 		// Ottengo il database degli utenti prima di caricare completamente il database
-		db = ottieniDatabase(-1,db);
+		db = ottenereDatabase(-1,db);
 
 		// Effettuo il login
 		db = menuLogin(db);
 
 		// Ottengo il resto del database e tutti i sotto database con esso
-		db = ottieniDatabase(0,db);
+		db = ottenereDatabase(0,db);
 		printf("\n\nAmpere Pronto.");
 		printf("\n----------------------------------------\n");
 	}
 	return db;
 }
 
-void terminazione(database db) {
+database terminazione(database db) {
 	printf(C_GIALLO"\nPreparazione alla chiusura in corso...");
 	if (db_modificato==1) {
 		printf("\nUn momento, sto salvando i dati... "C_ROSSO"Non chiudere Ampere in questo momento."C_RESET);
 		salvaModificheSuFile(db);
 		printf(" Fatto.");
 	}
+	db = liberareDatabase(db);
 	printf(C_VERDE"\nPronto per essere chiuso."C_RESET);
+	return db;
 }

@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 12 -01.06.2020
+ * Ampere 0.2 rev. 17 - 02.06.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -78,16 +78,16 @@ database registrareUtente(database db);
  *	e crea un record con esse. Si avvale del database in input per ottenere l'ultimo identificativo
  *	@output record nuovoUtente compilato
  */
-struct utenti creareUtente(char username[], char password[], bool admin);
+struct Utente creareUtente(char username[], char password[], bool admin);
 
-void mostrareAnteprimaUtente(struct utenti nuovoUtente);
+void mostrareAnteprimaUtente(struct Utente nuovoUtente);
 
 /**
  *	@input istanza database, record Utente nuovoUtente
  *	Ottiene in input il record nuovoUtente gia' compilato con creareUtente e gli assegna l'ultima posizione
  *	@output database modificato
  */
-database inserireUtente(database db, struct utenti nuovoUtente);
+database inserireUtente(database db, struct Utente nuovoUtente);
 
 /**
  *	@input istanza database, stringa nome utente
@@ -98,11 +98,11 @@ database inserireUtente(database db, struct utenti nuovoUtente);
 bool controllareEsistenzaUtente(database db, char username[]);
 
 /**
- *	@input struct utenti utente, booleano admin
+ *	@input struct Utente utente, booleano admin
  *	Scrive sul file "file_utenti", le informazioni date in input, separate con separatore pipe "|"
  *	@output FILE modificato
  */
-void inserireUtenteSuFile(struct utenti utente, char admin[]);
+void inserireUtenteSuFile(struct Utente utente, char admin[]);
 
 /**
  *	TODO: adeguare modifica allo standard imposto dalle specifiche

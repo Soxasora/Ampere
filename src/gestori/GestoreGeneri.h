@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 12 -01.06.2020
+ * Ampere 0.2 rev. 17 - 02.06.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -34,23 +34,23 @@ database creareGenereSeNonEsiste(database db, char nome[]);
  *	e crea un record con esse. Si avvale del database in input per ottenere l'ultimo identificativo
  *	@output record genere compilato
  */
-struct generi creareGenere(char nome[]);
+struct Genere creareGenere(char nome[]);
 
-void mostrareAnteprimaGenere(struct generi nuovoGenere);
+void mostrareAnteprimaGenere(struct Genere nuovoGenere);
 
 /**
  *	@input istanza database, record generi genere
  *	Ottiene in input il record genere gia' compilato con creareGenere e gli assegna l'ultima posizione
  *	@output database modificato
  */
-database inserireGenere(database db, struct generi nuovoGenere);
+database inserireGenere(database db, struct Genere nuovoGenere);
 
 /**
- *	@input struct generi genere
+ *	@input struct Genere genere
  *	Scrive sul file "file_generi", le informazioni date in input, separate con separatore pipe "|"
  *	@output FILE modificato
  */
-void inserireGenereSuFile(struct generi genere);
+void inserireGenereSuFile(struct Genere genere);
 
 /**
  *	@input istanza database, stringa nome del genere

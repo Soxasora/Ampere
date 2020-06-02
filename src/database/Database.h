@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 12 -01.06.2020
+ * Ampere 0.2 rev. 17 - 02.06.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -10,12 +10,12 @@
 #define GESTORE_DATABASE_H_
 #include "../database/Database.h"
 #include "../sys/Impostazioni.h"
-#include "Brani.h"
-#include "Artisti.h"
-#include "Albums.h"
-#include "Generi.h"
-#include "Playlists.h"
-#include "Utenti.h"
+#include "Album.h"
+#include "Artista.h"
+#include "Brano.h"
+#include "Genere.h"
+#include "Playlist.h"
+#include "Utente.h"
 
 /**
  * Struttura 'database' contenente
@@ -34,16 +34,16 @@
  */
 typedef struct database_locale {
 	int utenteCorrente;
-	struct brani* brano;
-	struct artisti* artista;
+	struct Brano* brano;
+	struct Artista* artista;
 		struct BranoArtista* branoArtista;
-	struct albums* album;
+	struct Album* album;
 		struct BranoAlbum* branoAlbum;
-	struct generi* genere;
+	struct Genere* genere;
 		struct BranoGenere* branoGenere;
-	struct playlists* playlist;
+	struct Playlist* playlist;
 		struct PlaylistBrano* playlistBrano;
-	struct utenti* utente;
+	struct Utente* utente;
 	int ultimoEsito;
 } database;
 
@@ -56,7 +56,7 @@ int db_modificato;
  *	In caso di errore, ritorna esito negativo
  *	@return esito
  */
-int creaDatabaseSeNonEsiste();
+int creareDatabaseSeNonEsiste();
 
 /**
  * -1: caricamento solo utente
@@ -66,7 +66,7 @@ int creaDatabaseSeNonEsiste();
  *	Carica in memoria l'intero database presente nei file
  *	@return database carico
  */
-database ottieniDatabase(int modalita, database db);
+database ottenereDatabase(int modalita, database db);
 
 /**
  * 	@input istanza database
@@ -74,7 +74,7 @@ database ottieniDatabase(int modalita, database db);
  *	Se non sono presenti brani, assume valore zero
  *	@return database carico di brani
  */
-database ottieniBrani(database db);
+database ottenereBrani(database db);
 
 /**
  * 	@input istanza database
@@ -82,7 +82,7 @@ database ottieniBrani(database db);
  *	Se non sono presenti album, assume valore zero
  *	@return database carico di album
  */
-database ottieniAlbums(database db);
+database ottenereAlbums(database db);
 
 /**
  *	@input istanza database
@@ -90,7 +90,7 @@ database ottieniAlbums(database db);
  *	Se non sono presenti artisti, assume valore zero
  *	@return database carico di artisti
  */
-database ottieniArtisti(database db);
+database ottenereArtisti(database db);
 
 /**
  *	@input istanza database
@@ -98,7 +98,7 @@ database ottieniArtisti(database db);
  *	Se non sono presenti generi, assume valore zero
  *	@return database carico di generi
  */
-database ottieniGeneri(database db);
+database ottenereGeneri(database db);
 
 /**
  *	@input istanza database
@@ -106,7 +106,7 @@ database ottieniGeneri(database db);
  *	Se non sono presenti playlists, assume valore zero
  *	@return database carico di playlist
  */
-database ottieniPlaylists(database db);
+database ottenerePlaylists(database db);
 
 /**
  *	@input istanza database
@@ -114,7 +114,7 @@ database ottieniPlaylists(database db);
  *	Se non sono presenti utenti, assume valore zero
  *	@return database carico di utenti
  */
-database ottieniUtenti(database db);
+database ottenereUtenti(database db);
 
 /**
  *	@input istanza database
@@ -122,7 +122,7 @@ database ottieniUtenti(database db);
  *	Se non sono presenti associazioni di artisti, assume valore zero
  *	@return database carico di associazioni di artisti
  */
-database associaArtisti(database db);
+database associareArtisti(database db);
 
 /**
  *	@input istanza database
@@ -130,7 +130,7 @@ database associaArtisti(database db);
  *	Se non sono presenti associazioni di album, assume valore zero
  *	@return database carico di associazioni di album
  */
-database associaAlbum(database db);
+database associareAlbums(database db);
 
 /**
  *	@input istanza database
@@ -138,7 +138,7 @@ database associaAlbum(database db);
  *	Se non sono presenti associazioni di generi, assume valore zero
  *	@return database carico di associazioni di generi
  */
-database associaGeneri(database db);
+database associareGeneri(database db);
 
 /**
  *	@input istanza database
@@ -146,7 +146,7 @@ database associaGeneri(database db);
  *	Se non sono presenti associazioni di playlist, assume valore zero
  *	@return database carico di associazioni di playlist
  */
-database associaPlaylist(database db);
+database associarePlaylists(database db);
 
 /**
  *	@input istanza database, modalita' di esecuzione
@@ -155,6 +155,8 @@ database associaPlaylist(database db);
  *	non abbia effettivamente alcun dato da poter caricare, ad esempio quando il file di esso e' vuoto.
  *	@return database con parte inizializzata
  */
-database inizializzaDatabase(database db, int modalita);
+database inizializzareDatabase(database db, int modalita);
+
+database liberareDatabase(database db);
 
 #endif /* GESTORE_DATABASE_H_ */

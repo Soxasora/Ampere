@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 12 -01.06.2020
+ * Ampere 0.2 rev. 17 - 02.06.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -25,7 +25,7 @@ database inserimentoArtistaGuidato(database db);
  *	Crea l'artista con creaArtista e lo passa a inserireArtista
  *	@output database modificato
  */
-database creaArtistaGuidato(database db, char nomearte[]);
+database creaArtistaGuidato(database db, char nomeArte[]);
 
 /**
  *	@input istanza database, stringa nome d'arte dell'artista
@@ -34,7 +34,7 @@ database creaArtistaGuidato(database db, char nomearte[]);
  *	altrimenti comunica all'utente che l'artista esiste gia', dunque non procedendo con l'inserimento
  *	@output database modificato
  */
-database creaArtistaSeNonEsiste(database db, char nomearte[]);
+database creaArtistaSeNonEsiste(database db, char nomeArte[]);
 
 /**
  * 	@input istanza database, stringa nome, cognome, nome d'arte e link biografia dell'album
@@ -42,16 +42,16 @@ database creaArtistaSeNonEsiste(database db, char nomearte[]);
  *	e crea un record con esse. Si avvale del database in input per ottenere l'ultimo identificativo
  *	@output record album compilato
  */
-struct artisti creaArtista(char nome[], char cognome[], char nomearte[], char linkbio[]);
+struct Artista creaArtista(char nome[], char cognome[], char nomeArte[], char linkBio[]);
 
-void mostrareAnteprimaArtista(struct artisti nuovoArtista);
+void mostrareAnteprimaArtista(struct Artista nuovoArtista);
 
 /**
  *	@input istanza database, record artisti artista
  *	Ottiene in input il record artista gia' compilato con creaArtista e gli assegna l'ultima posizione
  *	@output database modificato
  */
-database inserireArtista(database db, struct artisti nuovoArtista);
+database inserireArtista(database db, struct Artista nuovoArtista);
 
 /**
  *	@input istanza database, stringa nome d'arte dell'artista
@@ -59,14 +59,14 @@ database inserireArtista(database db, struct artisti nuovoArtista);
  *	dell'artista dato in input e se esiste allora esce dal ciclo dando in output l'identificativo di esso
  *	@output identificativo artista
  */
-int controlloEsistenzaArtista(database db, char nomearte[]);
+int controlloEsistenzaArtista(database db, char nomeArte[]);
 
 /**
- *	@input struct artisti artista
+ *	@input struct Artista artista
  *	Scrive sul file "file_artisti", le informazioni date in input, separate con separatore pipe "|"
  *	@output FILE modificato
  */
-void inserisciArtistiSuFile(struct artisti artista);
+void inserisciArtistiSuFile(struct Artista artista);
 
 /**
  *	TODO: adeguare modifica allo standard imposto dalle specifiche

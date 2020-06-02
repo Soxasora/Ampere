@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 12 -01.06.2020
+ * Ampere 0.2 rev. 17 - 02.06.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -55,16 +55,16 @@ int contaBraniPlaylist(database db, int idPlaylist);
  *	e crea un record con esse. Si avvale del database in input per ottenere l'ultimo identificativo
  *	@output record playlist compilato
  */
-struct playlists crearePlaylist(int idUtente, char nome[], char descrizione[], bool pubblica);
+struct Playlist crearePlaylist(int idUtente, char nome[], char descrizione[], bool pubblica);
 
-void mostrareAnteprimaPlaylist(struct playlists nuovaPlaylist);
+void mostrareAnteprimaPlaylist(struct Playlist nuovaPlaylist);
 
 /**
  *	@input istanza database, record playlists playlist
  *	Ottiene in input il record playlist gia' compilato con crearePlaylist e gli assegna l'ultima posizione
  *	@output database modificato
  */
-database inserirePlaylist(database db, struct playlists playlist);
+database inserirePlaylist(database db, struct Playlist playlist);
 
 /**
  * 	@input istanza database
@@ -89,11 +89,11 @@ database crearePlaylistGuidato(database db);
 database inserimentoBraniPlaylistGuidato(database db);
 
 /**
- *	@input struct playlists playlist, booleano status privacy "pubblica"
+ *	@input struct Playlist playlist, booleano status privacy "pubblica"
  *	Scrive sul file "file_playlists", le informazioni date in input, separate con separatore pipe "|"
  *	@output FILE modificato
  */
-void inserisciPlaylistSuFile(struct playlists playlist, char pubblica[]);
+void inserisciPlaylistSuFile(struct Playlist playlist, char pubblica[]);
 
 /**
  * 	TODO: Migliorare funzione, potrebbe esserci piu' di un'occorrenza
