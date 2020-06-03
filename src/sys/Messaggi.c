@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../sys/Utils.h"
 #include "../sys/Impostazioni.h"
 
 /**
@@ -85,7 +86,22 @@ void successo(int codice) {
 	}
 }
 
-//void creaLogErrore(int codice) {
-//	//FILE* fp=fopen("log_errore.txt", "a");
-//
-//}
+char richiesta(int codice) {
+	pulisciBuffer();
+	int controllo=0;
+	char scelta='a';
+	printf("\n");
+	if (codice==0) {
+		printf(COLOR_ATTENZIONE" Sicuro di voler continuare?");
+	} else if (codice==1) {
+		printf(COLOR_ATTENZIONE" Sei uscito dalla ricerca, vuoi ancora inserire brani nella playlist?");
+	}
+	while (controllo!=-1) {
+		printf(" ["C_VERDE"Y"C_RESET"/"C_ROSSO"N"C_RESET"]: ");
+		scanf("%c", &scelta);
+		if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
+			controllo=-1;
+		}
+	}
+	return scelta;
+}

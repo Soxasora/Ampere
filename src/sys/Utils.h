@@ -8,6 +8,7 @@
 
 #ifndef SRC_SYS_UTILS_H_
 #define SRC_SYS_UTILS_H_
+#include <stdbool.h>
 
 /**
  * 	Informazioni su Ampere
@@ -54,12 +55,6 @@ int comparaStringhe(const char *s1, const char *s2);
  * 	@output risultato booleano della comparazione
  */
 bool comparaStringheParziale(const char *s1, const char *s2);
-
-/**
- * 	Funzione di richiesta posizione e nome di un file
- * 	@output stringa risultante dall'input
- */
-char *chiediFile();
 
 /**
  * 	Funzione universale per la pulizia del buffer in input

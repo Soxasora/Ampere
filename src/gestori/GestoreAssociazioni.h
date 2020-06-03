@@ -104,4 +104,12 @@ database cancellaAssociazioniArtisti(database db, int id);
 database cancellaAssociazioniAlbum(database db, int idBrano);
 database cancellaAssociazioniGenere(database db, int idBrano);
 
+/**
+ *	TODO: adeguare cancellazione allo standard imposto dalle specifiche
+ *	@input istanza database, numero intero identificativo playlist
+ *	Operazioni per la cancellazione delle associazioni della playlist (dunque i dati collegati ad essa) dal database
+ *	@output database modificato
+ */
+database cancellaAssociazioniPlaylist(database db, int id);
+
 #endif /* GESTORI_GESTOREASSOCIAZIONI_H_ */

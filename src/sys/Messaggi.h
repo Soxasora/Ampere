@@ -12,6 +12,6 @@
 void errore(int codice);
 void attenzione(int codice);
 void successo(int codice);
-void creaLogErrore(int codice);
+char richiesta(int codice);
 
 #endif /* SYS_MESSAGGI_H_ */

@@ -129,15 +129,8 @@ database cancellaAssociazioniBrano(database db, int id) {
 	db = cancellaAssociazioniAlbum(db, id);
 
 	db = cancellaAssociazioniGenere(db, id);
-	int n=0, i=0;
-	n = contareNelDatabase(db,8);
-	i = ottenerePosDaID(db, 8, id);
-	while (i<n-1) {
-		db.playlistBrano[i] = db.playlistBrano[i+1];
-		i++;
-	}
-	db.playlistBrano[n-1].idPlaylist = 0;
-	db.playlistBrano[n-1].idBrano = 0;
+
+	db = cancellaAssociazioniPlaylist(db, id);
 	return db;
 }
 
@@ -177,3 +170,17 @@ database cancellaAssociazioniGenere(database db, int idBrano) {
 	db.branoGenere[n-1].idGenere = 0;
 	return db;
 }
+
+database cancellaAssociazioniPlaylist(database db, int id) {
+	int n=contareNelDatabase(db,8);
+	int i=ottenerePosDaID(db, 8, id);
+	while (i<n-1) {
+		db.playlistBrano[i] = db.playlistBrano[i+1];
+		i++;
+	}
+	db.playlistBrano[n-1].idPlaylist = 0;
+	db.playlistBrano[n-1].idBrano = 0;
+	db_modificato=1;
+	return db;
+}
+

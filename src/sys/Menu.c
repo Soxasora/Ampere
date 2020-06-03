@@ -120,36 +120,33 @@ database menuPlaylist(database db) {
 	pulisciBuffer();
 	int scelta=-1;
 	printf("\n===[Menu Playlist]===");
-	printf("\n[1] TODO I miei brani");
-	printf("\n[2] Le mie playlist");
-	printf("\n[3] Crea playlist");
-	printf("\n[4] Inserisci brani in una playlist");
-	printf("\n[5] Modifica playlist");
-	printf("\n[6] Cancella playlist");
+	printf("\n[1] Le mie playlist");
+	printf("\n[2] Crea playlist");
+	printf("\n[3] Inserisci brani in una playlist");
+	printf("\n[4] Modifica playlist");
+	printf("\n[5] Cancella playlist");
 	printf("\n[0] Ritorna al menu precedente");
 	while (scelta<0||scelta>6) {
 		printf("\nInserisci la tua scelta: ");
 		scanf("%d", &scelta);
 	}
 	if (scelta==1) {
-		//TODO
-	} else if (scelta==2) {
 		mostraPlaylistUtente(db, 0,db.utenteCorrente);
 		aspetta();
 		db = menuPlaylist(db);
-	} else if (scelta==3) {
+	} else if (scelta==2) {
 		db = crearePlaylistGuidato(db);
 		aspetta();
 		db = menuPlaylist(db);
-	} else if (scelta==4) {
+	} else if (scelta==3) {
 		db = inserimentoBraniPlaylistGuidato(db);
 		aspetta();
 		db = menuPlaylist(db);
-	} else if (scelta==5) {
+	} else if (scelta==4) {
 		db = modificaPlaylist(db);
 		aspetta();
 		db = menuPlaylist(db);
-	} else if (scelta==6) {
+	} else if (scelta==5) {
 		db = cancellaPlaylist(db);
 		aspetta();
 		db = menuPlaylist(db);

@@ -6,17 +6,21 @@
  * Maggiori informazioni sul copyright su https://github.com/Soxasora/Ampere/blob/master/LICENSE
  */
 
+// C
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 // WINDOWS
-#include <strings.h>
-#include <io.h>
-#include <shlwapi.h>
-// UNIX
-#include <sys/stat.h>
-#include <unistd.h>
+#ifdef _WIN32
+	#include <strings.h>
+	#include <io.h>
+	#include <shlwapi.h>
+#elif __unix__ // UNIX
+	#include <sys/stat.h>
+	#include <unistd.h>
+#endif
+// AMPERE
 #include "../gestori/GestoreBrani.h"
 #include "../gestori/GestoreAlbum.h"
 #include "../gestori/GestoreArtisti.h"
@@ -61,6 +65,7 @@ void apriLink(char link[]) {
 }
 
 void creaCartella(char nome[], bool silenzioso) {
+	// Utilizzo di ifdef perché mkdir e' una funzione che ha un omonimo
 	#ifdef _WIN32
 		int risultato=0;
 		risultato = _mkdir(nome);
@@ -88,14 +93,16 @@ void creaCartella(char nome[], bool silenzioso) {
 
 char* inputStringaSicuro(int lunghezza, char stringa[]) {
 	fgets(stringa, lunghezza, stdin);
-	int i=0;
-	while (i<strlen(stringa)) {
+	int i=0, lunghezzaStringa = strlen(stringa);
+	while (i<lunghezzaStringa) {
 		if (stringa[i]=='|') {
 			stringa[i] = ',';
 		}
 		i++;
 	}
+	// Cancella fine linea indesiderato
 	strtok(stringa, "\n");
+	// Controlla se l'utente non inserisce niente
 	if (stringa[0]=='\n') {
 		stringa = "N/A";
 	}
@@ -122,14 +129,6 @@ bool comparaStringheParziale(const char *s1, const char *s2) {
 	return risultato;
 }
 
-char *chiediFile() {
-	pulisciBuffer();
-	char *nomeFile = malloc(MAX_ENORME);
-	printf("\nInserisci locazione e nome file [esempio\\esempio.extension] da utilizzare: ");
-	scanf("%s", nomeFile);
-	return nomeFile;
-}
-
 void pulisciBuffer() {
 	int c;
 	while ((c = getchar()) != '\n' && c != EOF) { }
@@ -137,7 +136,6 @@ void pulisciBuffer() {
 
 int controllaSeFileVuoto(char *file) {
 	FILE* fp=fopen(file, "r");
-	// Proof of concept, cambiare in qualcosa di più sicuro
 	int c = fgetc(fp);
 	fclose(fp);
 	if (c == EOF) {
@@ -148,27 +146,21 @@ int controllaSeFileVuoto(char *file) {
 }
 
 void backupFile(char *file1, char *file2) {
-	int controllo=0;
 	FILE *fp, *fp2;
 	char c;
 	fp = fopen(file1, "r");
 	if (fp==NULL) {
 		perror("\nImpossibile aprire il file d'origine: ");
-		controllo=-1;
-	}
-
-	fp2 = fopen(file2, "w");
-	if (fp2==NULL&&controllo!=-1) {
-		perror("\nImpossibile creare il file di backup: ");
-		controllo=-1;
-	}
-
-	// Proof of concept, cambiare in qualcosa di più sicuro
-	if (controllo!=-1) {
-		c=fgetc(fp);
-		while (c!=EOF) {
-			fputc(c, fp2);
+	} else {
+		fp2 = fopen(file2, "w");
+		if (fp2==NULL) {
+			perror("\nImpossibile creare il file di backup: ");
+		} else {
 			c=fgetc(fp);
+			while (c!=EOF) {
+				fputc(c, fp2);
+				c=fgetc(fp);
+			}
 		}
 	}
 	fclose(fp); fclose(fp2);
@@ -179,7 +171,7 @@ char *convertiSecondiInTempo(int secondi) {
 	int m=(secondi -(3600*h))/60;
 	int s=(secondi -(3600*h)-(m*60));
 	char *hhmmss = malloc(MAX_MEDIO);
-	sprintf(hhmmss, "%d:%d:%d", h, m, s);
+	sprintf(hhmmss, "%d ore, %d minuti, %d secondi", h, m, s);
 	return hhmmss;
 }
 

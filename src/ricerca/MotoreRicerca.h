@@ -132,6 +132,11 @@ void mostraTuttiUtenti(database db);
 /**
  *
  */
+database moduloRicercaBrani(database db);
+
+/**
+ *
+ */
 int mostraInfo(database db, int modalita);
 
 /**

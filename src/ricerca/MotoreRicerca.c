@@ -35,31 +35,31 @@ void mostraSingoloBrano(database db, int id) {
 		   "\nArtisti: ", db.brano[posBrano].id, db.brano[posBrano].titolo, convertiSecondiInTempo(db.brano[posBrano].durata));
 
 	i=0;
-	while (posArtisti[i]!=0) {
+	do {
 		int posArtista = ottenerePosDaID(db, 2, db.branoArtista[posArtisti[i]].idArtista);
 		if (i!=0)
 			printf(", ");
 		printf("%s", db.artista[posArtista].nomeArte);
 		i++;
-	}
+	} while (posArtisti[i]!=0);
 	printf("\nAlbum: ");
 	i=0;
-	while (posAlbums[i]!=0) {
+	do {
 		int posAlbum = ottenerePosDaID(db, 1, db.branoAlbum[posAlbums[i]].idAlbum);
 		if (i!=0)
 			printf(", ");
 		printf("%s", db.album[posAlbum].titolo);
 		i++;
-	}
+	} while (posAlbums[i]!=0);
 	printf("\nGeneri: ");
 	i=0;
-	while (posGeneri[i]!=0) {
+	do {
 		int posGenere = ottenerePosDaID(db, 3, db.branoGenere[posGeneri[i]].idGenere);
 		if (i!=0)
 			printf(", ");
 		printf("%s", db.genere[posGenere].nome);
 		i++;
-	}
+	} while (posGeneri[i]!=0);
 	printf("\nAnno: %d"
 		   "\nAscolti: %d", db.brano[posBrano].anno, db.brano[posBrano].ascolti);
 }
@@ -416,6 +416,42 @@ int mostraInfo(database db, int modalita) {
 	return esiste;
 }
 
+database moduloRicercaBrani(database db) {
+	int scelta=-1;
+	do {
+		pulisciBuffer();
+		while (scelta<0||scelta>6) {
+			printf("\nEffettua una ricerca per:"
+				   "\n[1] Titolo"
+				   "\n[2] Anno"
+				   "\n[3] Artista"
+				   "\n[4] Album"
+				   "\n[5] Genere"
+				   "\n[0] Esci dalla ricerca"
+				   "\nInserisci la tua scelta: ");
+			scanf("%d", &scelta);
+		}
+		if (scelta==1) {
+			db.ultimoEsito = mostraBrani(db, 0);
+		} else if (scelta==2) {
+			db.ultimoEsito = mostraBrani(db, 1);
+		} else if (scelta==3) {
+			db.ultimoEsito = mostraBraniArtista(db);
+		} else if (scelta==4) {
+			db.ultimoEsito = mostraBraniAlbum(db);
+		} else if (scelta==5) {
+			db.ultimoEsito = mostraBraniGenere(db);
+		} else if (scelta==0) {
+			printf("\nUscita dalla ricerca...\n");
+			db.ultimoEsito=-1;
+		}
+		if (db.ultimoEsito==0) {
+			printf("\nLa ricerca non ha prodotto risultati. Riprovare.");
+		}
+	} while (db.ultimoEsito==0);
+	return db;
+}
+
 /*
  * 0 == per Titolo
  * 1 == per Anno
@@ -440,7 +476,7 @@ int mostraBrani(database db, int modalita) {
 	} else if (modalita==1) {
 		int anno = 0;
 		pulisciBuffer();
-		while (anno<0||anno>3000) {
+		while (anno<=1950) {
 			printf("\nInserisci l'anno di uscita del brano da ricercare: ");
 			scanf("%d", &anno);
 		}
