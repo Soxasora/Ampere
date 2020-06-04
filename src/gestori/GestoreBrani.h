@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 17 - 02.06.2020
+ * Ampere 0.2.1 rev.1 - 04.06.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -115,13 +115,5 @@ void apriTesto(int idBrano);
  *	Si avvale di apriTesto per poter eseguire le operazioni di apertura del file
  */
 void apriTestoDaRicerca(database db);
-
-/**
- * 	TODO: Funzione di debug, non necessaria
- *	@input istanzaDatabase
- *	Interfaccia utente per AMMINISTRATORI e per DEBUGGING per l'apertura del file di testo contenente il testo (lyrics)
- *	del brano scelto attraverso l'identificativo e senza alcuna ricerca.
- */
-void apriTestoDaID(database db);
 
 #endif /* SRC_GESTORI_GESTOREBRANI_H_ */

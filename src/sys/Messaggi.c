@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 17 - 02.06.2020
+ * Ampere 0.2.1 rev.1 - 04.06.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -95,6 +95,8 @@ char richiesta(int codice) {
 		printf(COLOR_ATTENZIONE" Sicuro di voler continuare?");
 	} else if (codice==1) {
 		printf(COLOR_ATTENZIONE" Sei uscito dalla ricerca, vuoi ancora inserire brani nella playlist?");
+	} else if (codice==2) {
+		printf(COLOR_ATTENZIONE" Sei uscito dalla ricerca, vuoi ancora aprire il testo del brano?");
 	}
 	while (controllo!=-1) {
 		printf(" ["C_VERDE"Y"C_RESET"/"C_ROSSO"N"C_RESET"]: ");

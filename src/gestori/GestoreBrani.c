@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 17 - 02.06.2020
+ * Ampere 0.2.1 rev.1 - 04.06.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -20,6 +20,7 @@
 #include "../gestori/GestoreGeneri.h"
 #include "../database/Database.h"
 #include "../database/DatabaseUtils.h"
+#include "../sys/Messaggi.h"
 #include "../sys/Utils.h"
 #include "../sys/Impostazioni.h"
 
@@ -502,57 +503,37 @@ void apriTesto(int idBrano) {
 }
 
 void apriTestoDaRicerca(database db) {
-	int scelta=-1, controllo=0, idBrano=0, esito=0;
-	pulisciBuffer();
-	printf("\nCerca brano del quale si vuole aprire il testo");
-	while (controllo!=-1) {
-		while (scelta<0||scelta>4) {
-			printf("\nCerca per titolo[0], anno[1], artista[2], album[3], genere[4]: ");
-			scanf("%d", &scelta);
-		}
-		if (scelta==0) {
-			esito = mostraBrani(db, 0);
-			controllo=-1;
-		} else if (scelta==1) {
-			esito = mostraBrani(db, 1);
-			controllo=-1;
-		} else if (scelta==2) {
-			esito = mostraBraniArtista(db);
-			controllo=-1;
-		} else if (scelta==3) {
-			esito = mostraBraniAlbum(db);
-			controllo=-1;
-		} else if (scelta==4) {
-			esito = mostraBraniGenere(db);
-			controllo=-1;
-		} else {
-			printf("Scelta sbagliata, riprovare.");
-		}
-	}
-	if (esito==1) {
-		while (ottenerePosDaID(db, 0,idBrano)==-1) {
-			printf("\nInserisci id del brano selezionato: ");
-			scanf("%d", &idBrano);
-			if (ottenerePosDaID(db, 0,idBrano)==-1) {
-				printf("\nBrano non trovato, riprovare");
+	int scelta=-1, idBrano=0;
+	do {
+		printf("\nCerca brano del quale si vuole aprire il testo");
+		db = moduloRicercaBrani(db);
+		if (db.ultimoEsito==-1) {
+			scelta = richiesta(2);
+			if (scelta=='Y'||scelta=='y') {
+				printf("\nContinuo con l'apertura del testo.");
+				db.ultimoEsito=0;
 			} else {
-				apriTesto(idBrano);
+				printf("\nUscito dall'apertura del testo.");
 			}
+		} else if (db.ultimoEsito==1) {
+			do {
+				pulisciBuffer();
+				printf("\nInserisci id del brano selezionato, altrimenti [-1] per cercare di nuovo: ");
+				scanf("%d", &idBrano);
+				if (idBrano==-1) {
+					db.ultimoEsito=2;
+				} else {
+					if (ottenerePosDaID(db, 0,idBrano)==-1) {
+						printf("\nBrano non trovato, riprovare");
+						db.ultimoEsito=0;
+					} else {
+						apriTesto(idBrano);
+						db.ultimoEsito=-1;
+					}
+				}
+			} while (db.ultimoEsito==0);
 		}
-	} else {
-		printf("\n\nLa ricerca non ha prodotto risultati");
-	}
-}
+	} while (db.ultimoEsito!=-1);
 
-void apriTestoDaID(database db) {
-	int idBrano=0;
-	pulisciBuffer();
-	while (ottenerePosDaID(db, 0,idBrano)==-1) {
-		printf("\nInserisci l'id del brano del quale si vuole aprire il testo: ");
-		scanf("%d", &idBrano);
-		if (ottenerePosDaID(db, 0,idBrano)==-1) {
-			printf("\nBrano non trovato, riprovare");
-		}
-	}
 }
 

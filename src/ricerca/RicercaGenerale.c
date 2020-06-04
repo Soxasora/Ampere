@@ -1,5 +1,5 @@
 /*
- * Ampere 0.2 rev. 17 - 02.06.2020
+ * Ampere 0.2.1 rev.1 - 04.06.2020
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
@@ -19,13 +19,14 @@
 #include "../ricerca/MotoreRicerca.h"
 #include "../database/Database.h"
 #include "../database/DatabaseUtils.h"
+#include "../sys/Messaggi.h"
 #include "../sys/Utils.h"
 #include "../sys/Impostazioni.h"
 
 void ricerca(database db, int modalita, char interrogazione[], bool light) {
 	int i=0, n=0, conta=0;
 	if (modalita==0) {
-		printf("\n\nBrani:");
+		printf("\nBrani:");
 		n = contareNelDatabase(db,0);
 		while (i<n) {
 			if (comparaStringheParziale(db.brano[i].titolo, interrogazione)
@@ -241,11 +242,22 @@ void ricerca(database db, int modalita, char interrogazione[], bool light) {
 
 void eseguiRicerca(database db) {
 	int scelta=-1;
-	char *interrogazione = malloc(MAX_MEDIO);
+	bool ripeti=false;
+	char *interrogazione;
 	printf("\n===[Ricerca Generale]===");
-	pulisciBuffer();
-	printf("\nCerca nel database: ");
-	interrogazione = inputStringaSicuro(MAX_MEDIO,interrogazione);
+	do {
+		if ((interrogazione=malloc(MAX_MEDIO))) {
+			pulisciBuffer();
+			printf("\nCerca nel database: ");
+			interrogazione = inputStringaSicuro(MAX_MEDIO,interrogazione);
+		}
+		if (strlen(interrogazione)==1&&interrogazione[0]==' ') {
+			attenzione(2);
+			ripeti=true;
+		} else {
+			ripeti=false;
+		}
+	} while (ripeti==true);
 	ricerca(db,0,interrogazione, true);
 	ricerca(db,1,interrogazione, true);
 	ricerca(db,2,interrogazione, true);
@@ -270,6 +282,6 @@ void eseguiRicerca(database db) {
 	} else if (scelta==6) {
 		ricerca(db,5,interrogazione, false);
 	}
-	free(interrogazione);
+	free(interrogazione); interrogazione=NULL;
 }
 
