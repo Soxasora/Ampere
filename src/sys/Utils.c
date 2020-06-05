@@ -26,6 +26,7 @@
 #include "../gestori/GestoreArtisti.h"
 #include "../ricerca/MotoreRicerca.h"
 #include "../database/Database.h"
+#include "../sys/Messaggi.h"
 #include "../sys/Utils.h"
 #include "../sys/Impostazioni.h"
 
@@ -92,8 +93,15 @@ void creaCartella(char nome[], bool silenzioso) {
 }
 
 char* inputStringaSicuro(int lunghezza, char stringa[]) {
-	fgets(stringa, lunghezza, stdin);
-	int i=0, lunghezzaStringa = strlen(stringa);
+	int i=0, lunghezzaStringa=0;
+	do {
+		fgets(stringa, lunghezza, stdin);
+		lunghezzaStringa = strlen(stringa);
+		if (lunghezzaStringa==lunghezza-1) {
+			attenzione(3);
+			pulisciBuffer();
+		}
+	} while (lunghezzaStringa==lunghezza-1);
 	while (i<lunghezzaStringa) {
 		if (stringa[i]=='|') {
 			stringa[i] = ',';
