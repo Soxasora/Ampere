@@ -112,7 +112,7 @@ char* inputStringaSicuro(int lunghezza, char stringa[]) {
 	strtok(stringa, "\n");
 	// Controlla se l'utente non inserisce niente
 	if (stringa[0]=='\n') {
-		stringa = "N/A";
+		strcpy(stringa, "N/A");
 	}
 	return stringa;
 }
