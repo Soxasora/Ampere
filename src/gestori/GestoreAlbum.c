@@ -25,10 +25,13 @@ database inserimentoAlbumGuidato(database db) {
 	char *titolo = malloc(MAX_MEDIO);
 	do {
 		pulisciBuffer();
-		printf("\nInserisci titolo dell'album: ");
-		titolo = inputStringaSicuro(MAX_MEDIO,titolo);
-		db = creaAlbumSeNonEsiste(db, titolo);
+		if ((titolo = malloc(MAX_MEDIO))) {
+			printf("\nInserisci titolo dell'album: ");
+			titolo = inputStringaSicuro(MAX_MEDIO,titolo);
+			db = creaAlbumSeNonEsiste(db, titolo);
+		}
 	} while (db.ultimoEsito!=0);
+	free(titolo); titolo=NULL;
 	return db;
 }
 

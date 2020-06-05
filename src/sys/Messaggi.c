@@ -99,6 +99,8 @@ char richiesta(int codice) {
 		printf(COLOR_ATTENZIONE" Sei uscito dalla ricerca, vuoi ancora inserire brani nella playlist?");
 	} else if (codice==2) {
 		printf(COLOR_ATTENZIONE" Sei uscito dalla ricerca, vuoi ancora aprire il testo del brano?");
+	} else if (codice==3) {
+		printf(COLOR_ATTENZIONE" Vuoi ancora continuare a modificare?");
 	}
 	while (controllo!=-1) {
 		printf(" ["C_VERDE"Y"C_RESET"/"C_ROSSO"N"C_RESET"]: ");

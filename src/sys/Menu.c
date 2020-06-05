@@ -257,7 +257,7 @@ database menuDBModifica(database db) {
 		scanf("%d", &scelta);
 	}
 	if (scelta==1) {
-		db = modificaBrano(db);
+		db = modificareBranoGuidato(db);
 		aspetta();
 		db = menuDBModifica(db);
 	} else if (scelta==2) {

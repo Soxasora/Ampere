@@ -23,45 +23,52 @@
 
 void mostraSingoloBrano(database db, int id) {
 	int posBrano = ottenerePosDaID(db, 0,id);
-	int i=0;
-	int *posArtisti=ottenerePosAssociazioniDaID(db, 5, id);
-	int *posAlbums=ottenerePosAssociazioniDaID(db, 6, id);
-	int *posGeneri=ottenerePosAssociazioniDaID(db, 7, id);
-
-	//Blocco nuovo
 	printf("\nIdentificativo: %d"
 		   "\nTitolo: %s"
-		   "\nDurata: %s"
-		   "\nArtisti: ", db.brano[posBrano].id, db.brano[posBrano].titolo, convertiSecondiInTempo(db.brano[posBrano].durata));
-
-	i=0;
-	do {
-		int posArtista = ottenerePosDaID(db, 2, db.branoArtista[posArtisti[i]].idArtista);
-		if (i!=0)
-			printf(", ");
-		printf("%s", db.artista[posArtista].nomeArte);
-		i++;
-	} while (posArtisti[i]!=0);
-	printf("\nAlbum: ");
-	i=0;
-	do {
-		int posAlbum = ottenerePosDaID(db, 1, db.branoAlbum[posAlbums[i]].idAlbum);
-		if (i!=0)
-			printf(", ");
-		printf("%s", db.album[posAlbum].titolo);
-		i++;
-	} while (posAlbums[i]!=0);
-	printf("\nGeneri: ");
-	i=0;
-	do {
-		int posGenere = ottenerePosDaID(db, 3, db.branoGenere[posGeneri[i]].idGenere);
-		if (i!=0)
-			printf(", ");
-		printf("%s", db.genere[posGenere].nome);
-		i++;
-	} while (posGeneri[i]!=0);
+		   "\nDurata: %s", db.brano[posBrano].id, db.brano[posBrano].titolo, convertiSecondiInTempo(db.brano[posBrano].durata));
+	mostrareAssociazioni(db, 0, id);
+	mostrareAssociazioni(db, 1, id);
+	mostrareAssociazioni(db, 2, id);
 	printf("\nAnno: %d"
 		   "\nAscolti: %d", db.brano[posBrano].anno, db.brano[posBrano].ascolti);
+}
+
+void mostrareAssociazioni(database db, int modalita, int idBrano) {
+	int i=0;
+	if (modalita==0) { // Artisti
+		printf("\nArtisti: ");
+		int *posArtisti=ottenerePosAssociazioniDaID(db, 5, idBrano);
+		i=0;
+		do {
+			int posArtista = ottenerePosDaID(db, 2, db.branoArtista[posArtisti[i]].idArtista);
+			if (i!=0)
+				printf(", ");
+			printf("%s", db.artista[posArtista].nomeArte);
+			i++;
+		} while (posArtisti[i]!=0);
+	} else if (modalita==1) { // Album
+		printf("\nAlbum: ");
+		int *posAlbums=ottenerePosAssociazioniDaID(db, 6, idBrano);
+		i=0;
+		do {
+			int posAlbum = ottenerePosDaID(db, 1, db.branoAlbum[posAlbums[i]].idAlbum);
+			if (i!=0)
+				printf(", ");
+			printf("%s", db.album[posAlbum].titolo);
+			i++;
+		} while (posAlbums[i]!=0);
+	} else if (modalita==2) { // Generi
+		printf("\nGeneri: ");
+		int *posGeneri=ottenerePosAssociazioniDaID(db, 7, idBrano);
+		i=0;
+		do {
+			int posGenere = ottenerePosDaID(db, 3, db.branoGenere[posGeneri[i]].idGenere);
+			if (i!=0)
+				printf(", ");
+			printf("%s", db.genere[posGenere].nome);
+			i++;
+		} while (posGeneri[i]!=0);
+	}
 }
 
 void mostraTuttiBrani(database db) {

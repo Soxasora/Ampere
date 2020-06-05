@@ -17,6 +17,8 @@
  */
 void mostraSingoloBrano(database db, int id);
 
+void mostrareAssociazioni(database db, int modalita, int idBrano);
+
 /**
  * 	@input istanza database
  * 	Provvede a stampare su schermo, attraverso un ciclo, tutte le informazioni di tutti i brani,

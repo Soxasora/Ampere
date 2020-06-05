@@ -50,24 +50,16 @@ database controllaEsistenzaBrano(database db, struct Brano nuovoBrano);
 void inserisciBranoSuFile(struct Brano brano);
 
 /**
- *	TODO: adeguare modifica allo standard imposto dalle specifiche
  *	@input istanza database
  *	Interfaccia utente per modificare informazioni del brano presente nel database
  *	Si avvale di ottenerePosDaID per controllare l'esistenza di esso attraverso l'identificativo
  *	Se il brano e' presente, procede alla modifica dell'informazione scelta con modificaSingoloBrano
  *	@output database modificato
  */
-database modificaBrano(database db);
-
-/**
- *	TODO: adeguare modifica allo standard imposto dalle specifiche
- *	@input istanza database, numero intero modalita' di esecuzione, numero intero identificativo
- *	In base alla modalita' scelta e data in input da modificaBrano, chiede all'utente la nuova informazione
- *	da inserire al posto della vecchia, sovrascrivendola
- *	Successivamente procede a mostrare all'utente il risultato delle modifiche effettuate
- *	@output database modificato
- */
-database modificaSingoloBrano(database db, int modalita, int id);
+database modificareBranoGuidato(database db);
+database creareBranoModificato(database db, int campo, int id);
+void mostrareAnteprimaModificaBrano(database db, int idBrano, int campo, struct Brano branoModificato, int idAssociazioni[]);
+database modificareBrano(database db, int idBrano, int campo, struct Brano branoModificato, int idAssociazioni[]);
 
 /**
  *	TODO: adeguare cancellazione allo standard imposto dalle specifiche
