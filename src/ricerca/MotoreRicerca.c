@@ -328,29 +328,65 @@ int mostraInfo(database db, int modalita) {
 		pulisciBuffer();
 		printf("\n[Premi invio per saltare] Inserisci il nome dell'artista da ricercare: ");
 		nome = inputStringaSicuro(MAX_MEDIO,nome);
-		if (comparaStringhe(nome, "N/A")==0){
-			strcpy(nome, "unknown");
-		}
 		printf("\n[Premi invio per saltare] Inserisci il cognome dell'artista da ricercare: ");
 		cognome = inputStringaSicuro(MAX_MEDIO,cognome);
-		if (comparaStringhe(cognome, "N/A")==0){
-			strcpy(cognome, "unknown");
-		}
 		printf("\n[Premi invio per saltare] Inserisci il nome d'arte dell'artista da ricercare: ");
 		nomeArte = inputStringaSicuro(MAX_MEDIO,nomeArte);
-		if (comparaStringhe(nomeArte, "N/A")==0){
-			strcpy(nomeArte, "unknown");
-		}
 		int i=0, n=contareNelDatabase(db,2);
 		while (i<n) {
 			if (comparaStringheParziale(db.artista[i].nome,nome)
-				||comparaStringheParziale(db.artista[i].cognome, cognome)
-				||comparaStringheParziale(db.artista[i].nomeArte, nomeArte)) {
+				&&comparaStringheParziale(db.artista[i].cognome, cognome)
+				&&comparaStringheParziale(db.artista[i].nomeArte, nomeArte)) {
 				printf("\n");
 				mostraSingoloArtista(db, db.artista[i].id);
 				esiste=1;
 			}
 			i++;
+		}
+		if(esiste != 1){
+
+			//Sistemare ricerche nulle
+			if (comparaStringhe(nome, "N/A")==0){
+				strcpy(nome, "unknown");
+			}
+			if (comparaStringhe(cognome, "N/A")==0){
+				strcpy(cognome, "unknown");
+			}
+			if (comparaStringhe(nomeArte, "N/A")==0){
+				strcpy(nomeArte, "unknown");
+			}
+
+			printf("\nNon e' stato trovato nessun artista che rispetti interamente i criteri cercati.");
+			printf("\nArtisti con nome simile:");
+			i=0;
+			while (i<n) {
+				if (comparaStringheParziale(db.artista[i].nome,nome)) {
+					printf("\n");
+					mostraSingoloArtista(db, db.artista[i].id);
+					esiste=1;
+				}
+				i++;
+			}
+			printf("\nArtisti con cognome simile:");
+			i=0;
+			while (i<n) {
+				if (comparaStringheParziale(db.artista[i].cognome,cognome)) {
+					printf("\n");
+					mostraSingoloArtista(db, db.artista[i].id);
+					esiste=1;
+				}
+				i++;
+			}
+			printf("\nArtisti con nome d'arte simile:");
+			i=0;
+			while (i<n) {
+				if (comparaStringheParziale(db.artista[i].nomeArte,nomeArte)) {
+					printf("\n");
+					mostraSingoloArtista(db, db.artista[i].id);
+					esiste=1;
+				}
+				i++;
+			}
 		}
 		free(nome); free(cognome); free(nomeArte);
 	} else if (modalita==1) {

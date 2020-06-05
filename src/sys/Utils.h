@@ -48,10 +48,11 @@ char* inputStringaSicuro(int lunghezza, char stringa[]);
  * 	@output risultato comparazione, 0 se uguali
  */
 
-int inputNumeroScelta();
+int inputNumeroScelta(int lunghezza);
 
 /**
- * 	Funzione sicura per l'input da tastiera di una scelta fino a due cifre
+ * 	@input numero intero lunghezza
+ * 	Funzione sicura per l'input da tastiera di una scelta fino a lunghezza cifre
  * 	Resistituisce -1 in caso di input non valido
  * 	@output numero della scelta
  */

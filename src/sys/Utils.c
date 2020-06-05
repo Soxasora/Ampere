@@ -117,12 +117,12 @@ char* inputStringaSicuro(int lunghezza, char stringa[]) {
 	return stringa;
 }
 
-int inputNumeroScelta(){
-	char stringascelta[3];
+int inputNumeroScelta(int lunghezza){
+	char stringascelta[lunghezza+1];
 	char *notanumber;
 	int scelta;
 	printf("\nInserisci scelta: ");
-	fgets(stringascelta, 2, stdin);
+	fgets(stringascelta, lunghezza, stdin);
 	scelta = strtol(stringascelta, &notanumber, 10);
 	if(notanumber[0] != '\0'){
 		scelta = -1;
