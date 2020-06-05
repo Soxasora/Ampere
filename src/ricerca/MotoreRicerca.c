@@ -340,9 +340,9 @@ int mostraInfo(database db, int modalita) {
 			nomeArte = "unknown";
 		int i=0, n=contareNelDatabase(db,2);
 		while (i<n) {
-			if (comparaStringhe(db.artista[i].nome,nome)==0
-				||comparaStringhe(db.artista[i].cognome, cognome)==0
-				||comparaStringhe(db.artista[i].nomeArte, nomeArte)==0) {
+			if (comparaStringheParziale(db.artista[i].nome,nome)
+				||comparaStringheParziale(db.artista[i].cognome, cognome)
+				||comparaStringheParziale(db.artista[i].nomeArte, nomeArte)) {
 				printf("\n");
 				mostraSingoloArtista(db, db.artista[i].id);
 				esiste=1;
@@ -364,7 +364,7 @@ int mostraInfo(database db, int modalita) {
 		}
 		int i=0, n=contareNelDatabase(db,1);
 		while(i<n) {
-			if (comparaStringhe(db.album[i].titolo, titolo)==0||db.album[i].anno == anno) {
+			if (comparaStringheParziale(db.album[i].titolo, titolo)||db.album[i].anno == anno) {
 				printf("\n");
 				mostraSingoloAlbum(db, db.album[i].id);
 				esiste=1;
@@ -379,7 +379,7 @@ int mostraInfo(database db, int modalita) {
 		nome = inputStringaSicuro(MAX_MEDIO,nome);
 		int i=0, n=contareNelDatabase(db,3);
 		while (i<n) {
-			if (comparaStringhe(db.genere[i].nome, nome)==0) {
+			if (comparaStringheParziale(db.genere[i].nome, nome)) {
 				printf("\n");
 				mostraSingoloGenere(db, db.genere[i].id);
 				esiste=1;
@@ -394,7 +394,7 @@ int mostraInfo(database db, int modalita) {
 		playlist = inputStringaSicuro(MAX_MEDIO,playlist);
 		int i=0, n=contareNelDatabase(db,4);
 		while (i<n) {
-			if (comparaStringhe(db.playlist[i].nome, playlist)==0) {
+			if (comparaStringheParziale(db.playlist[i].nome, playlist)) {
 				if (isPublicPlaylist(db, db.playlist[i].id)||isUserPlaylist(db, db.playlist[i].id,db.utenteCorrente)||controllareSeAdmin(db)) {
 					printf("\n");
 					mostraSingolaPlaylist(db, 0,db.playlist[i].id);
@@ -411,7 +411,7 @@ int mostraInfo(database db, int modalita) {
 		username = inputStringaSicuro(MAX_MEDIO,username);
 		int i=0, n=contareNelDatabase(db,-1);
 		while(i<n) {
-			if (comparaStringhe(db.utente[i].username, username)==0) {
+			if (comparaStringheParziale(db.utente[i].username, username)) {
 				printf("\n");
 				mostraSingoloUtente(db, 0, db.utente[i].id);
 				esiste=1;
@@ -472,7 +472,7 @@ int mostraBrani(database db, int modalita) {
 		titolo = inputStringaSicuro(MAX_MEDIO,titolo);
 		int i=0, n=contareNelDatabase(db,0);
 		while (i<n) {
-			if (comparaStringhe(db.brano[i].titolo,titolo)==0) {
+			if (comparaStringheParziale(db.brano[i].titolo,titolo)) {
 				printf("\n");
 				mostraSingoloBrano(db, db.brano[i].id);
 				esiste=1;

@@ -154,7 +154,7 @@ database creareGenereModificato(database db, int id) {
 		strcpy(genereModificato.nome, nome);
 		free(nome);
 		printf("\nGenere ORIGINALE:");
-		mostraSingoloGenere(id);
+		mostraSingoloGenere(db, id);
 		printf("\n");
 		mostrareAnteprimaGenere(genereModificato);
 		scelta = richiesta(0);

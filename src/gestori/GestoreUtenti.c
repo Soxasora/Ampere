@@ -256,7 +256,7 @@ database modificareUtenteGuidato(database db) {
 				scanf("%d", &campo);
 			}
 			if (campo!=0) {
-				db = modificareUtente(db, campo, id);
+				db = creareUtenteModificato(db, campo, id);
 				if (db.ultimoEsito==0) {
 					printf("\nUtente modificato.");
 				}

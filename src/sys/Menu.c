@@ -143,7 +143,7 @@ database menuPlaylist(database db) {
 		aspetta();
 		db = menuPlaylist(db);
 	} else if (scelta==4) {
-		db = modificaPlaylist(db);
+		db = modificarePlaylistGuidato(db);
 		aspetta();
 		db = menuPlaylist(db);
 	} else if (scelta==5) {
@@ -261,11 +261,11 @@ database menuDBModifica(database db) {
 		aspetta();
 		db = menuDBModifica(db);
 	} else if (scelta==2) {
-		db = modificaArtista(db);
+		db = modificareArtistaGuidato(db);
 		aspetta();
 		db = menuDBModifica(db);
 	} else if (scelta==3) {
-		db = modificaAlbum(db);
+		db = modificareAlbumGuidato(db);
 		aspetta();
 		db = menuDBModifica(db);
 	} else if (scelta==4) {
@@ -273,7 +273,7 @@ database menuDBModifica(database db) {
 		aspetta();
 		db = menuDBModifica(db);
 	} else if (scelta==5) {
-		db = modificaPlaylist(db);
+		db = modificarePlaylistGuidato(db);
 		aspetta();
 		db = menuDBModifica(db);
 	} else if (scelta==6) {
