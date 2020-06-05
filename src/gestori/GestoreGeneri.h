@@ -78,7 +78,8 @@ database modificareGenereGuidato(database db);
  *	Successivamente procede a mostrare all'utente il risultato delle modifiche effettuate
  *	@output database modificato
  */
-database modificareGenere(database db, int id);
+database creareGenereModificato(database db, int id);
+database modificareGenere(database db, int idGenere, struct Genere genereModificato);
 
 /**
  *	TODO: adeguare cancellazione allo standard imposto dalle specifiche

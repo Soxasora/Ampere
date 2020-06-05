@@ -184,6 +184,11 @@ void mostrareAnteprimaUtente(struct Utente nuovoUtente) {
 	printf("\nStai per registrare un utente con questi dettagli:"
 		   "\nNome Utente: %s"
 		   "\nPassword: %s", nuovoUtente.username, nuovoUtente.password);
+	if (nuovoUtente.admin) {
+		printf("\nRuolo: Amministratore");
+	} else {
+		printf("\nRuolo: Utente normale");
+	}
 }
 
 database inserireUtente(database db, struct Utente nuovoUtente) {
@@ -219,10 +224,10 @@ void inserireUtenteSuFile(struct Utente utente, char admin[]) {
 }
 
 database modificareUtenteGuidato(database db) {
-	int id=0, modalita=-1, controllo=0;
+	int id=0, campo=-1;
 	char scelta='a';
 	if (controllareSeAdmin(db)) {
-		mostraTuttiUtenti(db);
+		mostraInfo(db, 4);
 		while (ottenerePosDaID(db, -1,id)==-1) {
 			printf("\nInserisci id dell'utente da modificare: ");
 			scanf("%d", &id);
@@ -237,82 +242,109 @@ database modificareUtenteGuidato(database db) {
 		id = db.utenteCorrente;
 	}
 	pulisciBuffer();
-	while (controllo!=-1) {
-		printf("\nSicuro di voler continuare? [Y/N]: ");
-		scanf("%c", &scelta);
-		if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
-			controllo=-1;
-		}
-	}
+	scelta = richiesta(0);
 	if (scelta=='Y'||scelta=='y') {
-		printf("\n===[Sistema di modifica utente]===");
-		printf("\n[1] Modifica l'username");
-		printf("\n[2] Modifica la password");
-		if (controllareSeAdmin(db))
-			printf("\n[3] Modifica il ruolo");
-		printf("\n[0] Esci");
-		while (modalita<0||modalita>3) {
-			printf("\nInserisci la tua scelta: ");
-			scanf("%d", &modalita);
-		}
-		if (modalita!=0) {
-			db = modificareUtente(db, modalita, id);
-		}
+		do {
+			printf("\n===[Sistema di modifica utente]===");
+			printf("\n[1] Modifica l'username");
+			printf("\n[2] Modifica la password");
+			if (controllareSeAdmin(db))
+				printf("\n[3] Modifica il ruolo");
+			printf("\n[0] Esci");
+			while (campo<0||campo>3) {
+				printf("\nInserisci la tua scelta: ");
+				scanf("%d", &campo);
+			}
+			if (campo!=0) {
+				db = modificareUtente(db, campo, id);
+				if (db.ultimoEsito==0) {
+					printf("\nUtente modificato.");
+				}
+			} else {
+				db.ultimoEsito=-2;
+			}
+		} while (db.ultimoEsito==-1);
 	}
 	return db;
 }
 
-database modificareUtente(database db, int modalita, int id) {
-	db_modificato=1;
-	pulisciBuffer();
+database creareUtenteModificato(database db, int campo, int id) {
+	char scelta='a';
 	int pos = ottenerePosDaID(db, -1, id);
-	if (modalita==1) {
-		char *username = malloc(MAX_MEDIO);
-		printf("\nInserisci nuovo username: ");
-		username = inputStringaSicuro(MAX_MEDIO,username);
-		strcpy(db.utente[pos].username, username);
-		free(username);
-	} else if (modalita==2) {
-		char *passwordVecchia = malloc(MAX_MEDIO);
-		strcpy(passwordVecchia, "null");
-		char *password = malloc(MAX_MEDIO);
-		strcpy(password, "null");
-		char *password2 = malloc(MAX_MEDIO);
-		strcpy(password2, "null2");
-		if (!controllareSeAdmin(db)) {
-			while (strcmp(passwordVecchia, db.utente[pos].password)!=0) {
-				printf("\nInserisci password attuale: ");
-				passwordVecchia = inputStringaSicuro(MAX_MEDIO,passwordVecchia);
-				if (strcmp(passwordVecchia, db.utente[pos].password)!=0)
-					printf("\nLa password attuale non è corretta! Riprova\n");
+	struct Utente utenteModificato = db.utente[pos];
+	do {
+		pulisciBuffer();
+		if (campo==1) {
+			char *username = malloc(MAX_MEDIO);
+			printf("\nInserisci nuovo username: ");
+			username = inputStringaSicuro(MAX_MEDIO,username);
+			strcpy(utenteModificato.username, username);
+			free(username);
+		} else if (campo==2) {
+			char *passwordVecchia = malloc(MAX_MEDIO);
+			strcpy(passwordVecchia, "null");
+			char *password = malloc(MAX_MEDIO);
+			strcpy(password, "null");
+			char *password2 = malloc(MAX_MEDIO);
+			strcpy(password2, "null2");
+			if (!controllareSeAdmin(db)) {
+				while (strcmp(passwordVecchia, utenteModificato.password)!=0) {
+					printf("\nInserisci password attuale: ");
+					passwordVecchia = inputStringaSicuro(MAX_MEDIO,passwordVecchia);
+					if (strcmp(passwordVecchia, utenteModificato.password)!=0)
+						printf("\nLa password attuale non è corretta! Riprova\n");
+				}
+			}
+			while (strcmp(password,password2)!=0) {
+				printf("\nInserisci nuova password: ");
+				password=inputStringaSicuro(MAX_MEDIO,password);
+				printf("\nInserisci nuovamente la nuova password: ");
+				password2=inputStringaSicuro(MAX_MEDIO,password2);
+				if (strcmp(password,password2)!=0) {
+					printf("\nLe due password non combaciano! Riprova\n");
+				}
+			}
+			strcpy(utenteModificato.password,password);
+		} else if (campo==3) {
+			if (controllareSeAdmin(db)) {
+				int ruolo=1;
+				while (ruolo<0||ruolo>1) {
+					printf("\nAmministratore[0] oppure Utente normale[1]? ");
+					scanf("%d", &ruolo);
+				}
+				if (ruolo==0) {
+					utenteModificato.admin=true;
+				} else if (ruolo==1) {
+					utenteModificato.admin=false;
+				}
+			} else {
+				errore(16);
 			}
 		}
-		while (strcmp(password,password2)!=0) {
-			printf("\nInserisci nuova password: ");
-			password=inputStringaSicuro(MAX_MEDIO,password);
-			printf("\nInserisci nuovamente la nuova password: ");
-			password2=inputStringaSicuro(MAX_MEDIO,password2);
-			if (strcmp(password,password2)!=0) {
-				printf("\nLe due password non combaciano! Riprova\n");
-			}
-		}
-		strcpy(db.utente[pos].password,password);
-	} else if (modalita==3) {
-		if (controllareSeAdmin(db)) {
-			int ruolo=1;
-			while (ruolo<0||ruolo>1) {
-				printf("\nAmministratore[0] oppure Utente normale[1]? ");
-				scanf("%d", &ruolo);
-			}
-			if (ruolo==0) {
-				db.utente[pos].admin=true;
-			} else if (ruolo==1) {
-				db.utente[pos].admin=false;
-			}
+		printf("\nUtente ORIGINALE: ");
+		mostraSingoloUtente(db, -1, id);
+		printf("\n");
+		mostrareAnteprimaUtente(utenteModificato);
+		scelta = richiesta(0);
+		if (scelta=='Y'||scelta=='y') {
+			db = modificareUtente(db, id, utenteModificato);
+			db.ultimoEsito=0;
 		} else {
-			errore(16);
+			scelta = richiesta(3);
+			if (scelta=='Y'||scelta=='y') {
+				db.ultimoEsito=-2;
+			} else {
+				db.ultimoEsito=-1;
+			}
 		}
-	}
+	} while (db.ultimoEsito==-2);
+	return db;
+}
+
+database modificareUtente(database db, int idUtente, struct Utente utenteModificato) {
+	int posUtente = ottenerePosDaID(db, -1, idUtente);
+	db.utente[posUtente] = utenteModificato;
+	db_modificato=1;
 	return db;
 }
 

@@ -76,7 +76,7 @@ void inserisciArtistiSuFile(struct Artista artista);
  *	Se l'artista e' presente, procede alla modifica dell'informazione scelta con modificaSingoloArtista
  *	@output database modificato
  */
-database modificaArtista(database db);
+database modificareArtistaGuidato(database db);
 
 /**
  *	TODO: adeguare modifica allo standard imposto dalle specifiche
@@ -86,8 +86,8 @@ database modificaArtista(database db);
  *	Successivamente procede a mostrare all'utente il risultato delle modifiche effettuate
  *	@output database modificato
  */
-database modificaSingoloArtista(database db, int modalita, int id);
-
+database creareArtistaModificato(database db, int campo, int id);
+database modificareArtista(database db, int idArtista, struct Artista artistaModificato);
 /**
  *	TODO: adeguare cancellazione allo standard imposto dalle specifiche
  *	@input istanza database

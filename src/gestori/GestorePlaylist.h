@@ -113,7 +113,7 @@ int controlloEsistenzaPlaylist(database db, char playlist[]);
  *	procede alla modifica dell'informazione scelta con modificaSingolaPlaylist
  *	@output database modificato
  */
-database modificaPlaylist(database db);
+database modificarePlaylistGuidato(database db);
 
 /**
  *	TODO: adeguare modifica allo standard imposto dalle specifiche
@@ -125,8 +125,8 @@ database modificaPlaylist(database db);
  *	Successivamente procede a mostrare all'utente il risultato delle modifiche effettuate
  *	@output database modificato
  */
-database modificaSingolaPlaylist(database db, int modalita, int id);
-
+database crearePlaylistModificata(database db, int campo, int id);
+database modificarePlaylist(database db, int idPlaylist, struct Playlist playlistModificata);
 /**
  *	TODO: adeguare cancellazione allo standard imposto dalle specifiche
  *	@input istanza database

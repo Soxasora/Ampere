@@ -402,7 +402,7 @@ database creareBranoModificato(database db, int campo, int id) {
 		mostrareAnteprimaModificaBrano(db, id, campo, branoModificato, idAssociazioni);
 		scelta = richiesta(0);
 		if (scelta=='Y'||scelta=='y') {
-			modificareBrano(db, id, campo, branoModificato, idAssociazioni);
+			db = modificareBrano(db, id, campo, branoModificato, idAssociazioni);
 			db.ultimoEsito=0;
 		} else {
 			scelta = richiesta(3);

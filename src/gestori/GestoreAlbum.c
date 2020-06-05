@@ -18,6 +18,7 @@
 #include "../gestori/GestoreGeneri.h"
 #include "../database/Database.h"
 #include "../database/DatabaseUtils.h"
+#include "../sys/Messaggi.h"
 #include "../sys/Utils.h"
 #include "../sys/Impostazioni.h"
 
@@ -122,10 +123,10 @@ int controlloEsistenzaAlbum(database db, char album[]) {
 	return id;
 }
 
-database modificaAlbum(database db) {
-	int id=0, modalita=-1, controllo=0;
+database modificareAlbumGuidato(database db) {
+	int id=0, campo=-1;
 	char scelta='a';
-	mostraTuttiAlbum(db);
+	mostraInfo(db, 1);
 	while (ottenerePosDaID(db, 1,id)==-1) {
 		printf("\n\nInserire l'identificativo dell'album da modificare: ");
 		scanf("%d", &id);
@@ -136,49 +137,74 @@ database modificaAlbum(database db) {
 	printf("\nHai scelto l'album:");
 	mostraSingoloAlbum(db, id);
 	pulisciBuffer();
-	while (controllo!=-1) {
-		printf("\nSicuro di voler continuare? [Y/N]: ");
-		scanf("%c", &scelta);
-		if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
-			controllo=-1;
-		}
-	}
+	scelta = richiesta(0);
 	if (scelta=='Y'||scelta=='y') {
-		printf("\n===[Sistema di modifica album]==="
-		"\n[1] Modifica il Titolo"
-		"\n[2] Modificare l'anno di uscita"
-		"\n[0] Esci");
-		while (modalita<0||modalita>2) {
-			printf("\nInserisci la tua scelta: ");
-			scanf("%d", &modalita);
-		}
-		if (modalita!=0) {
-			db = modificaSingoloAlbum(db, modalita, id);
-		}
+		do {
+			printf("\n===[Sistema di modifica album]==="
+			"\n[1] Modifica il Titolo"
+			"\n[2] Modificare l'anno di uscita"
+			"\n[0] Esci");
+			while (campo<0||campo>2) {
+				printf("\nInserisci la tua scelta: ");
+				scanf("%d", &campo);
+			}
+			if (campo!=0) {
+				db = creareAlbumModificato(db, campo, id);
+				if (db.ultimoEsito==0) {
+					printf("\nAlbum modificato.");
+				}
+			} else {
+				db.ultimoEsito=-2;
+			}
+		} while (db.ultimoEsito==-1);
 	}
 	return db;
 }
 
-database modificaSingoloAlbum(database db, int modalita, int id) {
-	pulisciBuffer();
-	int pos = ottenerePosDaID(db, 1,id);
-	if (modalita==1) {
-		char *titolo = malloc(MAX_MEDIO);
-		printf("\nInserisci nuovo titolo: ");
-		titolo = inputStringaSicuro(MAX_MEDIO,titolo);
-		strcpy(db.album[pos].titolo, titolo);
-		free(titolo);
-	} else if (modalita==2) {
-		int anno=0;
-		while (anno<=1950||anno>2020) {
-			printf("\nInserisci nuovo anno: ");
-			scanf("%d", &anno);
+database creareAlbumModificato(database db, int campo, int id) {
+	char scelta='a';
+	int pos = ottenerePosDaID(db, 1, id);
+	struct Album albumModificato = db.album[pos];
+	do {
+		pulisciBuffer();
+		if (campo==1) {
+			char *titolo = malloc(MAX_MEDIO);
+			printf("\nInserisci nuovo titolo: ");
+			titolo = inputStringaSicuro(MAX_MEDIO,titolo);
+			strcpy(albumModificato.titolo, titolo);
+			free(titolo);
+		} else if (campo==2) {
+			int anno=0;
+			while (anno<=1950||anno>2020) {
+				printf("\nInserisci nuovo anno: ");
+				scanf("%d", &anno);
+			}
+			albumModificato.anno=anno;
 		}
-		db.album[pos].anno=anno;
-	}
+		printf("\nAlbum ORIGINALE:");
+		mostraSingoloAlbum(db, id);
+		printf("\n");
+		mostrareAnteprimaAlbum(albumModificato);
+		scelta = richiesta(0);
+		if (scelta=='Y'||scelta=='y') {
+			db = modificareAlbum(db, id, albumModificato);
+			db.ultimoEsito=0;
+		} else {
+			scelta = richiesta(3);
+			if (scelta=='Y'||scelta=='y') {
+				db.ultimoEsito=-2;
+			} else {
+				db.ultimoEsito=-1;
+			}
+		}
+	} while (db.ultimoEsito==-2);
+	return db;
+}
+
+database modificareAlbum(database db, int idAlbum, struct Album albumModificato) {
+	int posAlbum = ottenerePosDaID(db, 1, idAlbum);
+	db.album[posAlbum] = albumModificato;
 	db_modificato=1;
-	printf("\nAlbum aggiornato, ecco il risultato:\n");
-	mostraSingoloAlbum(db, id);
 	return db;
 }
 

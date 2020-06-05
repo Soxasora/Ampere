@@ -18,6 +18,7 @@
 #include "../gestori/GestoreGeneri.h"
 #include "../database/Database.h"
 #include "../database/DatabaseUtils.h"
+#include "../sys/Messaggi.h"
 #include "../sys/Utils.h"
 #include "../sys/Impostazioni.h"
 
@@ -128,10 +129,10 @@ void inserisciArtistiSuFile(struct Artista artista) {
 	fclose(fp);
 }
 
-database modificaArtista(database db) {
-	int id=0, modalita=-1, controllo=0;
+database modificareArtistaGuidato(database db) {
+	int id=0, campo=-1;
 	char scelta='a';
-	mostraTuttiArtisti(db);
+	mostraInfo(db, 0);
 	while (ottenerePosDaID(db, 2, id)==-1) {
 		printf("\n\nInserire l'identificativo dell'artista da modificare: ");
 		scanf("%d", &id);
@@ -142,62 +143,87 @@ database modificaArtista(database db) {
 	printf("\nHai scelto l'artista:");
 	mostraSingoloArtista(db, id);
 	pulisciBuffer();
-	while (controllo!=-1) {
-		printf("\nSicuro di voler continuare? [Y/N]: ");
-		scanf("%c", &scelta);
-		if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
-			controllo=-1;
-		}
-	}
+	scelta = richiesta(0);
 	if (scelta=='Y'||scelta=='y') {
-		printf("\n===[Sistema di modifica artista]==="
-			   "\n[1] Modifica il Nome"
-			   "\n[2] Modifica il Cognome"
-			   "\n[3] Modifica il Nome d'arte"
-			   "\n[4] Modifica il link della biografia"
-			   "\n[0] Esci");
-		while (modalita<0||modalita>3) {
-			printf("\nInserisci la tua scelta: ");
-			scanf("%d", &modalita);
-		}
-		if (modalita!=0) {
-			db = modificaSingoloArtista(db, modalita, id);
-		}
+		do {
+			printf("\n===[Sistema di modifica artista]==="
+				   "\n[1] Modifica il Nome"
+				   "\n[2] Modifica il Cognome"
+				   "\n[3] Modifica il Nome d'arte"
+				   "\n[4] Modifica il link della biografia"
+				   "\n[0] Esci");
+			while (campo<0||campo>4) {
+				printf("\nInserisci la tua scelta: ");
+				scanf("%d", &campo);
+			}
+			if (campo!=0) {
+				db = creareArtistaModificato(db, campo, id);
+				if (db.ultimoEsito==0) {
+					printf("\nArtista modificato");
+				}
+			} else {
+				db.ultimoEsito=-2;
+			}
+		} while (db.ultimoEsito==-1);
 	}
 	return db;
 }
 
-database modificaSingoloArtista(database db, int modalita, int id) {
-	pulisciBuffer();
+database creareArtistaModificato(database db, int campo, int id) {
+	char scelta='a';
 	int pos = ottenerePosDaID(db, 2,id);
-	if (modalita==1) {
-		char *nome = malloc(MAX_MEDIO);
-		printf("\nInserisci nuovo nome: ");
-		nome = inputStringaSicuro(MAX_MEDIO,nome);
-		strcpy(db.artista[pos].nome, nome);
-		free(nome);
-	} else if (modalita==2) {
-		char *cognome = malloc(MAX_MEDIO);
-		printf("\nInserisci nuovo cognome: ");
-		cognome = inputStringaSicuro(MAX_MEDIO,cognome);
-		strcpy(db.artista[pos].cognome, cognome);
-		free(cognome);
-	} else if (modalita==3) {
-		char *nomeArte = malloc(MAX_MEDIO);
-		printf("\nInserisci nuovo nome d'arte: ");
-		nomeArte = inputStringaSicuro(MAX_MEDIO,nomeArte);
-		strcpy(db.artista[pos].nomeArte, nomeArte);
-		free(nomeArte);
-	} else if (modalita==4) {
-		char *linkBio = malloc(MAX_ENORME);
-		printf("\nInserisci nuovo link della biografia: ");
-		linkBio = inputStringaSicuro(MAX_ENORME, linkBio);
-		strcpy(db.artista[pos].linkBio, linkBio);
-		free(linkBio);
-	}
+	struct Artista artistaModificato = db.artista[pos];
+	do {
+		pulisciBuffer();
+		if (campo==1) {
+			char *nome = malloc(MAX_MEDIO);
+			printf("\nInserisci nuovo nome: ");
+			nome = inputStringaSicuro(MAX_MEDIO,nome);
+			strcpy(artistaModificato.nome, nome);
+			free(nome);
+		} else if (campo==2) {
+			char *cognome = malloc(MAX_MEDIO);
+			printf("\nInserisci nuovo cognome: ");
+			cognome = inputStringaSicuro(MAX_MEDIO,cognome);
+			strcpy(artistaModificato.cognome, cognome);
+			free(cognome);
+		} else if (campo==3) {
+			char *nomeArte = malloc(MAX_MEDIO);
+			printf("\nInserisci nuovo nome d'arte: ");
+			nomeArte = inputStringaSicuro(MAX_MEDIO,nomeArte);
+			strcpy(artistaModificato.nomeArte, nomeArte);
+			free(nomeArte);
+		} else if (campo==4) {
+			char *linkBio = malloc(MAX_ENORME);
+			printf("\nInserisci nuovo link della biografia: ");
+			linkBio = inputStringaSicuro(MAX_ENORME, linkBio);
+			strcpy(artistaModificato.linkBio, linkBio);
+			free(linkBio);
+		}
+		printf("\nArtista ORIGINALE: ");
+		mostraSingoloArtista(db, id);
+		printf("\n");
+		mostrareAnteprimaArtista(artistaModificato);
+		scelta = richiesta(0);
+		if (scelta=='Y'||scelta=='y') {
+			db = modificareArtista(db, id, artistaModificato);
+			db.ultimoEsito=0;
+		} else {
+			scelta = richiesta(3);
+			if (scelta=='Y'||scelta=='y') {
+				db.ultimoEsito=-2;
+			} else {
+				db.ultimoEsito=-1;
+			}
+		}
+	} while (db.ultimoEsito==-2);
+	return db;
+}
+
+database modificareArtista(database db, int idArtista, struct Artista artistaModificato) {
+	int posArtista = ottenerePosDaID(db, 2, idArtista);
+	db.artista[posArtista] = artistaModificato;
 	db_modificato=1;
-	printf("\nArtista aggiornato, ecco il risultato:\n");
-	mostraSingoloArtista(db, id);
 	return db;
 }
 

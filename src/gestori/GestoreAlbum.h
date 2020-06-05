@@ -76,7 +76,7 @@ int controlloEsistenzaAlbum(database db, char album[]);
  *	Se l'album e' presente, procede alla modifica dell'informazione scelta con modificaSingoloAlbum
  *	@output database modificato
  */
-database modificaAlbum(database db);
+database modificareAlbumGuidato(database db);
 
 /**
  *	TODO: adeguare modifica allo standard imposto dalle specifiche
@@ -86,7 +86,8 @@ database modificaAlbum(database db);
  *	Successivamente procede a mostrare all'utente il risultato delle modifiche effettuate
  *	@output database modificato
  */
-database modificaSingoloAlbum(database db, int modalita, int id);
+database creareAlbumModificato(database db, int campo, int id);
+database modificareAlbum(database db, int idAlbum, struct Album albumModificato);
 
 /**
  *	TODO: adeguare cancellazione allo standard imposto dalle specifiche

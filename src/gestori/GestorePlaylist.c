@@ -258,14 +258,10 @@ int controlloEsistenzaPlaylist(database db, char playlist[]) {
 	return id;
 }
 
-database modificaPlaylist(database db) {
-	int id=0, modalita=-1, controllo=0;
+database modificarePlaylistGuidato(database db) {
+	int id=0, campo=-1;
 	char scelta='a';
-	if (controllareSeAdmin(db)) {
-		mostraTuttePlaylist(db, -1);
-	} else {
-		mostraPlaylistUtente(db, -1, db.utenteCorrente);
-	}
+	mostraInfo(db, 3);
 	while (isUserPlaylist(db, id, db.utenteCorrente)==false||ottenerePosDaID(db, 4,id)==-1) {
 		printf("\nInserisci id della playlist da modificare: ");
 		scanf("%d", &id);
@@ -277,76 +273,102 @@ database modificaPlaylist(database db) {
 	printf("\nHai scelto la playlist");
 	mostraSingolaPlaylist(db, -1, id);
 	pulisciBuffer();
-	while (controllo!=-1) {
-		printf("\nSicuro di voler continuare? [Y/N]: ");
-		scanf("%c", &scelta);
-		if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
-			controllo=-1;
-		}
-	}
+	scelta = richiesta(0);
 	if (scelta=='Y'||scelta=='y') {
-		printf("\n===[Sistema di modifica playlist]===");
-		printf("\n[1] Modifica il nome");
-		printf("\n[2] Modifica la descrizione");
-		printf("\n[3] Modifica la privacy");
-		if (controllareSeAdmin(db))
-			printf("\n[4] Modifica l'autore della playlist");
-		printf("\n[0] Esci");
-		while (modalita<0||modalita>4) {
-			printf("\nInserisci la scelta: ");
-			scanf("%d", &modalita);
-		}
-		if (modalita!=0) {
-			db = modificaSingolaPlaylist(db, modalita, id);
-		}
+		do {
+			printf("\n===[Sistema di modifica playlist]===");
+			printf("\n[1] Modifica il nome");
+			printf("\n[2] Modifica la descrizione");
+			printf("\n[3] Modifica la privacy");
+			if (controllareSeAdmin(db))
+				printf("\n[4] Modifica l'autore della playlist");
+			printf("\n[0] Esci");
+			while (campo<0||campo>4) {
+				printf("\nInserisci la scelta: ");
+				scanf("%d", &campo);
+			}
+			if (campo!=0) {
+				db = crearePlaylistModificata(db, campo, id);
+				if (db.ultimoEsito==0) {
+					printf("\nPlaylist modificata.");
+				}
+			} else {
+				db.ultimoEsito=-2;
+			}
+		} while (db.ultimoEsito==-1);
 	}
 	return db;
 }
 
-database modificaSingolaPlaylist(database db, int modalita, int id) {
+database crearePlaylistModificata(database db, int campo, int id) {
 	pulisciBuffer();
+	char scelta='a';
 	int pos = ottenerePosDaID(db, 4,id);
-	if (modalita==1) {
-		char *nome = malloc(MAX_MEDIO);
-		printf("\nInserisci nuovo nome: ");
-		nome = inputStringaSicuro(MAX_MEDIO,nome);
-		strcpy(db.playlist[pos].nome, nome);
-		free(nome);
-	} else if (modalita==2) {
-		char *descrizione = malloc(MAX_GRANDE);
-		printf("\nInserisci nuova descrizione: ");
-		descrizione = inputStringaSicuro(MAX_GRANDE,descrizione);
-		strcpy(db.playlist[pos].descrizione, descrizione);
-		free(descrizione);
-	} else if (modalita==3) {
-		int pubblica=-1;
-		while (pubblica<0||pubblica>1) {
-			printf("\nPlaylist privata[0] o pubblica[1]? ");
-			scanf("%d", &pubblica);
-		}
-		if (pubblica==0) {
-			db.playlist[pos].pubblica = false;
-		} else {
-			db.playlist[pos].pubblica = true;
-		}
-	} else if (modalita==4) {
-		if (controllareSeAdmin(db)) {
-			int idUtente=0;
-			while (ottenerePosDaID(db, -1,idUtente)==-1) {
-				printf("\nInserisci id del nuovo autore: ");
-				scanf("%d", &idUtente);
-				if (ottenerePosDaID(db, -1,idUtente)==-1) {
-					printf("\nNessun utente trovato, riprovare");
-				}
+	struct Playlist playlistModificata = db.playlist[pos];
+	do {
+		if (campo==1) {
+			char *nome = malloc(MAX_MEDIO);
+			printf("\nInserisci nuovo nome: ");
+			nome = inputStringaSicuro(MAX_MEDIO,nome);
+			strcpy(playlistModificata.nome, nome);
+			free(nome);
+		} else if (campo==2) {
+			char *descrizione = malloc(MAX_GRANDE);
+			printf("\nInserisci nuova descrizione: ");
+			descrizione = inputStringaSicuro(MAX_GRANDE,descrizione);
+			strcpy(playlistModificata.descrizione, descrizione);
+			free(descrizione);
+		} else if (campo==3) {
+			int pubblica=-1;
+			while (pubblica<0||pubblica>1) {
+				printf("\nPlaylist privata[0] o pubblica[1]? ");
+				scanf("%d", &pubblica);
 			}
-			db.playlist[pos].idUtente = idUtente;
-		} else {
-			errore(16);
+			if (pubblica==0) {
+				playlistModificata.pubblica = false;
+			} else {
+				playlistModificata.pubblica = true;
+			}
+		} else if (campo==4) {
+			if (controllareSeAdmin(db)) {
+				int idUtente=0;
+				mostraInfo(db, 4);
+				while (ottenerePosDaID(db, -1,idUtente)==-1) {
+					printf("\nInserisci id del nuovo autore: ");
+					scanf("%d", &idUtente);
+					if (ottenerePosDaID(db, -1,idUtente)==-1) {
+						printf("\nNessun utente trovato, riprovare");
+					}
+				}
+				playlistModificata.idUtente = idUtente;
+			} else {
+				errore(16);
+			}
 		}
-	}
+		printf("\nPlaylist ORIGINALE:");
+		mostraSingolaPlaylist(db, -1, id);
+		printf("\n");
+		mostrareAnteprimaPlaylist(playlistModificata);
+		scelta = richiesta(0);
+		if (scelta=='Y'||scelta=='y') {
+			db = modificarePlaylist(db, id, playlistModificata);
+			db.ultimoEsito=0;
+		} else {
+			scelta = richiesta(3);
+			if (scelta=='Y'||scelta=='y') {
+				db.ultimoEsito=-2;
+			} else {
+				db.ultimoEsito=-1;
+			}
+		}
+	} while (db.ultimoEsito==-2);
+	return db;
+}
+
+database modificarePlaylist(database db, int idPlaylist, struct Playlist playlistModificata) {
+	int posPlaylist = ottenerePosDaID(db, 4, idPlaylist);
+	db.playlist[posPlaylist] = playlistModificata;
 	db_modificato=1;
-	printf("Playlist aggiornata, ecco il risultato:\n");
-	mostraSingolaPlaylist(db, -1,id);
 	return db;
 }
 

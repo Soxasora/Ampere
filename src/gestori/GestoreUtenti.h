@@ -124,7 +124,8 @@ database modificareUtenteGuidato(database db);
  *	Successivamente procede a mostrare all'utente il risultato delle modifiche effettuate
  *	@output database modificato
  */
-database modificareUtente(database db, int modalita, int id);
+database creareUtenteModificato(database db, int campo, int id);
+database modificareUtente(database db, int idUtente, struct Utente utenteModificato);
 
 /**
  *	TODO: adeguare cancellazione allo standard imposto dalle specifiche

@@ -18,6 +18,7 @@
 #include "../gestori/GestoreGeneri.h"
 #include "../database/Database.h"
 #include "../database/DatabaseUtils.h"
+#include "../sys/Messaggi.h"
 #include "../sys/Utils.h"
 #include "../sys/Impostazioni.h"
 
@@ -105,9 +106,9 @@ int controllareEsistenzaGenere(database db, char genere[]) {
 }
 
 database modificareGenereGuidato(database db) {
-	int id=0, modalita=-1, controllo=0;
+	int id=0, campo=-1;
 	char scelta='a';
-	mostraTuttiGeneri(db);
+	mostraInfo(db, 2);
 	while(ottenerePosDaID(db, 3,id)==-1) {
 		printf("\n\nInserire l'identificativo del genere da modificare: ");
 		scanf("%d", &id);
@@ -118,39 +119,64 @@ database modificareGenereGuidato(database db) {
 	printf("\nHai scelto il genere:");
 	mostraSingoloGenere(db, id);
 	pulisciBuffer();
-	while (controllo!=-1) {
-		printf("\nSicuro di voler continuare? [Y/N]: ");
-		scanf("%c", &scelta);
-		if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
-			controllo=-1;
-		}
-	}
+	scelta = richiesta(0);
 	if (scelta=='Y'||scelta=='y') {
-		printf("\n===[Sistema di modifica genere]===");
-		printf("\n[1] Modifica il Nome");
-		printf("\n[0] Esci");
-		while (modalita<0||modalita>1) {
-			printf("\nInserisci la tua scelta: ");
-			scanf("%d", &modalita);
-		}
-		if (modalita!=0) {
-			db = modificareGenere(db, id);
-		}
+		do {
+			printf("\n===[Sistema di modifica genere]===");
+			printf("\n[1] Modifica il Nome");
+			printf("\n[0] Esci");
+			while (campo<0||campo>1) {
+				printf("\nInserisci la tua scelta: ");
+				scanf("%d", &campo);
+			}
+			if (campo!=0) {
+				db = creareGenereModificato(db, id);
+				if (db.ultimoEsito==0) {
+					printf("\nGenere modificato.");
+				}
+			} else {
+				db.ultimoEsito=-2;
+			}
+		} while (db.ultimoEsito==-1);
 	}
 	return db;
 }
 
-database modificareGenere(database db, int id) {
-	pulisciBuffer();
+database creareGenereModificato(database db, int id) {
+	char scelta='a';
 	int pos = ottenerePosDaID(db, 3,id);
-	char *nome = malloc(MAX_MEDIO);
-	printf("\nInserisci nuovo nome: ");
-	nome = inputStringaSicuro(MAX_MEDIO,nome);
-	strcpy(db.genere[pos].nome, nome);
-	free(nome);
+	struct Genere genereModificato = db.genere[pos];
+	do {
+		pulisciBuffer();
+		char *nome = malloc(MAX_MEDIO);
+		printf("\nInserisci nuovo nome: ");
+		nome = inputStringaSicuro(MAX_MEDIO,nome);
+		strcpy(genereModificato.nome, nome);
+		free(nome);
+		printf("\nGenere ORIGINALE:");
+		mostraSingoloGenere(id);
+		printf("\n");
+		mostrareAnteprimaGenere(genereModificato);
+		scelta = richiesta(0);
+		if (scelta=='Y'||scelta=='y') {
+			db = modificareGenere(db, id, genereModificato);
+			db.ultimoEsito=0;
+		} else {
+			scelta = richiesta(3);
+			if (scelta=='Y'||scelta=='y') {
+				db.ultimoEsito=-2;
+			} else {
+				db.ultimoEsito=-1;
+			}
+		}
+	} while (db.ultimoEsito==-2);
+	return db;
+}
+
+database modificareGenere(database db, int idGenere, struct Genere genereModificato) {
+	int posGenere = ottenerePosDaID(db, 3, idGenere);
+	db.genere[posGenere] = genereModificato;
 	db_modificato=1;
-	printf("\nGenere aggiornato, ecco il risultato:\n");
-	mostraSingoloGenere(db, id);
 	return db;
 }
 

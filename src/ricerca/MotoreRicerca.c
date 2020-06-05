@@ -395,7 +395,7 @@ int mostraInfo(database db, int modalita) {
 		int i=0, n=contareNelDatabase(db,4);
 		while (i<n) {
 			if (comparaStringhe(db.playlist[i].nome, playlist)==0) {
-				if (isPublicPlaylist(db, db.playlist[i].id)||isUserPlaylist(db, db.playlist[i].id,db.utenteCorrente)) {
+				if (isPublicPlaylist(db, db.playlist[i].id)||isUserPlaylist(db, db.playlist[i].id,db.utenteCorrente)||controllareSeAdmin(db)) {
 					printf("\n");
 					mostraSingolaPlaylist(db, 0,db.playlist[i].id);
 					esiste=1;
