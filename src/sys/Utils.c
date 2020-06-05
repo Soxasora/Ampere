@@ -117,6 +117,19 @@ char* inputStringaSicuro(int lunghezza, char stringa[]) {
 	return stringa;
 }
 
+int inputNumeroScelta(){
+	char stringascelta[3];
+	char *notanumber;
+	int scelta;
+	printf("\nInserisci scelta: ");
+	fgets(stringascelta, 2, stdin);
+	scelta = strtol(stringascelta, &notanumber, 10);
+	if(notanumber[0] != '\0'){
+		scelta = -1;
+	}
+	return scelta;
+}
+
 int comparaStringhe(const char *s1, const char *s2) {
 	int risultato=0;
 	if (os==0) {

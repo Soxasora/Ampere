@@ -328,16 +328,19 @@ int mostraInfo(database db, int modalita) {
 		pulisciBuffer();
 		printf("\n[Premi invio per saltare] Inserisci il nome dell'artista da ricercare: ");
 		nome = inputStringaSicuro(MAX_MEDIO,nome);
-		if (comparaStringhe(nome, "N/A")==0)
-			nome = "unknown";
+		if (comparaStringhe(nome, "N/A")==0){
+			strcpy(nome, "unknown");
+		}
 		printf("\n[Premi invio per saltare] Inserisci il cognome dell'artista da ricercare: ");
 		cognome = inputStringaSicuro(MAX_MEDIO,cognome);
-		if (comparaStringhe(cognome, "N/A")==0)
-			cognome = "unknown";
+		if (comparaStringhe(cognome, "N/A")==0){
+			strcpy(cognome, "unknown");
+		}
 		printf("\n[Premi invio per saltare] Inserisci il nome d'arte dell'artista da ricercare: ");
 		nomeArte = inputStringaSicuro(MAX_MEDIO,nomeArte);
-		if (comparaStringhe(nomeArte, "N/A")==0)
-			nomeArte = "unknown";
+		if (comparaStringhe(nomeArte, "N/A")==0){
+			strcpy(nomeArte, "unknown");
+		}
 		int i=0, n=contareNelDatabase(db,2);
 		while (i<n) {
 			if (comparaStringheParziale(db.artista[i].nome,nome)

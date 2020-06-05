@@ -47,6 +47,15 @@ char* inputStringaSicuro(int lunghezza, char stringa[]);
  * 	Funzione universale per la comparazione di stringhe senza distinzione di caratteri
  * 	@output risultato comparazione, 0 se uguali
  */
+
+int inputNumeroScelta();
+
+/**
+ * 	Funzione sicura per l'input da tastiera di una scelta fino a due cifre
+ * 	Resistituisce -1 in caso di input non valido
+ * 	@output numero della scelta
+ */
+
 int comparaStringhe(const char *s1, const char *s2);
 
 /**

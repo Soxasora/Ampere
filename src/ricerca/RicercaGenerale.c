@@ -266,8 +266,7 @@ void eseguiRicerca(database db) {
 	ricerca(db,5,interrogazione, true);
 	printf("\n\nEsci dalla ricerca [0]");
 	while (scelta<0||scelta>6) {
-		printf("\nInserisci scelta: ");
-		scanf("%d", &scelta);
+		scelta = inputNumeroScelta();
 	}
 	if (scelta==1) {
 		ricerca(db,0,interrogazione, false);
