@@ -55,9 +55,9 @@ void infoUtenteConnesso(database db) {
 database loginUtente(database db) {
 	printf("\n\nEsecuzione Login ad Ampere");
 	int controllo=0, id=0;
+	char *username;
+	char *password;
 	while (controllo!=-1) {
-		char *username;
-		char *password;
 		pulisciBuffer();
 		if ((username = malloc(MAX_MEDIO))) {
 			printf("\nInserisci "C_GIALLO"username: "C_RESET);
