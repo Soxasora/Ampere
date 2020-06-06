@@ -41,7 +41,7 @@ database menuLogin(database db) {
 
 // Nuovo Menu di Ampere
 database menu(database db) {
-	pulisciBuffer();
+	////pulisciBuffer();
 	int scelta=-1;
 	printf("\n===["C_CIANO"Menu Principale"C_RESET"]===");
 	printf("\n[1] Effettua una "C_CIANO"Ricerca"C_RESET);
@@ -87,7 +87,7 @@ database menu(database db) {
 }
 
 database menuAccount(database db) {
-	pulisciBuffer();
+	//pulisciBuffer();
 	int scelta=-1;
 	printf("\n===[Menu Account]===");
 	printf("\n[1] Modifica il tuo account");
@@ -117,7 +117,7 @@ database menuAccount(database db) {
 }
 
 database menuPlaylist(database db) {
-	pulisciBuffer();
+	//pulisciBuffer();
 	int scelta=-1;
 	printf("\n===[Menu Playlist]===");
 	printf("\n[1] Le mie playlist");
@@ -160,7 +160,7 @@ database menuPlaylist(database db) {
 }
 
 database menuDatabase(database db) {
-	pulisciBuffer();
+	//pulisciBuffer();
 	int scelta=-1;
 	printf("\n===[AMPERE: Menu Database]===");
 	printf("\n[1] Inserisci nel database");
@@ -199,7 +199,7 @@ database menuDatabase(database db) {
 }
 
 database menuDBInserimento(database db) {
-	pulisciBuffer();
+	////pulisciBuffer();
 	int scelta=-1;
 	printf("\n===[Menu di Inserimento nel Database]===");
 	printf("\n[1] Inserisci un brano");
@@ -242,7 +242,7 @@ database menuDBInserimento(database db) {
 }
 
 database menuDBModifica(database db) {
-	pulisciBuffer();
+	////pulisciBuffer();
 	int scelta=-1;
 	printf("\n===[Menu di Modifica nel Database]===");
 	printf("\n[1] Modifica un brano");
@@ -290,7 +290,7 @@ database menuDBModifica(database db) {
 }
 
 database menuDBCancella(database db) {
-	pulisciBuffer();
+	////pulisciBuffer();
 	int scelta=-1;
 	printf("\n===[Menu di Cancellazione nel Database]===");
 	printf("\n[1] Cancella un brano");
@@ -338,7 +338,7 @@ database menuDBCancella(database db) {
 }
 
 void menuRicercaAvanzata(database db) {
-	pulisciBuffer();
+	////pulisciBuffer();
 	int scelta=-1;
 	printf("\n===[Menu Ricerca Avanzata]===");
 	printf("\n[1] Mostra tutte le info in base ad un criterio");
@@ -384,7 +384,7 @@ void menuRicercaAvanzata(database db) {
 }
 
 void menuRicercaInfo(database db) {
-	pulisciBuffer();
+	//pulisciBuffer();
 	int scelta=-1;
 	printf("\n===[Menu Ricerca su Criterio]===");
 	printf("\n[1] Mostra info su tutti i brani");
@@ -446,7 +446,7 @@ void menuRicercaInfo(database db) {
 }
 
 void menuRicercaBraniCriterio(database db) {
-	pulisciBuffer();
+	//pulisciBuffer();
 	int scelta=-1;
 	printf("\n===[Menu Ricerca Brani su Criterio]===");
 	printf("\n[1] Ricerca brani in base al titolo");
@@ -493,7 +493,7 @@ void menuRicercaBraniCriterio(database db) {
 }
 
 void menuRicercaInfoCriterio(database db) {
-	pulisciBuffer();
+	//pulisciBuffer();
 	int scelta=-1;
 	printf("\n===[Menu Ricerca Info su Criterio]===");
 	printf("\n[1] Ricerca info su un Artista");
@@ -541,7 +541,7 @@ void menuRicercaInfoCriterio(database db) {
 }
 
 database menuDebug(database db) {
-	pulisciBuffer();
+	//pulisciBuffer();
 	int scelta=-1;
 	printf("\n===[AMPERE: Menu Debug]===");
 	printf("\n[1] Funzione di debug on the fly");

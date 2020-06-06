@@ -53,7 +53,14 @@ int inputNumero();
 /**
  * 	Funzione sicura per l'input da tastiera di un intero senza segno fino a MAX_MEDIO cifre
  * 	Resistituisce -1 in caso di input non valido
- * 	@output numero della scelta
+ * 	@output numero inserito
+ */
+
+char inputCarattere();
+
+/**
+ * 	Funzione sicura per l'input da tastiera di un carattere ignorando caratteri vuoti
+ * 	@output carattere inserito
  */
 
 int comparaStringhe(const char *s1, const char *s2);

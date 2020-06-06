@@ -89,7 +89,7 @@ void successo(int codice) {
 }
 
 char richiesta(int codice) {
-	pulisciBuffer();
+	//pulisciBuffer();
 	int controllo=0;
 	char scelta='a';
 	printf("\n");
@@ -104,7 +104,7 @@ char richiesta(int codice) {
 	}
 	while (controllo!=-1) {
 		printf(" ["C_VERDE"Y"C_RESET"/"C_ROSSO"N"C_RESET"]: ");
-		scanf("%c", &scelta);
+		scelta = inputCarattere();
 		if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
 			controllo=-1;
 		}

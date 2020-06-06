@@ -118,18 +118,23 @@ char* inputStringaSicuro(int lunghezza, char stringa[]) {
 }
 
 int inputNumero(){
-	char stringascelta[MAX_MEDIO];
+	char numero[MAX_MEDIO];
 	char *notanumber;
 	int scelta=-1;
-	scanf(" %s", stringascelta);
-	//printf("\n\n STRINGAAAA:");
-	//puts(stringascelta);
-	scelta = strtoul(stringascelta, &notanumber, 10);
-	if(stringascelta == notanumber){
+	scanf(" %s", numero);
+	scelta = strtoul(numero, &notanumber, 10);
+	if(numero == notanumber){
 		scelta = -1;
 	}
-	//printf("\n\n SCELTAAAAA: %d", scelta);
+	pulisciBuffer();
 	return scelta;
+}
+
+char inputCarattere(){
+	char carattere;
+	scanf(" %c", &carattere);
+	pulisciBuffer();
+	return carattere;
 }
 
 int comparaStringhe(const char *s1, const char *s2) {

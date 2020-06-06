@@ -25,7 +25,7 @@
 database inserimentoArtistaGuidato(database db) {
 	char *nomeArte = malloc(MAX_MEDIO);
 	do {
-		pulisciBuffer();
+		//pulisciBuffer();
 		printf("\nInserisci nome d'arte dell'artista: ");
 		nomeArte = inputStringaSicuro(MAX_MEDIO,nomeArte);
 		db = creaArtistaSeNonEsiste(db,nomeArte);
@@ -41,7 +41,7 @@ database creaArtistaGuidato(database db, char nomeArte[]) {
 	char *linkBio = malloc(MAX_ENORME);
 	printf("\n===[Inserimento guidato di un artista]==="
 	       "\nNome d'arte: %s", nomeArte);
-	pulisciBuffer();
+	//pulisciBuffer();
 	printf("\n[Premi invio per saltare] Inserisci nome ANAGRAFICO dell'artista: ");
 	nome = inputStringaSicuro(MAX_MEDIO,nome);
 	printf("\n[Premi invio per saltare] Inserisci cognome ANAGRAFICO dell'artista: ");
@@ -50,10 +50,10 @@ database creaArtistaGuidato(database db, char nomeArte[]) {
 	linkBio = inputStringaSicuro(MAX_ENORME,linkBio);
 	struct Artista nuovoArtista = creaArtista(nome, cognome, nomeArte, linkBio);
 	mostrareAnteprimaArtista(nuovoArtista);
-	pulisciBuffer();
+	//pulisciBuffer();
 	while (controllo!=-1) {
 		printf("\nSicuro di voler continuare? [Y/N]: ");
-		scanf("%c", &scelta);
+		scelta = inputCarattere();
 		if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
 			controllo=-1;
 		}
@@ -142,7 +142,7 @@ database modificareArtistaGuidato(database db) {
 	}
 	printf("\nHai scelto l'artista:");
 	mostraSingoloArtista(db, id);
-	pulisciBuffer();
+	//pulisciBuffer();
 	scelta = richiesta(0);
 	if (scelta=='Y'||scelta=='y') {
 		do {
@@ -174,7 +174,7 @@ database creareArtistaModificato(database db, int campo, int id) {
 	int pos = ottenerePosDaID(db, 2,id);
 	struct Artista artistaModificato = db.artista[pos];
 	do {
-		pulisciBuffer();
+		//pulisciBuffer();
 		if (campo==1) {
 			char *nome = malloc(MAX_MEDIO);
 			printf("\nInserisci nuovo nome: ");
@@ -241,9 +241,9 @@ database cancellaArtista(database db) {
 	}
 	printf("\nHai scelto l'artista: ");
 	mostraSingoloArtista(db, id);
-	pulisciBuffer();
+	//pulisciBuffer();
 	printf("\nSicuro di voler continuare? Cancellera' anche i brani collegati ad esso. [Y/N]: ");
-	scanf("%c", &scelta);
+	scelta = inputCarattere();
 	if (scelta=='Y'||scelta=='y') {
 		db = cancellaSingoloArtista(db, id);
 	}
@@ -278,7 +278,7 @@ void visualizzaBiografiaArtista(database db) {
 	printf("\nCerca biografia dell'artista: ");
 	esito = mostraInfo(db, 0);
 	if (esito==1) {
-		pulisciBuffer();
+		//pulisciBuffer();
 		while(ottenerePosDaID(db, 2,id)==-1) {
 			printf("\n\nInserisci l'identificativo dell'artista: ");
 			id = inputNumero();

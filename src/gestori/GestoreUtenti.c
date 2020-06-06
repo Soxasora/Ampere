@@ -58,7 +58,7 @@ database loginUtente(database db) {
 	char *username;
 	char *password;
 	while (controllo!=-1) {
-		pulisciBuffer();
+		//pulisciBuffer();
 		if ((username = malloc(MAX_MEDIO))) {
 			printf("\nInserisci "C_GIALLO"username: "C_RESET);
 			username = inputStringaSicuro(MAX_MEDIO,username);
@@ -96,7 +96,7 @@ int controllareDatiUtente(database db, char username[], char password[]) {
 }
 
 database registrareUtente(database db) {
-	pulisciBuffer();
+	//pulisciBuffer();
 	char scelta='a';
 	int controllo=0, ruolo=-1;
 	bool admin = false;
@@ -110,7 +110,7 @@ database registrareUtente(database db) {
 		printf("\nBenvenuto su Ampere. Procediamo alla creazione del tuo profilo.");
 	}
 	do {
-		pulisciBuffer();
+		//pulisciBuffer();
 		char *username;
 		char *password;
 		if ((username = malloc(MAX_MEDIO))) {
@@ -140,9 +140,9 @@ database registrareUtente(database db) {
 			mostrareAnteprimaUtente(nuovoUtente);
 			controllo=0;
 			while (controllo!=-1) {
-				pulisciBuffer();
+				//pulisciBuffer();
 				printf("\nSicuro di voler continuare? [Y/N]: ");
-				scanf("%c", &scelta);
+				scelta = inputCarattere();
 				if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
 					controllo=-1;
 				}
@@ -241,7 +241,7 @@ database modificareUtenteGuidato(database db) {
 		mostraSingoloUtente(db, 1,db.utenteCorrente);
 		id = db.utenteCorrente;
 	}
-	pulisciBuffer();
+	//pulisciBuffer();
 	scelta = richiesta(0);
 	if (scelta=='Y'||scelta=='y') {
 		do {
@@ -273,7 +273,7 @@ database creareUtenteModificato(database db, int campo, int id) {
 	int pos = ottenerePosDaID(db, -1, id);
 	struct Utente utenteModificato = db.utente[pos];
 	do {
-		pulisciBuffer();
+		//pulisciBuffer();
 		if (campo==1) {
 			char *username = malloc(MAX_MEDIO);
 			printf("\nInserisci nuovo username: ");
@@ -366,10 +366,10 @@ database cancellareUtenteGuidato(database db) {
 		id = db.utenteCorrente;
 		mostraSingoloUtente(db, 0, id);
 	}
-	pulisciBuffer();
+	//pulisciBuffer();
 	while (controllo!=-1) {
 		printf("\nSicuro di voler continuare? [Y/N]: ");
-		scanf("%c", &scelta);
+		scelta = inputCarattere();
 		if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
 			controllo=-1;
 		}

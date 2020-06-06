@@ -25,7 +25,7 @@
 database inserimentoAlbumGuidato(database db) {
 	char *titolo = malloc(MAX_MEDIO);
 	do {
-		pulisciBuffer();
+		//pulisciBuffer();
 		if ((titolo = malloc(MAX_MEDIO))) {
 			printf("\nInserisci titolo dell'album: ");
 			titolo = inputStringaSicuro(MAX_MEDIO,titolo);
@@ -42,17 +42,17 @@ database creaAlbumGuidato(database db, char titoloAlbum[]) {
 	int anno=0;
 	printf("\n===[Inserimento guidato di un album]===");
 	printf("\nTitolo: %s", titoloAlbum);
-	pulisciBuffer();
+	//pulisciBuffer();
 	while (anno<=1950||anno>2020) {
 		printf("\nInserisci l'anno di uscita di quest'album: ");
 		anno = inputNumero();
 	}
 	struct Album nuovoAlbum = creaAlbum(titoloAlbum, anno);
 	mostrareAnteprimaAlbum(nuovoAlbum);
-	pulisciBuffer();
+	//pulisciBuffer();
 	while (controllo!=-1) {
 		printf("\nSicuro di voler continuare? [Y/N]: ");
-		scanf("%c", &scelta);
+		scelta = inputCarattere();
 		if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
 			controllo=-1;
 		}
@@ -136,7 +136,7 @@ database modificareAlbumGuidato(database db) {
 	}
 	printf("\nHai scelto l'album:");
 	mostraSingoloAlbum(db, id);
-	pulisciBuffer();
+	////pulisciBuffer();
 	scelta = richiesta(0);
 	if (scelta=='Y'||scelta=='y') {
 		do {
@@ -166,7 +166,7 @@ database creareAlbumModificato(database db, int campo, int id) {
 	int pos = ottenerePosDaID(db, 1, id);
 	struct Album albumModificato = db.album[pos];
 	do {
-		pulisciBuffer();
+		//pulisciBuffer();
 		if (campo==1) {
 			char *titolo = malloc(MAX_MEDIO);
 			printf("\nInserisci nuovo titolo: ");
@@ -221,9 +221,9 @@ database cancellaAlbum(database db) {
 	}
 	printf("\nHai scelto l'album: ");
 	mostraSingoloAlbum(db, id);
-	pulisciBuffer();
+	//pulisciBuffer();
 	printf("\nSicuro di voler continuare? Cancellera' anche i brani collegati ad esso. [Y/N]: ");
-	scanf("%c", &scelta);
+	scelta = inputCarattere();
 	if (scelta=='Y'||scelta=='y') {
 		db = cancellaSingoloAlbum(db,id);
 	}
