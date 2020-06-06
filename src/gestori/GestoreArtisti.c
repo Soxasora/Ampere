@@ -135,7 +135,7 @@ database modificareArtistaGuidato(database db) {
 	mostraInfo(db, 0);
 	while (ottenerePosDaID(db, 2, id)==-1) {
 		printf("\n\nInserire l'identificativo dell'artista da modificare: ");
-		scanf("%d", &id);
+		id = inputNumero();
 		if (ottenerePosDaID(db, 2,id)==-1) {
 			printf("\nArtista non trovato, riprovare");
 		}
@@ -154,7 +154,7 @@ database modificareArtistaGuidato(database db) {
 				   "\n[0] Esci");
 			while (campo<0||campo>4) {
 				printf("\nInserisci la tua scelta: ");
-				scanf("%d", &campo);
+				campo = inputNumero();
 			}
 			if (campo!=0) {
 				db = creareArtistaModificato(db, campo, id);
@@ -233,7 +233,7 @@ database cancellaArtista(database db) {
 	mostraTuttiArtisti(db);
 	while (ottenerePosDaID(db, 2,id)==-1) {
 		printf("\n\nInserire l'identificativo dell'artista da cancellare: ");
-		scanf("%d", &id);
+		id = inputNumero();
 		if (ottenerePosDaID(db, 2,id)==-1) {
 			printf("\nArtista non trovato, riprovare");
 		}
@@ -281,7 +281,7 @@ void visualizzaBiografiaArtista(database db) {
 		pulisciBuffer();
 		while(ottenerePosDaID(db, 2,id)==-1) {
 			printf("\n\nInserisci l'identificativo dell'artista: ");
-			scanf("%d", &id);
+			id = inputNumero();
 			if (ottenerePosDaID(db, 2,id)==1) {
 				printf("\nArtista non trovato, riprovare");
 			}

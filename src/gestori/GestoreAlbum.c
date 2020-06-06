@@ -45,7 +45,7 @@ database creaAlbumGuidato(database db, char titoloAlbum[]) {
 	pulisciBuffer();
 	while (anno<=1950||anno>2020) {
 		printf("\nInserisci l'anno di uscita di quest'album: ");
-		scanf("%d", &anno);
+		anno = inputNumero();
 	}
 	struct Album nuovoAlbum = creaAlbum(titoloAlbum, anno);
 	mostrareAnteprimaAlbum(nuovoAlbum);
@@ -129,7 +129,7 @@ database modificareAlbumGuidato(database db) {
 	mostraInfo(db, 1);
 	while (ottenerePosDaID(db, 1,id)==-1) {
 		printf("\n\nInserire l'identificativo dell'album da modificare: ");
-		scanf("%d", &id);
+		id = inputNumero();
 		if (ottenerePosDaID(db, 1,id)==-1) {
 			printf("\nNessun album trovato, riprovare");
 		}
@@ -146,7 +146,7 @@ database modificareAlbumGuidato(database db) {
 			"\n[0] Esci");
 			while (campo<0||campo>2) {
 				printf("\nInserisci la tua scelta: ");
-				scanf("%d", &campo);
+				campo = inputNumero();
 			}
 			if (campo!=0) {
 				db = creareAlbumModificato(db, campo, id);
@@ -177,7 +177,7 @@ database creareAlbumModificato(database db, int campo, int id) {
 			int anno=0;
 			while (anno<=1950||anno>2020) {
 				printf("\nInserisci nuovo anno: ");
-				scanf("%d", &anno);
+				anno = inputNumero();
 			}
 			albumModificato.anno=anno;
 		}
@@ -214,7 +214,7 @@ database cancellaAlbum(database db) {
 	mostraTuttiAlbum(db);
 	while (ottenerePosDaID(db, 1,id)==-1) {
 		printf("\n\nInserire l'identificativo dell'album da cancellare: ");
-		scanf("%d", &id);
+		id = inputNumero();
 		if (ottenerePosDaID(db, 1,id)==-1) {
 			printf("\nNessun album trovato, riprovare");
 		}

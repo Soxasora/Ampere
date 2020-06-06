@@ -290,7 +290,7 @@ void mostraTuttiUtenti(database db) {
 	pulisciBuffer();
 	while(modalita<0||modalita>1) {
 		printf("\nMostrare anche le password degli utenti? [0/1]: ");
-		scanf("%d", &modalita);
+		modalita = inputNumero();
 	}
 	while (i<n&&controllo!=-1) {
 		printf("\n");
@@ -399,7 +399,7 @@ int mostraInfo(database db, int modalita) {
 			titolo = "unknown";
 		while(anno<0||anno>3000) {
 			printf("\n[0 per saltare] Inserisci l'anno di uscita dell'album da ricercare: ");
-			scanf("%d", &anno);
+			anno = inputNumero();
 		}
 		int i=0, n=contareNelDatabase(db,1);
 		while(i<n) {
@@ -475,7 +475,7 @@ database moduloRicercaBrani(database db) {
 				   "\n[5] Genere"
 				   "\n[0] Esci dalla ricerca"
 				   "\nInserisci la tua scelta: ");
-			scanf("%d", &scelta);
+			scelta = inputNumero();
 		}
 		if (scelta==1) {
 			db.ultimoEsito = mostraBrani(db, 0);
@@ -524,7 +524,7 @@ int mostraBrani(database db, int modalita) {
 		pulisciBuffer();
 		while (anno<=1950) {
 			printf("\nInserisci l'anno di uscita del brano da ricercare: ");
-			scanf("%d", &anno);
+			anno = inputNumero();
 		}
 		int i=0, n=contareNelDatabase(db,0);
 		while (i<n) {

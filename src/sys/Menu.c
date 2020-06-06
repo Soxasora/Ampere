@@ -29,7 +29,7 @@ database menuLogin(database db) {
 	int scelta=-1;
 	while (scelta<0||scelta>1) {
 		printf("\nDesideri effettuare il "C_VERDE"login[0]"C_RESET" o "C_GIALLO"registrarti[1]"C_RESET" ad Ampere? ");
-		scanf("%d", &scelta);
+		scelta = inputNumero();
 	}
 	if (scelta==0) {
 		db = loginUtente(db);
@@ -55,7 +55,7 @@ database menu(database db) {
 	printf("\n[0] "C_ROSSO"Esci dal programma"C_RESET);
 	while (scelta<0||scelta==5||scelta==6||scelta==7||scelta==8||scelta>10) {
 		printf("\nInserisci la tua scelta: ");
-		scanf("%d", &scelta);
+		scelta = inputNumero();
 	}
 	if (scelta==1) {
 		eseguiRicerca(db);
@@ -95,7 +95,7 @@ database menuAccount(database db) {
 	printf("\n[0] Ritorna al menu precedente");
 	while (scelta<0||scelta>2) {
 		printf("\nInserisci la tua scelta: ");
-		scanf("%d", &scelta);
+		scelta = inputNumero();
 	}
 	if (scelta==1) {
 		db = modificareUtenteGuidato(db);
@@ -128,7 +128,7 @@ database menuPlaylist(database db) {
 	printf("\n[0] Ritorna al menu precedente");
 	while (scelta<0||scelta>6) {
 		printf("\nInserisci la tua scelta: ");
-		scanf("%d", &scelta);
+		scelta = inputNumero();
 	}
 	if (scelta==1) {
 		mostraPlaylistUtente(db, 0,db.utenteCorrente);
@@ -171,7 +171,7 @@ database menuDatabase(database db) {
 	printf("\n[0] Ritorna al menu principale");
 	while (scelta<0||scelta>5) {
 		printf("\nInserisci la tua scelta: ");
-		scanf("%d", &scelta);
+		scelta = inputNumero();
 	}
 	if (scelta==1) {
 		db = menuDBInserimento(db);
@@ -210,7 +210,7 @@ database menuDBInserimento(database db) {
 	printf("\n[0] Ritorna al menu precedente");
 	while (scelta<0||scelta>5) {
 		printf("\nInserisci la tua scelta: ");
-		scanf("%d", &scelta);
+		scelta = inputNumero();
 	}
 	if (scelta==1) {
 		db = inserimentoBranoGuidato(db);
@@ -254,7 +254,7 @@ database menuDBModifica(database db) {
 	printf("\n[0] Ritorna al menu precedente");
 	while (scelta<0||scelta>6) {
 		printf("\nInserisci la tua scelta: ");
-		scanf("%d", &scelta);
+		scelta = inputNumero();
 	}
 	if (scelta==1) {
 		db = modificareBranoGuidato(db);
@@ -302,7 +302,7 @@ database menuDBCancella(database db) {
 	printf("\n[0] Ritorna al menu precedente");
 	while (scelta<0||scelta>6) {
 		printf("\nInserisci la tua scelta: ");
-		scanf("%d", &scelta);
+		scelta = inputNumero();
 	}
 	if (scelta==1) {
 		db = cancellaBrano(db);
@@ -351,7 +351,7 @@ void menuRicercaAvanzata(database db) {
 	printf("\n[0] Ritorna al menu principale");
 	while (scelta<0||scelta>7) {
 		printf("\nInserisci la tua scelta: ");
-		scanf("%d", &scelta);
+		scelta = inputNumero();
 	}
 	if (scelta==1) {
 		menuRicercaInfo(db);
@@ -399,7 +399,7 @@ void menuRicercaInfo(database db) {
 	printf("\n[0] Ritorna al menu precedente");
 	while (scelta<0||scelta>7) {
 		printf("\nInserisci la tua scelta: ");
-		scanf("%d", &scelta);
+		scelta = inputNumero();
 	}
 	if (scelta==1) {
 		mostraTuttiBrani(db);
@@ -458,7 +458,7 @@ void menuRicercaBraniCriterio(database db) {
 	printf("\n[0] Ritorna al menu precedente");
 	while (scelta<0||scelta>6) {
 		printf("\nInserisci la tua scelta: ");
-		scanf("%d", &scelta);
+		scelta = inputNumero();
 	}
 	if (scelta==1) {
 		mostraBrani(db, 0);
@@ -506,7 +506,7 @@ void menuRicercaInfoCriterio(database db) {
 	printf("\n[0] Ritorna al menu precedente");
 	while (scelta<0||scelta>5) {
 		printf("\nInserisci la tua scelta: ");
-		scanf("%d", &scelta);
+		scelta = inputNumero();
 	}
 	if (scelta==1) {
 		mostraInfo(db, 0);
@@ -548,7 +548,7 @@ database menuDebug(database db) {
 	printf("\n[0] Ritorna al menu principale");
 	while (scelta<0||scelta>5) {
 		printf("\nInserisci la tua scelta: ");
-		scanf("%d", &scelta);
+		scelta = inputNumero();
 	}
 	if (scelta==1) {
 		//TODO

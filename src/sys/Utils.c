@@ -117,16 +117,20 @@ char* inputStringaSicuro(int lunghezza, char stringa[]) {
 	return stringa;
 }
 
-int inputNumeroScelta(int lunghezza){
-	char stringascelta[lunghezza+1];
+int inputNumero(){
+	char stringascelta[MAX_MEDIO];
 	char *notanumber;
-	int scelta;
-	printf("\nInserisci scelta: ");
-	fgets(stringascelta, lunghezza, stdin);
-	scelta = strtol(stringascelta, &notanumber, 10);
-	if(notanumber[0] != '\0'){
+	int scelta=-1;
+	scanf(" %s", stringascelta);
+	//printf("\n\n STRINGAAAA:");
+	//puts(stringascelta);
+	scelta = strtoul(stringascelta, &notanumber, 10);
+	if(stringascelta == notanumber){
 		scelta = -1;
 	}
+	// Cancella fine linea indesiderato
+	strtok(stringascelta, "\n");
+	//printf("\n\n SCELTAAAAA: %d", scelta);
 	return scelta;
 }
 

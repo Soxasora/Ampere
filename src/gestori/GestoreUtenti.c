@@ -128,7 +128,7 @@ database registrareUtente(database db) {
 			if (controllareSeAdmin(db)) {
 				while (ruolo<0||ruolo>1) {
 					printf("\nRuolo normale[0] o admin[1]? ");
-					scanf("%d", &ruolo);
+					ruolo = inputNumero();
 				}
 				if (ruolo==0) {
 					admin=false;
@@ -230,7 +230,7 @@ database modificareUtenteGuidato(database db) {
 		mostraInfo(db, 4);
 		while (ottenerePosDaID(db, -1,id)==-1) {
 			printf("\nInserisci id dell'utente da modificare: ");
-			scanf("%d", &id);
+			id = inputNumero();
 			if (ottenerePosDaID(db, -1,id)==-1) {
 				printf("\nNessun utente trovato, riprovare");
 			}
@@ -253,7 +253,7 @@ database modificareUtenteGuidato(database db) {
 			printf("\n[0] Esci");
 			while (campo<0||campo>3) {
 				printf("\nInserisci la tua scelta: ");
-				scanf("%d", &campo);
+				campo = inputNumero();
 			}
 			if (campo!=0) {
 				db = creareUtenteModificato(db, campo, id);
@@ -310,7 +310,7 @@ database creareUtenteModificato(database db, int campo, int id) {
 				int ruolo=1;
 				while (ruolo<0||ruolo>1) {
 					printf("\nAmministratore[0] oppure Utente normale[1]? ");
-					scanf("%d", &ruolo);
+					ruolo = inputNumero();
 				}
 				if (ruolo==0) {
 					utenteModificato.admin=true;
@@ -355,7 +355,7 @@ database cancellareUtenteGuidato(database db) {
 		mostraTuttiUtenti(db);
 		while (ottenerePosDaID(db, -1,id)==-1) {
 			printf("\nInserisci id dell'utente: ");
-			scanf("%d", &id);
+			id = inputNumero();
 			if (ottenerePosDaID(db, -1,id)==-1) {
 				printf("\nNessun utente trovato, riprovare");
 			}

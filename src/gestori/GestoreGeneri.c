@@ -111,7 +111,7 @@ database modificareGenereGuidato(database db) {
 	mostraInfo(db, 2);
 	while(ottenerePosDaID(db, 3,id)==-1) {
 		printf("\n\nInserire l'identificativo del genere da modificare: ");
-		scanf("%d", &id);
+		id = inputNumero();
 		if (ottenerePosDaID(db, 3,id)==-1) {
 			printf("\nGenere non trovato, riprovare");
 		}
@@ -127,7 +127,7 @@ database modificareGenereGuidato(database db) {
 			printf("\n[0] Esci");
 			while (campo<0||campo>1) {
 				printf("\nInserisci la tua scelta: ");
-				scanf("%d", &campo);
+				campo = inputNumero();
 			}
 			if (campo!=0) {
 				db = creareGenereModificato(db, id);
@@ -186,7 +186,7 @@ database cancellareGenereGuidato(database db) {
 	mostraTuttiGeneri(db);
 	while(ottenerePosDaID(db, 3,id)==-1) {
 		printf("\n\nInserire l'identificativo del genere da cancellare: ");
-		scanf("%d", &id);
+		id = inputNumero();
 		if (ottenerePosDaID(db, 3,id)==-1) {
 			printf("\nGenere non trovato, riprovare");
 		}
