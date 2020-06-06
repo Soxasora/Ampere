@@ -128,8 +128,6 @@ int inputNumero(){
 	if(stringascelta == notanumber){
 		scelta = -1;
 	}
-	// Cancella fine linea indesiderato
-	strtok(stringascelta, "\n");
 	//printf("\n\n SCELTAAAAA: %d", scelta);
 	return scelta;
 }
