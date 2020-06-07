@@ -138,7 +138,7 @@ int rimuoviSpaziFinali(char *stringa){
 }
 
 int inputNumero(){
-	char numero[MAX_MEDIO];
+	char numero[MAX_ENORME];
 	char *notanumber;
 	int scelta=-1;
 	scanf(" %s", numero);
