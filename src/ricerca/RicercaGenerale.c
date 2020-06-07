@@ -237,7 +237,7 @@ void eseguiRicerca(database db) {
 	printf("\n===[Ricerca Generale]===");
 	do {
 		if ((interrogazione=malloc(MAX_MEDIO))) {
-			//pulisciBuffer();
+			
 			printf("\nCerca nel database: ");
 			interrogazione = inputStringa(MAX_MEDIO,interrogazione);
 		}

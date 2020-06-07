@@ -35,7 +35,7 @@ database inserimentoBranoGuidato(database db) {
 	// Registrazione
 	do {
 		if ((titolo=malloc(MAX_MEDIO))) {
-			//pulisciBuffer();
+			
 			printf("\nInserisci titolo: ");
 			titolo = inputStringa(MAX_MEDIO,titolo);
 		}
@@ -47,7 +47,7 @@ database inserimentoBranoGuidato(database db) {
 		while (i<nArtisti) {
 			do {
 				if ((artista=malloc(MAX_MEDIO))) {
-					//pulisciBuffer();
+					
 					printf("\nInserisci nome artista n.%d: ", i+1);
 					artista = inputStringa(MAX_MEDIO,artista);
 					db = creaArtistaSeNonEsiste(db, artista);
@@ -65,7 +65,7 @@ database inserimentoBranoGuidato(database db) {
 		while (i<nAlbum) {
 			do {
 				if ((album=malloc(MAX_MEDIO))) {
-					//pulisciBuffer();
+					
 					printf("\nInserisci nome album n.%d: ", i+1);
 					album = inputStringa(MAX_MEDIO,album);
 					db = creaAlbumSeNonEsiste(db, album);
@@ -83,7 +83,7 @@ database inserimentoBranoGuidato(database db) {
 		while (i<nGeneri) {
 			do {
 				if ((genere=malloc(MAX_MEDIO))) {
-					//pulisciBuffer();
+					
 					printf("\nInserisci genere n.%d del brano: ", i+1);
 					genere = inputStringa(MAX_MEDIO,genere);
 					db = creareGenereSeNonEsiste(db, genere);
@@ -93,7 +93,7 @@ database inserimentoBranoGuidato(database db) {
 			free(genere); genere=NULL;
 			i++;
 		}
-		//pulisciBuffer();
+		
 		while (durata<=0) {
 			printf("\nInserisci durata del brano in secondi: ");
 			durata = inputNumero();
@@ -263,7 +263,7 @@ database modificareBranoGuidato(database db) {
 	}
 	printf("\nHai scelto il brano:");
 	mostraSingoloBrano(db, id);
-	//pulisciBuffer();
+	
 	scelta = richiesta(0);
 	if (scelta=='Y'||scelta=='y') {
 		do {
@@ -299,7 +299,7 @@ database creareBranoModificato(database db, int campo, int id) {
 	struct Brano branoModificato = db.brano[pos];
 	int* idAssociazioni = calloc(MAX_MEDIO, sizeof(int));
 	do {
-		//pulisciBuffer();
+		
 		if (campo==1) {
 			char *titolo = malloc(MAX_MEDIO);
 			printf("\nInserisci nuovo titolo: ");
@@ -575,7 +575,7 @@ void apriTestoDaRicerca(database db) {
 			}
 		} else if (db.ultimoEsito==1) {
 			do {
-				//pulisciBuffer();
+				
 				printf("\nInserisci id del brano selezionato, altrimenti [-1] per cercare di nuovo: ");
 				idBrano = inputNumero();
 				if (idBrano==-1) {

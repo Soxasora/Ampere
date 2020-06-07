@@ -105,7 +105,7 @@ database crearePlaylistGuidato(database db) {
 	int pubblica=-1;
 	do {
 		printf("\n===[Creazione guidata di una playlist]===");
-			//pulisciBuffer();
+			
 			if ((nome = malloc(MAX_MEDIO))) {
 				printf("\nInserisci nome della playlist: ");
 				nome = inputStringa(MAX_MEDIO,nome);
@@ -147,7 +147,7 @@ database crearePlaylistGuidato(database db) {
 }
 
 database inserimentoBraniPlaylistGuidato(database db) {
-	////pulisciBuffer();
+	
 	int id=0, i=0, j=0, branoscelto=0, controllo=0;
 	char scelta='a';
 	int nBrani = contareNelDatabase(db,0);
@@ -181,7 +181,7 @@ database inserimentoBraniPlaylistGuidato(database db) {
 		}
 		if (db.ultimoEsito==1) {
 			do {
-				//pulisciBuffer();
+				
 				printf("\nInserire l'identificativo del brano da inserire nella playlist, altrimenti [-1] per cercare di nuovo: ");
 				id = inputNumero();
 				if (branoscelto==-1) {
@@ -264,7 +264,7 @@ database modificarePlaylistGuidato(database db) {
 	}
 	printf("\nHai scelto la playlist");
 	mostraSingolaPlaylist(db, -1, id);
-	//pulisciBuffer();
+	
 	scelta = richiesta(0);
 	if (scelta=='Y'||scelta=='y') {
 		do {
@@ -293,7 +293,7 @@ database modificarePlaylistGuidato(database db) {
 }
 
 database crearePlaylistModificata(database db, int campo, int id) {
-	//pulisciBuffer();
+	
 	char scelta='a';
 	int pos = ottenerePosDaID(db, 4,id);
 	struct Playlist playlistModificata = db.playlist[pos];

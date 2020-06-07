@@ -330,7 +330,7 @@ int* ottenerePosAssociazioniDaID(database db, int modalita, int id) {
 }
 
 void backupDatabase() {
-	//pulisciBuffer();
+	
 	char *nome_backup = malloc(MAX_GRANDE);
 	char *percorso_backup = malloc(MAX_GRANDE);
 	creaCartella("backup", false);
@@ -365,7 +365,7 @@ void backupDatabase() {
 }
 
 database ripristinaDatabase(database db) {
-	//pulisciBuffer();
+	
 	char *nome_backup = malloc(MAX_GRANDE);
 	char *percorso_backup = malloc(MAX_GRANDE);
 	printf("\nInserire il nome del backup dal quale ripristinare il database (es. 05052020): ");

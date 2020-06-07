@@ -104,7 +104,7 @@ void successo(int codice) {
 }
 
 char richiesta(int codice) {
-	//pulisciBuffer();
+	
 	int controllo=0;
 	char scelta='a';
 	printf("\n");

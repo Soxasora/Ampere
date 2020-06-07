@@ -37,6 +37,7 @@
  * 	printf(C_ROSSO"Errore critico! Contattare l'amministratore"C_RESET);
  */
 #define C_ROSSO		"\x1b[31m"
+#define CB_ROSSO	"\x1b[1;31m"
 #define C_VERDE   	"\x1b[32m"
 #define C_GIALLO  	"\x1b[33m"
 #define C_CIANO	  	"\x1b[36m"

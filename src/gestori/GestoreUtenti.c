@@ -58,7 +58,7 @@ database loginUtente(database db) {
 	char *username;
 	char *password;
 	while (controllo!=-1) {
-		//pulisciBuffer();
+		
 		if ((username = malloc(MAX_MEDIO))) {
 			printf("\nInserisci "C_GIALLO"username: "C_RESET);
 			username = inputStringa(MAX_MEDIO,username);
@@ -96,7 +96,7 @@ int controllareDatiUtente(database db, char username[], char password[]) {
 }
 
 database registrareUtente(database db) {
-	//pulisciBuffer();
+	
 	char scelta='a';
 	int ruolo=-1;
 	bool admin = false;
@@ -110,7 +110,7 @@ database registrareUtente(database db) {
 		printf("\nBenvenuto su Ampere. Procediamo alla creazione del tuo profilo.");
 	}
 	do {
-		//pulisciBuffer();
+		
 		char *username;
 		char *password;
 		if ((username = malloc(MAX_MEDIO))) {
@@ -233,7 +233,7 @@ database modificareUtenteGuidato(database db) {
 		mostraSingoloUtente(db, 1,db.utenteCorrente);
 		id = db.utenteCorrente;
 	}
-	//pulisciBuffer();
+	
 	scelta = richiesta(0);
 	if (scelta=='Y'||scelta=='y') {
 		do {
@@ -265,7 +265,7 @@ database creareUtenteModificato(database db, int campo, int id) {
 	int pos = ottenerePosDaID(db, -1, id);
 	struct Utente utenteModificato = db.utente[pos];
 	do {
-		//pulisciBuffer();
+		
 		if (campo==1) {
 			char *username = malloc(MAX_MEDIO);
 			printf("\nInserisci nuovo username: ");

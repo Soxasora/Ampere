@@ -40,7 +40,7 @@ void info() {
 	"\n                /_/   "C_GIALLO"/_/      "
 	"\n                     //"
 	"\n                    /,"C_RESET"\n"
-	"\nUNIBA/Ampere 0.3"
+	"\nUNIBA/"C_GIALLO"Ampere "CB_ROSSO"0.3"C_RESET
 	"\nGruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino"
 	"\nProgetto universitario di gruppo intento alla creazione di un gestore dati per la musica\n");
 }

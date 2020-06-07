@@ -25,7 +25,7 @@
 database inserireGenereGuidato(database db) {
 	char *nome = malloc(MAX_MEDIO);
 	do {
-		//pulisciBuffer();
+		
 		printf("\nInserisci nome del genere: ");
 		nome = inputStringa(MAX_MEDIO,nome);
 		db = creareGenereSeNonEsiste(db, nome);
@@ -110,7 +110,7 @@ database modificareGenereGuidato(database db) {
 	}
 	printf("\nHai scelto il genere:");
 	mostraSingoloGenere(db, id);
-	//pulisciBuffer();
+	
 	scelta = richiesta(0);
 	if (scelta=='Y'||scelta=='y') {
 		do {
@@ -139,7 +139,7 @@ database creareGenereModificato(database db, int id) {
 	int pos = ottenerePosDaID(db, 3,id);
 	struct Genere genereModificato = db.genere[pos];
 	do {
-		//pulisciBuffer();
+		
 		char *nome = malloc(MAX_MEDIO);
 		printf("\nInserisci nuovo nome: ");
 		nome = inputStringa(MAX_MEDIO,nome);
@@ -185,7 +185,7 @@ database cancellareGenereGuidato(database db) {
 	}
 	printf("\nHai scelto il genere: ");
 	mostraSingoloGenere(db, id);
-	//pulisciBuffer();
+	
 	scelta = richiesta(5);
 	if (scelta=='Y'||scelta=='y') {
 		db = cancellareGenere(db, id);

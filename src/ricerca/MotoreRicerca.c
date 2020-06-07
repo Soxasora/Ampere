@@ -272,7 +272,7 @@ void mostraSingoloUtente(database db, int modalita, int idUtente) {
 
 void mostraTuttiUtenti(database db) {
 	int i=0, n=contareNelDatabase(db,-1), controllo=0, modalita=-1;
-	//pulisciBuffer();
+	
 	while(modalita<0||modalita>1) {
 		printf("\nMostrare anche le password degli utenti? [0/1]: ");
 		modalita = inputNumero();
@@ -304,7 +304,7 @@ int mostraInfo(database db, int modalita) {
 		char *nome = malloc(MAX_MEDIO);
 		char *cognome = malloc(MAX_MEDIO);
 		char *nomeArte = malloc(MAX_MEDIO);
-		//pulisciBuffer();
+		
 		printf("\n[Premi invio per saltare] Inserisci il nome dell'artista da ricercare: ");
 		nome = inputStringa(MAX_MEDIO,nome);
 		printf("\n[Premi invio per saltare] Inserisci il cognome dell'artista da ricercare: ");
@@ -371,7 +371,7 @@ int mostraInfo(database db, int modalita) {
 	} else if (modalita==1) {
 		char *titolo = malloc(MAX_MEDIO);
 		int anno=0;
-		//pulisciBuffer();
+		
 		printf("\n[Premi invio per saltare] Inserisci il titolo dell'album da ricercare: ");
 		titolo = inputStringa(MAX_MEDIO,titolo);
 		if (comparaStringhe(titolo, "N/A")==0)
@@ -392,7 +392,7 @@ int mostraInfo(database db, int modalita) {
 		free(titolo);
 	} else if (modalita==2) {
 		char *nome = malloc(MAX_MEDIO);
-		//pulisciBuffer();
+		
 		printf("\nInserisci il nome del genere: ");
 		nome = inputStringa(MAX_MEDIO,nome);
 		int i=0, n=contareNelDatabase(db,3);
@@ -407,7 +407,7 @@ int mostraInfo(database db, int modalita) {
 		free(nome);
 	} else if (modalita==3) {
 		char *playlist = malloc(MAX_MEDIO);
-		//pulisciBuffer();
+		
 		printf("\nInserisci il nome della playlist: ");
 		playlist = inputStringa(MAX_MEDIO,playlist);
 		int i=0, n=contareNelDatabase(db,4);
@@ -424,7 +424,7 @@ int mostraInfo(database db, int modalita) {
 		free(playlist);
 	} else if (modalita==4) {
 		char *username = malloc(MAX_MEDIO);
-		//pulisciBuffer();
+		
 		printf("\nInserisci l'username dell'utente: ");
 		username = inputStringa(MAX_MEDIO,username);
 		int i=0, n=contareNelDatabase(db,-1);
@@ -444,7 +444,7 @@ int mostraInfo(database db, int modalita) {
 database moduloRicercaBrani(database db) {
 	int scelta=-1;
 	do {
-		//pulisciBuffer();
+		
 		while (scelta<0||scelta>6) {
 			printf("\nEffettua una ricerca per:"
 				   "\n[1] Titolo"
@@ -485,7 +485,7 @@ int mostraBrani(database db, int modalita) {
 	int esiste=0;
 	if (modalita==0) {
 		char *titolo = malloc(MAX_MEDIO);
-		//pulisciBuffer();
+		
 		printf("\nInserisci il titolo del brano da ricercare: ");
 		titolo = inputStringa(MAX_MEDIO,titolo);
 		int i=0, n=contareNelDatabase(db,0);
@@ -500,7 +500,7 @@ int mostraBrani(database db, int modalita) {
 		free(titolo);
 	} else if (modalita==1) {
 		int anno = 0;
-		//pulisciBuffer();
+		
 		while (anno<=1950) {
 			printf("\nInserisci l'anno di uscita del brano da ricercare: ");
 			anno = inputNumero();
@@ -522,7 +522,7 @@ int mostraBraniArtista(database db) {
 	int esiste=0;
 	int id=0;
 	char *nomeArte = malloc(MAX_MEDIO);
-	//pulisciBuffer();
+	
 	printf("\nInserisci nome d'arte dell'artista: ");
 	nomeArte = inputStringa(MAX_MEDIO,nomeArte);
 	id = controlloEsistenzaArtista(db, nomeArte);
@@ -548,7 +548,7 @@ int mostraBraniAlbum(database db) {
 	int esiste=0;
 	int id=0;
 	char *album = malloc(MAX_MEDIO);
-	//pulisciBuffer();
+	
 	printf("\nInserisci nome album: ");
 	album = inputStringa(MAX_MEDIO,album);
 	id = controlloEsistenzaAlbum(db, album);
@@ -574,7 +574,7 @@ int mostraBraniGenere(database db) {
 	int esiste=0;
 	int id=0;
 	char *genere = malloc(MAX_MEDIO);
-	//pulisciBuffer();
+	
 	printf("\nInserisci nome genere: ");
 	genere = inputStringa(MAX_MEDIO,genere);
 	id = controllareEsistenzaGenere(db, genere);
@@ -600,7 +600,7 @@ int mostraBraniPlaylist(database db) {
 	int esiste=0;
 	int id=0;
 	char *playlist = malloc(MAX_MEDIO);
-	//pulisciBuffer();
+	
 	printf("\nInserisci nome playlist: ");
 	playlist = inputStringa(MAX_MEDIO,playlist);
 	id = controlloEsistenzaPlaylist(db, playlist);
@@ -630,7 +630,7 @@ int mostraPlaylistUtenteGuidato(database db) {
 	int esiste=0;
 	int id=0;
 	char *utente = malloc(MAX_MEDIO);
-	//pulisciBuffer();
+	
 	printf("\nInserisci nome utente: ");
 	utente = inputStringa(MAX_MEDIO,utente);
 	if (!controllareEsistenzaUtente(db, utente)) {

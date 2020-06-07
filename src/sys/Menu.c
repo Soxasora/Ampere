@@ -26,7 +26,6 @@
 #include "Messaggi.h"
 
 database menuLogin(database db) {
-	printf("\n===[ESECUZIONE LOGIN AD AMPERE]===");
 	int scelta=-1;
 	while (scelta<0||scelta>1) {
 		printf("\nDesideri effettuare: il "C_VERDE"Login[0]"C_RESET" oppure "C_GIALLO"Registrarti[1]"C_RESET" ad Ampere? ");
@@ -42,7 +41,6 @@ database menuLogin(database db) {
 
 // Nuovo Menu di Ampere
 database menu(database db) {
-	////pulisciBuffer();
 	int scelta=-1;
 	printf("\n===["C_CIANO"Menu Principale"C_RESET"]===");
 	printf("\n[1] Effettua una "C_CIANO"Ricerca"C_RESET);
@@ -88,7 +86,7 @@ database menu(database db) {
 }
 
 database menuAccount(database db) {
-	//pulisciBuffer();
+	
 	int scelta=-1;
 	printf("\n===["C_GIALLO"Menu Account"C_RESET"]===");
 	printf("\n[1] "C_GIALLO"Modifica"C_RESET" il tuo account");
@@ -118,7 +116,7 @@ database menuAccount(database db) {
 }
 
 database menuPlaylist(database db) {
-	//pulisciBuffer();
+	
 	int scelta=-1;
 	printf("\n===["C_CIANO"Menu Playlist"C_RESET"]===");
 	printf("\n[1] "C_CIANO"Le mie playlist"C_RESET);
@@ -161,7 +159,7 @@ database menuPlaylist(database db) {
 }
 
 database menuDatabase(database db) {
-	//pulisciBuffer();
+	
 	int scelta=-1;
 	printf("\n===["C_ROSSO"Menu Database"C_RESET"]===");
 	printf("\n[1] "C_VERDE"Inserisci"C_RESET" nel database");
@@ -200,7 +198,7 @@ database menuDatabase(database db) {
 }
 
 database menuDBInserimento(database db) {
-	////pulisciBuffer();
+	
 	int scelta=-1;
 	printf("\n===["C_VERDE"Menu di Inserimento nel Database"C_RESET"]===");
 	printf("\n[1] "C_VERDE"Inserisci"C_RESET" un brano");
@@ -243,7 +241,7 @@ database menuDBInserimento(database db) {
 }
 
 database menuDBModifica(database db) {
-	////pulisciBuffer();
+	
 	int scelta=-1;
 	printf("\n===["C_GIALLO"Menu di Modifica nel Database"C_RESET"]===");
 	printf("\n[1] "C_GIALLO"Modifica"C_RESET" un brano");
@@ -291,7 +289,7 @@ database menuDBModifica(database db) {
 }
 
 database menuDBCancella(database db) {
-	////pulisciBuffer();
+	
 	int scelta=-1;
 	printf("\n===["C_ROSSO"Menu di Cancellazione nel Database"C_RESET"]===");
 	printf("\n[1] "C_ROSSO"Cancella"C_RESET" un brano");
@@ -339,7 +337,7 @@ database menuDBCancella(database db) {
 }
 
 void menuRicercaAvanzata(database db) {
-	////pulisciBuffer();
+	
 	int scelta=-1;
 	printf("\n===["C_CIANO"Menu Ricerca Avanzata"C_RESET"]===");
 	printf("\n[1] Mostra tutte le "C_CIANO"informazioni"C_RESET" in base ad un criterio");
@@ -385,7 +383,7 @@ void menuRicercaAvanzata(database db) {
 }
 
 void menuRicercaInfo(database db) {
-	//pulisciBuffer();
+	
 	int scelta=-1;
 	printf("\n===["C_CIANO"Menu Ricerca su Criterio"C_RESET"]===");
 	printf("\n[1] Tutti i "C_CIANO"brani"C_RESET);
@@ -447,7 +445,7 @@ void menuRicercaInfo(database db) {
 }
 
 void menuRicercaBraniCriterio(database db) {
-	//pulisciBuffer();
+	
 	int scelta=-1;
 	printf("\n===["C_CIANO"Menu Ricerca Brani su Criterio]===");
 	printf("\n[1] Ricerca brani in base al "C_CIANO"titolo"C_RESET);
@@ -494,7 +492,7 @@ void menuRicercaBraniCriterio(database db) {
 }
 
 void menuRicercaInfoCriterio(database db) {
-	//pulisciBuffer();
+	
 	int scelta=-1;
 	printf("\n===["C_CIANO"Menu Ricerca Info su Criterio"C_RESET"]===");
 	printf("\n[1] Ricerca info su un "C_CIANO"Artista"C_RESET);
@@ -542,7 +540,7 @@ void menuRicercaInfoCriterio(database db) {
 }
 
 database menuDebug(database db) {
-	//pulisciBuffer();
+	
 	int scelta=-1;
 	printf("\n===[Menu Debug]===");
 	printf("\n[1] Funzione di debug on the fly");
