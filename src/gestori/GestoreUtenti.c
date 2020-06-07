@@ -1,8 +1,8 @@
 /*
- * Ampere 0.2.1 rev.1 - 04.06.2020
+ * UNIBA/Ampere 0.3
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
- * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
+ * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
  * Maggiori informazioni sul copyright su https://github.com/Soxasora/Ampere/blob/master/LICENSE
  */
 
@@ -98,7 +98,7 @@ int controllareDatiUtente(database db, char username[], char password[]) {
 database registrareUtente(database db) {
 	//pulisciBuffer();
 	char scelta='a';
-	int controllo=0, ruolo=-1;
+	int ruolo=-1;
 	bool admin = false;
 	if (controllareSePrescelto(db)) {
 		printf("\nSei il primo utente di Ampere."
@@ -138,7 +138,6 @@ database registrareUtente(database db) {
 			}
 			struct Utente nuovoUtente = creareUtente(username, password, admin);
 			mostrareAnteprimaUtente(nuovoUtente);
-			controllo=0;
 			scelta = richiesta(0);
 			if (scelta=='Y'||scelta=='y') {
 				db = inserireUtente(db, nuovoUtente);
@@ -342,7 +341,7 @@ database modificareUtente(database db, int idUtente, struct Utente utenteModific
 }
 
 database cancellareUtenteGuidato(database db) {
-	int id=0, controllo=0;
+	int id=0;
 	char scelta='a';
 	if (controllareSeAdmin(db)) {
 		mostraTuttiUtenti(db);

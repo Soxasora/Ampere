@@ -1,8 +1,8 @@
 /*
- * Ampere 0.2.1 rev.1 - 04.06.2020
+ * UNIBA/Ampere 0.3
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
- * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
+ * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
  * Maggiori informazioni sul copyright su https://github.com/Soxasora/Ampere/blob/master/LICENSE
  */
 
@@ -99,7 +99,7 @@ database inserirePlaylist(database db, struct Playlist nuovaPlaylist) {
 
 database crearePlaylistGuidato(database db) {
 	char scelta='a';
-	int idUtente = db.utenteCorrente, controllo=0;
+	int idUtente = db.utenteCorrente;
 	char *nome;
 	char *descrizione;
 	int pubblica=-1;
@@ -365,7 +365,7 @@ database modificarePlaylist(database db, int idPlaylist, struct Playlist playlis
 }
 
 database cancellaPlaylist(database db) {
-	int id=0, controllo=0;
+	int id=0;
 	char scelta='a';
 	if (controllareSeAdmin(db)) {
 		mostraTuttePlaylist(db, -1);

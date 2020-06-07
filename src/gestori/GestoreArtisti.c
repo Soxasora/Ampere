@@ -1,8 +1,8 @@
 /*
- * Ampere 0.2.1 rev.1 - 04.06.2020
+ * UNIBA/Ampere 0.3
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
- * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
+ * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
  * Maggiori informazioni sul copyright su https://github.com/Soxasora/Ampere/blob/master/LICENSE
  */
 
@@ -35,7 +35,6 @@ database inserimentoArtistaGuidato(database db) {
 
 database creaArtistaGuidato(database db, char nomeArte[]) {
 	char scelta='a';
-	int controllo=0;
 	char *nome = malloc(MAX_MEDIO);
 	char *cognome = malloc(MAX_MEDIO);
 	char *linkBio = malloc(MAX_ENORME);

@@ -1,8 +1,8 @@
 /*
- * Ampere 0.2.1 rev.1 - 04.06.2020
+ * UNIBA/Ampere 0.3
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
- * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
+ * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
  * Maggiori informazioni sul copyright su https://github.com/Soxasora/Ampere/blob/master/LICENSE
  */
 
@@ -26,7 +26,7 @@
 
 database inserimentoBranoGuidato(database db) {
 	char scelta='a';
-	int i=0, controllo=0, nArtisti=0, nAlbum=0, nGeneri=0;
+	int i=0, nArtisti=0, nAlbum=0, nGeneri=0;
 	int* idArtisti = calloc(MAX_MEDIO, sizeof(int));
 	int* idAlbum = calloc(MAX_MEDIO, sizeof(int));
 	int* idGeneri = calloc(MAX_MEDIO, sizeof(int));
@@ -204,7 +204,7 @@ database controllaEsistenzaBrano(database db, struct Brano nuovoBrano) {
 	// Ricerca su base
 	printf("\nRicerco eventuali similitudini con i brani gia' presenti...");
 	char scelta='a';
-	int controllo=0, occorrenze=0, i=0, n=contareNelDatabase(db, 0);
+	int occorrenze=0, i=0, n=contareNelDatabase(db, 0);
 	bool trovato=false;
 	while (i<n) {
 		occorrenze=0;
@@ -484,7 +484,7 @@ database modificareBrano(database db, int idBrano, int campo, struct Brano brano
 }
 
 database cancellaBrano(database db) {
-	int id=0, controllo=0;
+	int id=0;
 	char scelta='a';
 	mostraTuttiBrani(db);
 	while (ottenerePosDaID(db, 0,id)==-1) {

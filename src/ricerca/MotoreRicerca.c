@@ -1,8 +1,8 @@
 /*
- * Ampere 0.2.1 rev.1 - 04.06.2020
+ * UNIBA/Ampere 0.3
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
- * da realizzare nell'ambito del corso di studi di Laboratorio di informatica, a.a. 2019/20.
+ * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
  * Maggiori informazioni sul copyright su https://github.com/Soxasora/Ampere/blob/master/LICENSE
  */
 
@@ -271,7 +271,7 @@ void mostraSingoloUtente(database db, int modalita, int idUtente) {
 }
 
 void mostraTuttiUtenti(database db) {
-	int i=0, n=contareNelDatabase(db,-1), controllo=0, modalita=-1, controllo2=0;
+	int i=0, n=contareNelDatabase(db,-1), controllo=0, modalita=-1;
 	//pulisciBuffer();
 	while(modalita<0||modalita>1) {
 		printf("\nMostrare anche le password degli utenti? [0/1]: ");
