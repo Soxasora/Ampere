@@ -94,9 +94,14 @@ void creaCartella(char nome[], bool silenzioso) {
 
 char* inputStringaSicuro(int lunghezza, char stringa[]) {
 	int i=0, lunghezzaStringa=0;
+	char *stringaSicura = calloc(lunghezza, sizeof(char));
 	do {
 		fgets(stringa, lunghezza, stdin);
-		lunghezzaStringa = strlen(stringa);
+		//rimuoviamo ogni whitespace iniziale
+		sscanf(stringa, " %[^\r\v\f\t\n]", stringaSicura);
+		lunghezzaStringa = rimuoviSpaziFinali(stringaSicura);
+		//utilizziamo una variabile che possiamo ritornare
+		strcpy(stringa, stringaSicura);
 		if (lunghezzaStringa==lunghezza-1) {
 			attenzione(3);
 			pulisciBuffer();
@@ -108,13 +113,28 @@ char* inputStringaSicuro(int lunghezza, char stringa[]) {
 		}
 		i++;
 	}
-	// Cancella fine linea indesiderato
-	strtok(stringa, "\n");
 	// Controlla se l'utente non inserisce niente
-	if (stringa[0]=='\n') {
+	if (stringa[0]=='\0') {
 		strcpy(stringa, "N/A");
 	}
+	free(stringaSicura);
 	return stringa;
+}
+
+int rimuoviSpaziFinali(char *stringa){
+	int posizioneUltimoCarattereValido = -1;
+	int i=0;
+
+	while(stringa[i] != '\0'){
+		if(stringa[i] != ' '){
+			posizioneUltimoCarattereValido = i;
+		}
+		i++;
+	}
+
+	//tronchiamo la stringa
+	stringa[posizioneUltimoCarattereValido + 1] = '\0';
+	return posizioneUltimoCarattereValido+1;
 }
 
 int inputNumero(){
@@ -122,7 +142,7 @@ int inputNumero(){
 	char *notanumber;
 	int scelta=-1;
 	scanf(" %s", numero);
-	scelta = strtoul(numero, &notanumber, 10);
+	scelta = strtol(numero, &notanumber, 10);
 	if(numero == notanumber){
 		scelta = -1;
 	}

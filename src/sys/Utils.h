@@ -48,6 +48,14 @@ char* inputStringaSicuro(int lunghezza, char stringa[]);
  * 	@output risultato comparazione, 0 se uguali
  */
 
+int rimuoviSpaziFinali(char *stringa);
+/**
+ * 	@input stringa s1;
+ * 	Ripulisce dai caratteri "spazio" al termine della stringa.
+ * 	Non rimuove ulteriori whitespace come \n, \r, etc.
+ * 	@output lunghezza della stringa finale
+ */
+
 int inputNumero();
 
 /**
