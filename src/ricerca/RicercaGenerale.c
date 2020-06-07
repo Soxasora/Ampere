@@ -251,7 +251,7 @@ void eseguiRicerca(database db) {
 			printf("\nCerca nel database: ");
 			interrogazione = inputStringaSicuro(MAX_MEDIO,interrogazione);
 		}
-		if (strlen(interrogazione)==1&&interrogazione[0]==' ') {
+		if (comparaStringheParziale("N/A", interrogazione)) {
 			attenzione(2);
 			ripeti=true;
 		} else {
