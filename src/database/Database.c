@@ -86,8 +86,8 @@ database ottenereBrani(database db) {
 	if (controllaSeFileVuoto(file_brani)==0) {
 		FILE* fp=fopen(file_brani, "r");
 		char temp[MAX_ENORME];
-		char dati[MAX_ENORME][MAX_ENORME];
-		char spaziatore[] = "|";
+		char dati[5][MAX_ENORME];
+		char spaziatore[2] = "|";
 		int i=0, j=0;
 		while(!feof(fp)) {
 			fgets(temp, MAX_ENORME, fp);
@@ -118,12 +118,12 @@ database ottenereBrani(database db) {
 }
 
 database ottenereAlbums(database db) {
-	db.album = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.album));
+	db.album = malloc((MAX_ENORME*MAX_ENORME)*sizeof(struct Album));
 	if (controllaSeFileVuoto(file_albums)==0) {
 		FILE* fp=fopen(file_albums, "r");
 		char temp[MAX_ENORME];
-		char dati[MAX_ENORME][MAX_ENORME];
-		char spaziatore[] = "|";
+		char dati[3][MAX_ENORME];
+		char spaziatore[2] = "|";
 		int i=0, j=0;
 		while(!feof(fp)) {
 			fgets(temp, MAX_ENORME, fp);
@@ -152,12 +152,12 @@ database ottenereAlbums(database db) {
 }
 
 database ottenereArtisti(database db) {
-	db.artista = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.artista));
+	db.artista = malloc((MAX_ENORME*MAX_ENORME)*sizeof(struct Artista));
 	if (controllaSeFileVuoto(file_artisti)==0) {
 		FILE* fp=fopen(file_artisti, "r");
 		char temp[MAX_ENORME];
-		char dati[MAX_ENORME][MAX_ENORME];
-		char spaziatore[] = "|";
+		char dati[5][MAX_ENORME];
+		char spaziatore[2] = "|";
 		int i=0, j=0;
 		while(!feof(fp)) {
 			fgets(temp, MAX_ENORME, fp);
@@ -191,12 +191,12 @@ database ottenereArtisti(database db) {
 }
 
 database ottenereGeneri(database db) {
-	db.genere = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.genere));
+	db.genere = malloc((MAX_ENORME*MAX_ENORME)*sizeof(struct Genere));
 	if (controllaSeFileVuoto(file_generi)==0) {
 		FILE* fp=fopen(file_generi, "r");
 		char temp[MAX_ENORME];
-		char dati[MAX_ENORME][MAX_ENORME];
-		char spaziatore[] = "|";
+		char dati[2][MAX_ENORME];
+		char spaziatore[2] = "|";
 		int i=0, j=0;
 		while(!feof(fp)) {
 			fgets(temp, MAX_ENORME, fp);
@@ -224,12 +224,12 @@ database ottenereGeneri(database db) {
 }
 
 database ottenerePlaylists(database db) {
-	db.playlist = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.playlist));
+	db.playlist = malloc((MAX_ENORME*MAX_ENORME)*sizeof(struct Playlist));
 	if (controllaSeFileVuoto(file_playlists)==0) {
 		FILE* fp=fopen(file_playlists, "r");
 		char temp[MAX_ENORME];
-		char dati[MAX_ENORME][MAX_ENORME];
-		char spaziatore[] = "|";
+		char dati[5][MAX_ENORME];
+		char spaziatore[2] = "|";
 		int i=0, j=0;
 		while(!feof(fp)) {
 			fgets(temp, MAX_ENORME, fp);
@@ -264,12 +264,12 @@ database ottenerePlaylists(database db) {
 	return db;
 }
 database ottenereUtenti(database db) {
-	db.utente = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.utente));
+	db.utente = malloc((MAX_ENORME*MAX_ENORME)*sizeof(struct Utente));
 	if (controllaSeFileVuoto(file_utenti)==0) {
 		FILE* fp=fopen(file_utenti, "r");
 		char temp[MAX_ENORME];
-		char dati[MAX_ENORME][MAX_ENORME];
-		char spaziatore[] = "|";
+		char dati[4][MAX_ENORME];
+		char spaziatore[2] = "|";
 		int i=0, j=0;
 		while(!feof(fp)) {
 			fgets(temp, MAX_ENORME, fp);
@@ -303,12 +303,12 @@ database ottenereUtenti(database db) {
 }
 
 database associareArtisti(database db) {
-	db.branoArtista = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.branoArtista));
+	db.branoArtista = malloc((MAX_ENORME*MAX_ENORME)*sizeof(struct BranoArtista));
 	if (controllaSeFileVuoto(file_BranoArtista)==0) {
 		FILE* fp=fopen(file_BranoArtista, "r");
 		char temp[MAX_ENORME];
-		char dati[MAX_ENORME][MAX_ENORME];
-		char spaziatore[] = "|";
+		char dati[2][MAX_ENORME];
+		char spaziatore[2] = "|";
 		int i=0, j=0;
 		while(!feof(fp)) {
 			fgets(temp, MAX_ENORME, fp);
@@ -335,12 +335,12 @@ database associareArtisti(database db) {
 }
 
 database associareAlbums(database db) {
-	db.branoAlbum = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.branoAlbum));
+	db.branoAlbum = malloc((MAX_ENORME*MAX_ENORME)*sizeof(struct BranoAlbum));
 	if (controllaSeFileVuoto(file_BranoAlbum)==0) {
 		FILE* fp=fopen(file_BranoAlbum, "r");
 		char temp[MAX_ENORME];
-		char dati[MAX_ENORME][MAX_ENORME];
-		char spaziatore[] = "|";
+		char dati[2][MAX_ENORME];
+		char spaziatore[2] = "|";
 		int i=0, j=0;
 		while(!feof(fp)) {
 			fgets(temp, MAX_ENORME, fp);
@@ -367,12 +367,12 @@ database associareAlbums(database db) {
 }
 
 database associareGeneri(database db) {
-	db.branoGenere = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.branoGenere));
+	db.branoGenere = malloc((MAX_ENORME*MAX_ENORME)*sizeof(struct BranoGenere));
 	if (controllaSeFileVuoto(file_BranoGenere)==0) {
 		FILE* fp=fopen(file_BranoGenere, "r");
 		char temp[MAX_ENORME];
-		char dati[MAX_ENORME][MAX_ENORME];
-		char spaziatore[] = "|";
+		char dati[2][MAX_ENORME];
+		char spaziatore[2] = "|";
 		int i=0, j=0;
 		while(!feof(fp)) {
 			fgets(temp, MAX_ENORME, fp);
@@ -399,12 +399,12 @@ database associareGeneri(database db) {
 }
 
 database associarePlaylists(database db) {
-	db.playlistBrano = malloc((MAX_ENORME*MAX_ENORME)*sizeof(db.playlistBrano));
+	db.playlistBrano = malloc((MAX_ENORME*MAX_ENORME)*sizeof(struct PlaylistBrano));
 	if (controllaSeFileVuoto(file_PlaylistBrano)==0) {
 		FILE* fp=fopen(file_PlaylistBrano, "r");
 		char temp[MAX_ENORME];
-		char dati[MAX_ENORME][MAX_ENORME];
-		char spaziatore[] = "|";
+		char dati[2][MAX_ENORME];
+		char spaziatore[2] = "|";
 		int i=0, j=0;
 		while(!feof(fp)) {
 			fgets(temp, MAX_ENORME, fp);

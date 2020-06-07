@@ -70,9 +70,9 @@ void ricerca(database db, int modalita, char interrogazione[], bool light) {
 					printf("\n");
 					mostraSingoloAlbum(db, db.album[i].id);
 					char scelta = 'N';
-					pulisciBuffer();
+					//pulisciBuffer();
 					printf("\nVuoi mostrare i brani di un album? [Y/N]: ");
-					scanf("%c", &scelta);
+					scelta = inputCarattere();
 					if (scelta=='Y'||scelta=='y') {
 						mostraBraniAlbum(db);
 					}
@@ -107,9 +107,9 @@ void ricerca(database db, int modalita, char interrogazione[], bool light) {
 					printf("\n");
 					mostraSingoloArtista(db, db.artista[i].id);
 					char scelta = 'N';
-					pulisciBuffer();
+					//pulisciBuffer();
 					printf("\nVuoi mostrare i brani di un artista? [Y/N]: ");
-					scanf("%c", &scelta);
+					scelta = inputCarattere();
 					if (scelta=='Y'||scelta=='y') {
 						mostraBraniArtista(db);
 					}
@@ -142,9 +142,9 @@ void ricerca(database db, int modalita, char interrogazione[], bool light) {
 					printf("\n");
 					mostraSingoloGenere(db, db.genere[i].id);
 					char scelta = 'N';
-					pulisciBuffer();
+					//pulisciBuffer();
 					printf("\nVuoi mostrare i brani di un genere? [Y/N]: ");
-					scanf("%c", &scelta);
+					scelta = inputCarattere();
 					if (scelta=='Y'||scelta=='y') {
 						mostraBraniGenere(db);
 					}
@@ -179,9 +179,9 @@ void ricerca(database db, int modalita, char interrogazione[], bool light) {
 						printf("\n");
 						mostraSingolaPlaylist(db, -1, db.playlist[i].id);
 						char scelta = 'N';
-						pulisciBuffer();
+						//pulisciBuffer();
 						printf("\nVuoi mostrare i brani di una playlist? [Y/N]: ");
-						scanf("%c", &scelta);
+						scelta = inputCarattere();
 						if (scelta=='Y'||scelta=='y') {
 							mostraBraniPlaylist(db);
 						}
@@ -215,9 +215,9 @@ void ricerca(database db, int modalita, char interrogazione[], bool light) {
 					printf("\n");
 					mostraSingoloUtente(db, -1,db.utente[i].id);
 					char scelta = 'N';
-					pulisciBuffer();
+					//pulisciBuffer();
 					printf("\nVuoi mostrare le playlist di un utente? [Y/N]: ");
-					scanf("%c", &scelta);
+					scelta = inputCarattere();
 					if (scelta=='Y'||scelta=='y') {
 						mostraPlaylistUtenteGuidato(db);
 					}
@@ -247,11 +247,11 @@ void eseguiRicerca(database db) {
 	printf("\n===[Ricerca Generale]===");
 	do {
 		if ((interrogazione=malloc(MAX_MEDIO))) {
-			pulisciBuffer();
+			//pulisciBuffer();
 			printf("\nCerca nel database: ");
 			interrogazione = inputStringaSicuro(MAX_MEDIO,interrogazione);
 		}
-		if (strlen(interrogazione)==1&&interrogazione[0]==' ') {
+		if (comparaStringheParziale("N/A", interrogazione)) {
 			attenzione(2);
 			ripeti=true;
 		} else {
@@ -267,7 +267,7 @@ void eseguiRicerca(database db) {
 	printf("\n\nEsci dalla ricerca [0]");
 	while (scelta<0||scelta>6) {
 		printf("\nInserisci scelta: ");
-		scanf("%d", &scelta);
+		scelta = inputNumero();
 	}
 	if (scelta==1) {
 		ricerca(db,0,interrogazione, false);

@@ -47,6 +47,30 @@ char* inputStringaSicuro(int lunghezza, char stringa[]);
  * 	Funzione universale per la comparazione di stringhe senza distinzione di caratteri
  * 	@output risultato comparazione, 0 se uguali
  */
+
+int rimuoviSpaziFinali(char *stringa);
+/**
+ * 	@input stringa s1;
+ * 	Ripulisce dai caratteri "spazio" al termine della stringa.
+ * 	Non rimuove ulteriori whitespace come \n, \r, etc.
+ * 	@output lunghezza della stringa finale
+ */
+
+int inputNumero();
+
+/**
+ * 	Funzione sicura per l'input da tastiera di un intero senza segno fino a MAX_MEDIO cifre
+ * 	Resistituisce -1 in caso di input non valido
+ * 	@output numero inserito
+ */
+
+char inputCarattere();
+
+/**
+ * 	Funzione sicura per l'input da tastiera di un carattere ignorando caratteri vuoti
+ * 	@output carattere inserito
+ */
+
 int comparaStringhe(const char *s1, const char *s2);
 
 /**

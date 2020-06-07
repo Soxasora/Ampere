@@ -27,7 +27,7 @@ int main() {
 	db = menu(db);
 	db = terminazione(db);
 	aspetta();
-	pulisciBuffer();
+	//pulisciBuffer();
 	return 0;
 }
 

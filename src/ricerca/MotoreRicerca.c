@@ -82,9 +82,9 @@ void mostraTuttiBrani(database db) {
 			mostraSingoloBrano(db, db.brano[i].id);
 			if ((nBrani+1)>5 && (i+1)%5==0) {
 				char scelta='Y';
-				pulisciBuffer();
+				//pulisciBuffer();
 				printf("\nElencare i prossimi 5 brani? [Y/N]: ");
-				scanf("%c", &scelta);
+				scelta = inputCarattere();
 				if(scelta=='N'||scelta=='n') {
 					controllo=-1;
 				}
@@ -111,9 +111,9 @@ void mostraTuttiAlbum(database db) {
 			mostraSingoloAlbum(db, db.album[i].id);
 			if ((nAlbum+1)>5 && (i+1)%5==0) {
 				char scelta='Y';
-				pulisciBuffer();
+				//pulisciBuffer();
 				printf("\nElencare i prossimi 5 album? [Y/N]: ");
-				scanf("%c", &scelta);
+				scelta = inputCarattere();
 				if(scelta=='N'||scelta=='n') {
 					controllo=-1;
 				}
@@ -142,9 +142,9 @@ void mostraTuttiArtisti(database db) {
 			mostraSingoloArtista(db, db.artista[i].id);
 			if ((nArtisti+1)>5 && (i+1)%5==0) {
 				char scelta='Y';
-				pulisciBuffer();
+				//pulisciBuffer();
 				printf("\nElencare i prossimi 5 artisti? [Y/N]: ");
-				scanf("%c", &scelta);
+				scelta = inputCarattere();
 				if(scelta=='N'||scelta=='n') {
 					controllo=-1;
 				}
@@ -170,9 +170,9 @@ void mostraTuttiGeneri(database db) {
 			mostraSingoloGenere(db, db.genere[i].id);
 			if ((nGeneri+1)>5 && (i+1)%5==0) {
 				char scelta='Y';
-				pulisciBuffer();
+				////pulisciBuffer();
 				printf("\nElencare i prossimi 5 generi? [Y/N]: ");
-				scanf("%c", &scelta);
+				scelta = inputCarattere();
 				if(scelta=='N'||scelta=='n') {
 					controllo=-1;
 				}
@@ -196,9 +196,9 @@ void mostraSingolaPlaylist(database db, int modalita, int id) {
 	}
 	if (modalita!=-1) {
 		char scelta='y';
-		pulisciBuffer();
+		////pulisciBuffer();
 		printf("\nMostrare i brani della playlist? [Y/N]");
-		scanf("%c", &scelta);
+		scelta = inputCarattere();
 		if (scelta=='Y'||scelta=='y') {
 			mostraBraniPlaylistDaID(db, id);
 		}
@@ -213,9 +213,9 @@ void mostraPlaylistUtente(database db, int modalita, int idUtente) {
 			mostraSingolaPlaylist(db, modalita,db.playlist[i].id);
 			if ((nPlaylistUtente+1)>5 && (j+1)%5==0) {
 				char scelta='Y';
-				pulisciBuffer();
+				////pulisciBuffer();
 				printf("\nElencare le prossime 5 playlist? [Y/N]: ");
-				scanf("%c", &scelta);
+				scelta = inputCarattere();
 				if(scelta=='N'||scelta=='n') {
 					controllo=-1;
 				}
@@ -233,9 +233,9 @@ void mostraTuttePlaylist(database db, int modalita) {
 		mostraSingolaPlaylist(db, modalita,db.playlist[i].id);
 		if ((n+1)>5 && (i+1)%5==0) {
 			char scelta='Y';
-			pulisciBuffer();
+			////pulisciBuffer();
 			printf("\nElencare le prossime 5 playlist? [Y/N]: ");
-			scanf("%c", &scelta);
+			scelta = inputCarattere();
 			if(scelta=='N'||scelta=='n') {
 				controllo=-1;
 			}
@@ -252,9 +252,9 @@ void mostraTuttePlaylistPubbliche(database db, int modalita) {
 			mostraSingolaPlaylist(db, modalita,db.playlist[i].id);
 			if ((n+1)>5 && (i+1)%5==0) {
 				char scelta='Y';
-				pulisciBuffer();
+				//pulisciBuffer();
 				printf("\nElencare le prossime 5 playlist? [Y/N]: ");
-				scanf("%c", &scelta);
+				scelta = inputCarattere();
 				if(scelta=='N'||scelta=='n') {
 					controllo=-1;
 				}
@@ -287,10 +287,10 @@ void mostraSingoloUtente(database db, int modalita, int idUtente) {
 
 void mostraTuttiUtenti(database db) {
 	int i=0, n=contareNelDatabase(db,-1), controllo=0, modalita=-1, controllo2=0;
-	pulisciBuffer();
+	//pulisciBuffer();
 	while(modalita<0||modalita>1) {
 		printf("\nMostrare anche le password degli utenti? [0/1]: ");
-		scanf("%d", &modalita);
+		modalita = inputNumero();
 	}
 	while (i<n&&controllo!=-1) {
 		printf("\n");
@@ -299,7 +299,7 @@ void mostraTuttiUtenti(database db) {
 			char scelta='a';
 			while (controllo2!=-1) {
 				printf("\nSicuro di voler continuare? [Y/N]: ");
-				scanf("%c", &scelta);
+				scelta = inputCarattere();
 				if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
 					controllo2=-1;
 				}
@@ -325,42 +325,81 @@ int mostraInfo(database db, int modalita) {
 		char *nome = malloc(MAX_MEDIO);
 		char *cognome = malloc(MAX_MEDIO);
 		char *nomeArte = malloc(MAX_MEDIO);
-		pulisciBuffer();
+		//pulisciBuffer();
 		printf("\n[Premi invio per saltare] Inserisci il nome dell'artista da ricercare: ");
 		nome = inputStringaSicuro(MAX_MEDIO,nome);
-		if (comparaStringhe(nome, "N/A")==0)
-			nome = "unknown";
 		printf("\n[Premi invio per saltare] Inserisci il cognome dell'artista da ricercare: ");
 		cognome = inputStringaSicuro(MAX_MEDIO,cognome);
-		if (comparaStringhe(cognome, "N/A")==0)
-			cognome = "unknown";
 		printf("\n[Premi invio per saltare] Inserisci il nome d'arte dell'artista da ricercare: ");
 		nomeArte = inputStringaSicuro(MAX_MEDIO,nomeArte);
-		if (comparaStringhe(nomeArte, "N/A")==0)
-			nomeArte = "unknown";
 		int i=0, n=contareNelDatabase(db,2);
 		while (i<n) {
 			if (comparaStringheParziale(db.artista[i].nome,nome)
-				||comparaStringheParziale(db.artista[i].cognome, cognome)
-				||comparaStringheParziale(db.artista[i].nomeArte, nomeArte)) {
+				&&comparaStringheParziale(db.artista[i].cognome, cognome)
+				&&comparaStringheParziale(db.artista[i].nomeArte, nomeArte)) {
 				printf("\n");
 				mostraSingoloArtista(db, db.artista[i].id);
 				esiste=1;
 			}
 			i++;
 		}
+		if(esiste != 1){
+
+			//Sistemare ricerche nulle
+			if (comparaStringhe(nome, "N/A")==0){
+				strcpy(nome, "unknown");
+			}
+			if (comparaStringhe(cognome, "N/A")==0){
+				strcpy(cognome, "unknown");
+			}
+			if (comparaStringhe(nomeArte, "N/A")==0){
+				strcpy(nomeArte, "unknown");
+			}
+
+			printf("\nNon e' stato trovato nessun artista che rispetti interamente i criteri cercati.");
+			printf("\nArtisti con nome simile:");
+			i=0;
+			while (i<n) {
+				if (comparaStringheParziale(db.artista[i].nome,nome)) {
+					printf("\n");
+					mostraSingoloArtista(db, db.artista[i].id);
+					esiste=1;
+				}
+				i++;
+			}
+			printf("\nArtisti con cognome simile:");
+			i=0;
+			while (i<n) {
+				if (comparaStringheParziale(db.artista[i].cognome,cognome)) {
+					printf("\n");
+					mostraSingoloArtista(db, db.artista[i].id);
+					esiste=1;
+				}
+				i++;
+			}
+			printf("\nArtisti con nome d'arte simile:");
+			i=0;
+			while (i<n) {
+				if (comparaStringheParziale(db.artista[i].nomeArte,nomeArte)) {
+					printf("\n");
+					mostraSingoloArtista(db, db.artista[i].id);
+					esiste=1;
+				}
+				i++;
+			}
+		}
 		free(nome); free(cognome); free(nomeArte);
 	} else if (modalita==1) {
 		char *titolo = malloc(MAX_MEDIO);
 		int anno=0;
-		pulisciBuffer();
+		//pulisciBuffer();
 		printf("\n[Premi invio per saltare] Inserisci il titolo dell'album da ricercare: ");
 		titolo = inputStringaSicuro(MAX_MEDIO,titolo);
 		if (comparaStringhe(titolo, "N/A")==0)
 			titolo = "unknown";
 		while(anno<0||anno>3000) {
 			printf("\n[0 per saltare] Inserisci l'anno di uscita dell'album da ricercare: ");
-			scanf("%d", &anno);
+			anno = inputNumero();
 		}
 		int i=0, n=contareNelDatabase(db,1);
 		while(i<n) {
@@ -374,7 +413,7 @@ int mostraInfo(database db, int modalita) {
 		free(titolo);
 	} else if (modalita==2) {
 		char *nome = malloc(MAX_MEDIO);
-		pulisciBuffer();
+		//pulisciBuffer();
 		printf("\nInserisci il nome del genere: ");
 		nome = inputStringaSicuro(MAX_MEDIO,nome);
 		int i=0, n=contareNelDatabase(db,3);
@@ -389,7 +428,7 @@ int mostraInfo(database db, int modalita) {
 		free(nome);
 	} else if (modalita==3) {
 		char *playlist = malloc(MAX_MEDIO);
-		pulisciBuffer();
+		//pulisciBuffer();
 		printf("\nInserisci il nome della playlist: ");
 		playlist = inputStringaSicuro(MAX_MEDIO,playlist);
 		int i=0, n=contareNelDatabase(db,4);
@@ -406,7 +445,7 @@ int mostraInfo(database db, int modalita) {
 		free(playlist);
 	} else if (modalita==4) {
 		char *username = malloc(MAX_MEDIO);
-		pulisciBuffer();
+		//pulisciBuffer();
 		printf("\nInserisci l'username dell'utente: ");
 		username = inputStringaSicuro(MAX_MEDIO,username);
 		int i=0, n=contareNelDatabase(db,-1);
@@ -426,7 +465,7 @@ int mostraInfo(database db, int modalita) {
 database moduloRicercaBrani(database db) {
 	int scelta=-1;
 	do {
-		pulisciBuffer();
+		//pulisciBuffer();
 		while (scelta<0||scelta>6) {
 			printf("\nEffettua una ricerca per:"
 				   "\n[1] Titolo"
@@ -436,7 +475,7 @@ database moduloRicercaBrani(database db) {
 				   "\n[5] Genere"
 				   "\n[0] Esci dalla ricerca"
 				   "\n"C_VERDE"Inserisci la tua scelta"C_RESET": ");
-			scanf("%d", &scelta);
+			scelta = inputNumero();
 		}
 		if (scelta==1) {
 			db.ultimoEsito = mostraBrani(db, 0);
@@ -467,7 +506,7 @@ int mostraBrani(database db, int modalita) {
 	int esiste=0;
 	if (modalita==0) {
 		char *titolo = malloc(MAX_MEDIO);
-		pulisciBuffer();
+		//pulisciBuffer();
 		printf("\nInserisci il titolo del brano da ricercare: ");
 		titolo = inputStringaSicuro(MAX_MEDIO,titolo);
 		int i=0, n=contareNelDatabase(db,0);
@@ -482,10 +521,10 @@ int mostraBrani(database db, int modalita) {
 		free(titolo);
 	} else if (modalita==1) {
 		int anno = 0;
-		pulisciBuffer();
+		//pulisciBuffer();
 		while (anno<=1950) {
 			printf("\nInserisci l'anno di uscita del brano da ricercare: ");
-			scanf("%d", &anno);
+			anno = inputNumero();
 		}
 		int i=0, n=contareNelDatabase(db,0);
 		while (i<n) {
@@ -504,7 +543,7 @@ int mostraBraniArtista(database db) {
 	int esiste=0;
 	int id=0;
 	char *nomeArte = malloc(MAX_MEDIO);
-	pulisciBuffer();
+	//pulisciBuffer();
 	printf("\nInserisci nome d'arte dell'artista: ");
 	nomeArte = inputStringaSicuro(MAX_MEDIO,nomeArte);
 	id = controlloEsistenzaArtista(db, nomeArte);
@@ -530,7 +569,7 @@ int mostraBraniAlbum(database db) {
 	int esiste=0;
 	int id=0;
 	char *album = malloc(MAX_MEDIO);
-	pulisciBuffer();
+	//pulisciBuffer();
 	printf("\nInserisci nome album: ");
 	album = inputStringaSicuro(MAX_MEDIO,album);
 	id = controlloEsistenzaAlbum(db, album);
@@ -556,7 +595,7 @@ int mostraBraniGenere(database db) {
 	int esiste=0;
 	int id=0;
 	char *genere = malloc(MAX_MEDIO);
-	pulisciBuffer();
+	//pulisciBuffer();
 	printf("\nInserisci nome genere: ");
 	genere = inputStringaSicuro(MAX_MEDIO,genere);
 	id = controllareEsistenzaGenere(db, genere);
@@ -582,7 +621,7 @@ int mostraBraniPlaylist(database db) {
 	int esiste=0;
 	int id=0;
 	char *playlist = malloc(MAX_MEDIO);
-	pulisciBuffer();
+	//pulisciBuffer();
 	printf("\nInserisci nome playlist: ");
 	playlist = inputStringaSicuro(MAX_MEDIO,playlist);
 	id = controlloEsistenzaPlaylist(db, playlist);
@@ -612,7 +651,7 @@ int mostraPlaylistUtenteGuidato(database db) {
 	int esiste=0;
 	int id=0;
 	char *utente = malloc(MAX_MEDIO);
-	pulisciBuffer();
+	//pulisciBuffer();
 	printf("\nInserisci nome utente: ");
 	utente = inputStringaSicuro(MAX_MEDIO,utente);
 	if (!controllareEsistenzaUtente(db, utente)) {
@@ -643,9 +682,9 @@ void mostraBraniPlaylistDaID(database db, int id) {
 			mostraSingoloBrano(db, db.playlistBrano[i].idBrano);
 			if ((nBraniplaylist+1)>5 && (j+1)%5==0) {
 				char scelta='Y';
-				pulisciBuffer();
+				//pulisciBuffer();
 				printf("\nElencare i prossimi 5 brani? [Y/N]: ");
-				scanf("%c", &scelta);
+				scelta = inputCarattere();
 				if(scelta=='N'||scelta=='n') {
 					controllo=-1;
 				}

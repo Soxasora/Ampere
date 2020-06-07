@@ -25,7 +25,7 @@
 database inserireGenereGuidato(database db) {
 	char *nome = malloc(MAX_MEDIO);
 	do {
-		pulisciBuffer();
+		//pulisciBuffer();
 		printf("\nInserisci nome del genere: ");
 		nome = inputStringaSicuro(MAX_MEDIO,nome);
 		db = creareGenereSeNonEsiste(db, nome);
@@ -41,10 +41,10 @@ database creareGenereSeNonEsiste(database db, char nome[]) {
 		printf("\nSembra che questo genere non esista nel database");
 		struct Genere nuovoGenere = creareGenere(nome);
 		mostrareAnteprimaGenere(nuovoGenere);
-		pulisciBuffer();
+		//pulisciBuffer();
 		while (controllo!=-1) {
 			printf("\nSicuro di voler continuare? [Y/N]: ");
-			scanf("%c", &scelta);
+			scelta = inputCarattere();
 			if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
 				controllo=-1;
 			}
@@ -111,14 +111,14 @@ database modificareGenereGuidato(database db) {
 	mostraInfo(db, 2);
 	while(ottenerePosDaID(db, 3,id)==-1) {
 		printf("\n\nInserire l'identificativo del genere da modificare: ");
-		scanf("%d", &id);
+		id = inputNumero();
 		if (ottenerePosDaID(db, 3,id)==-1) {
 			printf("\nGenere non trovato, riprovare");
 		}
 	}
 	printf("\nHai scelto il genere:");
 	mostraSingoloGenere(db, id);
-	pulisciBuffer();
+	//pulisciBuffer();
 	scelta = richiesta(0);
 	if (scelta=='Y'||scelta=='y') {
 		do {
@@ -127,7 +127,7 @@ database modificareGenereGuidato(database db) {
 			printf("\n[0] Esci");
 			while (campo<0||campo>1) {
 				printf("\n"C_VERDE"Inserisci la tua scelta"C_RESET": ");
-				scanf("%d", &campo);
+				campo = inputNumero();
 			}
 			if (campo!=0) {
 				db = creareGenereModificato(db, id);
@@ -147,7 +147,7 @@ database creareGenereModificato(database db, int id) {
 	int pos = ottenerePosDaID(db, 3,id);
 	struct Genere genereModificato = db.genere[pos];
 	do {
-		pulisciBuffer();
+		//pulisciBuffer();
 		char *nome = malloc(MAX_MEDIO);
 		printf("\nInserisci nuovo nome: ");
 		nome = inputStringaSicuro(MAX_MEDIO,nome);
@@ -186,17 +186,17 @@ database cancellareGenereGuidato(database db) {
 	mostraTuttiGeneri(db);
 	while(ottenerePosDaID(db, 3,id)==-1) {
 		printf("\n\nInserire l'identificativo del genere da cancellare: ");
-		scanf("%d", &id);
+		id = inputNumero();
 		if (ottenerePosDaID(db, 3,id)==-1) {
 			printf("\nGenere non trovato, riprovare");
 		}
 	}
 	printf("\nHai scelto il genere: ");
 	mostraSingoloGenere(db, id);
-	pulisciBuffer();
+	//pulisciBuffer();
 	while (controllo!=-1) {
 		printf("\nSicuro di voler continuare? [Y/N]: ");
-		scanf("%c", &scelta);
+		scelta = inputCarattere();
 		if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
 			controllo=-1;
 		}

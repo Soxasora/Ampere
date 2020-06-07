@@ -58,7 +58,7 @@ database loginUtente(database db) {
 	char *username;
 	char *password;
 	while (controllo!=-1) {
-		pulisciBuffer();
+		//pulisciBuffer();
 		if ((username = malloc(MAX_MEDIO))) {
 			printf("\nInserisci "C_GIALLO"username: "C_RESET);
 			username = inputStringaSicuro(MAX_MEDIO,username);
@@ -96,7 +96,7 @@ int controllareDatiUtente(database db, char username[], char password[]) {
 }
 
 database registrareUtente(database db) {
-	pulisciBuffer();
+	//pulisciBuffer();
 	char scelta='a';
 	int controllo=0, ruolo=-1;
 	bool admin = false;
@@ -110,7 +110,7 @@ database registrareUtente(database db) {
 		printf("\nBenvenuto su Ampere. Procediamo alla creazione del tuo profilo.");
 	}
 	do {
-		pulisciBuffer();
+		//pulisciBuffer();
 		char *username;
 		char *password;
 		if ((username = malloc(MAX_MEDIO))) {
@@ -128,7 +128,7 @@ database registrareUtente(database db) {
 			if (controllareSeAdmin(db)) {
 				while (ruolo<0||ruolo>1) {
 					printf("\nRuolo normale[0] o admin[1]? ");
-					scanf("%d", &ruolo);
+					ruolo = inputNumero();
 				}
 				if (ruolo==0) {
 					admin=false;
@@ -140,9 +140,9 @@ database registrareUtente(database db) {
 			mostrareAnteprimaUtente(nuovoUtente);
 			controllo=0;
 			while (controllo!=-1) {
-				pulisciBuffer();
+				//pulisciBuffer();
 				printf("\nSicuro di voler continuare? [Y/N]: ");
-				scanf("%c", &scelta);
+				scelta = inputCarattere();
 				if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
 					controllo=-1;
 				}
@@ -230,7 +230,7 @@ database modificareUtenteGuidato(database db) {
 		mostraInfo(db, 4);
 		while (ottenerePosDaID(db, -1,id)==-1) {
 			printf("\nInserisci id dell'utente da modificare: ");
-			scanf("%d", &id);
+			id = inputNumero();
 			if (ottenerePosDaID(db, -1,id)==-1) {
 				printf("\nNessun utente trovato, riprovare");
 			}
@@ -241,7 +241,7 @@ database modificareUtenteGuidato(database db) {
 		mostraSingoloUtente(db, 1,db.utenteCorrente);
 		id = db.utenteCorrente;
 	}
-	pulisciBuffer();
+	//pulisciBuffer();
 	scelta = richiesta(0);
 	if (scelta=='Y'||scelta=='y') {
 		do {
@@ -253,7 +253,7 @@ database modificareUtenteGuidato(database db) {
 			printf("\n[0] Esci");
 			while (campo<0||campo>3) {
 				printf("\n"C_VERDE"Inserisci la tua scelta"C_RESET": ");
-				scanf("%d", &campo);
+				campo = inputNumero();
 			}
 			if (campo!=0) {
 				db = creareUtenteModificato(db, campo, id);
@@ -273,7 +273,7 @@ database creareUtenteModificato(database db, int campo, int id) {
 	int pos = ottenerePosDaID(db, -1, id);
 	struct Utente utenteModificato = db.utente[pos];
 	do {
-		pulisciBuffer();
+		//pulisciBuffer();
 		if (campo==1) {
 			char *username = malloc(MAX_MEDIO);
 			printf("\nInserisci nuovo username: ");
@@ -292,7 +292,7 @@ database creareUtenteModificato(database db, int campo, int id) {
 					printf("\nInserisci password attuale: ");
 					passwordVecchia = inputStringaSicuro(MAX_MEDIO,passwordVecchia);
 					if (strcmp(passwordVecchia, utenteModificato.password)!=0)
-						printf("\nLa password attuale non è corretta! Riprova\n");
+						printf("\nLa password attuale non Ã¨ corretta! Riprova\n");
 				}
 			}
 			while (strcmp(password,password2)!=0) {
@@ -310,7 +310,7 @@ database creareUtenteModificato(database db, int campo, int id) {
 				int ruolo=1;
 				while (ruolo<0||ruolo>1) {
 					printf("\nAmministratore[0] oppure Utente normale[1]? ");
-					scanf("%d", &ruolo);
+					ruolo = inputNumero();
 				}
 				if (ruolo==0) {
 					utenteModificato.admin=true;
@@ -355,7 +355,7 @@ database cancellareUtenteGuidato(database db) {
 		mostraTuttiUtenti(db);
 		while (ottenerePosDaID(db, -1,id)==-1) {
 			printf("\nInserisci id dell'utente: ");
-			scanf("%d", &id);
+			id = inputNumero();
 			if (ottenerePosDaID(db, -1,id)==-1) {
 				printf("\nNessun utente trovato, riprovare");
 			}
@@ -366,10 +366,10 @@ database cancellareUtenteGuidato(database db) {
 		id = db.utenteCorrente;
 		mostraSingoloUtente(db, 0, id);
 	}
-	pulisciBuffer();
+	//pulisciBuffer();
 	while (controllo!=-1) {
 		printf("\nSicuro di voler continuare? [Y/N]: ");
-		scanf("%c", &scelta);
+		scelta = inputCarattere();
 		if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
 			controllo=-1;
 		}

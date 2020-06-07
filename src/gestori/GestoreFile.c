@@ -60,7 +60,6 @@ void salvaBraniSuFile(database db) {
 		inserisciBranoSuFile(db.brano[i]);
 		i++;
 	}
-	//TODO
 	remove("temp_brani.txt");
 	if (controllareSeAdmin(db))
 		printf("\nBrani salvati.");
