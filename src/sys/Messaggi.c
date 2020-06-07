@@ -24,51 +24,57 @@
  * 17: Impossibile creare la cartella.
  * 18: Impossibile aprire il file selezionato.
  * 19: Impossibile creare un file di sistema.
- * 99: Errore critico di sistema.
+ * 20: Impossibile creare il database.
+ * -1: Errore critico di sistema.
  */
 void errore(int codice) {
-	if (codice==16) {
-		printf(COLOR_ERRORE" Non puoi accedere a questa funzione in quanto utente normale.");
+	printf(COLOR_ERRORE);
+	if (codice==-1) {
+		printf(" Si e' verificato un errore critico interno.");
+	}else if (codice==16) {
+		printf(" Non puoi accedere a questa funzione in quanto utente normale.");
+	} else if (codice==20) {
+		printf(" Impossibile creare il database.");
 	}
 }
 
-/**
- * 	Tabella attenzioni:
- * 	1: Combinazione username/password sbagliata
- *
- * 	Input sulle scelte dell'utente
- * 	20: Inserita scelta non riconosciuta, riprovare.
- */
-
 void attenzione(int codice) {
+	printf(COLOR_ATTENZIONE);
 	if (codice==0) {
-		printf(COLOR_ATTENZIONE" Questo utente esiste gia'! Scegline un altro.");
+		printf(" Questo utente esiste gia'! Scegline un altro.");
 	} else if (codice==1) {
-		printf(COLOR_ATTENZIONE" Combinazione username/password sbagliata. Riprovare.");
+		printf(" Combinazione username/password sbagliata. Riprovare.");
 	} else if (codice==2) {
-		printf(COLOR_ATTENZIONE" Inseriti valori non validi. Riprovare.");
+		printf(" Inseriti valori non validi. Riprovare.");
 	} else if (codice==3) {
-		printf(COLOR_ATTENZIONE" Raggiunto il limite di caratteri. Re-inserisci: ");
+		printf(" Raggiunto il limite di caratteri. Re-inserisci: ");
 	} else if (codice==20) {
-		printf(COLOR_ATTENZIONE" Inserita scelta non riconosciuta, riprovare.");
+		printf(" Inserita scelta non riconosciuta, riprovare.");
+	} else if (codice==100) {
+		printf(" Preparazione alla chiusura...");
 	}
 }
 
 
 /**
  * 	Tabella successi:
+ * 	// Inserimenti
  * 	0: Inserimento utente
  * 	1: Inserimento brano
  * 	2: Inserimento album
  * 	3: Inserimento artista
  * 	4: Inserimento genere
  * 	5: Inserimento playlist
+ *
+ * 	// Modifiche
  *	6: Modifica utente
  *	7: Modifica brano
  *	8: Modifica album
  *	9: Modifica artista
  *	10: Modifica genere
  *	11: Modifica playlist
+ *
+ *	// Ottenimenti
  *	100: Ottenimento database
  *	101: Ottenimento utenti
  *	102: Ottenimento brani
@@ -80,11 +86,20 @@ void attenzione(int codice) {
  *	108: Ottenimento associazioni albums
  *	109: Ottenimento associazioni generi
  *	110: Ottenimento associazioni playlist
+ *
+ *	// Sistema
+ *	111: Ampere pronto
+ *	112: Pronto per essere chiuso
  */
 
 void successo(int codice) {
+	printf(COLOR_SUCCESSO);
 	if (codice==0) {
-		printf(COLOR_SUCCESSO" Utente inserito correttamente!");
+		printf(" Utente inserito correttamente!");
+	} else if (codice==111) {
+		printf(" Ampere pronto.");
+	} else if (codice==112) {
+		printf(" Pronto per essere chiuso.");
 	}
 }
 
@@ -93,14 +108,15 @@ char richiesta(int codice) {
 	int controllo=0;
 	char scelta='a';
 	printf("\n");
+	printf(COLOR_ATTENZIONE);
 	if (codice==0) {
-		printf(COLOR_ATTENZIONE" Sicuro di voler continuare?");
+		printf(" Sicuro di voler continuare?");
 	} else if (codice==1) {
-		printf(COLOR_ATTENZIONE" Sei uscito dalla ricerca, vuoi ancora inserire brani nella playlist?");
+		printf(" Sei uscito dalla ricerca, vuoi ancora inserire brani nella playlist?");
 	} else if (codice==2) {
-		printf(COLOR_ATTENZIONE" Sei uscito dalla ricerca, vuoi ancora aprire il testo del brano?");
+		printf(" Sei uscito dalla ricerca, vuoi ancora aprire il testo del brano?");
 	} else if (codice==3) {
-		printf(COLOR_ATTENZIONE" Vuoi ancora continuare a modificare?");
+		printf(" Vuoi ancora continuare a modificare?");
 	}
 	while (controllo!=-1) {
 		printf(" ["C_VERDE"Y"C_RESET"/"C_ROSSO"N"C_RESET"]: ");
@@ -110,4 +126,8 @@ char richiesta(int codice) {
 		}
 	}
 	return scelta;
+}
+
+void cPrintf(const char *colore, const char *messaggio) {
+	printf("%s%s"C_RESET, colore, messaggio);
 }

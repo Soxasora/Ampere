@@ -9,9 +9,6 @@
 #ifndef SRC_SYS_IMPOSTAZIONI_H_
 #define SRC_SYS_IMPOSTAZIONI_H_
 
-// ASCII Hotkeys
-#define ESC 27
-
 // Costanti di lunghezza
 #define MAX_ENORME 1000
 #define MAX_GRANDE 256
@@ -31,7 +28,6 @@
 	#define file_PlaylistBrano "database\\PlaylistBrano.txt"
 #define file_utenti "database\\utenti.txt"
 
-// Colori
 /**
  * 	COLORI
  * 	L'utilizzo dei colori e' il seguente:
@@ -54,12 +50,15 @@
 #define UTENTE "Utente normale"
 #define COLOR_UTENTE C_CIANO UTENTE C_RESET
 
-#define ERRORE "[ERRORE]"
+#define ERRORE "\n[ERRORE]"
 #define COLOR_ERRORE C_ROSSO ERRORE C_RESET
-#define ATTENZIONE "[ATTENZIONE]"
+#define ATTENZIONE "\n[ATTENZIONE]"
 #define COLOR_ATTENZIONE C_GIALLO ATTENZIONE C_RESET
-#define SUCCESSO "[SUCCESSO]"
+#define SUCCESSO "\n[SUCCESSO]"
 #define COLOR_SUCCESSO C_VERDE SUCCESSO C_RESET
+
+// Stampe utili
+#define DIVISORE "\n----------------------------------------"
 
 
 // Sistema operativo attualmente in uso

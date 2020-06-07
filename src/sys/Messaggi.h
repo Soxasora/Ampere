@@ -13,5 +13,6 @@ void errore(int codice);
 void attenzione(int codice);
 void successo(int codice);
 char richiesta(int codice);
+void cPrintf(const char *colore, const char *messaggio);
 
 #endif /* SYS_MESSAGGI_H_ */

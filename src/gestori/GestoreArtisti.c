@@ -153,7 +153,7 @@ database modificareArtistaGuidato(database db) {
 				   "\n[4] Modifica il link della biografia"
 				   "\n[0] Esci");
 			while (campo<0||campo>4) {
-				printf("\nInserisci la tua scelta: ");
+				printf("\n"C_VERDE"Inserisci la tua scelta"C_RESET": ");
 				scanf("%d", &campo);
 			}
 			if (campo!=0) {
