@@ -108,11 +108,11 @@ database crearePlaylistGuidato(database db) {
 			//pulisciBuffer();
 			if ((nome = malloc(MAX_MEDIO))) {
 				printf("\nInserisci nome della playlist: ");
-				nome = inputStringaSicuro(MAX_MEDIO,nome);
+				nome = inputStringa(MAX_MEDIO,nome);
 			}
 			if ((descrizione = malloc(MAX_GRANDE))) {
 				printf("\nInserisci descrizione della playlist: ");
-				descrizione = inputStringaSicuro(MAX_GRANDE,descrizione);
+				descrizione = inputStringa(MAX_GRANDE,descrizione);
 			}
 			while (pubblica<0||pubblica>1) {
 				printf("\nLa playlist e' privata[0] o pubblica[1]? ");
@@ -132,15 +132,7 @@ database crearePlaylistGuidato(database db) {
 			printf("%c", scelta);
 			if (scelta=='Y'||scelta=='y') {
 				db = inserirePlaylist(db, nuovaPlaylist);
-				scelta='a';
-				while (controllo!=-1) {
-					//pulisciBuffer();
-					printf("\nVorresti inserire dei brani in questa playlist? [Y/N]: ");
-					scelta = inputCarattere();
-					if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
-						controllo=-1;
-					}
-				}
+				scelta = richiesta(7);
 				if (scelta=='Y'||scelta=='y') {
 					db = inserimentoBraniPlaylistGuidato(db);
 				}
@@ -309,13 +301,13 @@ database crearePlaylistModificata(database db, int campo, int id) {
 		if (campo==1) {
 			char *nome = malloc(MAX_MEDIO);
 			printf("\nInserisci nuovo nome: ");
-			nome = inputStringaSicuro(MAX_MEDIO,nome);
+			nome = inputStringa(MAX_MEDIO,nome);
 			strcpy(playlistModificata.nome, nome);
 			free(nome);
 		} else if (campo==2) {
 			char *descrizione = malloc(MAX_GRANDE);
 			printf("\nInserisci nuova descrizione: ");
-			descrizione = inputStringaSicuro(MAX_GRANDE,descrizione);
+			descrizione = inputStringa(MAX_GRANDE,descrizione);
 			strcpy(playlistModificata.descrizione, descrizione);
 			free(descrizione);
 		} else if (campo==3) {
@@ -390,14 +382,7 @@ database cancellaPlaylist(database db) {
 	}
 	printf("\nHai scelto la playlist: ");
 	mostraSingolaPlaylist(db, -1, id);
-	//pulisciBuffer();
-	while (controllo!=-1) {
-		printf("\nSicuro di voler continuare? [Y/N]: ");
-		scelta = inputCarattere();
-		if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
-			controllo=-1;
-		}
-	}
+	scelta = richiesta(0);
 	if(scelta=='Y'||scelta=='y') {
 		db = cancellaSingolaPlaylist(db, id);
 	}

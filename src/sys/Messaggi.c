@@ -117,6 +117,36 @@ char richiesta(int codice) {
 		printf(" Sei uscito dalla ricerca, vuoi ancora aprire il testo del brano?");
 	} else if (codice==3) {
 		printf(" Vuoi ancora continuare a modificare?");
+	} else if (codice==4) {
+		printf(" Sicuro di voler continuare con il ripristino?");
+	} else if (codice==5) {
+		printf(" Sicuro di voler continuare? Cancellera' anche i brani collegati ad esso.");
+	} else if (codice==6) {
+		printf(" Sulla base delle suddette scoperte, vuoi continuare ugualmente con l'inserimento?");
+	} else if (codice==7) {
+		printf(" Vorresti inserire dei brani in questa playlist?");
+	} else if (codice==8) {
+		printf(" Elencare i prossimi 5 brani?");
+	} else if (codice==9) {
+		printf(" Elencare i prossimi 5 album?");
+	} else if (codice==10) {
+		printf(" Elencare i prossimi 5 artisti?");
+	} else if (codice==11) {
+		printf(" Elencare i prossimi 5 generi?");
+	} else if (codice==12) {
+		printf(" Elencare le prossime 5 playlist?");
+	} else if (codice==13) {
+		printf(" Mostrare i brani della playlist?");
+	} else if (codice==14) {
+		printf(" Mostrare i brani di un album?");
+	} else if (codice==15) {
+		printf(" Mostrare i brani di un artista?");
+	} else if (codice==16) {
+		printf(" Mostrare i brani di un genere?");
+	} else if (codice==17) {
+		printf(" Mostrare i brani di una playlist?");
+	} else if (codice==18) {
+		printf(" Mostrare le playlist di un utente?");
 	}
 	while (controllo!=-1) {
 		printf(" ["C_VERDE"Y"C_RESET"/"C_ROSSO"N"C_RESET"]: ");

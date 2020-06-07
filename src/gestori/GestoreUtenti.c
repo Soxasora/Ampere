@@ -61,11 +61,11 @@ database loginUtente(database db) {
 		//pulisciBuffer();
 		if ((username = malloc(MAX_MEDIO))) {
 			printf("\nInserisci "C_GIALLO"username: "C_RESET);
-			username = inputStringaSicuro(MAX_MEDIO,username);
+			username = inputStringa(MAX_MEDIO,username);
 		}
 		if ((password = malloc(MAX_MEDIO))) {
 			printf("\nInserisci "C_GIALLO"password: "C_RESET);
-			password = inputStringaSicuro(MAX_MEDIO,password);
+			password = inputStringa(MAX_MEDIO,password);
 		}
 		id = controllareDatiUtente(db, username, password);
 		if (strcmp(username, "N/A")==0||strcmp(password, "N/A")==0) {
@@ -115,11 +115,11 @@ database registrareUtente(database db) {
 		char *password;
 		if ((username = malloc(MAX_MEDIO))) {
 			printf("\nInserisci "C_GIALLO"username: "C_RESET);
-			username = inputStringaSicuro(MAX_MEDIO,username);
+			username = inputStringa(MAX_MEDIO,username);
 		}
 		if ((password = malloc(MAX_MEDIO))) {
 			printf("\nInserisci "C_GIALLO"password: "C_RESET);
-			password = inputStringaSicuro(MAX_MEDIO,password);
+			password = inputStringa(MAX_MEDIO,password);
 		}
 		if (strcmp(username,"N/A")==0||strcmp(password,"N/A")==0) {
 			attenzione(2);
@@ -139,14 +139,7 @@ database registrareUtente(database db) {
 			struct Utente nuovoUtente = creareUtente(username, password, admin);
 			mostrareAnteprimaUtente(nuovoUtente);
 			controllo=0;
-			while (controllo!=-1) {
-				//pulisciBuffer();
-				printf("\nSicuro di voler continuare? [Y/N]: ");
-				scelta = inputCarattere();
-				if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
-					controllo=-1;
-				}
-			}
+			scelta = richiesta(0);
 			if (scelta=='Y'||scelta=='y') {
 				db = inserireUtente(db, nuovoUtente);
 				if (admin) {
@@ -277,7 +270,7 @@ database creareUtenteModificato(database db, int campo, int id) {
 		if (campo==1) {
 			char *username = malloc(MAX_MEDIO);
 			printf("\nInserisci nuovo username: ");
-			username = inputStringaSicuro(MAX_MEDIO,username);
+			username = inputStringa(MAX_MEDIO,username);
 			strcpy(utenteModificato.username, username);
 			free(username);
 		} else if (campo==2) {
@@ -290,16 +283,16 @@ database creareUtenteModificato(database db, int campo, int id) {
 			if (!controllareSeAdmin(db)) {
 				while (strcmp(passwordVecchia, utenteModificato.password)!=0) {
 					printf("\nInserisci password attuale: ");
-					passwordVecchia = inputStringaSicuro(MAX_MEDIO,passwordVecchia);
+					passwordVecchia = inputStringa(MAX_MEDIO,passwordVecchia);
 					if (strcmp(passwordVecchia, utenteModificato.password)!=0)
 						printf("\nLa password attuale non è corretta! Riprova\n");
 				}
 			}
 			while (strcmp(password,password2)!=0) {
 				printf("\nInserisci nuova password: ");
-				password=inputStringaSicuro(MAX_MEDIO,password);
+				password=inputStringa(MAX_MEDIO,password);
 				printf("\nInserisci nuovamente la nuova password: ");
-				password2=inputStringaSicuro(MAX_MEDIO,password2);
+				password2=inputStringa(MAX_MEDIO,password2);
 				if (strcmp(password,password2)!=0) {
 					printf("\nLe due password non combaciano! Riprova\n");
 				}
@@ -366,14 +359,7 @@ database cancellareUtenteGuidato(database db) {
 		id = db.utenteCorrente;
 		mostraSingoloUtente(db, 0, id);
 	}
-	//pulisciBuffer();
-	while (controllo!=-1) {
-		printf("\nSicuro di voler continuare? [Y/N]: ");
-		scelta = inputCarattere();
-		if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
-			controllo=-1;
-		}
-	}
+	scelta = richiesta(0);
 	if (scelta=='Y'||scelta=='y') {
 		db = cancellareUtente(db, id);
 	}

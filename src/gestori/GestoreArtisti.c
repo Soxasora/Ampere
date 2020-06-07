@@ -27,7 +27,7 @@ database inserimentoArtistaGuidato(database db) {
 	do {
 		//pulisciBuffer();
 		printf("\nInserisci nome d'arte dell'artista: ");
-		nomeArte = inputStringaSicuro(MAX_MEDIO,nomeArte);
+		nomeArte = inputStringa(MAX_MEDIO,nomeArte);
 		db = creaArtistaSeNonEsiste(db,nomeArte);
 	} while (db.ultimoEsito!=0);
 	return db;
@@ -43,21 +43,14 @@ database creaArtistaGuidato(database db, char nomeArte[]) {
 	       "\nNome d'arte: %s", nomeArte);
 	//pulisciBuffer();
 	printf("\n[Premi invio per saltare] Inserisci nome ANAGRAFICO dell'artista: ");
-	nome = inputStringaSicuro(MAX_MEDIO,nome);
+	nome = inputStringa(MAX_MEDIO,nome);
 	printf("\n[Premi invio per saltare] Inserisci cognome ANAGRAFICO dell'artista: ");
-	cognome = inputStringaSicuro(MAX_MEDIO,cognome);
+	cognome = inputStringa(MAX_MEDIO,cognome);
 	printf("\n[Premi invio per saltare] Inserisci il link della biografia dell'artista: ");
-	linkBio = inputStringaSicuro(MAX_ENORME,linkBio);
+	linkBio = inputStringa(MAX_ENORME,linkBio);
 	struct Artista nuovoArtista = creaArtista(nome, cognome, nomeArte, linkBio);
 	mostrareAnteprimaArtista(nuovoArtista);
-	//pulisciBuffer();
-	while (controllo!=-1) {
-		printf("\nSicuro di voler continuare? [Y/N]: ");
-		scelta = inputCarattere();
-		if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
-			controllo=-1;
-		}
-	}
+	scelta = richiesta(0);
 	if (scelta=='Y'||scelta=='y') {
 		db = inserireArtista(db, nuovoArtista);
 		printf("\nArtista inserito, continuiamo...");
@@ -178,25 +171,25 @@ database creareArtistaModificato(database db, int campo, int id) {
 		if (campo==1) {
 			char *nome = malloc(MAX_MEDIO);
 			printf("\nInserisci nuovo nome: ");
-			nome = inputStringaSicuro(MAX_MEDIO,nome);
+			nome = inputStringa(MAX_MEDIO,nome);
 			strcpy(artistaModificato.nome, nome);
 			free(nome);
 		} else if (campo==2) {
 			char *cognome = malloc(MAX_MEDIO);
 			printf("\nInserisci nuovo cognome: ");
-			cognome = inputStringaSicuro(MAX_MEDIO,cognome);
+			cognome = inputStringa(MAX_MEDIO,cognome);
 			strcpy(artistaModificato.cognome, cognome);
 			free(cognome);
 		} else if (campo==3) {
 			char *nomeArte = malloc(MAX_MEDIO);
 			printf("\nInserisci nuovo nome d'arte: ");
-			nomeArte = inputStringaSicuro(MAX_MEDIO,nomeArte);
+			nomeArte = inputStringa(MAX_MEDIO,nomeArte);
 			strcpy(artistaModificato.nomeArte, nomeArte);
 			free(nomeArte);
 		} else if (campo==4) {
 			char *linkBio = malloc(MAX_ENORME);
 			printf("\nInserisci nuovo link della biografia: ");
-			linkBio = inputStringaSicuro(MAX_ENORME, linkBio);
+			linkBio = inputStringa(MAX_ENORME, linkBio);
 			strcpy(artistaModificato.linkBio, linkBio);
 			free(linkBio);
 		}
@@ -242,8 +235,7 @@ database cancellaArtista(database db) {
 	printf("\nHai scelto l'artista: ");
 	mostraSingoloArtista(db, id);
 	//pulisciBuffer();
-	printf("\nSicuro di voler continuare? Cancellera' anche i brani collegati ad esso. [Y/N]: ");
-	scelta = inputCarattere();
+	scelta = richiesta(5);
 	if (scelta=='Y'||scelta=='y') {
 		db = cancellaSingoloArtista(db, id);
 	}

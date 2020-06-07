@@ -23,7 +23,6 @@ int main() {
 	database db;
 	db = inizializzazione(db);
 	infoUtenteConnesso(db);
-	printf("\nPremi invio per continuare.");
 	db = menu(db);
 	db = terminazione(db);
 	aspetta();

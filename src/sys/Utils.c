@@ -92,7 +92,7 @@ void creaCartella(char nome[], bool silenzioso) {
 	#endif
 }
 
-char* inputStringaSicuro(int lunghezza, char stringa[]) {
+char* inputStringa(int lunghezza, char stringa[]) {
 	int i=0, lunghezzaStringa=0;
 	char *stringaSicura = calloc(lunghezza, sizeof(char));
 	do {

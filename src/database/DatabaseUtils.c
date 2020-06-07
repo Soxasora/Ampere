@@ -12,6 +12,7 @@
 #include "../gestori/GestoreFile.h"
 #include "../database/DatabaseUtils.h"
 #include "../database/Database.h"
+#include "../sys/Messaggi.h"
 #include "../sys/Utils.h"
 #include "../sys/Impostazioni.h"
 
@@ -335,7 +336,7 @@ void backupDatabase() {
 	creaCartella("backup", false);
 	// Inserire sistema di ottenimento automatico della data
 	printf("\nInserire il nome della cartella del nuovo backup (es. 05052020): ");
-	nome_backup = inputStringaSicuro(MAX_GRANDE,nome_backup);
+	nome_backup = inputStringa(MAX_GRANDE,nome_backup);
 	sprintf(percorso_backup, "backup\\%s", nome_backup);
 	creaCartella(percorso_backup, false);
 	printf("\nBackup del database in corso...");
@@ -368,7 +369,7 @@ database ripristinaDatabase(database db) {
 	char *nome_backup = malloc(MAX_GRANDE);
 	char *percorso_backup = malloc(MAX_GRANDE);
 	printf("\nInserire il nome del backup dal quale ripristinare il database (es. 05052020): ");
-	nome_backup = inputStringaSicuro(MAX_GRANDE,nome_backup);
+	nome_backup = inputStringa(MAX_GRANDE,nome_backup);
 	sprintf(percorso_backup, "backup\\%s\\brani.txt", nome_backup);
 	FILE* fp=fopen(percorso_backup, "r");
 	if (fp==NULL) {
@@ -377,8 +378,7 @@ database ripristinaDatabase(database db) {
 	} else {
 		fclose(fp);
 		char scelta='N';
-		printf("\nSicuro di voler continuare con il ripristino? [Y/N]: ");
-		scelta = inputCarattere();
+		scelta = richiesta(4);
 		if (scelta=='Y'||scelta=='y') {
 			printf("\nRipristino del database in corso...");
 			cancellaDatabaseFile();

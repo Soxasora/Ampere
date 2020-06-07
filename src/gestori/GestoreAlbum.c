@@ -28,7 +28,7 @@ database inserimentoAlbumGuidato(database db) {
 		//pulisciBuffer();
 		if ((titolo = malloc(MAX_MEDIO))) {
 			printf("\nInserisci titolo dell'album: ");
-			titolo = inputStringaSicuro(MAX_MEDIO,titolo);
+			titolo = inputStringa(MAX_MEDIO,titolo);
 			db = creaAlbumSeNonEsiste(db, titolo);
 		}
 	} while (db.ultimoEsito!=0);
@@ -51,8 +51,7 @@ database creaAlbumGuidato(database db, char titoloAlbum[]) {
 	mostrareAnteprimaAlbum(nuovoAlbum);
 	//pulisciBuffer();
 	while (controllo!=-1) {
-		printf("\nSicuro di voler continuare? [Y/N]: ");
-		scelta = inputCarattere();
+		scelta = richiesta(0);
 		if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
 			controllo=-1;
 		}
@@ -170,7 +169,7 @@ database creareAlbumModificato(database db, int campo, int id) {
 		if (campo==1) {
 			char *titolo = malloc(MAX_MEDIO);
 			printf("\nInserisci nuovo titolo: ");
-			titolo = inputStringaSicuro(MAX_MEDIO,titolo);
+			titolo = inputStringa(MAX_MEDIO,titolo);
 			strcpy(albumModificato.titolo, titolo);
 			free(titolo);
 		} else if (campo==2) {
@@ -221,9 +220,7 @@ database cancellaAlbum(database db) {
 	}
 	printf("\nHai scelto l'album: ");
 	mostraSingoloAlbum(db, id);
-	//pulisciBuffer();
-	printf("\nSicuro di voler continuare? Cancellera' anche i brani collegati ad esso. [Y/N]: ");
-	scelta = inputCarattere();
+	scelta = richiesta(5);
 	if (scelta=='Y'||scelta=='y') {
 		db = cancellaSingoloAlbum(db,id);
 	}

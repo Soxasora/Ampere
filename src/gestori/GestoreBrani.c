@@ -37,7 +37,7 @@ database inserimentoBranoGuidato(database db) {
 		if ((titolo=malloc(MAX_MEDIO))) {
 			//pulisciBuffer();
 			printf("\nInserisci titolo: ");
-			titolo = inputStringaSicuro(MAX_MEDIO,titolo);
+			titolo = inputStringa(MAX_MEDIO,titolo);
 		}
 		while (nArtisti<1||nArtisti>MAX_MEDIO) {
 			printf("\nQuanti artisti hanno lavorato su questo brano? ");
@@ -49,7 +49,7 @@ database inserimentoBranoGuidato(database db) {
 				if ((artista=malloc(MAX_MEDIO))) {
 					//pulisciBuffer();
 					printf("\nInserisci nome artista n.%d: ", i+1);
-					artista = inputStringaSicuro(MAX_MEDIO,artista);
+					artista = inputStringa(MAX_MEDIO,artista);
 					db = creaArtistaSeNonEsiste(db, artista);
 				}
 			} while (db.ultimoEsito!=0);
@@ -67,7 +67,7 @@ database inserimentoBranoGuidato(database db) {
 				if ((album=malloc(MAX_MEDIO))) {
 					//pulisciBuffer();
 					printf("\nInserisci nome album n.%d: ", i+1);
-					album = inputStringaSicuro(MAX_MEDIO,album);
+					album = inputStringa(MAX_MEDIO,album);
 					db = creaAlbumSeNonEsiste(db, album);
 				}
 			} while (db.ultimoEsito!=0);
@@ -85,7 +85,7 @@ database inserimentoBranoGuidato(database db) {
 				if ((genere=malloc(MAX_MEDIO))) {
 					//pulisciBuffer();
 					printf("\nInserisci genere n.%d del brano: ", i+1);
-					genere = inputStringaSicuro(MAX_MEDIO,genere);
+					genere = inputStringa(MAX_MEDIO,genere);
 					db = creareGenereSeNonEsiste(db, genere);
 				}
 			} while (db.ultimoEsito!=0);
@@ -110,14 +110,7 @@ database inserimentoBranoGuidato(database db) {
 		free(titolo); titolo=NULL;
 		// Mostra anteprima del brano
 		mostrareAnteprimaBrano(db, nuovoBrano, idArtisti, idAlbum, idGeneri);
-		//pulisciBuffer();
-		while (controllo!=-1) {
-			printf("\nSicuro di voler continuare? [Y/N]: ");
-			scelta = inputCarattere();
-			if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
-				controllo=-1;
-			}
-		}
+		scelta = richiesta(0);
 		if (scelta=='Y'||scelta=='y') {
 			// Ricerca similitudini
 			db = controllaEsistenzaBrano(db, nuovoBrano);
@@ -234,14 +227,7 @@ database controllaEsistenzaBrano(database db, struct Brano nuovoBrano) {
 	}
 
 	if (trovato) {
-		while (controllo!=-1) {
-			//pulisciBuffer();
-			printf("\n\nSulla base delle suddette scoperte, vuoi continuare ugualmente con l'inserimento? [Y/N]: ");
-			scelta = inputCarattere();
-			if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
-				controllo=-1;
-			}
-		}
+		scelta = richiesta(6);
 		if (scelta=='N'||scelta=='n') {
 			db.ultimoEsito=-1;
 		} else {
@@ -317,7 +303,7 @@ database creareBranoModificato(database db, int campo, int id) {
 		if (campo==1) {
 			char *titolo = malloc(MAX_MEDIO);
 			printf("\nInserisci nuovo titolo: ");
-			titolo = inputStringaSicuro(MAX_MEDIO,titolo);
+			titolo = inputStringa(MAX_MEDIO,titolo);
 			strcpy(branoModificato.titolo, titolo);
 			free(titolo);
 		} else if (campo==2) {
@@ -352,7 +338,7 @@ database creareBranoModificato(database db, int campo, int id) {
 				do {
 					if ((artista = malloc(MAX_MEDIO))) {
 						printf("\nInserisci nome d'arte artista n.%d: ", i+1);
-						artista = inputStringaSicuro(MAX_MEDIO,artista);
+						artista = inputStringa(MAX_MEDIO,artista);
 						db = creaArtistaSeNonEsiste(db, artista);
 						idAssociazioni[i] = controlloEsistenzaArtista(db, artista);
 					}
@@ -371,7 +357,7 @@ database creareBranoModificato(database db, int campo, int id) {
 				do {
 					if ((album = malloc(MAX_MEDIO))) {
 						printf("\nInserisci nome album n.%d: ", i+1);
-						album = inputStringaSicuro(MAX_MEDIO,album);
+						album = inputStringa(MAX_MEDIO,album);
 						db = creaAlbumSeNonEsiste(db, album);
 						idAssociazioni[i] = controlloEsistenzaAlbum(db, album);
 					}
@@ -390,7 +376,7 @@ database creareBranoModificato(database db, int campo, int id) {
 				do {
 					if ((genere = malloc(MAX_MEDIO))) {
 						printf("\nInserisci nome del genere n.%d: ", i+1);
-						genere = inputStringaSicuro(MAX_MEDIO, genere);
+						genere = inputStringa(MAX_MEDIO, genere);
 						db = creareGenereSeNonEsiste(db, genere);
 						idAssociazioni[i] = controllareEsistenzaGenere(db, genere);
 					}
@@ -510,14 +496,7 @@ database cancellaBrano(database db) {
 	}
 	printf("\nHai scelto il brano:");
 	mostraSingoloBrano(db, id);
-	//pulisciBuffer();
-	while (controllo!=-1) {
-		printf("\nSicuro di voler continuare? [Y/N]: ");
-		scelta = inputCarattere();
-		if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
-			controllo=-1;
-		}
-	}
+	scelta = richiesta(0);
 	if (scelta=='Y'||scelta=='y') {
 		db = cancellaSingoloBrano(db, id);
 		printf("\nBrano cancellato.");

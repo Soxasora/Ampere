@@ -27,7 +27,7 @@ database inserireGenereGuidato(database db) {
 	do {
 		//pulisciBuffer();
 		printf("\nInserisci nome del genere: ");
-		nome = inputStringaSicuro(MAX_MEDIO,nome);
+		nome = inputStringa(MAX_MEDIO,nome);
 		db = creareGenereSeNonEsiste(db, nome);
 	} while (db.ultimoEsito!=0);
 	return db;
@@ -41,14 +41,7 @@ database creareGenereSeNonEsiste(database db, char nome[]) {
 		printf("\nSembra che questo genere non esista nel database");
 		struct Genere nuovoGenere = creareGenere(nome);
 		mostrareAnteprimaGenere(nuovoGenere);
-		//pulisciBuffer();
-		while (controllo!=-1) {
-			printf("\nSicuro di voler continuare? [Y/N]: ");
-			scelta = inputCarattere();
-			if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
-				controllo=-1;
-			}
-		}
+		scelta = richiesta(0);
 		if (scelta=='Y'||scelta=='y') {
 			db = inserireGenere(db, nuovoGenere);
 			printf("\nGenere inserito, continuiamo...");
@@ -150,7 +143,7 @@ database creareGenereModificato(database db, int id) {
 		//pulisciBuffer();
 		char *nome = malloc(MAX_MEDIO);
 		printf("\nInserisci nuovo nome: ");
-		nome = inputStringaSicuro(MAX_MEDIO,nome);
+		nome = inputStringa(MAX_MEDIO,nome);
 		strcpy(genereModificato.nome, nome);
 		free(nome);
 		printf("\nGenere ORIGINALE:");
@@ -194,13 +187,7 @@ database cancellareGenereGuidato(database db) {
 	printf("\nHai scelto il genere: ");
 	mostraSingoloGenere(db, id);
 	//pulisciBuffer();
-	while (controllo!=-1) {
-		printf("\nSicuro di voler continuare? [Y/N]: ");
-		scelta = inputCarattere();
-		if (scelta=='Y'||scelta=='y'||scelta=='N'||scelta=='n') {
-			controllo=-1;
-		}
-	}
+	scelta = richiesta(5);
 	if (scelta=='Y'||scelta=='y') {
 		db = cancellareGenere(db, id);
 	}

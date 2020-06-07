@@ -70,9 +70,7 @@ void ricerca(database db, int modalita, char interrogazione[], bool light) {
 					printf("\n");
 					mostraSingoloAlbum(db, db.album[i].id);
 					char scelta = 'N';
-					//pulisciBuffer();
-					printf("\nVuoi mostrare i brani di un album? [Y/N]: ");
-					scelta = inputCarattere();
+					scelta = richiesta(14);
 					if (scelta=='Y'||scelta=='y') {
 						mostraBraniAlbum(db);
 					}
@@ -107,9 +105,7 @@ void ricerca(database db, int modalita, char interrogazione[], bool light) {
 					printf("\n");
 					mostraSingoloArtista(db, db.artista[i].id);
 					char scelta = 'N';
-					//pulisciBuffer();
-					printf("\nVuoi mostrare i brani di un artista? [Y/N]: ");
-					scelta = inputCarattere();
+					scelta = richiesta(15);
 					if (scelta=='Y'||scelta=='y') {
 						mostraBraniArtista(db);
 					}
@@ -142,9 +138,7 @@ void ricerca(database db, int modalita, char interrogazione[], bool light) {
 					printf("\n");
 					mostraSingoloGenere(db, db.genere[i].id);
 					char scelta = 'N';
-					//pulisciBuffer();
-					printf("\nVuoi mostrare i brani di un genere? [Y/N]: ");
-					scelta = inputCarattere();
+					scelta = richiesta(16);
 					if (scelta=='Y'||scelta=='y') {
 						mostraBraniGenere(db);
 					}
@@ -179,9 +173,7 @@ void ricerca(database db, int modalita, char interrogazione[], bool light) {
 						printf("\n");
 						mostraSingolaPlaylist(db, -1, db.playlist[i].id);
 						char scelta = 'N';
-						//pulisciBuffer();
-						printf("\nVuoi mostrare i brani di una playlist? [Y/N]: ");
-						scelta = inputCarattere();
+						scelta = richiesta(17);
 						if (scelta=='Y'||scelta=='y') {
 							mostraBraniPlaylist(db);
 						}
@@ -215,9 +207,7 @@ void ricerca(database db, int modalita, char interrogazione[], bool light) {
 					printf("\n");
 					mostraSingoloUtente(db, -1,db.utente[i].id);
 					char scelta = 'N';
-					//pulisciBuffer();
-					printf("\nVuoi mostrare le playlist di un utente? [Y/N]: ");
-					scelta = inputCarattere();
+					scelta = richiesta(18);
 					if (scelta=='Y'||scelta=='y') {
 						mostraPlaylistUtenteGuidato(db);
 					}
@@ -249,7 +239,7 @@ void eseguiRicerca(database db) {
 		if ((interrogazione=malloc(MAX_MEDIO))) {
 			//pulisciBuffer();
 			printf("\nCerca nel database: ");
-			interrogazione = inputStringaSicuro(MAX_MEDIO,interrogazione);
+			interrogazione = inputStringa(MAX_MEDIO,interrogazione);
 		}
 		if (comparaStringheParziale("N/A", interrogazione)) {
 			attenzione(2);

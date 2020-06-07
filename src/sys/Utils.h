@@ -40,7 +40,7 @@ void creaCartella(char nome[], bool silenzioso);
  * 	Controlla se l'utente ha schiacciato "invio" senza inserire niente e sostituisce con "N/A"
  * 	@output stringa corretta
  */
-char* inputStringaSicuro(int lunghezza, char stringa[]);
+char* inputStringa(int lunghezza, char stringa[]);
 
 /**
  * 	@input stringa s1, stringa s2
