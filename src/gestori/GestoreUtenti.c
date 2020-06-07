@@ -53,7 +53,7 @@ void infoUtenteConnesso(database db) {
 }
 
 database loginUtente(database db) {
-	printf("\n\nEsecuzione Login ad Ampere");
+	printf("\nEsecuzione Login ad Ampere");
 	int controllo=0, id=0;
 	char *username;
 	char *password;
@@ -252,7 +252,7 @@ database modificareUtenteGuidato(database db) {
 				printf("\n[3] Modifica il ruolo");
 			printf("\n[0] Esci");
 			while (campo<0||campo>3) {
-				printf("\nInserisci la tua scelta: ");
+				printf("\n"C_VERDE"Inserisci la tua scelta"C_RESET": ");
 				campo = inputNumero();
 			}
 			if (campo!=0) {
@@ -292,7 +292,7 @@ database creareUtenteModificato(database db, int campo, int id) {
 					printf("\nInserisci password attuale: ");
 					passwordVecchia = inputStringaSicuro(MAX_MEDIO,passwordVecchia);
 					if (strcmp(passwordVecchia, utenteModificato.password)!=0)
-						printf("\nLa password attuale non è corretta! Riprova\n");
+						printf("\nLa password attuale non Ã¨ corretta! Riprova\n");
 				}
 			}
 			while (strcmp(password,password2)!=0) {

@@ -126,7 +126,7 @@ database modificareGenereGuidato(database db) {
 			printf("\n[1] Modifica il Nome");
 			printf("\n[0] Esci");
 			while (campo<0||campo>1) {
-				printf("\nInserisci la tua scelta: ");
+				printf("\n"C_VERDE"Inserisci la tua scelta"C_RESET": ");
 				campo = inputNumero();
 			}
 			if (campo!=0) {

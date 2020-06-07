@@ -13,6 +13,7 @@
 #include "gestori/GestoreUtenti.h"
 #include "gestori/GestoreFile.h"
 #include "database/Database.h"
+#include "sys/Messaggi.h"
 #include "sys/Menu.h"
 #include "sys/Utils.h"
 #include "sys/Impostazioni.h"
@@ -38,16 +39,15 @@ database inizializzazione(database db) {
 		abilitaColori();
 	// Mostra info su Ampere
 	info();
-	printf("\nBenvenuto su Ampere.");
-	printf("\nInizializzazione in corso...");
-	printf("\n----------------------------------------");
+	cPrintf(C_CIANO,"\nInizializzazione di Ampere in corso...");
+	printf(DIVISORE);
 
 	// Carico il database
 	int esito = creareDatabaseSeNonEsiste();
 	if (esito!=0) {
-		printf(C_ROSSO"\nSi e' verificato un errore interno. Sto chiudendo Ampere..."C_RESET);
+		errore(-1);
+		errore(20);
 	} else {
-
 		// Ottengo il database degli utenti prima di caricare completamente il database
 		db = ottenereDatabase(-1,db);
 
@@ -56,20 +56,21 @@ database inizializzazione(database db) {
 
 		// Ottengo il resto del database e tutti i sotto database con esso
 		db = ottenereDatabase(0,db);
-		printf("\n\nAmpere Pronto.");
-		printf("\n----------------------------------------\n");
+		successo(111);
+		printf(DIVISORE"\n");
 	}
 	return db;
 }
 
 database terminazione(database db) {
-	printf(C_GIALLO"\nPreparazione alla chiusura in corso...");
+	attenzione(100);
 	if (db_modificato==1) {
-		printf("\nUn momento, sto salvando i dati... "C_ROSSO"Non chiudere Ampere in questo momento."C_RESET);
+		printf("\nUn momento, sto salvando i dati... ");
+		cPrintf(C_ROSSO,"Non chiudere Ampere in questo momento.");
 		salvaModificheSuFile(db);
-		printf(" Fatto.");
+		cPrintf(C_VERDE," Fatto.");
 	}
 	db = liberareDatabase(db);
-	printf(C_VERDE"\nPronto per essere chiuso."C_RESET);
+	successo(112);
 	return db;
 }

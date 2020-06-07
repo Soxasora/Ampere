@@ -145,7 +145,7 @@ database modificareAlbumGuidato(database db) {
 			"\n[2] Modificare l'anno di uscita"
 			"\n[0] Esci");
 			while (campo<0||campo>2) {
-				printf("\nInserisci la tua scelta: ");
+				printf("\n"C_VERDE"Inserisci la tua scelta"C_RESET": ");
 				campo = inputNumero();
 			}
 			if (campo!=0) {

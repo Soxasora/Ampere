@@ -474,7 +474,7 @@ database moduloRicercaBrani(database db) {
 				   "\n[4] Album"
 				   "\n[5] Genere"
 				   "\n[0] Esci dalla ricerca"
-				   "\nInserisci la tua scelta: ");
+				   "\n"C_VERDE"Inserisci la tua scelta"C_RESET": ");
 			scelta = inputNumero();
 		}
 		if (scelta==1) {
