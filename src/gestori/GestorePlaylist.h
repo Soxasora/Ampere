@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 0.3
+ * UNIBA/Ampere 1.0
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -68,7 +68,7 @@ database inserirePlaylist(database db, struct Playlist playlist);
 
 /**
  * 	@input istanza database
- *	Interfaccia utente stand-alone per la creazione di una playlist, può essere chiamata
+ *	Interfaccia utente stand-alone per la creazione di una playlist, puï¿½ essere chiamata
  *	senza dipendere da altre funzioni
  *	Dopo la creazione della playlist, chiede anche all'utente se vuole inserire dei brani in essa
  *	Crea la playlist con crearePlaylist e la passa ad inserirePlaylist
@@ -80,7 +80,7 @@ database crearePlaylistGuidato(database db);
 /**
  * 	TODO: Scorporare funzione, migliorare funzione
  * 	@input istanza database
- *	Interfaccia utente stand-alone per l'inserimento di brani in una playlist, può essere chiamata
+ *	Interfaccia utente stand-alone per l'inserimento di brani in una playlist, puï¿½ essere chiamata
  *	senza dipendere da altre funzioni
  *	Operazioni di ricerca della playlist nella quale si vogliono aggiungere brani
  *	Esegue operazioni di inserimento dei brani in una playlist attraverso l'associazione playlist-brano

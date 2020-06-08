@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 0.3
+ * UNIBA/Ampere 1.0
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -12,10 +12,10 @@
 
 /**
  * 	@input istanza database
- *	Interfaccia utente stand-alone per l'inserimento di un brano, può essere chiamata
+ *	Interfaccia utente stand-alone per l'inserimento di un brano, puï¿½ essere chiamata
  *	senza dipendere da altre funzioni
  *	Oltre alle informazioni di un brano, chiede all'utente anche l'artista, l'album ed il genere
- *	essi, se non già presenti nel database, procedono a creare le suddette informazioni avvalendosi
+ *	essi, se non giï¿½ presenti nel database, procedono a creare le suddette informazioni avvalendosi
  *	di, ad esempio, creaArtistaSeNonEsiste, ottenendo poi l'id di essi con, ad esempio, controlloEsistenzaArtista
  *	Crea il brano con creaBrano e lo passa a inserireBrano
  *	@output database modificato

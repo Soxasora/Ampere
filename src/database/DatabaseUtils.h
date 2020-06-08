@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 0.3
+ * UNIBA/Ampere 1.0
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -14,7 +14,7 @@
  * Ogni funzione di analisi del database contenuto in memoria, utilizza le seguenti modalita'
  * per dettare regimi di funzionamento adeguati al lavoro richiesto
  *
- * Le modalità sono le seguenti:
+ * Le modalitï¿½ sono le seguenti:
  * -1: Utente
  * 0: Brano
  * 1: Album

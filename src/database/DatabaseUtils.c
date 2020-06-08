@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 0.3
+ * UNIBA/Ampere 1.0
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -17,7 +17,7 @@
 #include "../sys/Impostazioni.h"
 
 /**
- * Le modalità sono le seguenti:
+ * Le modalitï¿½ sono le seguenti:
  * -1: Utente
  * 0: Brano
  * 1: Album
@@ -344,28 +344,28 @@ void backupDatabase() {
 			esito=0;
 		}
 	} while (esito!=0);
-	sprintf(percorso_backup, "backup\\%s", nome_backup);
-	creaCartella(percorso_backup, false);
+	sprintf(percorso_backup, "backup/%s", nome_backup);
+	creaCartella(percorso_backup, true);
 	printf("\nBackup del database in corso...");
-	sprintf(percorso_backup, "backup\\%s\\brani.txt", nome_backup);
+	sprintf(percorso_backup, "backup/%s/brani.txt", nome_backup);
 	backupFile(file_brani, percorso_backup);
-	sprintf(percorso_backup, "backup\\%s\\albums.txt", nome_backup);
+	sprintf(percorso_backup, "backup/%s/albums.txt", nome_backup);
 	backupFile(file_albums, percorso_backup);
-	sprintf(percorso_backup, "backup\\%s\\BranoArtista.txt", nome_backup);
+	sprintf(percorso_backup, "backup/%s/BranoArtista.txt", nome_backup);
 	backupFile(file_BranoArtista, percorso_backup);
-	sprintf(percorso_backup, "backup\\%s\\artisti.txt", nome_backup);
+	sprintf(percorso_backup, "backup/%s/artisti.txt", nome_backup);
 	backupFile(file_artisti, percorso_backup);
-	sprintf(percorso_backup, "backup\\%s\\BranoAlbum.txt", nome_backup);
+	sprintf(percorso_backup, "backup/%s/BranoAlbum.txt", nome_backup);
 	backupFile(file_BranoAlbum, percorso_backup);
-	sprintf(percorso_backup, "backup\\%s\\generi.txt", nome_backup);
+	sprintf(percorso_backup, "backup/%s/generi.txt", nome_backup);
 	backupFile(file_generi, percorso_backup);
-	sprintf(percorso_backup, "backup\\%s\\BranoGenere.txt", nome_backup);
+	sprintf(percorso_backup, "backup/%s/BranoGenere.txt", nome_backup);
 	backupFile(file_BranoGenere, percorso_backup);
-	sprintf(percorso_backup, "backup\\%s\\playlists.txt", nome_backup);
+	sprintf(percorso_backup, "backup/%s/playlists.txt", nome_backup);
 	backupFile(file_playlists, percorso_backup);
-	sprintf(percorso_backup, "backup\\%s\\PlaylistBrano.txt", nome_backup);
+	sprintf(percorso_backup, "backup/%s/PlaylistBrano.txt", nome_backup);
 	backupFile(file_PlaylistBrano, percorso_backup);
-	sprintf(percorso_backup, "backup\\%s\\utenti.txt", nome_backup);
+	sprintf(percorso_backup, "backup/%s/utenti.txt", nome_backup);
 	backupFile(file_utenti, percorso_backup);
 	printf(" Backup effettuato.");
 	free(nome_backup); free(percorso_backup);
@@ -377,7 +377,7 @@ database ripristinaDatabase(database db) {
 	char *percorso_backup = malloc(MAX_GRANDE);
 	printf("\nInserire il nome del backup dal quale ripristinare il database (es. 05052020): ");
 	nome_backup = inputStringa(MAX_GRANDE,nome_backup);
-	sprintf(percorso_backup, "backup\\%s\\brani.txt", nome_backup);
+	sprintf(percorso_backup, "backup/%s/brani.txt", nome_backup);
 	FILE* fp=fopen(percorso_backup, "r");
 	if (fp==NULL) {
 		perror("Impossibile continuare con il ripristino, motivazione: ");
@@ -389,25 +389,25 @@ database ripristinaDatabase(database db) {
 		if (scelta=='Y'||scelta=='y') {
 			printf("\nRipristino del database in corso...");
 			cancellaDatabaseFile();
-			sprintf(percorso_backup, "backup\\%s\\brani.txt", nome_backup);
+			sprintf(percorso_backup, "backup/%s/brani.txt", nome_backup);
 			backupFile(percorso_backup, file_brani);
-			sprintf(percorso_backup, "backup\\%s\\albums.txt", nome_backup);
+			sprintf(percorso_backup, "backup/%s/albums.txt", nome_backup);
 			backupFile(percorso_backup, file_albums);
-			sprintf(percorso_backup, "backup\\%s\\BranoArtista.txt", nome_backup);
+			sprintf(percorso_backup, "backup/%s/BranoArtista.txt", nome_backup);
 			backupFile(percorso_backup, file_BranoArtista);
-			sprintf(percorso_backup, "backup\\%s\\artisti.txt", nome_backup);
+			sprintf(percorso_backup, "backup/%s/artisti.txt", nome_backup);
 			backupFile(percorso_backup, file_artisti);
-			sprintf(percorso_backup, "backup\\%s\\BranoAlbum.txt", nome_backup);
+			sprintf(percorso_backup, "backup/%s/BranoAlbum.txt", nome_backup);
 			backupFile(percorso_backup, file_BranoAlbum);
-			sprintf(percorso_backup, "backup\\%s\\generi.txt", nome_backup);
+			sprintf(percorso_backup, "backup/%s/generi.txt", nome_backup);
 			backupFile(percorso_backup, file_generi);
-			sprintf(percorso_backup, "backup\\%s\\BranoGenere.txt", nome_backup);
+			sprintf(percorso_backup, "backup/%s/BranoGenere.txt", nome_backup);
 			backupFile(percorso_backup, file_BranoGenere);
-			sprintf(percorso_backup, "backup\\%s\\playlists.txt", nome_backup);
+			sprintf(percorso_backup, "backup/%s/playlists.txt", nome_backup);
 			backupFile(percorso_backup, file_playlists);
-			sprintf(percorso_backup, "backup\\%s\\PlaylistBrano.txt", nome_backup);
+			sprintf(percorso_backup, "backup/%s/PlaylistBrano.txt", nome_backup);
 			backupFile(percorso_backup, file_PlaylistBrano);
-			sprintf(percorso_backup, "backup\\%s\\utenti.txt", nome_backup);
+			sprintf(percorso_backup, "backup/%s/utenti.txt", nome_backup);
 			backupFile(percorso_backup, file_utenti);
 			db = ottenereDatabase(1, db);
 			printf(" Ripristino dal backup %s effettuato.", nome_backup);

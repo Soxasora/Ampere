@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 0.3
+ * UNIBA/Ampere 1.0
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -16,7 +16,7 @@
 	#include <strings.h>
 	#include <io.h>
 	#include <shlwapi.h>
-#elif __unix__ // UNIX
+#elif __unix__ || __APPLE__ // UNIX
 	#include <sys/stat.h>
 	#include <unistd.h>
 #endif
@@ -43,7 +43,7 @@ void logo() {
 
 void info() {
 	logo();
-	printf("UNIBA/"C_GIALLO"Ampere "CB_ROSSO"0.3"C_RESET
+	printf("UNIBA/"C_GIALLO"Ampere "CB_ROSSO"1.0"C_RESET
 	"\nGruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino"
 	"\nProgetto universitario di gruppo intento alla creazione di un gestore dati per la musica\n");
 }
@@ -69,16 +69,17 @@ void apriLink(char link[]) {
 }
 
 void creaCartella(char nome[], bool silenzioso) {
-	// Utilizzo di ifdef perché mkdir e' una funzione che ha un omonimo
+	// Utilizzo di ifdef perchï¿½ mkdir e' una funzione che ha un omonimo
+	int risultato=0;
 	#ifdef _WIN32
-		int risultato=0;
+		risultato=0;
 		risultato = _mkdir(nome);
 		if(risultato!=0) {
 			if (!silenzioso) {
 				printf("\nLa cartella '%s' esiste gia' oppure e' impossibile crearla", nome);
 			}
 		}
-	#elif __unix__
+	#elif __unix__ || __APPLE__
 		struct stat st = {0};
 		if (stat(nome, &st) == -1) {
 			risultato = mkdir(nome, 0700);

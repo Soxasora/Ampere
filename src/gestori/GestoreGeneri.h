@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 0.3
+ * UNIBA/Ampere 1.0
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -12,7 +12,7 @@
 
 /**
  * 	@input istanza database
- *	Interfaccia utente stand-alone per l'inserimento di un genere, può essere chiamata
+ *	Interfaccia utente stand-alone per l'inserimento di un genere, puï¿½ essere chiamata
  *	senza dipendere da altre funzioni
  *	Chiama creareGenereSeNonEsiste
  *	@output database modificato

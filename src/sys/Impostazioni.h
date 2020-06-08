@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 0.3
+ * UNIBA/Ampere 1.0
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -16,17 +16,17 @@
 
 // File del database
 #define cartella_database "database"
-#define cartella_testi "database\\testi"
-#define file_brani "database\\brani.txt"
-#define file_albums "database\\albums.txt"
-	#define file_BranoArtista "database\\BranoArtista.txt"
-#define file_artisti "database\\artisti.txt"
-	#define file_BranoAlbum "database\\BranoAlbum.txt"
-#define file_generi "database\\generi.txt"
-	#define file_BranoGenere "database\\BranoGenere.txt"
-#define file_playlists "database\\playlists.txt"
-	#define file_PlaylistBrano "database\\PlaylistBrano.txt"
-#define file_utenti "database\\utenti.txt"
+#define cartella_testi "database/testi"
+#define file_brani "database/brani.txt"
+#define file_albums "database/albums.txt"
+	#define file_BranoArtista "database/BranoArtista.txt"
+#define file_artisti "database/artisti.txt"
+	#define file_BranoAlbum "database/BranoAlbum.txt"
+#define file_generi "database/generi.txt"
+	#define file_BranoGenere "database/BranoGenere.txt"
+#define file_playlists "database/playlists.txt"
+	#define file_PlaylistBrano "database/PlaylistBrano.txt"
+#define file_utenti "database/utenti.txt"
 
 /**
  * 	COLORI

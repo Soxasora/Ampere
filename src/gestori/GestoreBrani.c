@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 0.3
+ * UNIBA/Ampere 1.0
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -527,7 +527,7 @@ void apriTesto(int idBrano) {
 	char *comando = malloc(MAX_ENORME+10);
 	FILE *fp;
 	if(os==0) {
-		sprintf(posizione_testo, "%s\\%d%s", cartella_testi, idBrano, ".txt");
+		sprintf(posizione_testo, "%s/%d%s", cartella_testi, idBrano, ".txt");
 		fp=fopen(posizione_testo, "r");
 		if (fp==NULL) {
 			printf("\nIl brano scelto non possiede al momento del testo.");
