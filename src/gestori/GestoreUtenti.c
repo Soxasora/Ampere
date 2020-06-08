@@ -18,6 +18,7 @@
 #include "../sys/Utils.h"
 #include "../sys/Impostazioni.h"
 #include "../sys/Messaggi.h"
+#include "../Ampere.h"
 
 bool controllareSeAdmin(database db) {
 	bool risultato=false;
@@ -226,7 +227,7 @@ database modificareUtenteGuidato(database db) {
 			}
 		} while (esiste==0);
 		while (ottenerePosDaID(db, -1,id)==-1) {
-			printf("\nInserisci id dell'utente da modificare: ");
+			printf("\n\nInserisci id dell'utente da modificare: ");
 			id = inputNumero();
 			if (ottenerePosDaID(db, -1,id)==-1) {
 				printf("\nNessun utente trovato, riprovare");
@@ -351,7 +352,7 @@ database cancellareUtenteGuidato(database db) {
 	if (controllareSeAdmin(db)) {
 		mostraTuttiUtenti(db);
 		while (ottenerePosDaID(db, -1,id)==-1) {
-			printf("\nInserisci id dell'utente: ");
+			printf("\n\nInserisci id dell'utente: ");
 			id = inputNumero();
 			if (ottenerePosDaID(db, -1,id)==-1) {
 				printf("\nNessun utente trovato, riprovare");
@@ -366,6 +367,12 @@ database cancellareUtenteGuidato(database db) {
 	scelta = richiesta(0);
 	if (scelta=='Y'||scelta=='y') {
 		db = cancellareUtente(db, id);
+		printf("\nPer rendere effettive le modifiche, ora chiudero' Ampere.");
+		aspetta();
+		terminazione(db);
+		exit(0);
+	} else {
+		printf("\nNessuna modifica effettuata.");
 	}
 	return db;
 }

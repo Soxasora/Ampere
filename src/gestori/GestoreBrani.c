@@ -98,7 +98,7 @@ database inserimentoBranoGuidato(database db) {
 			printf("\nInserisci durata del brano in secondi: ");
 			durata = inputNumero();
 		}
-		while (anno<=1950) {
+		while (anno<1950) {
 			printf("\nInserisci anno d'uscita del brano: ");
 			anno = inputNumero();
 		}
@@ -315,7 +315,7 @@ database creareBranoModificato(database db, int campo, int id) {
 			branoModificato.durata = durata;
 		} else if (campo==3) {
 			int anno=0;
-			while (anno<=1950) {
+			while (anno<1950) {
 				printf("\nInserisci nuovo anno: ");
 				anno = inputNumero();
 			}

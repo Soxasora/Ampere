@@ -27,10 +27,12 @@
 bool isUserPlaylist(database db, int idPlaylist, int idUtente) {
 	int posPlaylist=ottenerePosDaID(db, 4, idPlaylist);
 	bool risultato=false;
-	if (db.playlist[posPlaylist].idUtente==idUtente)
-		risultato=true;
-	else
-		risultato=false;
+	if (posPlaylist!=-1) {
+		if (db.playlist[posPlaylist].idUtente==idUtente)
+			risultato=true;
+		else
+			risultato=false;
+	}
 	return risultato;
 }
 
@@ -154,7 +156,7 @@ database crearePlaylistGuidato(database db) {
 
 database inserimentoBraniPlaylistGuidato(database db) {
 	
-	int id=0, i=0, j=0, branoscelto=0, controllo=0;
+	int id=0, i=0, j=0, branoscelto=0, controllo=0, esito=0;
 	char scelta='a';
 	int nBrani = contareNelDatabase(db,0);
 	printf("\n===[Inserimento guidato di brani in una playlist]==="
@@ -163,11 +165,14 @@ database inserimentoBraniPlaylistGuidato(database db) {
 	do {
 		printf("\nInserisci id della playlist: ");
 		id = inputNumero();
-		if (isUserPlaylist(db, id, db.utenteCorrente)==false)
-			printf("\nL'identificativo che hai dato punta ad una playlist che non ti appartiene, riprova.");
-		else if (ottenerePosDaID(db, 4,id)==-1)
+		if (ottenerePosDaID(db, 4,id)==-1) {
 			printf("\nNessuna playlist trovata, riprovare");
-	} while (isUserPlaylist(db, id, db.utenteCorrente)==false||ottenerePosDaID(db, 4,id)==-1);
+			esito=-1;
+		} else if (isUserPlaylist(db, id, db.utenteCorrente)==false) {
+			printf("\nL'identificativo che hai dato punta ad una playlist che non ti appartiene, riprova.");
+			esito=-1;
+		}
+	} while (esito==-1);
 
 	printf("\nInserisci fino a %d brani nella playlist %s", nBrani, db.playlist[ottenerePosDaID(db, 4,id)].nome);
 	int* idbrani = calloc(nBrani, sizeof(int));
@@ -187,9 +192,8 @@ database inserimentoBraniPlaylistGuidato(database db) {
 		}
 		if (db.ultimoEsito==1) {
 			do {
-				
 				printf("\nInserire l'identificativo del brano da inserire nella playlist, altrimenti [-1] per cercare di nuovo: ");
-				id = inputNumero();
+				branoscelto = inputNumero();
 				if (branoscelto==-1) {
 					db.ultimoEsito=2;
 				} else {
@@ -257,7 +261,7 @@ int controlloEsistenzaPlaylist(database db, char playlist[]) {
 }
 
 database modificarePlaylistGuidato(database db) {
-	int id=0, campo=-1, esiste=0;
+	int id=0, campo=-1, esiste=0, esito=0;
 	char scelta='a';
 	do {
 		esiste = mostraInfo(db, 3);
@@ -268,11 +272,14 @@ database modificarePlaylistGuidato(database db) {
 	do {
 		printf("\nInserisci id della playlist da modificare: ");
 		id = inputNumero();
-		if (isUserPlaylist(db, id, db.utenteCorrente)==false||!controllareSeAdmin(db))
-			printf("\nL'identificativo che hai dato punta ad una playlist che non ti appartiene, riprova.");
-		else if (ottenerePosDaID(db, 4,id)==-1)
+		if (ottenerePosDaID(db, 4,id)==-1) {
 			printf("\nNessuna playlist trovata, riprovare");
-	} while (isUserPlaylist(db, id, db.utenteCorrente)==false||ottenerePosDaID(db, 4,id)==-1);
+			esito=-1;
+		} else if (isUserPlaylist(db, id, db.utenteCorrente)==false||!controllareSeAdmin(db)) {
+			printf("\nL'identificativo che hai dato punta ad una playlist che non ti appartiene, riprova.");
+			esito=-1;
+		}
+	} while (esito==-1);
 	printf("\nHai scelto la playlist");
 	mostraSingolaPlaylist(db, -1, id);
 	
@@ -381,21 +388,24 @@ database modificarePlaylist(database db, int idPlaylist, struct Playlist playlis
 }
 
 database cancellaPlaylist(database db) {
-	int id=0;
+	int id=0, esito=0;
 	char scelta='a';
 	if (controllareSeAdmin(db)) {
 		mostraTuttePlaylist(db, -1);
 	} else {
 		mostraPlaylistUtente(db, -1, db.utenteCorrente);
 	}
-	while (isUserPlaylist(db, id, db.utenteCorrente)==false||ottenerePosDaID(db, 4,id)==-1) {
+	do {
 		printf("\nInserisci id della playlist: ");
 		id = inputNumero();
-		if (isUserPlaylist(db, id, db.utenteCorrente)==false||!controllareSeAdmin(db))
+		if (ottenerePosDaID(db, 4,id)==-1) {
+			printf("\nNessuna playlist trovata, riprovare");
+			esito=-1;
+		} else if (isUserPlaylist(db, id, db.utenteCorrente)==false||!controllareSeAdmin(db)==false) {
 			printf("\nL'identificativo che hai dato punta ad una playlist che non ti appartiene, riprova.");
-		else if (ottenerePosDaID(db, 4,id)==-1)
-			printf("\nNessuna playlist trovata");
-	}
+			esito=-1;
+		}
+	} while (esito==-1);
 	printf("\nHai scelto la playlist: ");
 	mostraSingolaPlaylist(db, -1, id);
 	scelta = richiesta(0);

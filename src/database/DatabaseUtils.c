@@ -330,13 +330,20 @@ int* ottenerePosAssociazioniDaID(database db, int modalita, int id) {
 }
 
 void backupDatabase() {
-	
+	int esito=-1;
 	char *nome_backup = malloc(MAX_GRANDE);
 	char *percorso_backup = malloc(MAX_GRANDE);
-	creaCartella("backup", false);
-	// Inserire sistema di ottenimento automatico della data
-	printf("\nInserire il nome della cartella del nuovo backup (es. 05052020): ");
-	nome_backup = inputStringa(MAX_GRANDE,nome_backup);
+	creaCartella("backup", true);
+	do {
+		printf("\nInserire il nome della cartella del nuovo backup (es. 05052020): ");
+		nome_backup = inputStringa(MAX_GRANDE,nome_backup);
+		if (strcmp(nome_backup,"N/A")==0) {
+			esito=-1;
+			attenzione(2);
+		} else {
+			esito=0;
+		}
+	} while (esito!=0);
 	sprintf(percorso_backup, "backup\\%s", nome_backup);
 	creaCartella(percorso_backup, false);
 	printf("\nBackup del database in corso...");

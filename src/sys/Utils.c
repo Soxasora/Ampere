@@ -30,17 +30,20 @@
 #include "../sys/Utils.h"
 #include "../sys/Impostazioni.h"
 
+void logo() {
+	printf("    ___                     "C_GIALLO"_/  /"C_RESET
+		"\n   /   |  ____ ___  ____   "C_GIALLO"/  _/"C_RESET"_  ________"
+		"\n  / /| | / __ `__ \\/ __ \\"C_GIALLO"_/  /"C_RESET" _ \\/ ___/ _ \\"
+		"\n / ___ |/ / / / / / /_/ "C_GIALLO"/ __/"C_RESET"  __/ /  /  __/"
+		"\n/_/  |_/_/ /_/ /_/ .___"C_GIALLO"/ /  "C_RESET"\\___/_/   \\___/ "C_CIANO"perennemente in pre-alpha!"C_RESET
+		"\n                /_/   "C_GIALLO"/_/      "
+		"\n                     //"
+		"\n                    /,"C_RESET"\n\n");
+}
 
 void info() {
-	printf("    ___                     "C_GIALLO"_/  /"C_RESET
-	"\n   /   |  ____ ___  ____   "C_GIALLO"/  _/"C_RESET"_  ________"
-	"\n  / /| | / __ `__ \\/ __ \\"C_GIALLO"_/  /"C_RESET" _ \\/ ___/ _ \\"
-	"\n / ___ |/ / / / / / /_/ "C_GIALLO"/ __/"C_RESET"  __/ /  /  __/"
-	"\n/_/  |_/_/ /_/ /_/ .___"C_GIALLO"/ /  "C_RESET"\\___/_/   \\___/ "C_CIANO"perennemente in pre-alpha!"C_RESET
-	"\n                /_/   "C_GIALLO"/_/      "
-	"\n                     //"
-	"\n                    /,"C_RESET"\n"
-	"\nUNIBA/"C_GIALLO"Ampere "CB_ROSSO"0.3"C_RESET
+	logo();
+	printf("UNIBA/"C_GIALLO"Ampere "CB_ROSSO"0.3"C_RESET
 	"\nGruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino"
 	"\nProgetto universitario di gruppo intento alla creazione di un gestore dati per la musica\n");
 }
@@ -93,32 +96,33 @@ void creaCartella(char nome[], bool silenzioso) {
 }
 
 char* inputStringa(int lunghezza, char stringa[]) {
-	int i=0, lunghezzaStringa=0;
-	char *stringaSicura = calloc(lunghezza, sizeof(char));
-	do {
-		fgets(stringa, lunghezza, stdin);
-		//rimuoviamo ogni whitespace iniziale
-		sscanf(stringa, " %[^\r\v\f\t\n]", stringaSicura);
-		lunghezzaStringa = rimuoviSpaziFinali(stringaSicura);
-		//utilizziamo una variabile che possiamo ritornare
-		strcpy(stringa, stringaSicura);
-		if (lunghezzaStringa==lunghezza-1) {
-			attenzione(3);
-			pulisciBuffer();
-		}
-	} while (lunghezzaStringa==lunghezza-1);
-	while (i<lunghezzaStringa) {
-		if (stringa[i]=='|') {
-			stringa[i] = ',';
-		}
-		i++;
-	}
-	// Controlla se l'utente non inserisce niente
-	if (stringa[0]=='\0') {
-		strcpy(stringa, "N/A");
-	}
-	free(stringaSicura);
-	return stringa;
+    int i=0, lunghezzaStringa=0;
+    char *stringaSicura;
+    do {
+        stringaSicura = calloc(lunghezza, sizeof(char));
+        fgets(stringa, lunghezza, stdin);
+        //rimuoviamo ogni whitespace iniziale
+        sscanf(stringa, " %[^\r\v\f\t\n]", stringaSicura);
+        lunghezzaStringa = rimuoviSpaziFinali(stringaSicura);
+        //utilizziamo una variabile che possiamo ritornare
+        strcpy(stringa, stringaSicura);
+        if (lunghezzaStringa==lunghezza-1) {
+            attenzione(3);
+            pulisciBuffer();
+        }
+        free(stringaSicura);
+    } while (lunghezzaStringa==lunghezza-1);
+    while (i<lunghezzaStringa) {
+        if (stringa[i]=='|') {
+            stringa[i] = ',';
+        }
+        i++;
+    }
+    // Controlla se l'utente non inserisce niente
+    if (stringa[0]=='\0') {
+        strcpy(stringa, "N/A");
+    }
+    return stringa;
 }
 
 int rimuoviSpaziFinali(char *stringa){
@@ -145,7 +149,7 @@ int inputNumero(){
 		scanf(" %s", numero);
 		scelta = strtol(numero, &notanumber, 10);
 		if (numero == notanumber) {
-			attenzione(2);
+			attenzione(-2);
 		}
 		pulisciBuffer();
 	} while (numero == notanumber);

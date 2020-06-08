@@ -43,7 +43,7 @@ database creaAlbumGuidato(database db, char titoloAlbum[]) {
 	printf("\n===[Inserimento guidato di un album]===");
 	printf("\nTitolo: %s", titoloAlbum);
 	
-	while (anno<=1950||anno>2020) {
+	while (anno<1950) {
 		printf("\nInserisci l'anno di uscita di quest'album: ");
 		anno = inputNumero();
 	}
@@ -179,7 +179,7 @@ database creareAlbumModificato(database db, int campo, int id) {
 			free(titolo);
 		} else if (campo==2) {
 			int anno=0;
-			while (anno<=1950||anno>2020) {
+			while (anno<1950) {
 				printf("\nInserisci nuovo anno: ");
 				anno = inputNumero();
 			}

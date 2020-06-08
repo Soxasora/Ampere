@@ -11,6 +11,11 @@
 #include <stdbool.h>
 
 /**
+ * 	Logo di Ampere
+ */
+void logo();
+
+/**
  * 	Informazioni su Ampere
  */
 void info();

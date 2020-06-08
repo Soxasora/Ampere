@@ -82,7 +82,7 @@ database ottenereDatabase(int modalita, database db) {
 }
 
 database ottenereBrani(database db) {
-	db.brano = malloc((MAX_ENORME*MAX_ENORME)*sizeof(struct Brano));
+	db.brano = malloc(MAX_ENORME*sizeof(struct Brano));
 	if (controllaSeFileVuoto(file_brani)==0) {
 		FILE* fp=fopen(file_brani, "r");
 		char temp[MAX_ENORME];
@@ -118,7 +118,7 @@ database ottenereBrani(database db) {
 }
 
 database ottenereAlbums(database db) {
-	db.album = malloc((MAX_ENORME*MAX_ENORME)*sizeof(struct Album));
+	db.album = malloc(MAX_ENORME*sizeof(struct Album));
 	if (controllaSeFileVuoto(file_albums)==0) {
 		FILE* fp=fopen(file_albums, "r");
 		char temp[MAX_ENORME];
@@ -152,7 +152,7 @@ database ottenereAlbums(database db) {
 }
 
 database ottenereArtisti(database db) {
-	db.artista = malloc((MAX_ENORME*MAX_ENORME)*sizeof(struct Artista));
+	db.artista = malloc(MAX_ENORME*sizeof(struct Artista));
 	if (controllaSeFileVuoto(file_artisti)==0) {
 		FILE* fp=fopen(file_artisti, "r");
 		char temp[MAX_ENORME];
@@ -191,7 +191,7 @@ database ottenereArtisti(database db) {
 }
 
 database ottenereGeneri(database db) {
-	db.genere = malloc((MAX_ENORME*MAX_ENORME)*sizeof(struct Genere));
+	db.genere = malloc(MAX_ENORME*sizeof(struct Genere));
 	if (controllaSeFileVuoto(file_generi)==0) {
 		FILE* fp=fopen(file_generi, "r");
 		char temp[MAX_ENORME];
@@ -224,7 +224,7 @@ database ottenereGeneri(database db) {
 }
 
 database ottenerePlaylists(database db) {
-	db.playlist = malloc((MAX_ENORME*MAX_ENORME)*sizeof(struct Playlist));
+	db.playlist = calloc(MAX_ENORME,sizeof(struct Playlist));
 	if (controllaSeFileVuoto(file_playlists)==0) {
 		FILE* fp=fopen(file_playlists, "r");
 		char temp[MAX_ENORME];
@@ -264,7 +264,7 @@ database ottenerePlaylists(database db) {
 	return db;
 }
 database ottenereUtenti(database db) {
-	db.utente = malloc((MAX_ENORME*MAX_ENORME)*sizeof(struct Utente));
+	db.utente = malloc(MAX_ENORME*sizeof(struct Utente));
 	if (controllaSeFileVuoto(file_utenti)==0) {
 		FILE* fp=fopen(file_utenti, "r");
 		char temp[MAX_ENORME];
@@ -303,7 +303,7 @@ database ottenereUtenti(database db) {
 }
 
 database associareArtisti(database db) {
-	db.branoArtista = malloc((MAX_ENORME*MAX_ENORME)*sizeof(struct BranoArtista));
+	db.branoArtista = malloc(MAX_ENORME*sizeof(struct BranoArtista));
 	if (controllaSeFileVuoto(file_BranoArtista)==0) {
 		FILE* fp=fopen(file_BranoArtista, "r");
 		char temp[MAX_ENORME];
@@ -335,7 +335,7 @@ database associareArtisti(database db) {
 }
 
 database associareAlbums(database db) {
-	db.branoAlbum = malloc((MAX_ENORME*MAX_ENORME)*sizeof(struct BranoAlbum));
+	db.branoAlbum = malloc(MAX_ENORME*sizeof(struct BranoAlbum));
 	if (controllaSeFileVuoto(file_BranoAlbum)==0) {
 		FILE* fp=fopen(file_BranoAlbum, "r");
 		char temp[MAX_ENORME];
@@ -367,7 +367,7 @@ database associareAlbums(database db) {
 }
 
 database associareGeneri(database db) {
-	db.branoGenere = malloc((MAX_ENORME*MAX_ENORME)*sizeof(struct BranoGenere));
+	db.branoGenere = malloc(MAX_ENORME*sizeof(struct BranoGenere));
 	if (controllaSeFileVuoto(file_BranoGenere)==0) {
 		FILE* fp=fopen(file_BranoGenere, "r");
 		char temp[MAX_ENORME];
@@ -399,7 +399,7 @@ database associareGeneri(database db) {
 }
 
 database associarePlaylists(database db) {
-	db.playlistBrano = malloc((MAX_ENORME*MAX_ENORME)*sizeof(struct PlaylistBrano));
+	db.playlistBrano = malloc(MAX_ENORME*sizeof(struct PlaylistBrano));
 	if (controllaSeFileVuoto(file_PlaylistBrano)==0) {
 		FILE* fp=fopen(file_PlaylistBrano, "r");
 		char temp[MAX_ENORME];

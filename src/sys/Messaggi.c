@@ -46,6 +46,8 @@ void attenzione(int codice) {
 		printf(" Combinazione username/password sbagliata. Riprovare.");
 	} else if (codice==2) {
 		printf(" Inseriti valori non validi. Riprovare.");
+	} else if (codice==-2) {
+		printf(" Inseriti valori non validi. Riprovare: ");
 	} else if (codice==3) {
 		printf(" Raggiunto il limite di caratteri. Re-inserisci: ");
 	} else if (codice==20) {

@@ -102,10 +102,8 @@ database menuAccount(database db) {
 		menuAccount(db);
 	} else if (scelta==2) {
 		db = cancellareUtenteGuidato(db);
-		printf("\nPer rendere effettive le modifiche, ora chiudero' Ampere.");
 		aspetta();
-		terminazione(db);
-		exit(0);
+		db = menuAccount(db);
 	} else if (scelta==0) {
 		db = menu(db);
 	} else {
@@ -575,18 +573,6 @@ database menuDebug(database db) {
 		scelta = inputNumero();
 	}
 	if (scelta==1) {
-		char prova;
-		char *stringa = malloc(MAX_ENORME);
-		int prova2;
-		printf("\nInserisci un carattere: ");
-		prova = inputCarattere();
-		printf("\n%c", prova);
-		printf("\nInserisci una stringa: ");
-		stringa = inputStringa(MAX_ENORME, stringa);
-		printf("\n%s", stringa);
-		printf("\nInserisci un numero: ");
-		prova2 = inputNumero();
-		printf("\n%d", prova2);
 		aspetta();
 		menuDebug(db);
 	} else if (scelta==0) {

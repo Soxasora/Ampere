@@ -313,6 +313,7 @@ int mostraInfo(database db, int modalita) {
 		nomeArte = inputStringa(MAX_MEDIO,nomeArte);
 		int i=0, n=contareNelDatabase(db,2);
 		while (i<n) {
+			printf("\nDi seguito i risultati della ricerca:");
 			if (comparaStringheParziale(db.artista[i].nome,nome)
 				&&comparaStringheParziale(db.artista[i].cognome, cognome)
 				&&comparaStringheParziale(db.artista[i].nomeArte, nomeArte)) {
@@ -382,6 +383,7 @@ int mostraInfo(database db, int modalita) {
 		}
 		int i=0, n=contareNelDatabase(db,1);
 		while(i<n) {
+			printf("\nDi seguito i risultati della ricerca:");
 			if (comparaStringheParziale(db.album[i].titolo, titolo)||db.album[i].anno == anno) {
 				printf("\n");
 				mostraSingoloAlbum(db, db.album[i].id);
@@ -397,6 +399,7 @@ int mostraInfo(database db, int modalita) {
 		nome = inputStringa(MAX_MEDIO,nome);
 		int i=0, n=contareNelDatabase(db,3);
 		while (i<n) {
+			printf("\nDi seguito i risultati della ricerca:");
 			if (comparaStringheParziale(db.genere[i].nome, nome)) {
 				printf("\n");
 				mostraSingoloGenere(db, db.genere[i].id);
@@ -411,6 +414,7 @@ int mostraInfo(database db, int modalita) {
 		playlist = inputStringa(MAX_MEDIO,playlist);
 		int i=0, n=contareNelDatabase(db,4);
 		while (i<n) {
+			printf("\nDi seguito i risultati della ricerca:");
 			if (comparaStringheParziale(db.playlist[i].nome, playlist)) {
 				if (isPublicPlaylist(db, db.playlist[i].id)||isUserPlaylist(db, db.playlist[i].id,db.utenteCorrente)||controllareSeAdmin(db)) {
 					printf("\n");
@@ -428,6 +432,7 @@ int mostraInfo(database db, int modalita) {
 		username = inputStringa(MAX_MEDIO,username);
 		int i=0, n=contareNelDatabase(db,-1);
 		while(i<n) {
+			printf("\nDi seguito i risultati della ricerca:");
 			if (comparaStringheParziale(db.utente[i].username, username)) {
 				printf("\n");
 				mostraSingoloUtente(db, 0, db.utente[i].id);
@@ -443,7 +448,7 @@ int mostraInfo(database db, int modalita) {
 database moduloRicercaBrani(database db) {
 	int scelta=-1;
 	do {
-		
+		scelta=-1;
 		while (scelta<0||scelta>6) {
 			printf("\nEffettua una ricerca per:"
 				   "\n[1] Titolo"
@@ -484,7 +489,6 @@ int mostraBrani(database db, int modalita) {
 	int esiste=0;
 	if (modalita==0) {
 		char *titolo = malloc(MAX_MEDIO);
-		
 		printf("\nInserisci il titolo del brano da ricercare: ");
 		titolo = inputStringa(MAX_MEDIO,titolo);
 		int i=0, n=contareNelDatabase(db,0);
@@ -500,7 +504,7 @@ int mostraBrani(database db, int modalita) {
 	} else if (modalita==1) {
 		int anno = 0;
 		
-		while (anno<=1950) {
+		while (anno<1950) {
 			printf("\nInserisci l'anno di uscita del brano da ricercare: ");
 			anno = inputNumero();
 		}
