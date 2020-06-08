@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.0
+ * UNIBA/Ampere 1.0.1
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -11,6 +11,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include "../ricerca/MotoreRicerca.h"
+#include "../gestori/GestoreFile.h"
 #include "../gestori/GestorePlaylist.h"
 #include "../gestori/GestoreUtenti.h"
 #include "../database/Database.h"
@@ -142,11 +143,6 @@ database registrareUtente(database db) {
 			scelta = richiesta(0);
 			if (scelta=='Y'||scelta=='y') {
 				db = inserireUtente(db, nuovoUtente);
-				if (admin) {
-					inserireUtenteSuFile(db.utente[contareNelDatabase(db,-1)-1], "true");
-				} else {
-					inserireUtenteSuFile(db.utente[contareNelDatabase(db,-1)-1], "false");
-				}
 				db.ultimoEsito = 0;
 			} else {
 				db.ultimoEsito = -1;
@@ -185,11 +181,15 @@ void mostrareAnteprimaUtente(struct Utente nuovoUtente) {
 }
 
 database inserireUtente(database db, struct Utente nuovoUtente) {
-	db_modificato=1;
 	nuovoUtente.id = trovareUltimoId(db, -1)+1;
 	int n=contareNelDatabase(db,-1);
 	db.utente[n] = nuovoUtente;
-	successo(0);
+	if (salvataggioDiretto) {
+		salvaUtentiSuFile(db);
+	} else {
+		db.modificato=true;
+		successo(0);
+	}
 	return db;
 }
 
@@ -342,7 +342,11 @@ database creareUtenteModificato(database db, int campo, int id) {
 database modificareUtente(database db, int idUtente, struct Utente utenteModificato) {
 	int posUtente = ottenerePosDaID(db, -1, idUtente);
 	db.utente[posUtente] = utenteModificato;
-	db_modificato=1;
+	if (salvataggioDiretto) {
+		salvaUtentiSuFile(db);
+	} else {
+		db.modificato=true;
+	}
 	return db;
 }
 
@@ -395,7 +399,12 @@ database cancellareUtente(database db, int id) {
 		}
 		i++;
 	}
-	db_modificato=1;
+	if (salvataggioDiretto) {
+		salvaUtentiSuFile(db);
+	} else {
+		db.modificato=true;
+		successo(0);
+	}
 	return db;
 }
 

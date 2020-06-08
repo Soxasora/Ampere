@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.0
+ * UNIBA/Ampere 1.0.1
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../ricerca/MotoreRicerca.h"
+#include "../gestori/GestoreFile.h"
 #include "../gestori/GestoreAssociazioni.h"
 #include "../gestori/GestoreUtenti.h"
 #include "../gestori/GestoreBrani.h"
@@ -93,10 +94,14 @@ void mostrareAnteprimaAlbum(struct Album nuovoAlbum) {
 }
 
 database inserireAlbum(database db, struct Album nuovoAlbum) {
-	db_modificato=1;
 	int n = contareNelDatabase(db, 1);
 	nuovoAlbum.id = trovareUltimoId(db,1)+1;
 	db.album[n] = nuovoAlbum;
+	if (salvataggioDiretto) {
+		salvaAlbumSuFile(db);
+	} else {
+		db.modificato=true;
+	}
 	return db;
 }
 
@@ -208,7 +213,11 @@ database creareAlbumModificato(database db, int campo, int id) {
 database modificareAlbum(database db, int idAlbum, struct Album albumModificato) {
 	int posAlbum = ottenerePosDaID(db, 1, idAlbum);
 	db.album[posAlbum] = albumModificato;
-	db_modificato=1;
+	if (salvataggioDiretto) {
+		salvaAlbumSuFile(db);
+	} else {
+		db.modificato=true;
+	}
 	return db;
 }
 
@@ -250,7 +259,11 @@ database cancellaSingoloAlbum(database db, int id) {
 		}
 		i++;
 	}
-	db_modificato=1;
+	if (salvataggioDiretto) {
+		salvaAlbumSuFile(db);
+	} else {
+		db.modificato=true;
+	}
 	printf("\nAlbum cancellato.");
 	return db;
 }

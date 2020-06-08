@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.0
+ * UNIBA/Ampere 1.0.1
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -175,7 +175,6 @@ void mostrareAnteprimaBrano(database db, struct Brano nuovoBrano, int* idArtisti
 
 database inserireBrano(database db, struct Brano nuovoBrano, int idArtisti[], int idAlbum[], int idGeneri[]) {
 	int i=0;
-	db_modificato=1;
 	int n=contareNelDatabase(db,0);
 	nuovoBrano.id = trovareUltimoId(db, 0)+1;
 	db.brano[n] = nuovoBrano;
@@ -196,7 +195,11 @@ database inserireBrano(database db, struct Brano nuovoBrano, int idArtisti[], in
 		inserireAssociazioneGenere(db,creaAssociazioneGenere(nuovoBrano.id, idGeneri[i]));
 		i++;
 	}
-
+	if (salvataggioDiretto) {
+		salvaBraniSuFile(db);
+	} else {
+		db.modificato=true;
+	}
 	return db;
 }
 
@@ -479,7 +482,11 @@ database modificareBrano(database db, int idBrano, int campo, struct Brano brano
 			i++;
 		}
 	}
-	db_modificato=1;
+	if (salvataggioDiretto) {
+		salvaBraniSuFile(db);
+	} else {
+		db.modificato=true;
+	}
 	return db;
 }
 
@@ -514,7 +521,11 @@ database cancellaSingoloBrano(database db, int id) {
 	db.brano[n-1].id = 0;
 	db = cancellaAssociazioniBrano(db, id);
 
-	db_modificato=1;
+	if (salvataggioDiretto) {
+		salvaBraniSuFile(db);
+	} else {
+		db.modificato=true;
+	}
 	return db;
 }
 

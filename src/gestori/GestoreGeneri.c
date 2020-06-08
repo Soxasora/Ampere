@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.0
+ * UNIBA/Ampere 1.0.1
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../ricerca/MotoreRicerca.h"
+#include "../gestori/GestoreFile.h"
 #include "../gestori/GestoreAssociazioni.h"
 #include "../gestori/GestoreUtenti.h"
 #include "../gestori/GestoreBrani.h"
@@ -68,10 +69,14 @@ void mostrareAnteprimaGenere(struct Genere nuovoGenere) {
 }
 
 database inserireGenere(database db, struct Genere nuovoGenere) {
-	db_modificato=1;
 	int n = contareNelDatabase(db, 3);
 	nuovoGenere.id = trovareUltimoId(db, 3)+1;
 	db.genere[n] = nuovoGenere;
+	if (salvataggioDiretto) {
+		salvaGeneriSuFile(db);
+	} else {
+		db.modificato=true;
+	}
 	return db;
 }
 
@@ -173,7 +178,11 @@ database creareGenereModificato(database db, int id) {
 database modificareGenere(database db, int idGenere, struct Genere genereModificato) {
 	int posGenere = ottenerePosDaID(db, 3, idGenere);
 	db.genere[posGenere] = genereModificato;
-	db_modificato=1;
+	if (salvataggioDiretto) {
+		salvaGeneriSuFile(db);
+	} else {
+		db.modificato=true;
+	}
 	return db;
 }
 
@@ -215,7 +224,11 @@ database cancellareGenere(database db, int id) {
 		}
 		i++;
 	}
-	db_modificato=1;
+	if (salvataggioDiretto) {
+		salvaGeneriSuFile(db);
+	} else {
+		db.modificato=true;
+	}
 	printf("\nGenere cancellato.");
 	return db;
 }

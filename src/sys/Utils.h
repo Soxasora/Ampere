@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.0
+ * UNIBA/Ampere 1.0.1
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -48,32 +48,30 @@ void creaCartella(char nome[], bool silenzioso);
 char* inputStringa(int lunghezza, char stringa[]);
 
 /**
- * 	@input stringa s1, stringa s2
- * 	Funzione universale per la comparazione di stringhe senza distinzione di caratteri
- * 	@output risultato comparazione, 0 se uguali
- */
-
-int rimuoviSpaziFinali(char *stringa);
-/**
  * 	@input stringa s1;
  * 	Ripulisce dai caratteri "spazio" al termine della stringa.
  * 	Non rimuove ulteriori whitespace come \n, \r, etc.
  * 	@output lunghezza della stringa finale
  */
-
-int inputNumero();
+int rimuoviSpaziFinali(char *stringa);
 
 /**
  * 	Funzione sicura per l'input da tastiera di un intero senza segno fino a MAX_MEDIO cifre
  * 	Resistituisce -1 in caso di input non valido
  * 	@output numero inserito
  */
-
-char inputCarattere();
+int inputNumero();
 
 /**
  * 	Funzione sicura per l'input da tastiera di un carattere ignorando caratteri vuoti
  * 	@output carattere inserito
+ */
+char inputCarattere();
+
+/**
+ * 	@input stringa s1, stringa s2
+ * 	Funzione universale per la comparazione di stringhe senza distinzione di caratteri
+ * 	@output risultato comparazione, 0 se uguali
  */
 
 int comparaStringhe(const char *s1, const char *s2);
@@ -98,12 +96,6 @@ void pulisciBuffer();
  */
 int controllaSeFileVuoto(char *file);
 
-/**
- * 	//TODO Da spostare
- * 	@input stringa file1, stringa file2
- * 	Funzione per la copia di un file in un altro file
- * 	@output nuovo file
- */
 void backupFile(char *file1, char *file2);
 
 /**

@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.0
+ * UNIBA/Ampere 1.0.1
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../gestori/GestoreFile.h"
 #include "../gestori/GestoreAssociazioni.h"
 #include "../gestori/GestorePlaylist.h"
 #include "../gestori/GestoreUtenti.h"
@@ -92,10 +93,14 @@ void mostrareAnteprimaPlaylist(struct Playlist nuovaPlaylist) {
 }
 
 database inserirePlaylist(database db, struct Playlist nuovaPlaylist) {
-	db_modificato=1;
 	nuovaPlaylist.id = trovareUltimoId(db,4)+1;
 	int n=contareNelDatabase(db,4);
 	db.playlist[n] = nuovaPlaylist;
+	if (salvataggioDiretto) {
+		salvaPlaylistSuFile(db);
+	} else {
+		db.modificato=true;
+	}
 	return db;
 }
 
@@ -383,7 +388,11 @@ database crearePlaylistModificata(database db, int campo, int id) {
 database modificarePlaylist(database db, int idPlaylist, struct Playlist playlistModificata) {
 	int posPlaylist = ottenerePosDaID(db, 4, idPlaylist);
 	db.playlist[posPlaylist] = playlistModificata;
-	db_modificato=1;
+	if (salvataggioDiretto) {
+		salvaPlaylistSuFile(db);
+	} else {
+		db.modificato=true;
+	}
 	return db;
 }
 
@@ -434,7 +443,11 @@ database cancellaSingolaPlaylist(database db, int id) {
 		i++;
 	}
 
-	db_modificato=1;
+	if (salvataggioDiretto) {
+		salvaPlaylistSuFile(db);
+	} else {
+		db.modificato=true;
+	}
 	printf("\nPlaylist cancellata.");
 	return db;
 }

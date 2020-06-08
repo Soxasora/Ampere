@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.0
+ * UNIBA/Ampere 1.0.1
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -33,9 +33,13 @@ struct BranoArtista creaAssociazioneArtista(int idBrano, int idArtista) {
 }
 
 database inserireAssociazioneArtista(database db, struct BranoArtista branoArtista) {
-	db_modificato=1;
 	int n = contareNelDatabase(db,5);
 	db.branoArtista[n] = branoArtista;
+	if (salvataggioDiretto) {
+		salvaAssociazioniArtistiSuFile(db);
+	} else {
+		db.modificato=true;
+	}
 	return db;
 }
 
@@ -47,9 +51,13 @@ struct BranoAlbum creaAssociazioneAlbum(int idBrano, int idAlbum) {
 }
 
 database inserireAssociazioneAlbum(database db, struct BranoAlbum branoAlbum) {
-	db_modificato=1;
 	int n = contareNelDatabase(db,6);
 	db.branoAlbum[n] = branoAlbum;
+	if (salvataggioDiretto) {
+		salvaBranoAlbumSuFile(db);
+	} else {
+		db.modificato=true;
+	}
 	return db;
 }
 
@@ -61,9 +69,13 @@ struct BranoGenere creaAssociazioneGenere(int idBrano, int idGenere) {
 }
 
 database inserireAssociazioneGenere(database db, struct BranoGenere branoGenere) {
-	db_modificato=1;
 	int n=contareNelDatabase(db,7);
 	db.branoGenere[n] = branoGenere;
+	if (salvataggioDiretto) {
+		salvaBranoGenereSuFile(db);
+	} else {
+		db.modificato=true;
+	}
 	return db;
 }
 
@@ -75,9 +87,13 @@ struct PlaylistBrano creaAssociazionePlaylist(int idPlaylist, int idBrano) {
 }
 
 database inserireAssociazionePlaylist(database db, struct PlaylistBrano playlistBrano) {
-	db_modificato=1;
 	int n = contareNelDatabase(db, 8);
 	db.playlistBrano[n] = playlistBrano;
+	if (salvataggioDiretto) {
+		salvaPlaylistBranoSuFile(db);
+	} else {
+		db.modificato=true;
+	}
 	return db;
 }
 
@@ -144,6 +160,11 @@ database cancellaAssociazioniArtisti(database db, int id) {
 	}
 	db.branoArtista[n-1].idBrano = 0;
 	db.branoArtista[n-1].idArtista = 0;
+	if (salvataggioDiretto) {
+		salvaAssociazioniArtistiSuFile(db);
+	} else {
+		db.modificato=true;
+	}
 	return db;
 }
 
@@ -156,6 +177,11 @@ database cancellaAssociazioniAlbum(database db, int idBrano) {
 	}
 	db.branoAlbum[n-1].idBrano = 0;
 	db.branoAlbum[n-1].idAlbum = 0;
+	if (salvataggioDiretto) {
+		salvaBranoAlbumSuFile(db);
+	} else {
+		db.modificato=true;
+	}
 	return db;
 }
 
@@ -168,6 +194,11 @@ database cancellaAssociazioniGenere(database db, int idBrano) {
 	}
 	db.branoGenere[n-1].idBrano = 0;
 	db.branoGenere[n-1].idGenere = 0;
+	if (salvataggioDiretto) {
+		salvaBranoGenereSuFile(db);
+	} else {
+		db.modificato=true;
+	}
 	return db;
 }
 
@@ -180,7 +211,11 @@ database cancellaAssociazioniPlaylist(database db, int id) {
 	}
 	db.playlistBrano[n-1].idPlaylist = 0;
 	db.playlistBrano[n-1].idBrano = 0;
-	db_modificato=1;
+	if (salvataggioDiretto) {
+		salvaPlaylistBranoSuFile(db);
+	} else {
+		db.modificato=true;
+	}
 	return db;
 }
 

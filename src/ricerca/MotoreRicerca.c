@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.0
+ * UNIBA/Ampere 1.0.1
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -321,8 +321,8 @@ int mostraInfo(database db, int modalita) {
 		printf("\n[Premi invio per saltare] Inserisci il nome d'arte dell'artista da ricercare: ");
 		nomeArte = inputStringa(MAX_MEDIO,nomeArte);
 		int i=0, n=contareNelDatabase(db,2);
+		printf("\nDi seguito i risultati della ricerca:");
 		while (i<n) {
-			printf("\nDi seguito i risultati della ricerca:");
 			if (comparaStringheParziale(db.artista[i].nome,nome)
 				&&comparaStringheParziale(db.artista[i].cognome, cognome)
 				&&comparaStringheParziale(db.artista[i].nomeArte, nomeArte)) {
@@ -391,8 +391,8 @@ int mostraInfo(database db, int modalita) {
 			anno = inputNumero();
 		}
 		int i=0, n=contareNelDatabase(db,1);
+		printf("\nDi seguito i risultati della ricerca:");
 		while(i<n) {
-			printf("\nDi seguito i risultati della ricerca:");
 			if (comparaStringheParziale(db.album[i].titolo, titolo)||db.album[i].anno == anno) {
 				printf("\n");
 				mostraSingoloAlbum(db, db.album[i].id);
@@ -407,8 +407,8 @@ int mostraInfo(database db, int modalita) {
 		printf("\nInserisci il nome del genere: ");
 		nome = inputStringa(MAX_MEDIO,nome);
 		int i=0, n=contareNelDatabase(db,3);
+		printf("\nDi seguito i risultati della ricerca:");
 		while (i<n) {
-			printf("\nDi seguito i risultati della ricerca:");
 			if (comparaStringheParziale(db.genere[i].nome, nome)) {
 				printf("\n");
 				mostraSingoloGenere(db, db.genere[i].id);
@@ -422,8 +422,8 @@ int mostraInfo(database db, int modalita) {
 		printf("\nInserisci il nome della playlist: ");
 		playlist = inputStringa(MAX_MEDIO,playlist);
 		int i=0, n=contareNelDatabase(db,4);
+		printf("\nDi seguito i risultati della ricerca:");
 		while (i<n) {
-			printf("\nDi seguito i risultati della ricerca:");
 			if (comparaStringheParziale(db.playlist[i].nome, playlist)) {
 				if (isPublicPlaylist(db, db.playlist[i].id)||isUserPlaylist(db, db.playlist[i].id,db.utenteCorrente)||controllareSeAdmin(db)) {
 					printf("\n");
@@ -440,8 +440,8 @@ int mostraInfo(database db, int modalita) {
 		printf("\nInserisci l'username dell'utente: ");
 		username = inputStringa(MAX_MEDIO,username);
 		int i=0, n=contareNelDatabase(db,-1);
+		printf("\nDi seguito i risultati della ricerca:");
 		while(i<n) {
-			printf("\nDi seguito i risultati della ricerca:");
 			if (comparaStringheParziale(db.utente[i].username, username)) {
 				printf("\n");
 				mostraSingoloUtente(db, 0, db.utente[i].id);

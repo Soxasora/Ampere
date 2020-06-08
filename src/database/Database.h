@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.0
+ * UNIBA/Ampere 1.0.1
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -45,6 +45,7 @@ typedef struct database_locale {
 		struct PlaylistBrano* playlistBrano;
 	struct Utente* utente;
 	int ultimoEsito;
+	bool modificato;
 } database;
 
 // Variabile GLOBALE che indica se il database e' stato modificato o meno
