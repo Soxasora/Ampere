@@ -105,14 +105,21 @@ database crearePlaylistGuidato(database db) {
 	int pubblica=-1;
 	do {
 		printf("\n===[Creazione guidata di una playlist]===");
-			
-			if ((nome = malloc(MAX_MEDIO))) {
-				printf("\nInserisci nome della playlist: ");
-				nome = inputStringa(MAX_MEDIO,nome);
-			}
+			do {
+				if ((nome = malloc(MAX_MEDIO))) {
+					printf("\nInserisci nome della playlist: ");
+					nome = inputStringa(MAX_MEDIO,nome);
+				}
+				if (strcmp(nome, "N/A")==0) {
+					attenzione(2);
+				}
+			} while (strcmp(nome, "N/A")==0);
 			if ((descrizione = malloc(MAX_GRANDE))) {
 				printf("\nInserisci descrizione della playlist: ");
 				descrizione = inputStringa(MAX_GRANDE,descrizione);
+				if (strcmp(descrizione, "N/A")==0) {
+					strcpy(descrizione, "Playlist creata con Ampere");
+				}
 			}
 			while (pubblica<0||pubblica>1) {
 				printf("\nLa playlist e' privata[0] o pubblica[1]? ");
@@ -129,7 +136,6 @@ database crearePlaylistGuidato(database db) {
 			//TODO
 			mostrareAnteprimaPlaylist(nuovaPlaylist);
 			scelta = richiesta(0);
-			printf("%c", scelta);
 			if (scelta=='Y'||scelta=='y') {
 				db = inserirePlaylist(db, nuovaPlaylist);
 				scelta = richiesta(7);
@@ -251,17 +257,22 @@ int controlloEsistenzaPlaylist(database db, char playlist[]) {
 }
 
 database modificarePlaylistGuidato(database db) {
-	int id=0, campo=-1;
+	int id=0, campo=-1, esiste=0;
 	char scelta='a';
-	mostraInfo(db, 3);
-	while (isUserPlaylist(db, id, db.utenteCorrente)==false||ottenerePosDaID(db, 4,id)==-1) {
+	do {
+		esiste = mostraInfo(db, 3);
+		if (esiste==0) {
+			attenzione(101);
+		}
+	} while (esiste==0);
+	do {
 		printf("\nInserisci id della playlist da modificare: ");
 		id = inputNumero();
 		if (isUserPlaylist(db, id, db.utenteCorrente)==false||!controllareSeAdmin(db))
 			printf("\nL'identificativo che hai dato punta ad una playlist che non ti appartiene, riprova.");
 		else if (ottenerePosDaID(db, 4,id)==-1)
 			printf("\nNessuna playlist trovata, riprovare");
-	}
+	} while (isUserPlaylist(db, id, db.utenteCorrente)==false||ottenerePosDaID(db, 4,id)==-1);
 	printf("\nHai scelto la playlist");
 	mostraSingolaPlaylist(db, -1, id);
 	
@@ -323,8 +334,13 @@ database crearePlaylistModificata(database db, int campo, int id) {
 			}
 		} else if (campo==4) {
 			if (controllareSeAdmin(db)) {
-				int idUtente=0;
-				mostraInfo(db, 4);
+				int idUtente=0, esiste=0;
+				do {
+					esiste = mostraInfo(db, 4);
+					if (esiste==0) {
+						attenzione(101);
+					}
+				} while (esiste==0);
 				while (ottenerePosDaID(db, -1,idUtente)==-1) {
 					printf("\nInserisci id del nuovo autore: ");
 					idUtente = inputNumero();

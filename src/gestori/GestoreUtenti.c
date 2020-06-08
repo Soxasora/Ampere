@@ -216,10 +216,15 @@ void inserireUtenteSuFile(struct Utente utente, char admin[]) {
 }
 
 database modificareUtenteGuidato(database db) {
-	int id=0, campo=-1;
+	int id=0, campo=-1, esiste=0;
 	char scelta='a';
 	if (controllareSeAdmin(db)) {
-		mostraInfo(db, 4);
+		do {
+			esiste = mostraInfo(db, 4);
+			if (esiste==0) {
+				attenzione(101);
+			}
+		} while (esiste==0);
 		while (ottenerePosDaID(db, -1,id)==-1) {
 			printf("\nInserisci id dell'utente da modificare: ");
 			id = inputNumero();

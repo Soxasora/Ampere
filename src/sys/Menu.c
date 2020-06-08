@@ -493,7 +493,7 @@ void menuRicercaBraniCriterio(database db) {
 
 void menuRicercaInfoCriterio(database db) {
 	
-	int scelta=-1;
+	int scelta=-1, esiste=0;
 	printf("\n===["C_CIANO"Menu Ricerca Info su Criterio"C_RESET"]===");
 	printf("\n[1] Ricerca info su un "C_CIANO"Artista"C_RESET);
 	printf("\n[2] Ricerca info su un "C_CIANO"Album"C_RESET);
@@ -508,24 +508,49 @@ void menuRicercaInfoCriterio(database db) {
 		scelta = inputNumero();
 	}
 	if (scelta==1) {
-		mostraInfo(db, 0);
+		do {
+			esiste = mostraInfo(db, 0);
+			if (esiste==0) {
+				attenzione(101);
+			}
+		} while (esiste==0);
 		aspetta();
 		menuRicercaInfoCriterio(db);
 	} else if (scelta==2) {
-		mostraInfo(db, 1);
+		do {
+			esiste = mostraInfo(db, 1);
+			if (esiste==0) {
+				attenzione(101);
+			}
+		} while (esiste==0);
 		aspetta();
 		menuRicercaInfoCriterio(db);
 	} else if (scelta==3) {
-		mostraInfo(db, 2);
+		do {
+			esiste = mostraInfo(db, 2);
+			if (esiste==0) {
+				attenzione(101);
+			}
+		} while (esiste==0);
 		aspetta();
 		menuRicercaInfoCriterio(db);
 	} else if (scelta==4) {
-		mostraInfo(db, 3);
+		do {
+			esiste = mostraInfo(db, 3);
+			if (esiste==0) {
+				attenzione(101);
+			}
+		} while (esiste==0);
 		aspetta();
 		menuRicercaInfoCriterio(db);
 	} else if (scelta==5) {
 		if (controllareSeAdmin(db)) {
-			mostraInfo(db, 4);
+			do {
+				esiste = mostraInfo(db, 4);
+				if (esiste==0) {
+					attenzione(101);
+				}
+			} while (esiste==0);
 			aspetta();
 			menuRicercaInfoCriterio(db);
 		} else {
@@ -550,7 +575,18 @@ database menuDebug(database db) {
 		scelta = inputNumero();
 	}
 	if (scelta==1) {
-		cPrintf(C_BLU,"prova");
+		char prova;
+		char *stringa = malloc(MAX_ENORME);
+		int prova2;
+		printf("\nInserisci un carattere: ");
+		prova = inputCarattere();
+		printf("\n%c", prova);
+		printf("\nInserisci una stringa: ");
+		stringa = inputStringa(MAX_ENORME, stringa);
+		printf("\n%s", stringa);
+		printf("\nInserisci un numero: ");
+		prova2 = inputNumero();
+		printf("\n%d", prova2);
 		aspetta();
 		menuDebug(db);
 	} else if (scelta==0) {

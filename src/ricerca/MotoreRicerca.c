@@ -407,7 +407,6 @@ int mostraInfo(database db, int modalita) {
 		free(nome);
 	} else if (modalita==3) {
 		char *playlist = malloc(MAX_MEDIO);
-		
 		printf("\nInserisci il nome della playlist: ");
 		playlist = inputStringa(MAX_MEDIO,playlist);
 		int i=0, n=contareNelDatabase(db,4);
@@ -669,5 +668,8 @@ void mostraBraniPlaylistDaID(database db, int id) {
 			j++;
 		}
 		i++;
+	}
+	if (i==0) {
+		printf("\nNessun brano trovato nella playlist %s", db.playlist[posPlaylist].nome);
 	}
 }

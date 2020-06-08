@@ -122,9 +122,14 @@ void inserisciArtistiSuFile(struct Artista artista) {
 }
 
 database modificareArtistaGuidato(database db) {
-	int id=0, campo=-1;
+	int id=0, campo=-1, esiste=0;
 	char scelta='a';
-	mostraInfo(db, 0);
+	do {
+		esiste = mostraInfo(db, 0);
+		if (esiste==0) {
+			attenzione(101);
+		}
+	} while (esiste==0);
 	while (ottenerePosDaID(db, 2, id)==-1) {
 		printf("\n\nInserire l'identificativo dell'artista da modificare: ");
 		id = inputNumero();

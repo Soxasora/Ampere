@@ -98,9 +98,14 @@ int controllareEsistenzaGenere(database db, char genere[]) {
 }
 
 database modificareGenereGuidato(database db) {
-	int id=0, campo=-1;
+	int id=0, campo=-1, esiste=0;
 	char scelta='a';
-	mostraInfo(db, 2);
+	do {
+		esiste = mostraInfo(db, 2);
+		if (esiste==0) {
+			attenzione(101);
+		}
+	} while (esiste==0);
 	while(ottenerePosDaID(db, 3,id)==-1) {
 		printf("\n\nInserire l'identificativo del genere da modificare: ");
 		id = inputNumero();

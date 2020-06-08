@@ -52,6 +52,8 @@ void attenzione(int codice) {
 		printf(" Inserita scelta non riconosciuta, riprovare.");
 	} else if (codice==100) {
 		printf(" Preparazione alla chiusura...");
+	} else if (codice==101) {
+		printf(" La ricerca non ha resituito risultati, riprovare.");
 	}
 }
 

@@ -123,9 +123,14 @@ int controlloEsistenzaAlbum(database db, char album[]) {
 }
 
 database modificareAlbumGuidato(database db) {
-	int id=0, campo=-1;
+	int id=0, campo=-1, esiste=0;
 	char scelta='a';
-	mostraInfo(db, 1);
+	do {
+		esiste = mostraInfo(db, 1);
+		if (esiste==0) {
+			attenzione(101);
+		}
+	} while (esiste==0);
 	while (ottenerePosDaID(db, 1,id)==-1) {
 		printf("\n\nInserire l'identificativo dell'album da modificare: ");
 		id = inputNumero();

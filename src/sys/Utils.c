@@ -47,7 +47,7 @@ void info() {
 
 void aspetta() {
 	printf("\nPremere invio per continuare...");
-	char w = inputCarattere();
+	char w = scanf("%c", &w);
 }
 
 void apriLink(char link[]) {
@@ -141,12 +141,14 @@ int inputNumero(){
 	char numero[MAX_ENORME];
 	char *notanumber;
 	int scelta=-1;
-	scanf(" %s", numero);
-	scelta = strtol(numero, &notanumber, 10);
-	if(numero == notanumber){
-		scelta = -1;
-	}
-	pulisciBuffer();
+	do {
+		scanf(" %s", numero);
+		scelta = strtol(numero, &notanumber, 10);
+		if (numero == notanumber) {
+			attenzione(2);
+		}
+		pulisciBuffer();
+	} while (numero == notanumber);
 	return scelta;
 }
 

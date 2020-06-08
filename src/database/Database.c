@@ -246,7 +246,7 @@ database ottenerePlaylists(database db) {
 			strtok(dati[3], "\n");
 			strcpy(db.playlist[i].nome,dati[2]);
 			strcpy(db.playlist[i].descrizione,dati[3]);
-			if (comparaStringhe(dati[4],"true")==0) {
+			if (strcmp(dati[4],"true")==0) {
 				db.playlist[i].pubblica = true;
 			} else {
 				db.playlist[i].pubblica = false;
