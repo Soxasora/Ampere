@@ -47,7 +47,7 @@ void info() {
 
 void aspetta() {
 	printf("\nPremere invio per continuare...");
-	char w = scanf("%c", &w);
+	char w = inputCarattere();
 }
 
 void apriLink(char link[]) {
