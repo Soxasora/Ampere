@@ -55,7 +55,7 @@ void attenzione(int codice) {
 	} else if (codice==100) {
 		printf(" Preparazione alla chiusura...");
 	} else if (codice==101) {
-		printf(" La ricerca non ha resituito risultati, riprovare.");
+		printf(" La ricerca non ha restituito risultati, riprovare.");
 	}
 }
 

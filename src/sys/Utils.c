@@ -50,7 +50,8 @@ void info() {
 
 void aspetta() {
 	printf("\nPremere invio per continuare...");
-	char w = scanf("%c", &w);
+	int c;
+	while ((c = getchar()) != EOF && c != '\n') {}
 }
 
 void apriLink(char link[]) {
