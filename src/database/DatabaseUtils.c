@@ -331,8 +331,8 @@ int* ottenerePosAssociazioniDaID(database db, int modalita, int id) {
 
 void backupDatabase() {
 	int esito=-1;
-	char *nome_backup = malloc(MAX_GRANDE);
-	char *percorso_backup = malloc(MAX_GRANDE);
+	char *nome_backup = calloc(MAX_GRANDE, sizeof(char));
+	char *percorso_backup = calloc(MAX_GRANDE, sizeof(char));
 	creaCartella("backup", true);
 	do {
 		printf("\nInserire il nome della cartella del nuovo backup (es. 05052020): ");
@@ -373,8 +373,8 @@ void backupDatabase() {
 
 database ripristinaDatabase(database db) {
 	
-	char *nome_backup = malloc(MAX_GRANDE);
-	char *percorso_backup = malloc(MAX_GRANDE);
+	char *nome_backup = calloc(MAX_GRANDE, sizeof(char));
+	char *percorso_backup = calloc(MAX_GRANDE, sizeof(char));
 	printf("\nInserire il nome del backup dal quale ripristinare il database (es. 05052020): ");
 	nome_backup = inputStringa(MAX_GRANDE,nome_backup);
 	sprintf(percorso_backup, "backup/%s/brani.txt", nome_backup);

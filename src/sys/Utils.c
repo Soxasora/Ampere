@@ -54,7 +54,7 @@ void aspetta() {
 }
 
 void apriLink(char link[]) {
-	char *comando = malloc(MAX_ENORME);
+	char *comando = calloc(MAX_ENORME, sizeof(char));
 	printf("\nAprendo il browser predefinito...");
 	if (os==0) {
 		sprintf(comando, "start %s", link);
@@ -225,7 +225,7 @@ char *convertiSecondiInTempo(int secondi) {
 	int h=secondi/3600;
 	int m=(secondi -(3600*h))/60;
 	int s=(secondi -(3600*h)-(m*60));
-	char *hhmmss = malloc(MAX_MEDIO);
+	char *hhmmss = calloc(MAX_MEDIO, sizeof(char));
 	sprintf(hhmmss, "%d ore, %d minuti, %d secondi", h, m, s);
 	return hhmmss;
 }

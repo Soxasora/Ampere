@@ -135,7 +135,6 @@ database ottenereAlbums(database db) {
 				j++;
 			}
 			db.album[i].id = atoi(dati[0]);
-			printf("\n\n\n SONO QUIIII");
 			strtok(dati[1], "\n");
 			strcpy(db.album[i].titolo,dati[1]);
 			db.album[i].anno = atoi(dati[2]);

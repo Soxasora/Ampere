@@ -23,7 +23,7 @@
 #include "../sys/Impostazioni.h"
 
 database inserireGenereGuidato(database db) {
-	char *nome = malloc(MAX_MEDIO);
+	char *nome = calloc(MAX_MEDIO, sizeof(char));
 	do {
 		
 		printf("\nInserisci nome del genere: ");
@@ -145,7 +145,7 @@ database creareGenereModificato(database db, int id) {
 	struct Genere genereModificato = db.genere[pos];
 	do {
 		
-		char *nome = malloc(MAX_MEDIO);
+		char *nome = calloc(MAX_MEDIO, sizeof(char));
 		printf("\nInserisci nuovo nome: ");
 		nome = inputStringa(MAX_MEDIO,nome);
 		strcpy(genereModificato.nome, nome);

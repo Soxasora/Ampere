@@ -23,7 +23,7 @@
 #include "../sys/Impostazioni.h"
 
 database inserimentoArtistaGuidato(database db) {
-	char *nomeArte = malloc(MAX_MEDIO);
+	char *nomeArte = calloc(MAX_MEDIO, sizeof(char));
 	do {
 		
 		printf("\nInserisci nome d'arte dell'artista: ");
@@ -35,9 +35,9 @@ database inserimentoArtistaGuidato(database db) {
 
 database creaArtistaGuidato(database db, char nomeArte[]) {
 	char scelta='a';
-	char *nome = malloc(MAX_MEDIO);
-	char *cognome = malloc(MAX_MEDIO);
-	char *linkBio = malloc(MAX_ENORME);
+	char *nome = calloc(MAX_MEDIO, sizeof(char));
+	char *cognome = calloc(MAX_MEDIO, sizeof(char));
+	char *linkBio = calloc(MAX_ENORME, sizeof(char));
 	printf("\n===[Inserimento guidato di un artista]==="
 	       "\nNome d'arte: %s", nomeArte);
 	
@@ -173,25 +173,25 @@ database creareArtistaModificato(database db, int campo, int id) {
 	do {
 		
 		if (campo==1) {
-			char *nome = malloc(MAX_MEDIO);
+			char *nome = calloc(MAX_MEDIO, sizeof(char));
 			printf("\nInserisci nuovo nome: ");
 			nome = inputStringa(MAX_MEDIO,nome);
 			strcpy(artistaModificato.nome, nome);
 			free(nome);
 		} else if (campo==2) {
-			char *cognome = malloc(MAX_MEDIO);
+			char *cognome = calloc(MAX_MEDIO, sizeof(char));
 			printf("\nInserisci nuovo cognome: ");
 			cognome = inputStringa(MAX_MEDIO,cognome);
 			strcpy(artistaModificato.cognome, cognome);
 			free(cognome);
 		} else if (campo==3) {
-			char *nomeArte = malloc(MAX_MEDIO);
+			char *nomeArte = calloc(MAX_MEDIO, sizeof(char));
 			printf("\nInserisci nuovo nome d'arte: ");
 			nomeArte = inputStringa(MAX_MEDIO,nomeArte);
 			strcpy(artistaModificato.nomeArte, nomeArte);
 			free(nomeArte);
 		} else if (campo==4) {
-			char *linkBio = malloc(MAX_ENORME);
+			char *linkBio = calloc(MAX_ENORME, sizeof(char));
 			printf("\nInserisci nuovo link della biografia: ");
 			linkBio = inputStringa(MAX_ENORME, linkBio);
 			strcpy(artistaModificato.linkBio, linkBio);

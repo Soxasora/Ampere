@@ -310,9 +310,9 @@ void mostraTuttiUtenti(database db) {
 int mostraInfo(database db, int modalita) {
 	int esiste=0;
 	if (modalita==0) {
-		char *nome = malloc(MAX_MEDIO);
-		char *cognome = malloc(MAX_MEDIO);
-		char *nomeArte = malloc(MAX_MEDIO);
+		char *nome = calloc(MAX_MEDIO, sizeof(char));
+		char *cognome = calloc(MAX_MEDIO, sizeof(char));
+		char *nomeArte = calloc(MAX_MEDIO, sizeof(char));
 		
 		printf("\n[Premi invio per saltare] Inserisci il nome dell'artista da ricercare: ");
 		nome = inputStringa(MAX_MEDIO,nome);
@@ -379,7 +379,7 @@ int mostraInfo(database db, int modalita) {
 		}
 		free(nome); free(cognome); free(nomeArte);
 	} else if (modalita==1) {
-		char *titolo = malloc(MAX_MEDIO);
+		char *titolo = calloc(MAX_MEDIO, sizeof(char));
 		int anno=0;
 		
 		printf("\n[Premi invio per saltare] Inserisci il titolo dell'album da ricercare: ");
@@ -402,7 +402,7 @@ int mostraInfo(database db, int modalita) {
 		}
 		free(titolo);
 	} else if (modalita==2) {
-		char *nome = malloc(MAX_MEDIO);
+		char *nome = calloc(MAX_MEDIO, sizeof(char));
 		
 		printf("\nInserisci il nome del genere: ");
 		nome = inputStringa(MAX_MEDIO,nome);
@@ -418,7 +418,7 @@ int mostraInfo(database db, int modalita) {
 		}
 		free(nome);
 	} else if (modalita==3) {
-		char *playlist = malloc(MAX_MEDIO);
+		char *playlist = calloc(MAX_MEDIO, sizeof(char));
 		printf("\nInserisci il nome della playlist: ");
 		playlist = inputStringa(MAX_MEDIO,playlist);
 		int i=0, n=contareNelDatabase(db,4);
@@ -435,7 +435,7 @@ int mostraInfo(database db, int modalita) {
 		}
 		free(playlist);
 	} else if (modalita==4) {
-		char *username = malloc(MAX_MEDIO);
+		char *username = calloc(MAX_MEDIO, sizeof(char));
 		
 		printf("\nInserisci l'username dell'utente: ");
 		username = inputStringa(MAX_MEDIO,username);
@@ -497,7 +497,7 @@ database moduloRicercaBrani(database db) {
 int mostraBrani(database db, int modalita) {
 	int esiste=0;
 	if (modalita==0) {
-		char *titolo = malloc(MAX_MEDIO);
+		char *titolo = calloc(MAX_MEDIO, sizeof(char));
 		printf("\nInserisci il titolo del brano da ricercare: ");
 		titolo = inputStringa(MAX_MEDIO,titolo);
 		int i=0, n=contareNelDatabase(db,0);
@@ -533,7 +533,7 @@ int mostraBrani(database db, int modalita) {
 int mostraBraniArtista(database db) {
 	int esiste=0;
 	int id=0;
-	char *nomeArte = malloc(MAX_MEDIO);
+	char *nomeArte = calloc(MAX_MEDIO, sizeof(char));
 	
 	printf("\nInserisci nome d'arte dell'artista: ");
 	nomeArte = inputStringa(MAX_MEDIO,nomeArte);
@@ -559,7 +559,7 @@ int mostraBraniArtista(database db) {
 int mostraBraniAlbum(database db) {
 	int esiste=0;
 	int id=0;
-	char *album = malloc(MAX_MEDIO);
+	char *album = calloc(MAX_MEDIO, sizeof(char));
 	
 	printf("\nInserisci nome album: ");
 	album = inputStringa(MAX_MEDIO,album);
@@ -585,7 +585,7 @@ int mostraBraniAlbum(database db) {
 int mostraBraniGenere(database db) {
 	int esiste=0;
 	int id=0;
-	char *genere = malloc(MAX_MEDIO);
+	char *genere = calloc(MAX_MEDIO, sizeof(char));
 	
 	printf("\nInserisci nome genere: ");
 	genere = inputStringa(MAX_MEDIO,genere);
@@ -611,7 +611,7 @@ int mostraBraniGenere(database db) {
 int mostraBraniPlaylist(database db) {
 	int esiste=0;
 	int id=0;
-	char *playlist = malloc(MAX_MEDIO);
+	char *playlist = calloc(MAX_MEDIO, sizeof(char));
 	
 	printf("\nInserisci nome playlist: ");
 	playlist = inputStringa(MAX_MEDIO,playlist);
@@ -641,7 +641,7 @@ int mostraBraniPlaylist(database db) {
 int mostraPlaylistUtenteGuidato(database db) {
 	int esiste=0;
 	int id=0;
-	char *utente = malloc(MAX_MEDIO);
+	char *utente = calloc(MAX_MEDIO, sizeof(char));
 	
 	printf("\nInserisci nome utente: ");
 	utente = inputStringa(MAX_MEDIO,utente);

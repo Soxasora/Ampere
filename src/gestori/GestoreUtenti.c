@@ -60,11 +60,11 @@ database loginUtente(database db) {
 	char *password;
 	while (controllo!=-1) {
 		
-		if ((username = malloc(MAX_MEDIO))) {
+		if ((username = calloc(MAX_MEDIO, sizeof(char)))) {
 			printf("\nInserisci "C_GIALLO"username: "C_RESET);
 			username = inputStringa(MAX_MEDIO,username);
 		}
-		if ((password = malloc(MAX_MEDIO))) {
+		if ((password = calloc(MAX_MEDIO, sizeof(char)))) {
 			printf("\nInserisci "C_GIALLO"password: "C_RESET);
 			password = inputStringa(MAX_MEDIO,password);
 		}
@@ -114,11 +114,11 @@ database registrareUtente(database db) {
 		
 		char *username;
 		char *password;
-		if ((username = malloc(MAX_MEDIO))) {
+		if ((username = calloc(MAX_MEDIO, sizeof(char)))) {
 			printf("\nInserisci "C_GIALLO"username: "C_RESET);
 			username = inputStringa(MAX_MEDIO,username);
 		}
-		if ((password = malloc(MAX_MEDIO))) {
+		if ((password = calloc(MAX_MEDIO, sizeof(char)))) {
 			printf("\nInserisci "C_GIALLO"password: "C_RESET);
 			password = inputStringa(MAX_MEDIO,password);
 		}
@@ -273,17 +273,17 @@ database creareUtenteModificato(database db, int campo, int id) {
 	do {
 		
 		if (campo==1) {
-			char *username = malloc(MAX_MEDIO);
+			char *username = calloc(MAX_MEDIO, sizeof(char));
 			printf("\nInserisci nuovo username: ");
 			username = inputStringa(MAX_MEDIO,username);
 			strcpy(utenteModificato.username, username);
 			free(username);
 		} else if (campo==2) {
-			char *passwordVecchia = malloc(MAX_MEDIO);
+			char *passwordVecchia = calloc(MAX_MEDIO, sizeof(char));
 			strcpy(passwordVecchia, "null");
-			char *password = malloc(MAX_MEDIO);
+			char *password = calloc(MAX_MEDIO, sizeof(char));
 			strcpy(password, "null");
-			char *password2 = malloc(MAX_MEDIO);
+			char *password2 = calloc(MAX_MEDIO, sizeof(char));
 			strcpy(password2, "null2");
 			if (!controllareSeAdmin(db)) {
 				while (strcmp(passwordVecchia, utenteModificato.password)!=0) {

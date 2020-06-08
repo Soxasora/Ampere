@@ -108,7 +108,7 @@ database crearePlaylistGuidato(database db) {
 	do {
 		printf("\n===[Creazione guidata di una playlist]===");
 			do {
-				if ((nome = malloc(MAX_MEDIO))) {
+				if ((nome = calloc(MAX_MEDIO, sizeof(char)))) {
 					printf("\nInserisci nome della playlist: ");
 					nome = inputStringa(MAX_MEDIO,nome);
 				}
@@ -116,7 +116,7 @@ database crearePlaylistGuidato(database db) {
 					attenzione(2);
 				}
 			} while (strcmp(nome, "N/A")==0);
-			if ((descrizione = malloc(MAX_GRANDE))) {
+			if ((descrizione = calloc(MAX_GRANDE, sizeof(char)))) {
 				printf("\nInserisci descrizione della playlist: ");
 				descrizione = inputStringa(MAX_GRANDE,descrizione);
 				if (strcmp(descrizione, "N/A")==0) {
@@ -317,13 +317,13 @@ database crearePlaylistModificata(database db, int campo, int id) {
 	struct Playlist playlistModificata = db.playlist[pos];
 	do {
 		if (campo==1) {
-			char *nome = malloc(MAX_MEDIO);
+			char *nome = calloc(MAX_MEDIO, sizeof(char));
 			printf("\nInserisci nuovo nome: ");
 			nome = inputStringa(MAX_MEDIO,nome);
 			strcpy(playlistModificata.nome, nome);
 			free(nome);
 		} else if (campo==2) {
-			char *descrizione = malloc(MAX_GRANDE);
+			char *descrizione = calloc(MAX_GRANDE, sizeof(char));
 			printf("\nInserisci nuova descrizione: ");
 			descrizione = inputStringa(MAX_GRANDE,descrizione);
 			strcpy(playlistModificata.descrizione, descrizione);

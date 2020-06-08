@@ -34,7 +34,7 @@ database inserimentoBranoGuidato(database db) {
 	int durata=0, anno=0, ascolti=0;
 	// Registrazione
 	do {
-		if ((titolo=malloc(MAX_MEDIO))) {
+		if ((titolo=calloc(MAX_MEDIO, sizeof(char)))) {
 			
 			printf("\nInserisci titolo: ");
 			titolo = inputStringa(MAX_MEDIO,titolo);
@@ -46,7 +46,7 @@ database inserimentoBranoGuidato(database db) {
 		i=0;
 		while (i<nArtisti) {
 			do {
-				if ((artista=malloc(MAX_MEDIO))) {
+				if ((artista=calloc(MAX_MEDIO, sizeof(char)))) {
 					
 					printf("\nInserisci nome artista n.%d: ", i+1);
 					artista = inputStringa(MAX_MEDIO,artista);
@@ -64,7 +64,7 @@ database inserimentoBranoGuidato(database db) {
 		i=0;
 		while (i<nAlbum) {
 			do {
-				if ((album=malloc(MAX_MEDIO))) {
+				if ((album=calloc(MAX_MEDIO, sizeof(char)))) {
 					
 					printf("\nInserisci nome album n.%d: ", i+1);
 					album = inputStringa(MAX_MEDIO,album);
@@ -82,7 +82,7 @@ database inserimentoBranoGuidato(database db) {
 		i=0;
 		while (i<nGeneri) {
 			do {
-				if ((genere=malloc(MAX_MEDIO))) {
+				if ((genere=calloc(MAX_MEDIO, sizeof(char)))) {
 					
 					printf("\nInserisci genere n.%d del brano: ", i+1);
 					genere = inputStringa(MAX_MEDIO,genere);
@@ -301,7 +301,7 @@ database creareBranoModificato(database db, int campo, int id) {
 	do {
 		
 		if (campo==1) {
-			char *titolo = malloc(MAX_MEDIO);
+			char *titolo = calloc(MAX_MEDIO, sizeof(char));
 			printf("\nInserisci nuovo titolo: ");
 			titolo = inputStringa(MAX_MEDIO,titolo);
 			strcpy(branoModificato.titolo, titolo);
@@ -336,7 +336,7 @@ database creareBranoModificato(database db, int campo, int id) {
 			i=0;
 			while (i<nArtisti) {
 				do {
-					if ((artista = malloc(MAX_MEDIO))) {
+					if ((artista = calloc(MAX_MEDIO, sizeof(char)))) {
 						printf("\nInserisci nome d'arte artista n.%d: ", i+1);
 						artista = inputStringa(MAX_MEDIO,artista);
 						db = creaArtistaSeNonEsiste(db, artista);
@@ -355,7 +355,7 @@ database creareBranoModificato(database db, int campo, int id) {
 			i=0;
 			while (i<nAlbum) {
 				do {
-					if ((album = malloc(MAX_MEDIO))) {
+					if ((album = calloc(MAX_MEDIO, sizeof(char)))) {
 						printf("\nInserisci nome album n.%d: ", i+1);
 						album = inputStringa(MAX_MEDIO,album);
 						db = creaAlbumSeNonEsiste(db, album);
@@ -374,7 +374,7 @@ database creareBranoModificato(database db, int campo, int id) {
 			i=0;
 			while (i<nGeneri) {
 				do {
-					if ((genere = malloc(MAX_MEDIO))) {
+					if ((genere = calloc(MAX_MEDIO, sizeof(char)))) {
 						printf("\nInserisci nome del genere n.%d: ", i+1);
 						genere = inputStringa(MAX_MEDIO, genere);
 						db = creareGenereSeNonEsiste(db, genere);
@@ -523,8 +523,8 @@ database cancellaSingoloBrano(database db, int id) {
 // TESTI
 
 void apriTesto(int idBrano) {
-	char *posizione_testo = malloc(MAX_ENORME);
-	char *comando = malloc(MAX_ENORME+10);
+	char *posizione_testo = calloc(MAX_ENORME, sizeof(char));
+	char *comando = calloc(MAX_ENORME+10, sizeof(char));
 	FILE *fp;
 	if(os==0) {
 		sprintf(posizione_testo, "%s/%d%s", cartella_testi, idBrano, ".txt");

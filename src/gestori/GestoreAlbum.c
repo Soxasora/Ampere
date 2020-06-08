@@ -23,10 +23,10 @@
 #include "../sys/Impostazioni.h"
 
 database inserimentoAlbumGuidato(database db) {
-	char *titolo = malloc(MAX_MEDIO);
+	char *titolo = calloc(MAX_MEDIO, sizeof(char));
 	do {
 		
-		if ((titolo = malloc(MAX_MEDIO))) {
+		if ((titolo = calloc(MAX_MEDIO, sizeof(char)))) {
 			printf("\nInserisci titolo dell'album: ");
 			titolo = inputStringa(MAX_MEDIO,titolo);
 			db = creaAlbumSeNonEsiste(db, titolo);
@@ -172,7 +172,7 @@ database creareAlbumModificato(database db, int campo, int id) {
 	do {
 		
 		if (campo==1) {
-			char *titolo = malloc(MAX_MEDIO);
+			char *titolo = calloc(MAX_MEDIO, sizeof(char));
 			printf("\nInserisci nuovo titolo: ");
 			titolo = inputStringa(MAX_MEDIO,titolo);
 			strcpy(albumModificato.titolo, titolo);
