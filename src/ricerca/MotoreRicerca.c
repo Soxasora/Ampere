@@ -47,6 +47,9 @@ void mostrareAssociazioni(database db, int modalita, int idBrano) {
 			printf("%s", db.artista[posArtista].nomeArte);
 			i++;
 		} while (posArtisti[i]!=0);
+		if (posArtisti!=NULL) {
+			free(posArtisti); posArtisti=NULL;
+		}
 	} else if (modalita==1) { // Album
 		printf("\nAlbum: ");
 		int *posAlbums=ottenerePosAssociazioniDaID(db, 6, idBrano);
@@ -58,6 +61,9 @@ void mostrareAssociazioni(database db, int modalita, int idBrano) {
 			printf("%s", db.album[posAlbum].titolo);
 			i++;
 		} while (posAlbums[i]!=0);
+		if (posAlbums!=NULL) {
+			free(posAlbums); posAlbums=NULL;
+		}
 	} else if (modalita==2) { // Generi
 		printf("\nGeneri: ");
 		int *posGeneri=ottenerePosAssociazioniDaID(db, 7, idBrano);
@@ -69,6 +75,9 @@ void mostrareAssociazioni(database db, int modalita, int idBrano) {
 			printf("%s", db.genere[posGenere].nome);
 			i++;
 		} while (posGeneri[i]!=0);
+		if (posGeneri!=NULL) {
+			free(posGeneri); posGeneri=NULL;
+		}
 	}
 }
 
