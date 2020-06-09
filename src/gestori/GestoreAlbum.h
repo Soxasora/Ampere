@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.2
+ * UNIBA/Ampere 1.2.2
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -15,7 +15,7 @@
  *	Interfaccia utente stand-alone per l'inserimento di un album, pu� essere chiamata
  *	senza dipendere da altre funzioni
  *	Chiama creareAlbumSeNonEsiste -> creareAlbumGuidato
- *	@output void modificato
+ *	@output database modificato
  */
 void inserireAlbumGuidato(database *db);
 
@@ -23,7 +23,7 @@ void inserireAlbumGuidato(database *db);
  *	@input istanza database, stringa titolo dell'album
  *	Interfaccia utente che guida l'inserimento di altre informazioni aggiuntive dell'album
  *	Crea l'album con creareAlbum e lo passa a inserireAlbum
- *	@output void modificato
+ *	@output database modificato
  */
 void creareAlbumGuidato(database *db, char titoloAlbum[]);
 
@@ -32,14 +32,14 @@ void creareAlbumGuidato(database *db, char titoloAlbum[]);
  *	Controlla se l'album inserito esiste gia' grazie a controllareEsistenzaAlbum
  *	e se non esiste, chiama creareAlbumGuidato per proseguire con l'inserimento
  *	altrimenti comunica all'utente che l'album esiste gia', dunque non procedendo con l'inserimento
- *	@output void modificato
+ *	@output database modificato
  */
 void creareAlbumSeNonEsiste(database *db, char titoloAlbum[]);
 
 /**
  * 	@input istanza database, stringa titolo dell'album, numero intero anno di uscita
  *	Funzione logica per la creazione di un record "albums", prende le informazioni date in input
- *	e crea un record con esse. Si avvale del void in input per ottenere l'ultimo identificativo
+ *	e crea un record con esse. Si avvale del database in input per ottenere l'ultimo identificativo
  *	@output record album compilato
  */
 struct Album creareAlbum(char titolo[], int anno);
@@ -49,7 +49,7 @@ void mostrareAnteprimaAlbum(struct Album nuovoAlbum);
 /**
  *	@input istanza database, record albums album
  *	Ottiene in input il record album gia' compilato con creareAlbum e gli assegna l'ultima posizione
- *	@output void modificato
+ *	@output database modificato
  */
 void inserireAlbum(database *db, struct Album nuovoAlbum);
 
@@ -74,7 +74,7 @@ int controllareEsistenzaAlbum(database *db, char album[]);
  *	Interfaccia utente per modificare informazioni dell'album presente nel database
  *	Si avvale di ottenerePosDaID per controllare l'esistenza di esso attraverso l'identificativo
  *	Se l'album e' presente, procede alla modifica dell'informazione scelta con modificaSingoloAlbum
- *	@output void modificato
+ *	@output database modificato
  */
 void modificareAlbumGuidato(database *db);
 
@@ -84,7 +84,7 @@ void modificareAlbumGuidato(database *db);
  *	In base alla modalita' scelta e data in input da modificaAlbum, chiede all'utente la nuova informazione
  *	da inserire al posto della vecchia, sovrascrivendola
  *	Successivamente procede a mostrare all'utente il risultato delle modifiche effettuate
- *	@output void modificato
+ *	@output database modificato
  */
 void creareAlbumModificato(database *db, int campo, int id);
 void modificareAlbum(database *db, int idAlbum, struct Album albumModificato);
@@ -95,19 +95,19 @@ void modificareAlbum(database *db, int idAlbum, struct Album albumModificato);
  *	Interfaccia utente per la cancellazione di un album presente nel database
  *	Si avvale di ottenerePosDaID per controllare l'esistenza di esso attraverso l'identificativo
  *	Se l'album e' presente, procede alla cancellazione dell'album con cancellareAlbum
- *	@output void modificato
+ *	@output database modificato
  */
 void cancellareAlbumGuidato(database *db);
 
 /**
  *	TODO: adeguare cancellazione allo standard imposto dalle specifiche
  *	@input istanza database, numero intero identificativo album
- *	Operazioni per la cancellazione dell'intero album all'interno del void presente in memoria
- *	Scala il void di n=1 posizione indietro e lo spazio rimanente alla fine assume valore zero,
- *	effettivamente causando la cancellazione dell'album all'interno del void presente in memoria.
+ *	Operazioni per la cancellazione dell'intero album all'interno del database presente in memoria
+ *	Scala il database di n=1 posizione indietro e lo spazio rimanente alla fine assume valore zero,
+ *	effettivamente causando la cancellazione dell'album all'interno del database presente in memoria.
  *	La cancellazione dell'album provvede anche a cancellare i brani collegati ad esso e, dunque, anche
  *	qualunque associazione effettuata con i brani presenti in quell'album
- *	@output void modificato
+ *	@output database modificato
  */
 void cancellareAlbum(database *db, int id);
 

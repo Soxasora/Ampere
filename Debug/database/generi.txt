@@ -1,4 +1,0 @@
-1|Rock alternativo
-2|Pop
-3|Disco
-4|Funk

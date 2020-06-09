@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.2
+ * UNIBA/Ampere 1.2.2
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -65,7 +65,7 @@ void creareArtistaSeNonEsiste(database *db, char nomeArte[]) {
 		printf("\nSembra che quest'artista non esista nel database, inseriamolo.");
 		creareArtistaGuidato(db, nomeArte);
 	} else {
-		attenzione(203);
+		informazione(203);
 		db->ultimoEsito = 0;
 	}
 	
@@ -284,7 +284,6 @@ void visualizzareBiografiaArtista(database *db) {
 	printf("\nCerca biografia dell'artista: ");
 	esito = ricercareInfo(db, 0);
 	if (esito==1) {
-		
 		while(ottenerePosDaID(db, 2,id)==-1) {
 			printf("\n\nInserisci l'identificativo dell'artista: ");
 			id = inputNumero();
@@ -293,7 +292,11 @@ void visualizzareBiografiaArtista(database *db) {
 			}
 		}
 		pos=ottenerePosDaID(db, 2,id);
-		aprireLink(db->artista[pos].linkBio);
+		if (strcmp(db->artista[pos].linkBio, "N/A")==0) {
+			printf("\nL'artista selezionato non ha una biografia nel database.");
+		} else {
+			aprireLink(db->artista[pos].linkBio);
+		}
 	} else {
 		printf("\n\nNessun artista trovato.");
 	}

@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.2
+ * UNIBA/Ampere 1.2.2
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -14,7 +14,7 @@
  *	@input istanza database
  *	Operazioni fondamentali per l'inizializzazione di Ampere, dunque per garantire un corretto
  *	funzionamento sin dall'inizio.
- *	@output void modificato
+ *	@output database modificato
  */
 void inizializzazione(database *db);
 

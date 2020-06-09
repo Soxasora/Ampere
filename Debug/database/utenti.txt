@@ -1,2 +1,0 @@
-1|Soxasora|asdasd12|true
-2|risotto|pasta|false

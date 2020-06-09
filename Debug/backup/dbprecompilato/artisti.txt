@@ -1,0 +1,18 @@
+1|N/A|N/A|Tre Allegri Ragazzi Morti|https://it.wikipedia.org/wiki/Tre_Allegri_Ragazzi_Morti
+2|N/A|N/A|Public Image Ltd.|https://it.wikipedia.org/wiki/Public_Image_Ltd.
+3|N/A|N/A|Love and Rockets|https://en.wikipedia.org/wiki/Love_and_Rockets_(band)
+4|N/A|N/A|The Cure|https://it.wikipedia.org/wiki/The_Cure
+5|N/A|N/A|Daft Punk|https://it.wikipedia.org/wiki/Daft_Punk
+6|Paul|Jackson|Paul Jackson|N/A
+7|Nile|Rodgers|Nile Rodgers|https://it.wikipedia.org/wiki/Nile_Rodgers
+8|Giorgio|Moroder|Giorgio Moroder|https://it.wikipedia.org/wiki/Giorgio_Moroder
+9|Jason|Beck|Chilly Gonzales|https://it.wikipedia.org/wiki/Chilly_Gonzales
+10|Julian|Casablancas|Julian Casablancas|https://it.wikipedia.org/wiki/Julian_Casablancas
+11|Pharrell|Williams|Pharrell Williams|https://it.wikipedia.org/wiki/Pharrell_Williams
+12|Paul|Williams|Paul Williams|https://it.wikipedia.org/wiki/Paul_Williams_(compositore)
+13|Todd|Imperatrice|Todd Imperatrice|N/A
+14|Noah|Lennox|Noah Lennox|https://it.wikipedia.org/wiki/Panda_Bear
+15|Stephane|Queme|Stephane Queme|N/A
+16|Garth|Porter|Garth Porter|N/A
+17|Tony|Mitchell|Tony Mitchell|N/A
+18|Daryl|Braithwaite|Daryl Braithwaite|https://it.wikipedia.org/wiki/Daryl_Braithwaite

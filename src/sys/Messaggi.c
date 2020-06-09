@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.2
+ * UNIBA/Ampere 1.2.2
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -56,12 +56,6 @@ void attenzione(int codice) {
 		printf(" Preparazione alla chiusura...");
 	} else if (codice==101) {
 		printf(" La ricerca non ha restituito risultati, riprovare.");
-	} else if (codice==202) {
-		printf(" Album esistente, dunque non c'e' bisogno di crearlo");
-	} else if (codice==203) {
-		printf(" Artista esistente, dunque non c'e' bisogno di crearlo");
-	} else if (codice==204) {
-		printf(" Genere esistente, dunque non c'e' bisogno di crearlo");
 	} else if (codice==210) {
 		printf(" Utente non trovato, riprovare");
 	} else if (codice==211) {
@@ -74,6 +68,17 @@ void attenzione(int codice) {
 		printf(" Genere non trovato, riprovare");
 	} else if (codice==215) {
 		printf(" Playlist non trovata, riprovare");
+	}
+}
+
+void informazione(int codice) {
+	printf(COLOR_INFO);
+	if (codice==202) {
+		printf(" Album esistente, dunque non c'e' bisogno di crearlo");
+	} else if (codice==203) {
+		printf(" Artista esistente, dunque non c'e' bisogno di crearlo");
+	} else if (codice==204) {
+		printf(" Genere esistente, dunque non c'e' bisogno di crearlo");
 	} else if (codice==300) {
 		printf(" Trovata similitudine");
 	}
@@ -139,17 +144,17 @@ void attenzione(int codice) {
 void successo(int codice) {
 	printf(COLOR_SUCCESSO);
 	if (codice==0) {
-		printf(" Utente inserito nel void correttamente");
+		printf(" Utente inserito nel database correttamente");
 	} else if (codice==1) {
-		printf(" Brano inserito nel void correttamente");
+		printf(" Brano inserito nel database correttamente");
 	} else if (codice==2) {
-		printf(" Album inserito nel void correttamente");
+		printf(" Album inserito nel database correttamente");
 	} else if (codice==3) {
-		printf(" Artista inserito nel void correttamente");
+		printf(" Artista inserito nel database correttamente");
 	} else if (codice==4) {
-		printf(" Genere inserito nel void correttamente");
+		printf(" Genere inserito nel database correttamente");
 	} else if (codice==5) {
-		printf(" Playlist inserita nel void correttamente");
+		printf(" Playlist inserita nel database correttamente");
 	} else if (codice==6) {
 		printf(" Utente modificato correttamente");
 	} else if (codice==7) {

@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.2
+ * UNIBA/Ampere 1.2.2
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -39,10 +39,10 @@ void inserireBranoGuidato(database *db) {
 			printf("\nInserisci titolo: ");
 			titolo = inputStringa(MAX_MEDIO,titolo);
 		}
-		while (nArtisti<1||nArtisti>MAX_MEDIO) {
+		do {
 			printf("\nQuanti artisti hanno lavorato su questo brano? ");
 			nArtisti = inputNumero();
-		}
+		} while (nArtisti<1||nArtisti>MAX_MEDIO);
 		i=0;
 		while (i<nArtisti) {
 			do {
@@ -57,10 +57,10 @@ void inserireBranoGuidato(database *db) {
 			free(artista); artista=NULL;
 			i++;
 		}
-		while (nAlbum<1||nAlbum>MAX_MEDIO) {
+		do {
 			printf("\nDi quanti album fa parte questa canzone? ");
 			nAlbum = inputNumero();
-		}
+		} while (nAlbum<1||nAlbum>MAX_MEDIO);
 		i=0;
 		while (i<nAlbum) {
 			do {
@@ -75,10 +75,10 @@ void inserireBranoGuidato(database *db) {
 			free(album); album=NULL;
 			i++;
 		}
-		while (nGeneri<1||nGeneri>MAX_MEDIO) {
+		do {
 			printf("\nQuanti generi ha questa canzone? ");
 			nGeneri = inputNumero();
-		}
+		} while (nGeneri<1||nGeneri>MAX_MEDIO);
 		i=0;
 		while (i<nGeneri) {
 			do {
@@ -94,18 +94,18 @@ void inserireBranoGuidato(database *db) {
 			i++;
 		}
 		
-		while (durata<=0) {
+		do {
 			printf("\nInserisci durata del brano in secondi: ");
 			durata = inputNumero();
-		}
-		while (anno<1950) {
+		} while (durata<=0);
+		do {
 			printf("\nInserisci anno d'uscita del brano: ");
 			anno = inputNumero();
-		}
-		while (ascolti<=0) {
+		} while (anno<1950);
+		do {
 			printf("\nInserisci numero d'ascolti del brano: ");
 			ascolti = inputNumero();
-		}
+		} while (ascolti<=0);
 		struct Brano nuovoBrano = creareBrano(titolo, durata, anno, ascolti);
 		free(titolo); titolo=NULL;
 		// Mostra anteprima del brano
@@ -221,7 +221,7 @@ void controllareSimilitudineBrano(database *db, struct Brano nuovoBrano) {
 		}
 		if (occorrenze>0) {
 			printf("\n\n");
-			attenzione(300);
+			informazione(300);
 			cPrintf(C_CIANO,"\nBrano simile: ");
 			mostrareSingoloBrano(db, db->brano[i].id);
 			trovato=true;

@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.2
+ * UNIBA/Ampere 1.2.2
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -43,7 +43,7 @@ void logo() {
 
 void info() {
 	logo();
-	printf("UNIBA/"C_GIALLO"Ampere "CB_ROSSO"1.2"C_RESET
+	printf("UNIBA/"C_GIALLO"Ampere "CB_ROSSO"1.2.2"C_RESET
 	"\nGruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino"
 	"\nProgetto universitario di gruppo intento alla creazione di un gestore dati per la musica\n");
 }

@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.2
+ * UNIBA/Ampere 1.2.2
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -13,7 +13,7 @@
 /**
  * 	@input istanza database, numero intero identificativo brano, numero intero identificativo artista
  *	Funzione logica per la creazione di un record "BranoArtista", prende le informazioni date in input
- *	e crea un record con esse. Si avvale del void in input per ottenere l'ultimo identificativo
+ *	e crea un record con esse. Si avvale del database in input per ottenere l'ultimo identificativo
  *	@output record BranoArtista compilato
  */
 struct BranoArtista creareAssociazioneArtista(int idBrano, int idArtista);
@@ -21,14 +21,14 @@ struct BranoArtista creareAssociazioneArtista(int idBrano, int idArtista);
 /**
  *	@input istanza database, record BranoArtista branoArtista
  *	Ottiene in input il record branoArtista gia' compilato con creareAssociazioneArtista e gli assegna l'ultima posizione
- *	@output void modificato
+ *	@output database modificato
  */
 void inserireAssociazioneArtista(database *db, struct BranoArtista branoArtista);
 
 /**
  * 	@input istanza database, numero intero identificativo brano, numero intero identificativo album
  *	Funzione logica per la creazione di un record "BranoAlbum", prende le informazioni date in input
- *	e crea un record con esse. Si avvale del void in input per ottenere l'ultimo identificativo
+ *	e crea un record con esse. Si avvale del database in input per ottenere l'ultimo identificativo
  *	@output record BranoAlbum compilato
  */
 struct BranoAlbum creareAssociazioneAlbum(int idBrano, int idAlbum);
@@ -36,14 +36,14 @@ struct BranoAlbum creareAssociazioneAlbum(int idBrano, int idAlbum);
 /**
  *	@input istanza database, record BranoAlbum branoAlbum
  *	Ottiene in input il record branoAlbum gia' compilato con creareAssociazioneAlbum e gli assegna l'ultima posizione
- *	@output void modificato
+ *	@output database modificato
  */
 void inserireAssociazioneAlbum(database *db, struct BranoAlbum branoAlbum);
 
 /**
  * 	@input istanza database, numero intero identificativo brano, numero intero identificativo genere
  *	Funzione logica per la creazione di un record "BranoGenere", prende le informazioni date in input
- *	e crea un record con esse. Si avvale del void in input per ottenere l'ultimo identificativo
+ *	e crea un record con esse. Si avvale del database in input per ottenere l'ultimo identificativo
  *	@output record BranoGenere compilato
  */
 struct BranoGenere creareAssociazioneGenere(int idBrano, int idGenere);
@@ -51,14 +51,14 @@ struct BranoGenere creareAssociazioneGenere(int idBrano, int idGenere);
 /**
  *	@input istanza database, record BranoGenere branoGenere
  *	Ottiene in input il record branoGenere gia' compilato con inserireAssociazioneGenere e gli assegna l'ultima posizione
- *	@output void modificato
+ *	@output database modificato
  */
 void inserireAssociazioneGenere(database *db, struct BranoGenere branoGenere);
 
 /**
  * 	@input istanza database, numero intero identificativo playlist, numero intero identificativo brano
  *	Funzione logica per la creazione di un record "PlaylistBrano", prende le informazioni date in input
- *	e crea un record con esse. Si avvale del void in input per ottenere l'ultimo identificativo
+ *	e crea un record con esse. Si avvale del database in input per ottenere l'ultimo identificativo
  *	@output record PlaylistBrano compilato
  */
 struct PlaylistBrano creareAssociazionePlaylist(int idPlaylist, int idBrano);
@@ -66,7 +66,7 @@ struct PlaylistBrano creareAssociazionePlaylist(int idPlaylist, int idBrano);
 /**
  *	@input istanza database, record PlaylistBrano playlistBrano
  *	Ottiene in input il record playlistBrano gia' compilato con inserireAssociazionePlaylist e gli assegna l'ultima posizione
- *	@output void modificato
+ *	@output database modificato
  */
 void inserireAssociazionePlaylist(database *db, struct PlaylistBrano playlistBrano);
 
@@ -108,7 +108,7 @@ void cancellareAssociazioniGenere(database *db, int idBrano);
  *	TODO: adeguare cancellazione allo standard imposto dalle specifiche
  *	@input istanza database, numero intero identificativo playlist
  *	Operazioni per la cancellazione delle associazioni della playlist (dunque i dati collegati ad essa) dal database
- *	@output void modificato
+ *	@output database modificato
  */
 void cancellareAssociazioniPlaylist(database *db, int id);
 

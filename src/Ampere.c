@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.2
+ * UNIBA/Ampere 1.2.2
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -51,13 +51,13 @@ void inizializzazione(database *db) {
 		printf("\nPreferisci salvare le modifiche alla "C_GIALLO"chiusura[0]"C_RESET" di Ampere oppure "C_VERDE"subito[1]"C_RESET"? ");
 		salvataggioDiretto = inputNumero();
 
-		// Ottengo il void degli utenti prima di caricare completamente il database
+		// Ottengo il database degli utenti prima di caricare completamente il database
 		ottenereDatabase(-1,db);
 
 		// Effettuo il login
 		menuLogin(db);
 
-		// Ottengo il resto del void e tutti i sotto void con esso
+		// Ottengo il resto del database e tutti i sotto database con esso
 		ottenereDatabase(0,db);
 		successo(111);
 		printf(DIVISORE"\n");

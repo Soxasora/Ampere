@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.2
+ * UNIBA/Ampere 1.2.2
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -31,7 +31,7 @@ void mostrareTuttiBrani(database *db);
 /**
  * 	@input istanza database, numero intero identificativo album
  * 	Provvede a stampare su schermo, tutte le informazioni di un album in base all'identificativo dato in input
- * 	Utilizza ottenerePosDaID per ottenere la posizione dell'album nel void attraverso l'identificativo dato in input
+ * 	Utilizza ottenerePosDaID per ottenere la posizione dell'album nel database attraverso l'identificativo dato in input
  */
 void mostrareSingoloAlbum(database *db, int id);
 
@@ -47,7 +47,7 @@ void mostrareTuttiAlbum(database *db);
 /**
  * 	@input istanza database, numero intero identificativo artista
  * 	Provvede a stampare su schermo, tutte le informazioni di un artista in base all'identificativo dato in input
- * 	Utilizza ottenerePosDaID per ottenere la posizione dell'artista nel void attraverso l'identificativo dato in input
+ * 	Utilizza ottenerePosDaID per ottenere la posizione dell'artista nel database attraverso l'identificativo dato in input
  */
 void mostrareSingoloArtista(database *db, int id);
 
@@ -63,7 +63,7 @@ void mostrareTuttiArtisti(database *db);
 /**
  * 	@input istanza database, numero intero identificativo genere
  * 	Provvede a stampare su schermo, tutte le informazioni di un genere in base all'identificativo dato in input
- * 	Utilizza ottenerePosDaID per ottenere la posizione del genere nel void attraverso l'identificativo dato in input
+ * 	Utilizza ottenerePosDaID per ottenere la posizione del genere nel database attraverso l'identificativo dato in input
  */
 void mostrareSingoloGenere(database *db, int id);
 
@@ -79,7 +79,7 @@ void mostrareTuttiGeneri(database *db);
 /**
  * 	@input istanza database, numero intero modalita' di esecuzione, numero intero identificativo playlist
  * 	Provvede a stampare su schermo, tutte le informazioni di una playlist in base all'identificativo dato in input
- * 	Utilizza ottenerePosDaID per ottenere la posizione della playlist nel void attraverso l'identificativo dato in input
+ * 	Utilizza ottenerePosDaID per ottenere la posizione della playlist nel database attraverso l'identificativo dato in input
  * 	In base alla modalita' di esecuzione (se non e' -1), chiede, inoltre, se l'utente vuole vedere anche i brani della playlist,
  * 	in quel caso chiamera' ricercareBraniPlaylistDaID
  * 	Altrimenti se la modalita' di esecuzione e' uguale a -1, non chiede all'utente se vuole vedere anche i brani.
@@ -115,7 +115,7 @@ void mostrareTuttePlaylistPubbliche(database *db, int modalita);
  * 	@input istanza database, numero intero modalita' di esecuzione, numero intero identificativo utente
  * 	Provvede a stampare su schermo, tutte le informazioni di un genere in base all'identificativo dato in input
  * 	In base alla modalita' di esecuzione, esclusiva per gli admin, data in input, mostra le password.
- * 	Utilizza ottenerePosDaID per ottenere la posizione del genere nel void attraverso l'identificativo dato in input
+ * 	Utilizza ottenerePosDaID per ottenere la posizione del genere nel database attraverso l'identificativo dato in input
  */
 void mostrareSingoloUtente(database *db, int modalita, int id);
 

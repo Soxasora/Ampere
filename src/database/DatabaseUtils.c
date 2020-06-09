@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.2
+ * UNIBA/Ampere 1.2.2
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -346,7 +346,7 @@ void backupDatabase() {
 	} while (esito!=0);
 	sprintf(percorso_backup, "backup/%s", nome_backup);
 	creareCartella(percorso_backup, true);
-	printf("\nBackup del void in corso...");
+	printf("\nBackup del database in corso...");
 	sprintf(percorso_backup, "backup/%s/brani.txt", nome_backup);
 	backupFile(file_brani, percorso_backup);
 	sprintf(percorso_backup, "backup/%s/albums.txt", nome_backup);
@@ -375,7 +375,7 @@ void ripristinareDatabase(database *db) {
 	
 	char *nome_backup = calloc(MAX_GRANDE, sizeof(char));
 	char *percorso_backup = calloc(MAX_GRANDE, sizeof(char));
-	printf("\nInserire il nome del backup dal quale ripristinare il void (es. 05052020): ");
+	printf("\nInserire il nome del backup dal quale ripristinare il database (es. 05052020): ");
 	nome_backup = inputStringa(MAX_GRANDE,nome_backup);
 	sprintf(percorso_backup, "backup/%s/brani.txt", nome_backup);
 	FILE* fp=fopen(percorso_backup, "r");
@@ -387,7 +387,7 @@ void ripristinareDatabase(database *db) {
 		char scelta='N';
 		scelta = richiesta(4);
 		if (scelta=='Y'||scelta=='y') {
-			printf("\nRipristino del void in corso...");
+			printf("\nRipristino del database in corso...");
 			cancellareDatabaseFile();
 			sprintf(percorso_backup, "backup/%s/brani.txt", nome_backup);
 			backupFile(percorso_backup, file_brani);

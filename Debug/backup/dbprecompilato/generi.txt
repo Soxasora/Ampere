@@ -1,0 +1,18 @@
+1|Rock alternativo
+2|Punk rock
+3|Indie rock
+4|New wave
+5|Alternative dance
+6|Post-punk
+7|Rock gotico
+8|Neo-Psychedelia
+9|Psychedelic Soul
+10|French House
+11|Electronic Dance
+12|Elettronica
+13|Synth Pop
+14|House
+15|Rock elettronico
+16|Breakbeat
+17|Disco
+18|Funk
