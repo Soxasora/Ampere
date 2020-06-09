@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.0.1
+ * UNIBA/Ampere 1.1
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -43,7 +43,7 @@ void logo() {
 
 void info() {
 	logo();
-	printf("UNIBA/"C_GIALLO"Ampere "CB_ROSSO"1.0.1"C_RESET
+	printf("UNIBA/"C_GIALLO"Ampere "CB_ROSSO"1.1"C_RESET
 	"\nGruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino"
 	"\nProgetto universitario di gruppo intento alla creazione di un gestore dati per la musica\n");
 }
@@ -54,7 +54,7 @@ void aspetta() {
 	while ((c = getchar()) != EOF && c != '\n') {}
 }
 
-void apriLink(char link[]) {
+void aprireLink(char link[]) {
 	char *comando = calloc(MAX_ENORME, sizeof(char));
 	printf("\nAprendo il browser predefinito...");
 	if (os==0) {
@@ -69,7 +69,7 @@ void apriLink(char link[]) {
 	}
 }
 
-void creaCartella(char nome[], bool silenzioso) {
+void creareCartella(char nome[], bool silenzioso) {
 	// Utilizzo di ifdef perch� mkdir e' una funzione che ha un omonimo
 	int risultato=0;
 	#ifdef _WIN32
@@ -105,12 +105,12 @@ char* inputStringa(int lunghezza, char stringa[]) {
         fgets(stringa, lunghezza, stdin);
         //rimuoviamo ogni whitespace iniziale
         sscanf(stringa, " %[^\r\v\f\t\n]", stringaSicura);
-        lunghezzaStringa = rimuoviSpaziFinali(stringaSicura);
+        lunghezzaStringa = rimuovereSpaziFinali(stringaSicura);
         //utilizziamo una variabile che possiamo ritornare
         strcpy(stringa, stringaSicura);
         if (lunghezzaStringa==lunghezza-1) {
             attenzione(3);
-            pulisciBuffer();
+            pulireBuffer();
         }
         free(stringaSicura);
     } while (lunghezzaStringa==lunghezza-1);
@@ -127,7 +127,7 @@ char* inputStringa(int lunghezza, char stringa[]) {
     return stringa;
 }
 
-int rimuoviSpaziFinali(char *stringa){
+int rimuovereSpaziFinali(char *stringa){
 	int posizioneUltimoCarattereValido = -1;
 	int i=0;
 
@@ -153,7 +153,7 @@ int inputNumero(){
 		if (numero == notanumber) {
 			attenzione(-2);
 		}
-		pulisciBuffer();
+		pulireBuffer();
 	} while (numero == notanumber);
 	return scelta;
 }
@@ -161,11 +161,11 @@ int inputNumero(){
 char inputCarattere(){
 	char carattere;
 	scanf(" %c", &carattere);
-	pulisciBuffer();
+	pulireBuffer();
 	return carattere;
 }
 
-int comparaStringhe(const char *s1, const char *s2) {
+int comparareStringhe(const char *s1, const char *s2) {
 	int risultato=0;
 	if (os==0) {
 		risultato = _stricmp(s1, s2);
@@ -175,7 +175,7 @@ int comparaStringhe(const char *s1, const char *s2) {
 	return risultato;
 }
 
-bool comparaStringheParziale(const char *s1, const char *s2) {
+bool comparareStringheParziale(const char *s1, const char *s2) {
 	bool risultato=0;
 	if (os==0) {
 		risultato = StrStrIA(s1, s2);
@@ -185,12 +185,12 @@ bool comparaStringheParziale(const char *s1, const char *s2) {
 	return risultato;
 }
 
-void pulisciBuffer() {
+void pulireBuffer() {
 	int c;
 	while ((c = getchar()) != '\n' && c != EOF) { }
 }
 
-int controllaSeFileVuoto(char *file) {
+int controllareSeFileVuoto(char *file) {
 	FILE* fp=fopen(file, "r");
 	int c = fgetc(fp);
 	fclose(fp);
@@ -222,7 +222,7 @@ void backupFile(char *file1, char *file2) {
 	fclose(fp); fclose(fp2);
 }
 
-char *convertiSecondiInTempo(int secondi) {
+char *convertireSecondiInTempo(int secondi) {
 	int h=secondi/3600;
 	int m=(secondi -(3600*h))/60;
 	int s=(secondi -(3600*h)-(m*60));
@@ -231,6 +231,6 @@ char *convertiSecondiInTempo(int secondi) {
 	return hhmmss;
 }
 
-void abilitaColori() {
+void abilitareColori() {
 	system("color 07");
 }

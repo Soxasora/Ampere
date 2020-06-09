@@ -1,5 +1,2 @@
 1|N/A|N/A|Tre Allegri Ragazzi Morti|https://it.wikipedia.org/wiki/Tre_Allegri_Ragazzi_Morti
-2|N/A|N/A|Daft Punk|N/A
-3|Paul|Williams|Paul Williams|N/A
-4|Pharrell|Williams|Pharrell Williams|N/A
-5|Frank|Ocean|Frank Ocean|N/A
+2|Daft|Punk|Daft Punk|N/A

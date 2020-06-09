@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.0.1
+ * UNIBA/Ampere 1.1
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -88,7 +88,7 @@ database loginUtente(database db) {
 int controllareDatiUtente(database db, char username[], char password[]) {
 	int n = contareNelDatabase(db,-1), i=0, controllo=0, id=0;
 	while (i<n&&controllo!=-1) {
-		if (comparaStringhe(db.utente[i].username, username)==0 && strcmp(db.utente[i].password, password)==0) {
+		if (comparareStringhe(db.utente[i].username, username)==0 && strcmp(db.utente[i].password, password)==0) {
 			id = db.utente[i].id;
 			controllo=-1;
 		}
@@ -184,8 +184,9 @@ database inserireUtente(database db, struct Utente nuovoUtente) {
 	nuovoUtente.id = trovareUltimoId(db, -1)+1;
 	int n=contareNelDatabase(db,-1);
 	db.utente[n] = nuovoUtente;
+	successo(0);
 	if (salvataggioDiretto) {
-		salvaUtentiSuFile(db);
+		salvareUtentiSuFile(db);
 	} else {
 		db.modificato=true;
 		successo(0);
@@ -197,7 +198,7 @@ bool controllareEsistenzaUtente(database db, char username[]) {
 	int i=0, n=contareNelDatabase(db,-1), controllo=0;
 	bool esistenza=false;
 	while (i<n&&controllo!=-1) {
-		if (comparaStringhe(db.utente[i].username, username)==0) {
+		if (comparareStringhe(db.utente[i].username, username)==0) {
 			esistenza=true;
 			controllo=-1;
 		}
@@ -208,7 +209,7 @@ bool controllareEsistenzaUtente(database db, char username[]) {
 
 void inserireUtenteSuFile(struct Utente utente, char admin[]) {
 	FILE* fp=fopen(file_utenti, "a");
-	if (controllaSeFileVuoto(file_utenti)==1) {
+	if (controllareSeFileVuoto(file_utenti)==1) {
 		fprintf(fp, "%d|%s|%s|%s", utente.id, utente.username, utente.password, admin);
 	} else {
 		fprintf(fp, "\n%d|%s|%s|%s", utente.id, utente.username, utente.password, admin);
@@ -221,7 +222,7 @@ database modificareUtenteGuidato(database db) {
 	char scelta='a';
 	if (controllareSeAdmin(db)) {
 		do {
-			esiste = mostraInfo(db, 4);
+			esiste = ricercareInfo(db, 4);
 			if (esiste==0) {
 				attenzione(101);
 			}
@@ -234,9 +235,9 @@ database modificareUtenteGuidato(database db) {
 			}
 		}
 		printf("\nHai scelto l'utente");
-		mostraSingoloUtente(db, 0, id);
+		mostrareSingoloUtente(db, 0, id);
 	} else {
-		mostraSingoloUtente(db, 1,db.utenteCorrente);
+		mostrareSingoloUtente(db, 1,db.utenteCorrente);
 		id = db.utenteCorrente;
 	}
 	
@@ -320,7 +321,7 @@ database creareUtenteModificato(database db, int campo, int id) {
 			}
 		}
 		printf("\nUtente ORIGINALE: ");
-		mostraSingoloUtente(db, -1, id);
+		mostrareSingoloUtente(db, -1, id);
 		printf("\n");
 		mostrareAnteprimaUtente(utenteModificato);
 		scelta = richiesta(0);
@@ -342,8 +343,9 @@ database creareUtenteModificato(database db, int campo, int id) {
 database modificareUtente(database db, int idUtente, struct Utente utenteModificato) {
 	int posUtente = ottenerePosDaID(db, -1, idUtente);
 	db.utente[posUtente] = utenteModificato;
+	successo(6);
 	if (salvataggioDiretto) {
-		salvaUtentiSuFile(db);
+		salvareUtentiSuFile(db);
 	} else {
 		db.modificato=true;
 	}
@@ -354,19 +356,19 @@ database cancellareUtenteGuidato(database db) {
 	int id=0;
 	char scelta='a';
 	if (controllareSeAdmin(db)) {
-		mostraTuttiUtenti(db);
+		mostrareTuttiUtenti(db);
 		while (ottenerePosDaID(db, -1,id)==-1) {
 			printf("\n\nInserisci id dell'utente: ");
 			id = inputNumero();
 			if (ottenerePosDaID(db, -1,id)==-1) {
-				printf("\nNessun utente trovato, riprovare");
+				attenzione(210);
 			}
 		}
 		printf("\nHai scelto l'utente: ");
-		mostraSingoloUtente(db, 0, id);
+		mostrareSingoloUtente(db, 0, id);
 	} else {
 		id = db.utenteCorrente;
-		mostraSingoloUtente(db, 0, id);
+		mostrareSingoloUtente(db, 0, id);
 	}
 	scelta = richiesta(0);
 	if (scelta=='Y'||scelta=='y') {
@@ -394,16 +396,16 @@ database cancellareUtente(database db, int id) {
 	i=0;
 	while (i<nPlaylist) {
 		if (db.playlist[i].idUtente==id) {
-			db = cancellaSingolaPlaylist(db, db.playlist[i].id);
+			db = cancellareSingolaPlaylist(db, db.playlist[i].id);
 			i=-1;
 		}
 		i++;
 	}
+	successo(12);
 	if (salvataggioDiretto) {
-		salvaUtentiSuFile(db);
+		salvareUtentiSuFile(db);
 	} else {
 		db.modificato=true;
-		successo(0);
 	}
 	return db;
 }

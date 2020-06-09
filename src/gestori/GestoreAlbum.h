@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.0.1
+ * UNIBA/Ampere 1.1
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -14,27 +14,27 @@
  * 	@input istanza database
  *	Interfaccia utente stand-alone per l'inserimento di un album, pu� essere chiamata
  *	senza dipendere da altre funzioni
- *	Chiama creaAlbumSeNonEsiste -> creaAlbumGuidato
+ *	Chiama creareAlbumSeNonEsiste -> creareAlbumGuidato
  *	@output database modificato
  */
-database inserimentoAlbumGuidato(database db);
+database inserireAlbumGuidato(database db);
 
 /**
  *	@input istanza database, stringa titolo dell'album
  *	Interfaccia utente che guida l'inserimento di altre informazioni aggiuntive dell'album
- *	Crea l'album con creaAlbum e lo passa a inserireAlbum
+ *	Crea l'album con creareAlbum e lo passa a inserireAlbum
  *	@output database modificato
  */
-database creaAlbumGuidato(database db, char titoloAlbum[]);
+database creareAlbumGuidato(database db, char titoloAlbum[]);
 
 /**
  *	@input istanza database, stringa titolo dell'album
- *	Controlla se l'album inserito esiste gia' grazie a controlloEsistenzaAlbum
- *	e se non esiste, chiama creaAlbumGuidato per proseguire con l'inserimento
+ *	Controlla se l'album inserito esiste gia' grazie a controllareEsistenzaAlbum
+ *	e se non esiste, chiama creareAlbumGuidato per proseguire con l'inserimento
  *	altrimenti comunica all'utente che l'album esiste gia', dunque non procedendo con l'inserimento
  *	@output database modificato
  */
-database creaAlbumSeNonEsiste(database db, char titoloAlbum[]);
+database creareAlbumSeNonEsiste(database db, char titoloAlbum[]);
 
 /**
  * 	@input istanza database, stringa titolo dell'album, numero intero anno di uscita
@@ -42,13 +42,13 @@ database creaAlbumSeNonEsiste(database db, char titoloAlbum[]);
  *	e crea un record con esse. Si avvale del database in input per ottenere l'ultimo identificativo
  *	@output record album compilato
  */
-struct Album creaAlbum(char titolo[], int anno);
+struct Album creareAlbum(char titolo[], int anno);
 
 void mostrareAnteprimaAlbum(struct Album nuovoAlbum);
 
 /**
  *	@input istanza database, record albums album
- *	Ottiene in input il record album gia' compilato con creaAlbum e gli assegna l'ultima posizione
+ *	Ottiene in input il record album gia' compilato con creareAlbum e gli assegna l'ultima posizione
  *	@output database modificato
  */
 database inserireAlbum(database db, struct Album nuovoAlbum);
@@ -58,7 +58,7 @@ database inserireAlbum(database db, struct Album nuovoAlbum);
  *	Scrive sul file "file_albums", le informazioni date in input, separate con separatore pipe "|"
  *	@output FILE modificato
  */
-void inserisciAlbumSuFile(struct Album album);
+void inserireAlbumSuFile(struct Album album);
 
 /**
  *	@input istanza database, stringa titolo album
@@ -66,7 +66,7 @@ void inserisciAlbumSuFile(struct Album album);
  *	dell'album dato in input e se esiste allora esce dal ciclo dando in output l'identificativo di esso
  *	@output identificativo album
  */
-int controlloEsistenzaAlbum(database db, char album[]);
+int controllareEsistenzaAlbum(database db, char album[]);
 
 /**
  *	TODO: adeguare modifica allo standard imposto dalle specifiche
@@ -94,10 +94,10 @@ database modificareAlbum(database db, int idAlbum, struct Album albumModificato)
  *	@input istanza database
  *	Interfaccia utente per la cancellazione di un album presente nel database
  *	Si avvale di ottenerePosDaID per controllare l'esistenza di esso attraverso l'identificativo
- *	Se l'album e' presente, procede alla cancellazione dell'album con cancellaSingoloAlbum
+ *	Se l'album e' presente, procede alla cancellazione dell'album con cancellareAlbum
  *	@output database modificato
  */
-database cancellaAlbum(database db);
+database cancellareAlbumGuidato(database db);
 
 /**
  *	TODO: adeguare cancellazione allo standard imposto dalle specifiche
@@ -109,8 +109,8 @@ database cancellaAlbum(database db);
  *	qualunque associazione effettuata con i brani presenti in quell'album
  *	@output database modificato
  */
-database cancellaSingoloAlbum(database db, int id);
+database cancellareAlbum(database db, int id);
 
-database cancellaAssociazioniAlbum(database db, int idBrano);
+database cancellareAssociazioniAlbum(database db, int idBrano);
 
 #endif /* SRC_GESTORI_GESTOREALBUM_H_ */

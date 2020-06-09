@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.0.1
+ * UNIBA/Ampere 1.1
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -16,11 +16,11 @@
  *	senza dipendere da altre funzioni
  *	Oltre alle informazioni di un brano, chiede all'utente anche l'artista, l'album ed il genere
  *	essi, se non gi� presenti nel database, procedono a creare le suddette informazioni avvalendosi
- *	di, ad esempio, creaArtistaSeNonEsiste, ottenendo poi l'id di essi con, ad esempio, controlloEsistenzaArtista
- *	Crea il brano con creaBrano e lo passa a inserireBrano
+ *	di, ad esempio, creareArtistaSeNonEsiste, ottenendo poi l'id di essi con, ad esempio, controllareEsistenzaArtista
+ *	Crea il brano con creareBrano e lo passa a inserireBrano
  *	@output database modificato
  */
-database inserimentoBranoGuidato(database db);
+database inserireBranoGuidato(database db);
 
 /**
  * 	@input istanza database, stringa titolo, numero intero identificativo album, numero intero
@@ -29,25 +29,25 @@ database inserimentoBranoGuidato(database db);
  *	e crea un record con esse. Si avvale del database in input per ottenere l'ultimo identificativo
  *	@output record brano compilato
  */
-struct Brano creaBrano(char titolo[], int durata, int anno, int ascolti);
+struct Brano creareBrano(char titolo[], int durata, int anno, int ascolti);
 
 void mostrareAnteprimaBrano(database db, struct Brano nuovoBrano, int idArtisti[], int idAlbum[], int idGeneri[]);
 /**
  *	@input istanza database, record brani brano
- *	Ottiene in input il record brano gia' compilato con creaBrano e gli assegna l'ultima posizione
+ *	Ottiene in input il record brano gia' compilato con creareBrano e gli assegna l'ultima posizione
  *	Provvede, inoltre, a creare le associazioni con creaAssociazione... e le passa alle rispettive
  *	inserireAssociazione...
  *	@output database modificato
  */
 database inserireBrano(database db, struct Brano nuovoBrano, int idArtisti[], int idAlbum[], int idGeneri[]);
-database controllaEsistenzaBrano(database db, struct Brano nuovoBrano);
+database controllareSimilitudineBrano(database db, struct Brano nuovoBrano);
 
 /**
  *	@input struct Brano brano
  *	Scrive sul file "file_brani", le informazioni date in input, separate con separatore pipe "|"
  *	@output FILE modificato
  */
-void inserisciBranoSuFile(struct Brano brano);
+void inserireBranoSuFile(struct Brano brano);
 
 /**
  *	@input istanza database
@@ -66,10 +66,10 @@ database modificareBrano(database db, int idBrano, int campo, struct Brano brano
  *	@input istanza database
  *	Interfaccia utente per la cancellazione di un brano presente nel database
  *	Si avvale di ottenerePosDaID per controllare l'esistenza di esso attraverso l'identificativo
- *	Se il brano  e' presente, procede alla cancellazione di esso con cancellaSingoloBrano
+ *	Se il brano  e' presente, procede alla cancellazione di esso con cancellareBrano
  *	@output database modificato
  */
-database cancellaBrano(database db);
+database cancellareBranoGuidato(database db);
 
 /**
  *	TODO: adeguare cancellazione allo standard imposto dalle specifiche
@@ -78,10 +78,10 @@ database cancellaBrano(database db);
  *	Scala il database di n=1 posizione indietro e lo spazio rimanente alla fine assume valore zero,
  *	effettivamente causando la cancellazione del brano all'interno del database presente in memoria.
  *	La cancellazione del brano, provvede anche alla cancellazione dei dati collegati ad esso, dunque, anche
- *	qualunque associazione con cancellaAssociazioniBrano
+ *	qualunque associazione con cancellareAssociazioniBrano
  *	@output database modificato
  */
-database cancellaSingoloBrano(database db, int id);
+database cancellareBrano(database db, int id);
 
 /**
  *	TODO: adeguare cancellazione allo standard imposto dalle specifiche
@@ -90,7 +90,7 @@ database cancellaSingoloBrano(database db, int id);
  *	Si tratta, dunque, delle quattro associazioni: brano-artista, brano-album, brano-genere, playlist-brano
  *	@output database modificato
  */
-database cancellaAssociazioniBrano(database db, int id);
+database cancellareAssociazioniBrano(database db, int id);
 
 /**
  * 	@input identificativo del brano

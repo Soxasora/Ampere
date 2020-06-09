@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.0.1
+ * UNIBA/Ampere 1.1
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -23,21 +23,21 @@
 #include "../sys/Utils.h"
 #include "../sys/Impostazioni.h"
 
-database inserimentoAlbumGuidato(database db) {
+database inserireAlbumGuidato(database db) {
 	char *titolo = calloc(MAX_MEDIO, sizeof(char));
 	do {
 		
 		if ((titolo = calloc(MAX_MEDIO, sizeof(char)))) {
 			printf("\nInserisci titolo dell'album: ");
 			titolo = inputStringa(MAX_MEDIO,titolo);
-			db = creaAlbumSeNonEsiste(db, titolo);
+			db = creareAlbumSeNonEsiste(db, titolo);
 		}
 	} while (db.ultimoEsito!=0);
 	free(titolo); titolo=NULL;
 	return db;
 }
 
-database creaAlbumGuidato(database db, char titoloAlbum[]) {
+database creareAlbumGuidato(database db, char titoloAlbum[]) {
 	char scelta='a';
 	int controllo=0;
 	int anno=0;
@@ -48,7 +48,7 @@ database creaAlbumGuidato(database db, char titoloAlbum[]) {
 		printf("\nInserisci l'anno di uscita di quest'album: ");
 		anno = inputNumero();
 	}
-	struct Album nuovoAlbum = creaAlbum(titoloAlbum, anno);
+	struct Album nuovoAlbum = creareAlbum(titoloAlbum, anno);
 	mostrareAnteprimaAlbum(nuovoAlbum);
 	
 	while (controllo!=-1) {
@@ -59,7 +59,6 @@ database creaAlbumGuidato(database db, char titoloAlbum[]) {
 	}
 	if (scelta=='Y'||scelta=='y') {
 		db = inserireAlbum(db, nuovoAlbum);
-		printf("\nAlbum inserito, continuiamo...");
 		db.ultimoEsito=0;
 	} else {
 		db.ultimoEsito = -1;
@@ -67,19 +66,19 @@ database creaAlbumGuidato(database db, char titoloAlbum[]) {
 	return db;
 }
 
-database creaAlbumSeNonEsiste(database db, char titoloAlbum[]) {
-	int id = controlloEsistenzaAlbum(db, titoloAlbum);
+database creareAlbumSeNonEsiste(database db, char titoloAlbum[]) {
+	int id = controllareEsistenzaAlbum(db, titoloAlbum);
 	if (id==0) {
 		printf("\nSembra che quest'album non esista nel database, inseriamolo.");
-		db = creaAlbumGuidato(db, titoloAlbum);
+		db = creareAlbumGuidato(db, titoloAlbum);
 	} else {
-		printf("\nAlbum esistente.");
+		attenzione(202);
 		db.ultimoEsito=0;
 	}
 	return db;
 }
 
-struct Album creaAlbum(char titolo[], int anno) {
+struct Album creareAlbum(char titolo[], int anno) {
 	struct Album nuovoAlbum;
 	nuovoAlbum.id = -1;
 	strcpy(nuovoAlbum.titolo, titolo);
@@ -97,17 +96,18 @@ database inserireAlbum(database db, struct Album nuovoAlbum) {
 	int n = contareNelDatabase(db, 1);
 	nuovoAlbum.id = trovareUltimoId(db,1)+1;
 	db.album[n] = nuovoAlbum;
+	successo(2);
 	if (salvataggioDiretto) {
-		salvaAlbumSuFile(db);
+		salvareAlbumSuFile(db);
 	} else {
 		db.modificato=true;
 	}
 	return db;
 }
 
-void inserisciAlbumSuFile(struct Album album) {
+void inserireAlbumSuFile(struct Album album) {
 	FILE* fp=fopen(file_albums, "a");
-	if (controllaSeFileVuoto(file_albums)==1) {
+	if (controllareSeFileVuoto(file_albums)==1) {
 		fprintf(fp, "%d|%s|%d", album.id, album.titolo, album.anno);
 	} else {
 		fprintf(fp, "\n%d|%s|%d", album.id, album.titolo, album.anno);
@@ -115,10 +115,10 @@ void inserisciAlbumSuFile(struct Album album) {
 	fclose(fp);
 }
 
-int controlloEsistenzaAlbum(database db, char album[]) {
+int controllareEsistenzaAlbum(database db, char album[]) {
 	int id=0, i=0, n=contareNelDatabase(db,1), controllo=0;
 	while (i<n&&controllo!=-1) {
-		if (comparaStringhe(db.album[i].titolo, album)==0) {
+		if (comparareStringhe(db.album[i].titolo, album)==0) {
 			id = db.album[i].id;
 			controllo=-1;
 		}
@@ -131,7 +131,7 @@ database modificareAlbumGuidato(database db) {
 	int id=0, campo=-1, esiste=0;
 	char scelta='a';
 	do {
-		esiste = mostraInfo(db, 1);
+		esiste = ricercareInfo(db, 1);
 		if (esiste==0) {
 			attenzione(101);
 		}
@@ -144,7 +144,7 @@ database modificareAlbumGuidato(database db) {
 		}
 	}
 	printf("\nHai scelto l'album:");
-	mostraSingoloAlbum(db, id);
+	mostrareSingoloAlbum(db, id);
 	
 	scelta = richiesta(0);
 	if (scelta=='Y'||scelta=='y') {
@@ -191,7 +191,7 @@ database creareAlbumModificato(database db, int campo, int id) {
 			albumModificato.anno=anno;
 		}
 		printf("\nAlbum ORIGINALE:");
-		mostraSingoloAlbum(db, id);
+		mostrareSingoloAlbum(db, id);
 		printf("\n");
 		mostrareAnteprimaAlbum(albumModificato);
 		scelta = richiesta(0);
@@ -213,18 +213,19 @@ database creareAlbumModificato(database db, int campo, int id) {
 database modificareAlbum(database db, int idAlbum, struct Album albumModificato) {
 	int posAlbum = ottenerePosDaID(db, 1, idAlbum);
 	db.album[posAlbum] = albumModificato;
+	successo(8);
 	if (salvataggioDiretto) {
-		salvaAlbumSuFile(db);
+		salvareAlbumSuFile(db);
 	} else {
 		db.modificato=true;
 	}
 	return db;
 }
 
-database cancellaAlbum(database db) {
+database cancellareAlbumGuidato(database db) {
 	int id=0;
 	char scelta='N';
-	mostraTuttiAlbum(db);
+	mostrareTuttiAlbum(db);
 	while (ottenerePosDaID(db, 1,id)==-1) {
 		printf("\n\nInserire l'identificativo dell'album da cancellare: ");
 		id = inputNumero();
@@ -233,15 +234,15 @@ database cancellaAlbum(database db) {
 		}
 	}
 	printf("\nHai scelto l'album: ");
-	mostraSingoloAlbum(db, id);
+	mostrareSingoloAlbum(db, id);
 	scelta = richiesta(5);
 	if (scelta=='Y'||scelta=='y') {
-		db = cancellaSingoloAlbum(db,id);
+		db = cancellareAlbum(db,id);
 	}
 	return db;
 }
 
-database cancellaSingoloAlbum(database db, int id) {
+database cancellareAlbum(database db, int id) {
 	int n=contareNelDatabase(db,1);
 	int i=ottenerePosDaID(db, 1, id);
 	while(i<n-1) {
@@ -254,16 +255,16 @@ database cancellaSingoloAlbum(database db, int id) {
 	i=0;
 	while (i<nBrani) {
 		if(db.branoAlbum[i].idAlbum==id) {
-			db = cancellaSingoloBrano(db, db.branoAlbum[i].idBrano);
+			db = cancellareBrano(db, db.branoAlbum[i].idBrano);
 			i=-1;
 		}
 		i++;
 	}
+	successo(14);
 	if (salvataggioDiretto) {
-		salvaAlbumSuFile(db);
+		salvareAlbumSuFile(db);
 	} else {
 		db.modificato=true;
 	}
-	printf("\nAlbum cancellato.");
 	return db;
 }

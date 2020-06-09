@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.0.1
+ * UNIBA/Ampere 1.1
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -57,7 +57,7 @@ database menu(database db) {
 		scelta = inputNumero();
 	}
 	if (scelta==1) {
-		eseguiRicerca(db);
+		eseguireRicerca(db);
 		aspetta();
 		db = menu(db);
 	} else if (scelta==2) {
@@ -128,7 +128,7 @@ database menuPlaylist(database db) {
 		scelta = inputNumero();
 	}
 	if (scelta==1) {
-		mostraPlaylistUtente(db, 0,db.utenteCorrente);
+		mostrarePlaylistUtente(db, 0,db.utenteCorrente);
 		aspetta();
 		db = menuPlaylist(db);
 	} else if (scelta==2) {
@@ -136,7 +136,7 @@ database menuPlaylist(database db) {
 		aspetta();
 		db = menuPlaylist(db);
 	} else if (scelta==3) {
-		db = inserimentoBraniPlaylistGuidato(db);
+		db = inserireBraniPlaylistGuidato(db);
 		aspetta();
 		db = menuPlaylist(db);
 	} else if (scelta==4) {
@@ -144,7 +144,7 @@ database menuPlaylist(database db) {
 		aspetta();
 		db = menuPlaylist(db);
 	} else if (scelta==5) {
-		db = cancellaPlaylist(db);
+		db = cancellarePlaylistGuidato(db);
 		aspetta();
 		db = menuPlaylist(db);
 	} else if (scelta==0) {
@@ -181,7 +181,7 @@ database menuDatabase(database db) {
 		aspetta();
 		db = menuDatabase(db);
 	} else if (scelta==5) {
-		db = ripristinaDatabase(db);
+		db = ripristinareDatabase(db);
 		printf("\nPer rendere effettive le modifiche, ora chiudero' Ampere.");
 		aspetta();
 		terminazione(db);
@@ -210,15 +210,15 @@ database menuDBInserimento(database db) {
 		scelta = inputNumero();
 	}
 	if (scelta==1) {
-		db = inserimentoBranoGuidato(db);
+		db = inserireBranoGuidato(db);
 		aspetta();
 		db = menuDBInserimento(db);
 	} else if (scelta==2) {
-		db = inserimentoArtistaGuidato(db);
+		db = inserireArtistaGuidato(db);
 		aspetta();
 		db = menuDBInserimento(db);
 	} else if (scelta==3) {
-		db = inserimentoAlbumGuidato(db);
+		db = inserireAlbumGuidato(db);
 		aspetta();
 		db = menuDBInserimento(db);
 	} else if (scelta==4) {
@@ -302,15 +302,15 @@ database menuDBCancella(database db) {
 		scelta = inputNumero();
 	}
 	if (scelta==1) {
-		db = cancellaBrano(db);
+		db = cancellareBranoGuidato(db);
 		aspetta();
 		db = menuDBCancella(db);
 	} else if (scelta==2) {
-		db = cancellaArtista(db);
+		db = cancellareArtistaGuidato(db);
 		aspetta();
 		db = menuDBCancella(db);
 	} else if (scelta==3) {
-		db = cancellaAlbum(db);
+		db = cancellareAlbumGuidato(db);
 		aspetta();
 		db = menuDBCancella(db);
 	} else if (scelta==4) {
@@ -318,7 +318,7 @@ database menuDBCancella(database db) {
 		aspetta();
 		db = menuDBCancella(db);
 	} else if (scelta==5) {
-		db = cancellaPlaylist(db);
+		db = cancellarePlaylistGuidato(db);
 		aspetta();
 		db = menuDBCancella(db);
 	} else if (scelta==6) {
@@ -345,8 +345,9 @@ void menuRicercaAvanzata(database db) {
 	printf("\n[5] Mostra le "C_CIANO"playlist"C_RESET C_VERDE" pubbliche ed i loro brani"C_RESET);
 	printf("\n[6] Mostra "C_CIANO"testo"C_RESET" di un brano");
 	printf("\n[7] Mostra "C_CIANO"biografia"C_RESET" di un artista");
+	printf("\n[8] "C_CIANO"Stampare su File"C_RESET" la libreria dei brani di Ampere");
 	printf("\n[0] "C_BLU"Ritorna al menu principale"C_RESET);
-	while (scelta<0||scelta>7) {
+	while (scelta<0||scelta>8) {
 		printf("\n"C_VERDE"Inserisci la tua scelta"C_RESET": ");
 		scelta = inputNumero();
 	}
@@ -357,11 +358,11 @@ void menuRicercaAvanzata(database db) {
 	} else if (scelta==3) {
 		menuRicercaInfoCriterio(db);
 	} else if (scelta==4) {
-		mostraTuttePlaylistPubbliche(db, -1);
+		mostrareTuttePlaylistPubbliche(db, -1);
 		aspetta();
 		menuRicercaAvanzata(db);
 	} else if (scelta==5) {
-		mostraTuttePlaylistPubbliche(db, 0);
+		mostrareTuttePlaylistPubbliche(db, 0);
 		aspetta();
 		menuRicercaAvanzata(db);
 	} else if (scelta==6) {
@@ -369,7 +370,11 @@ void menuRicercaAvanzata(database db) {
 		aspetta();
 		menuRicercaAvanzata(db);
 	} else if (scelta==7) {
-		visualizzaBiografiaArtista(db);
+		visualizzareBiografiaArtista(db);
+		aspetta();
+		menuRicercaAvanzata(db);
+	} else if (scelta==8) {
+		stampareBraniGuidato(db);
 		aspetta();
 		menuRicercaAvanzata(db);
 	} else if (scelta==0) {
@@ -399,28 +404,28 @@ void menuRicercaInfo(database db) {
 		scelta = inputNumero();
 	}
 	if (scelta==1) {
-		mostraTuttiBrani(db);
+		mostrareTuttiBrani(db);
 		aspetta();
 		menuRicercaInfo(db);
 	} else if (scelta==2) {
-		mostraTuttiArtisti(db);
+		mostrareTuttiArtisti(db);
 		aspetta();
 		menuRicercaInfo(db);
 	} else if (scelta==3) {
-		mostraTuttiAlbum(db);
+		mostrareTuttiAlbum(db);
 		aspetta();
 		menuRicercaInfo(db);
 	} else if (scelta==4) {
-		mostraTuttiGeneri(db);
+		mostrareTuttiGeneri(db);
 		aspetta();
 		menuRicercaInfo(db);
 	} else if (scelta==5) {
-		mostraPlaylistUtente(db, 0, db.utenteCorrente);
+		mostrarePlaylistUtente(db, 0, db.utenteCorrente);
 		aspetta();
 		menuRicercaInfo(db);
 	} else if (scelta==6) {
 		if (controllareSeAdmin(db)) {
-			mostraTuttePlaylist(db, 0);
+			mostrareTuttePlaylist(db, 0);
 			aspetta();
 			menuRicercaInfo(db);
 		} else {
@@ -428,7 +433,7 @@ void menuRicercaInfo(database db) {
 		}
 	} else if (scelta==7) {
 		if (controllareSeAdmin(db)) {
-			mostraTuttiUtenti(db);
+			mostrareTuttiUtenti(db);
 			aspetta();
 			menuRicercaInfo(db);
 		} else {
@@ -458,27 +463,27 @@ void menuRicercaBraniCriterio(database db) {
 		scelta = inputNumero();
 	}
 	if (scelta==1) {
-		mostraBrani(db, 0);
+		ricercareBrani(db, 0);
 		aspetta();
 		menuRicercaBraniCriterio(db);
 	} else if (scelta==2) {
-		mostraBrani(db, 1);
+		ricercareBrani(db, 1);
 		aspetta();
 		menuRicercaBraniCriterio(db);
 	} else if (scelta==3) {
-		mostraBraniArtista(db);
+		ricercareBraniArtista(db);
 		aspetta();
 		menuRicercaBraniCriterio(db);
 	} else if (scelta==4) {
-		mostraBraniAlbum(db);
+		ricercareBraniAlbum(db);
 		aspetta();
 		menuRicercaBraniCriterio(db);
 	} else if (scelta==5) {
-		mostraBraniGenere(db);
+		ricercareBraniGenere(db);
 		aspetta();
 		menuRicercaBraniCriterio(db);
 	} else if (scelta==6) {
-		mostraBraniPlaylist(db);
+		ricercareBraniPlaylist(db);
 		aspetta();
 		menuRicercaBraniCriterio(db);
 	} else if (scelta==0) {
@@ -507,7 +512,7 @@ void menuRicercaInfoCriterio(database db) {
 	}
 	if (scelta==1) {
 		do {
-			esiste = mostraInfo(db, 0);
+			esiste = ricercareInfo(db, 0);
 			if (esiste==0) {
 				attenzione(101);
 			}
@@ -516,7 +521,7 @@ void menuRicercaInfoCriterio(database db) {
 		menuRicercaInfoCriterio(db);
 	} else if (scelta==2) {
 		do {
-			esiste = mostraInfo(db, 1);
+			esiste = ricercareInfo(db, 1);
 			if (esiste==0) {
 				attenzione(101);
 			}
@@ -525,7 +530,7 @@ void menuRicercaInfoCriterio(database db) {
 		menuRicercaInfoCriterio(db);
 	} else if (scelta==3) {
 		do {
-			esiste = mostraInfo(db, 2);
+			esiste = ricercareInfo(db, 2);
 			if (esiste==0) {
 				attenzione(101);
 			}
@@ -534,7 +539,7 @@ void menuRicercaInfoCriterio(database db) {
 		menuRicercaInfoCriterio(db);
 	} else if (scelta==4) {
 		do {
-			esiste = mostraInfo(db, 3);
+			esiste = ricercareInfo(db, 3);
 			if (esiste==0) {
 				attenzione(101);
 			}
@@ -544,7 +549,7 @@ void menuRicercaInfoCriterio(database db) {
 	} else if (scelta==5) {
 		if (controllareSeAdmin(db)) {
 			do {
-				esiste = mostraInfo(db, 4);
+				esiste = ricercareInfo(db, 4);
 				if (esiste==0) {
 					attenzione(101);
 				}

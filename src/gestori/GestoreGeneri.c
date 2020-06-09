@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.0.1
+ * UNIBA/Ampere 1.1
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -26,7 +26,6 @@
 database inserireGenereGuidato(database db) {
 	char *nome = calloc(MAX_MEDIO, sizeof(char));
 	do {
-		
 		printf("\nInserisci nome del genere: ");
 		nome = inputStringa(MAX_MEDIO,nome);
 		db = creareGenereSeNonEsiste(db, nome);
@@ -44,13 +43,12 @@ database creareGenereSeNonEsiste(database db, char nome[]) {
 		scelta = richiesta(0);
 		if (scelta=='Y'||scelta=='y') {
 			db = inserireGenere(db, nuovoGenere);
-			printf("\nGenere inserito, continuiamo...");
 			db.ultimoEsito=0;
 		} else {
 			db.ultimoEsito=-1;
 		}
 	} else {
-		printf("\nGenere esistente.");
+		attenzione(204);
 		db.ultimoEsito=0;
 	}
 	return db;
@@ -72,8 +70,9 @@ database inserireGenere(database db, struct Genere nuovoGenere) {
 	int n = contareNelDatabase(db, 3);
 	nuovoGenere.id = trovareUltimoId(db, 3)+1;
 	db.genere[n] = nuovoGenere;
+	successo(4);
 	if (salvataggioDiretto) {
-		salvaGeneriSuFile(db);
+		salvareGeneriSuFile(db);
 	} else {
 		db.modificato=true;
 	}
@@ -82,7 +81,7 @@ database inserireGenere(database db, struct Genere nuovoGenere) {
 
 void inserireGenereSuFile(struct Genere genere) {
 	FILE* fp=fopen(file_generi, "a");
-	if (controllaSeFileVuoto(file_generi)==1) {
+	if (controllareSeFileVuoto(file_generi)==1) {
 		fprintf(fp, "%d|%s", genere.id, genere.nome);
 	} else {
 		fprintf(fp, "\n%d|%s", genere.id, genere.nome);
@@ -93,7 +92,7 @@ void inserireGenereSuFile(struct Genere genere) {
 int controllareEsistenzaGenere(database db, char genere[]) {
 	int id=0, i=0, n=contareNelDatabase(db,3), controllo=0;
 	while (i<n&&controllo!=-1) {
-		if (comparaStringhe(db.genere[i].nome, genere)==0) {
+		if (comparareStringhe(db.genere[i].nome, genere)==0) {
 			id = db.genere[i].id;
 			controllo=-1;
 		}
@@ -106,7 +105,7 @@ database modificareGenereGuidato(database db) {
 	int id=0, campo=-1, esiste=0;
 	char scelta='a';
 	do {
-		esiste = mostraInfo(db, 2);
+		esiste = ricercareInfo(db, 2);
 		if (esiste==0) {
 			attenzione(101);
 		}
@@ -119,7 +118,7 @@ database modificareGenereGuidato(database db) {
 		}
 	}
 	printf("\nHai scelto il genere:");
-	mostraSingoloGenere(db, id);
+	mostrareSingoloGenere(db, id);
 	
 	scelta = richiesta(0);
 	if (scelta=='Y'||scelta=='y') {
@@ -156,7 +155,7 @@ database creareGenereModificato(database db, int id) {
 		strcpy(genereModificato.nome, nome);
 		free(nome);
 		printf("\nGenere ORIGINALE:");
-		mostraSingoloGenere(db, id);
+		mostrareSingoloGenere(db, id);
 		printf("\n");
 		mostrareAnteprimaGenere(genereModificato);
 		scelta = richiesta(0);
@@ -178,8 +177,9 @@ database creareGenereModificato(database db, int id) {
 database modificareGenere(database db, int idGenere, struct Genere genereModificato) {
 	int posGenere = ottenerePosDaID(db, 3, idGenere);
 	db.genere[posGenere] = genereModificato;
+	successo(10);
 	if (salvataggioDiretto) {
-		salvaGeneriSuFile(db);
+		salvareGeneriSuFile(db);
 	} else {
 		db.modificato=true;
 	}
@@ -189,7 +189,7 @@ database modificareGenere(database db, int idGenere, struct Genere genereModific
 database cancellareGenereGuidato(database db) {
 	int id=0;
 	char scelta='a';
-	mostraTuttiGeneri(db);
+	mostrareTuttiGeneri(db);
 	while(ottenerePosDaID(db, 3,id)==-1) {
 		printf("\n\nInserire l'identificativo del genere da cancellare: ");
 		id = inputNumero();
@@ -198,7 +198,7 @@ database cancellareGenereGuidato(database db) {
 		}
 	}
 	printf("\nHai scelto il genere: ");
-	mostraSingoloGenere(db, id);
+	mostrareSingoloGenere(db, id);
 	
 	scelta = richiesta(5);
 	if (scelta=='Y'||scelta=='y') {
@@ -219,16 +219,16 @@ database cancellareGenere(database db, int id) {
 	i=0;
 	while (i<nBrani) {
 		if(db.branoGenere[i].idGenere==id) {
-			db = cancellaSingoloBrano(db, db.branoGenere[i].idBrano);
+			db = cancellareBrano(db, db.branoGenere[i].idBrano);
 			i=-1;
 		}
 		i++;
 	}
+	successo(16);
 	if (salvataggioDiretto) {
-		salvaGeneriSuFile(db);
+		salvareGeneriSuFile(db);
 	} else {
 		db.modificato=true;
 	}
-	printf("\nGenere cancellato.");
 	return db;
 }

@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.0.1
+ * UNIBA/Ampere 1.1
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -25,7 +25,7 @@
 #include "../sys/Impostazioni.h"
 #include "../sys/Messaggi.h"
 
-bool isUserPlaylist(database db, int idPlaylist, int idUtente) {
+bool controllareSePlaylistUtente(database db, int idPlaylist, int idUtente) {
 	int posPlaylist=ottenerePosDaID(db, 4, idPlaylist);
 	bool risultato=false;
 	if (posPlaylist!=-1) {
@@ -37,7 +37,7 @@ bool isUserPlaylist(database db, int idPlaylist, int idUtente) {
 	return risultato;
 }
 
-bool isPublicPlaylist(database db, int idPlaylist) {
+bool controllareSePlaylistPubblica(database db, int idPlaylist) {
 	int posPlaylist = ottenerePosDaID(db, 4, idPlaylist);
 	bool risultato=false;
 	if (db.playlist[posPlaylist].pubblica==true) {
@@ -48,7 +48,7 @@ bool isPublicPlaylist(database db, int idPlaylist) {
 	return risultato;
 }
 
-int contaPlaylistUtente(database db, int idUtente) {
+int contarePlaylistUtente(database db, int idUtente) {
 	int i=0, n=contareNelDatabase(db,4), conta=0;
 	while (i<n) {
 		if (db.playlist[i].idUtente==idUtente) {
@@ -59,7 +59,7 @@ int contaPlaylistUtente(database db, int idUtente) {
 	return conta;
 }
 
-int contaBraniPlaylist(database db, int idPlaylist) {
+int contareBraniPlaylist(database db, int idPlaylist) {
 	int i=0, n=contareNelDatabase(db,8), conta=0;
 	while (i<n) {
 		if (db.playlistBrano[i].idPlaylist==idPlaylist) {
@@ -96,8 +96,9 @@ database inserirePlaylist(database db, struct Playlist nuovaPlaylist) {
 	nuovaPlaylist.id = trovareUltimoId(db,4)+1;
 	int n=contareNelDatabase(db,4);
 	db.playlist[n] = nuovaPlaylist;
+	successo(5);
 	if (salvataggioDiretto) {
-		salvaPlaylistSuFile(db);
+		salvarePlaylistSuFile(db);
 	} else {
 		db.modificato=true;
 	}
@@ -147,7 +148,7 @@ database crearePlaylistGuidato(database db) {
 				db = inserirePlaylist(db, nuovaPlaylist);
 				scelta = richiesta(7);
 				if (scelta=='Y'||scelta=='y') {
-					db = inserimentoBraniPlaylistGuidato(db);
+					db = inserireBraniPlaylistGuidato(db);
 				}
 				db.ultimoEsito=0;
 			} else {
@@ -159,23 +160,25 @@ database crearePlaylistGuidato(database db) {
 	return db;
 }
 
-database inserimentoBraniPlaylistGuidato(database db) {
+database inserireBraniPlaylistGuidato(database db) {
 	
 	int id=0, i=0, j=0, branoscelto=0, controllo=0, esito=0;
 	char scelta='a';
 	int nBrani = contareNelDatabase(db,0);
 	printf("\n===[Inserimento guidato di brani in una playlist]==="
 		   "\nScegli la playlist da modificare: ");
-	mostraPlaylistUtente(db, -1,db.utenteCorrente);
+	mostrarePlaylistUtente(db, -1,db.utenteCorrente);
 	do {
 		printf("\nInserisci id della playlist: ");
 		id = inputNumero();
 		if (ottenerePosDaID(db, 4,id)==-1) {
 			printf("\nNessuna playlist trovata, riprovare");
 			esito=-1;
-		} else if (isUserPlaylist(db, id, db.utenteCorrente)==false) {
+		} else if (controllareSePlaylistUtente(db, id, db.utenteCorrente)==false) {
 			printf("\nL'identificativo che hai dato punta ad una playlist che non ti appartiene, riprova.");
 			esito=-1;
+		} else {
+			esito=0;
 		}
 	} while (esito==-1);
 
@@ -234,7 +237,7 @@ database inserimentoBraniPlaylistGuidato(database db) {
 	} else {
 		i=0;
 		while(idbrani[i]!=0) {
-			db = inserireAssociazionePlaylist(db, creaAssociazionePlaylist(id, idbrani[i]));
+			db = inserireAssociazionePlaylist(db, creareAssociazionePlaylist(id, idbrani[i]));
 			i++;
 		}
 		printf("\nBrani inseriti nella playlist %s", db.playlist[ottenerePosDaID(db, 4, id)].nome);
@@ -242,9 +245,9 @@ database inserimentoBraniPlaylistGuidato(database db) {
 	return db;
 }
 
-void inserisciPlaylistSuFile(struct Playlist playlist, char pubblica[]) {
+void inserirePlaylistSuFile(struct Playlist playlist, char pubblica[]) {
 	FILE* fp=fopen(file_playlists,"a");
-	if (controllaSeFileVuoto(file_playlists)==1) {
+	if (controllareSeFileVuoto(file_playlists)==1) {
 		fprintf(fp, "%d|%d|%s|%s|%s", playlist.id, playlist.idUtente, playlist.nome, playlist.descrizione, pubblica);
 	} else {
 		fprintf(fp, "\n%d|%d|%s|%s|%s", playlist.id, playlist.idUtente, playlist.nome, playlist.descrizione, pubblica);
@@ -253,10 +256,10 @@ void inserisciPlaylistSuFile(struct Playlist playlist, char pubblica[]) {
 }
 
 
-int controlloEsistenzaPlaylist(database db, char playlist[]) {
+int controllareEsistenzaPlaylist(database db, char playlist[]) {
 	int id=0, i=0, n=contareNelDatabase(db,4), controllo=0;
 	while(i<n&&controllo!=-1) {
-		if (comparaStringhe(db.playlist[i].nome, playlist)==0) {
+		if (comparareStringhe(db.playlist[i].nome, playlist)==0) {
 			id = db.playlist[i].id;
 			controllo=-1;
 		}
@@ -269,7 +272,7 @@ database modificarePlaylistGuidato(database db) {
 	int id=0, campo=-1, esiste=0, esito=0;
 	char scelta='a';
 	do {
-		esiste = mostraInfo(db, 3);
+		esiste = ricercareInfo(db, 3);
 		if (esiste==0) {
 			attenzione(101);
 		}
@@ -280,13 +283,15 @@ database modificarePlaylistGuidato(database db) {
 		if (ottenerePosDaID(db, 4,id)==-1) {
 			printf("\nNessuna playlist trovata, riprovare");
 			esito=-1;
-		} else if (isUserPlaylist(db, id, db.utenteCorrente)==false||!controllareSeAdmin(db)) {
+		} else if (controllareSePlaylistUtente(db, id, db.utenteCorrente)==false||!controllareSeAdmin(db)) {
 			printf("\nL'identificativo che hai dato punta ad una playlist che non ti appartiene, riprova.");
 			esito=-1;
+		} else {
+			esito=0;
 		}
 	} while (esito==-1);
 	printf("\nHai scelto la playlist");
-	mostraSingolaPlaylist(db, -1, id);
+	mostrareSingolaPlaylist(db, -1, id);
 	
 	scelta = richiesta(0);
 	if (scelta=='Y'||scelta=='y') {
@@ -348,7 +353,7 @@ database crearePlaylistModificata(database db, int campo, int id) {
 			if (controllareSeAdmin(db)) {
 				int idUtente=0, esiste=0;
 				do {
-					esiste = mostraInfo(db, 4);
+					esiste = ricercareInfo(db, 4);
 					if (esiste==0) {
 						attenzione(101);
 					}
@@ -366,7 +371,7 @@ database crearePlaylistModificata(database db, int campo, int id) {
 			}
 		}
 		printf("\nPlaylist ORIGINALE:");
-		mostraSingolaPlaylist(db, -1, id);
+		mostrareSingolaPlaylist(db, -1, id);
 		printf("\n");
 		mostrareAnteprimaPlaylist(playlistModificata);
 		scelta = richiesta(0);
@@ -388,21 +393,22 @@ database crearePlaylistModificata(database db, int campo, int id) {
 database modificarePlaylist(database db, int idPlaylist, struct Playlist playlistModificata) {
 	int posPlaylist = ottenerePosDaID(db, 4, idPlaylist);
 	db.playlist[posPlaylist] = playlistModificata;
+	successo(11);
 	if (salvataggioDiretto) {
-		salvaPlaylistSuFile(db);
+		salvarePlaylistSuFile(db);
 	} else {
 		db.modificato=true;
 	}
 	return db;
 }
 
-database cancellaPlaylist(database db) {
+database cancellarePlaylistGuidato(database db) {
 	int id=0, esito=0;
 	char scelta='a';
 	if (controllareSeAdmin(db)) {
-		mostraTuttePlaylist(db, -1);
+		mostrareTuttePlaylist(db, -1);
 	} else {
-		mostraPlaylistUtente(db, -1, db.utenteCorrente);
+		mostrarePlaylistUtente(db, -1, db.utenteCorrente);
 	}
 	do {
 		printf("\nInserisci id della playlist: ");
@@ -410,21 +416,23 @@ database cancellaPlaylist(database db) {
 		if (ottenerePosDaID(db, 4,id)==-1) {
 			printf("\nNessuna playlist trovata, riprovare");
 			esito=-1;
-		} else if (isUserPlaylist(db, id, db.utenteCorrente)==false||!controllareSeAdmin(db)==false) {
+		} else if (controllareSePlaylistUtente(db, id, db.utenteCorrente)==false||!controllareSeAdmin(db)==false) {
 			printf("\nL'identificativo che hai dato punta ad una playlist che non ti appartiene, riprova.");
 			esito=-1;
+		} else {
+			esito=0;
 		}
 	} while (esito==-1);
 	printf("\nHai scelto la playlist: ");
-	mostraSingolaPlaylist(db, -1, id);
+	mostrareSingolaPlaylist(db, -1, id);
 	scelta = richiesta(0);
 	if(scelta=='Y'||scelta=='y') {
-		db = cancellaSingolaPlaylist(db, id);
+		db = cancellareSingolaPlaylist(db, id);
 	}
 	return db;
 }
 
-database cancellaSingolaPlaylist(database db, int id) {
+database cancellareSingolaPlaylist(database db, int id) {
 	int n=contareNelDatabase(db,4);
 	int i=ottenerePosDaID(db, 4, id);
 	while (i<n-1) {
@@ -437,17 +445,16 @@ database cancellaSingolaPlaylist(database db, int id) {
 	i=0;
 	while (i<nAssociazioni) {
 		if (db.playlistBrano[i].idPlaylist==id) {
-			db = cancellaAssociazioniPlaylist(db, id);
+			db = cancellareAssociazioniPlaylist(db, id);
 			i=-1;
 		}
 		i++;
 	}
-
+	successo(17);
 	if (salvataggioDiretto) {
-		salvaPlaylistSuFile(db);
+		salvarePlaylistSuFile(db);
 	} else {
 		db.modificato=true;
 	}
-	printf("\nPlaylist cancellata.");
 	return db;
 }

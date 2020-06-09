@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.0.1
+ * UNIBA/Ampere 1.1
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -16,11 +16,11 @@
  *	e crea un record con esse. Si avvale del database in input per ottenere l'ultimo identificativo
  *	@output record BranoArtista compilato
  */
-struct BranoArtista creaAssociazioneArtista(int idBrano, int idArtista);
+struct BranoArtista creareAssociazioneArtista(int idBrano, int idArtista);
 
 /**
  *	@input istanza database, record BranoArtista branoArtista
- *	Ottiene in input il record branoArtista gia' compilato con creaAssociazioneArtista e gli assegna l'ultima posizione
+ *	Ottiene in input il record branoArtista gia' compilato con creareAssociazioneArtista e gli assegna l'ultima posizione
  *	@output database modificato
  */
 database inserireAssociazioneArtista(database db, struct BranoArtista branoArtista);
@@ -31,11 +31,11 @@ database inserireAssociazioneArtista(database db, struct BranoArtista branoArtis
  *	e crea un record con esse. Si avvale del database in input per ottenere l'ultimo identificativo
  *	@output record BranoAlbum compilato
  */
-struct BranoAlbum creaAssociazioneAlbum(int idBrano, int idAlbum);
+struct BranoAlbum creareAssociazioneAlbum(int idBrano, int idAlbum);
 
 /**
  *	@input istanza database, record BranoAlbum branoAlbum
- *	Ottiene in input il record branoAlbum gia' compilato con creaAssociazioneAlbum e gli assegna l'ultima posizione
+ *	Ottiene in input il record branoAlbum gia' compilato con creareAssociazioneAlbum e gli assegna l'ultima posizione
  *	@output database modificato
  */
 database inserireAssociazioneAlbum(database db, struct BranoAlbum branoAlbum);
@@ -46,7 +46,7 @@ database inserireAssociazioneAlbum(database db, struct BranoAlbum branoAlbum);
  *	e crea un record con esse. Si avvale del database in input per ottenere l'ultimo identificativo
  *	@output record BranoGenere compilato
  */
-struct BranoGenere creaAssociazioneGenere(int idBrano, int idGenere);
+struct BranoGenere creareAssociazioneGenere(int idBrano, int idGenere);
 
 /**
  *	@input istanza database, record BranoGenere branoGenere
@@ -61,7 +61,7 @@ database inserireAssociazioneGenere(database db, struct BranoGenere branoGenere)
  *	e crea un record con esse. Si avvale del database in input per ottenere l'ultimo identificativo
  *	@output record PlaylistBrano compilato
  */
-struct PlaylistBrano creaAssociazionePlaylist(int idPlaylist, int idBrano);
+struct PlaylistBrano creareAssociazionePlaylist(int idPlaylist, int idBrano);
 
 /**
  *	@input istanza database, record PlaylistBrano playlistBrano
@@ -75,14 +75,14 @@ database inserireAssociazionePlaylist(database db, struct PlaylistBrano playlist
  *	Scrive sul file "file_BranoAlbum", le informazioni date in input, separate con separatore pipe "|"
  *	@output FILE modificato
  */
-void inserisciBranoAlbumSuFile(struct BranoAlbum branoAlbum);
+void inserireBranoAlbumSuFile(struct BranoAlbum branoAlbum);
 
 /**
  *	@input struct BranoArtista branoArtista
  *	Scrive sul file "file_BranoArtista", le informazioni date in input, separate con separatore pipe "|"
  *	@output FILE modificato
  */
-void inserisciBranoArtistaSuFile(struct BranoArtista branoArtista);
+void inserireBranoArtistaSuFile(struct BranoArtista branoArtista);
 
 /**
  *	@input struct BranoGenere branoGenere
@@ -96,13 +96,13 @@ void inserireBranoGenereSuFile(struct BranoGenere branoGenere);
  *	Scrive sul file "file_PlaylistBrano", le informazioni date in input, separate con separatore pipe "|"
  *	@output FILE modificato
  */
-void inserisciPlaylistBranoSuFile(struct PlaylistBrano playlistBrano);
+void inserirePlaylistBranoSuFile(struct PlaylistBrano playlistBrano);
 
 
-database cancellaAssociazioniBrano(database db, int id);
-database cancellaAssociazioniArtisti(database db, int id);
-database cancellaAssociazioniAlbum(database db, int idBrano);
-database cancellaAssociazioniGenere(database db, int idBrano);
+database cancellareAssociazioniBrano(database db, int id);
+database cancellareAssociazioniArtisti(database db, int id);
+database cancellareAssociazioniAlbum(database db, int idBrano);
+database cancellareAssociazioniGenere(database db, int idBrano);
 
 /**
  *	TODO: adeguare cancellazione allo standard imposto dalle specifiche
@@ -110,6 +110,6 @@ database cancellaAssociazioniGenere(database db, int idBrano);
  *	Operazioni per la cancellazione delle associazioni della playlist (dunque i dati collegati ad essa) dal database
  *	@output database modificato
  */
-database cancellaAssociazioniPlaylist(database db, int id);
+database cancellareAssociazioniPlaylist(database db, int id);
 
 #endif /* GESTORI_GESTOREASSOCIAZIONI_H_ */

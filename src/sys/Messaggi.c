@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.0.1
+ * UNIBA/Ampere 1.1
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -56,6 +56,26 @@ void attenzione(int codice) {
 		printf(" Preparazione alla chiusura...");
 	} else if (codice==101) {
 		printf(" La ricerca non ha restituito risultati, riprovare.");
+	} else if (codice==202) {
+		printf(" Album esistente, dunque non c'e' bisogno di crearlo");
+	} else if (codice==203) {
+		printf(" Artista esistente, dunque non c'e' bisogno di crearlo");
+	} else if (codice==204) {
+		printf(" Genere esistente, dunque non c'e' bisogno di crearlo");
+	} else if (codice==210) {
+		printf(" Utente non trovato, riprovare");
+	} else if (codice==211) {
+		printf(" Brano non trovato, riprovare");
+	} else if (codice==212) {
+		printf(" Album non trovato, riprovare");
+	} else if (codice==213) {
+		printf(" Artista non trovato, riprovare");
+	} else if (codice==214) {
+		printf(" Genere non trovato, riprovare");
+	} else if (codice==215) {
+		printf(" Playlist non trovata, riprovare");
+	} else if (codice==300) {
+		printf(" Trovata similitudine");
 	}
 }
 
@@ -78,6 +98,14 @@ void attenzione(int codice) {
  *	10: Modifica genere
  *	11: Modifica playlist
  *
+ *	// Cancellazioni
+ *	12: Cancellazione utente
+ *	13: Cancellazione brano
+ *	14: Cancellazione album
+ *	15: Cancellazione artista
+ *	16: Cancellazione genere
+ *	17: Cancellazione playlist
+ *
  *	// Ottenimenti
  *	100: Ottenimento database
  *	101: Ottenimento utenti
@@ -94,27 +122,90 @@ void attenzione(int codice) {
  *	// Sistema
  *	111: Ampere pronto
  *	112: Pronto per essere chiuso
+ *
+ *	// Stampe
+ *	150: Stampa di brani selezionati
+ *	151: Stampa di tutti i brani
+ *
+ *	// Salvataggi
+ *	200: Utente
+ *	201: Brano
+ *	202: Album
+ *	203: Artista
+ *	204: Genere
+ *	205: Playlist
  */
 
 void successo(int codice) {
 	printf(COLOR_SUCCESSO);
 	if (codice==0) {
-		printf(" Utente inserito correttamente!");
+		printf(" Utente inserito nel database correttamente");
 	} else if (codice==1) {
-		printf(" Brano inserito e salvato correttamente");
+		printf(" Brano inserito nel database correttamente");
 	} else if (codice==2) {
-		printf(" Album inserito e salvato correttamente");
+		printf(" Album inserito nel database correttamente");
 	} else if (codice==3) {
-		printf(" ");
+		printf(" Artista inserito nel database correttamente");
+	} else if (codice==4) {
+		printf(" Genere inserito nel database correttamente");
+	} else if (codice==5) {
+		printf(" Playlist inserita nel database correttamente");
+	} else if (codice==6) {
+		printf(" Utente modificato correttamente");
+	} else if (codice==7) {
+		printf(" Brano modificato correttamente");
+	} else if (codice==8) {
+		printf(" Album modificato correttamente");
+	} else if (codice==9) {
+		printf(" Artista modificato correttamente");
+	} else if (codice==10) {
+		printf(" Genere modificato correttamente");
+	} else if (codice==11) {
+		printf(" Playlist modificato correttamente");
+	} else if (codice==12) {
+		printf(" Utente cancellato correttamente");
+	} else if (codice==13) {
+		printf(" Brano cancellato correttamente");
+	} else if (codice==14) {
+		printf(" Album cancellato correttamente");
+	} else if (codice==15) {
+		printf(" Artista cancellato correttamente");
+	} else if (codice==16) {
+		printf(" Genere cancellato correttamente");
+	} else if (codice==17) {
+		printf(" Playlist cancellato correttamente");
 	} else if (codice==111) {
 		printf(" Ampere pronto.");
 	} else if (codice==112) {
 		printf(" Pronto per essere chiuso.");
+	} else if (codice==150) {
+		printf(" Brani selezionati stampati correttamente");
+	} else if (codice==151) {
+		printf(" Tutti i brani della libreria musicale di Ampere stampati correttamente");
+	} else if (codice==200) {
+		printf(" Utente salvato su file correttamente");
+	} else if (codice==201) {
+		printf(" Brano salvato su file correttamente");
+	} else if (codice==202) {
+		printf(" Album salvato su file correttamente");
+	} else if (codice==-202) {
+		printf(" Associazione Brano-Album salvata su file correttamente");
+	} else if (codice==203) {
+		printf(" Artista salvato su file correttamente");
+	} else if (codice==-203) {
+		printf(" Associazione Brano-Artista salvata su file correttamente");
+	} else if (codice==204) {
+		printf(" Genere salvato su file correttamente");
+	} else if (codice==-204) {
+		printf(" Associazione Brano-Genere salvata su file correttamente");
+	} else if (codice==205) {
+		printf (" Playlist salvata su file correttamente");
+	} else if (codice==300) {
+		printf(" Nessuna similitudine trovata! Procediamo");
 	}
 }
 
 char richiesta(int codice) {
-	
 	int controllo=0;
 	char scelta='a';
 	printf("\n");
@@ -123,6 +214,8 @@ char richiesta(int codice) {
 		printf(" Sicuro di voler continuare?");
 	} else if (codice==1) {
 		printf(" Sei uscito dalla ricerca, vuoi ancora inserire brani nella playlist?");
+	} else if (codice==-1) {
+		printf(" Sei uscito dalla ricerca, vuoi ancora selezionare brani da stampare?");
 	} else if (codice==2) {
 		printf(" Sei uscito dalla ricerca, vuoi ancora aprire il testo del brano?");
 	} else if (codice==3) {

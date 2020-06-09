@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.0.1
+ * UNIBA/Ampere 1.1
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "../gestori/GestorePlaylist.h"
 #include "../gestori/GestoreUtenti.h"
 #include "../gestori/GestoreBrani.h"
@@ -22,11 +23,11 @@
 #include "../sys/Utils.h"
 #include "../sys/Impostazioni.h"
 
-void mostraSingoloBrano(database db, int id) {
+void mostrareSingoloBrano(database db, int id) {
 	int posBrano = ottenerePosDaID(db, 0,id);
 	printf("\nIdentificativo: %d"
 		   "\nTitolo: %s"
-		   "\nDurata: %s", db.brano[posBrano].id, db.brano[posBrano].titolo, convertiSecondiInTempo(db.brano[posBrano].durata));
+		   "\nDurata: %s", db.brano[posBrano].id, db.brano[posBrano].titolo, convertireSecondiInTempo(db.brano[posBrano].durata));
 	mostrareAssociazioni(db, 0, id);
 	mostrareAssociazioni(db, 1, id);
 	mostrareAssociazioni(db, 2, id);
@@ -81,7 +82,7 @@ void mostrareAssociazioni(database db, int modalita, int idBrano) {
 	}
 }
 
-void mostraTuttiBrani(database db) {
+void mostrareTuttiBrani(database db) {
 	int nBrani = contareNelDatabase(db,0);
 	int i=0, controllo=0;
 	if (nBrani==0) {
@@ -89,7 +90,7 @@ void mostraTuttiBrani(database db) {
 	} else {
 		while (i<nBrani&&controllo!=-1) {
 			printf("\n");
-			mostraSingoloBrano(db, db.brano[i].id);
+			mostrareSingoloBrano(db, db.brano[i].id);
 			if ((nBrani+1)>5 && (i+1)%5==0) {
 				char scelta='Y';
 				scelta = richiesta(8);
@@ -102,21 +103,21 @@ void mostraTuttiBrani(database db) {
 	}
 }
 
-void mostraSingoloAlbum(database db, int id) {
+void mostrareSingoloAlbum(database db, int id) {
 	int posAlbum = ottenerePosDaID(db, 1, id);
 	printf("\nIdentificativo: %d", db.album[posAlbum].id);
 	printf("\nTitolo: %s", db.album[posAlbum].titolo);
 	printf("\nAnno di uscita: %d", db.album[posAlbum].anno);
 }
 
-void mostraTuttiAlbum(database db) {
+void mostrareTuttiAlbum(database db) {
 	int i=0, nAlbum=contareNelDatabase(db,1), controllo=0;
 	if (nAlbum==0) {
 		printf("\nNessun album presente nel database.");
 	} else {
 		while(i<nAlbum&&controllo!=-1) {
 			printf("\n");
-			mostraSingoloAlbum(db, db.album[i].id);
+			mostrareSingoloAlbum(db, db.album[i].id);
 			if ((nAlbum+1)>5 && (i+1)%5==0) {
 				char scelta='Y';
 				scelta = richiesta(9);
@@ -129,7 +130,7 @@ void mostraTuttiAlbum(database db) {
 	}
 }
 
-void mostraSingoloArtista(database db, int id) {
+void mostrareSingoloArtista(database db, int id) {
 	int posArtista = ottenerePosDaID(db, 2, id);
 	printf("\nIdentificativo: %d", db.artista[posArtista].id);
 	printf("\nNome: %s", db.artista[posArtista].nome);
@@ -138,14 +139,14 @@ void mostraSingoloArtista(database db, int id) {
 	printf("\nLink biografia: %s", db.artista[posArtista].linkBio);
 }
 
-void mostraTuttiArtisti(database db) {
+void mostrareTuttiArtisti(database db) {
 	int i=0, nArtisti=contareNelDatabase(db,2), controllo=0;
 	if (nArtisti==0) {
 		printf("\nNessun artista presente nel database.");
 	} else {
 		while(i<nArtisti&&controllo!=-1) {
 			printf("\n");
-			mostraSingoloArtista(db, db.artista[i].id);
+			mostrareSingoloArtista(db, db.artista[i].id);
 			if ((nArtisti+1)>5 && (i+1)%5==0) {
 				char scelta='Y';
 				scelta = richiesta(10);
@@ -158,20 +159,20 @@ void mostraTuttiArtisti(database db) {
 	}
 }
 
-void mostraSingoloGenere(database db, int id) {
+void mostrareSingoloGenere(database db, int id) {
 	int posGenere = ottenerePosDaID(db, 3, id);
 	printf("\nIdentificativo: %d", db.genere[posGenere].id);
 	printf("\nNome: %s", db.genere[posGenere].nome);
 }
 
-void mostraTuttiGeneri(database db) {
+void mostrareTuttiGeneri(database db) {
 	int i=0, nGeneri=contareNelDatabase(db,3), controllo=0;
 	if (nGeneri==0) {
 		printf("\nNessun genere presente nel database.");
 	} else {
 		while(i<nGeneri&&controllo!=-1) {
 			printf("\n");
-			mostraSingoloGenere(db, db.genere[i].id);
+			mostrareSingoloGenere(db, db.genere[i].id);
 			if ((nGeneri+1)>5 && (i+1)%5==0) {
 				char scelta='Y';
 				scelta = richiesta(11);
@@ -184,7 +185,7 @@ void mostraTuttiGeneri(database db) {
 	}
 }
 
-void mostraSingolaPlaylist(database db, int modalita, int id) {
+void mostrareSingolaPlaylist(database db, int modalita, int id) {
 	int posPlaylist = ottenerePosDaID(db, 4,id);
 	int posUtente = ottenerePosDaID(db, -1,db.playlist[posPlaylist].idUtente);
 	printf("\nIdentificativo: %d", db.playlist[posPlaylist].id);
@@ -200,17 +201,17 @@ void mostraSingolaPlaylist(database db, int modalita, int id) {
 		char scelta='y';
 		scelta = richiesta(13);
 		if (scelta=='Y'||scelta=='y') {
-			mostraBraniPlaylistDaID(db, id);
+			ricercareBraniPlaylistDaID(db, id);
 		}
 	}
 }
 
-void mostraPlaylistUtente(database db, int modalita, int idUtente) {
-	int i=0, j=0, n=contareNelDatabase(db,4), nPlaylistUtente=contaPlaylistUtente(db, idUtente), controllo=0;
+void mostrarePlaylistUtente(database db, int modalita, int idUtente) {
+	int i=0, j=0, n=contareNelDatabase(db,4), nPlaylistUtente=contarePlaylistUtente(db, idUtente), controllo=0;
 	while (i<n && controllo!=-1) {
 		if (db.playlist[i].idUtente==idUtente) {
 			printf("\n");
-			mostraSingolaPlaylist(db, modalita,db.playlist[i].id);
+			mostrareSingolaPlaylist(db, modalita,db.playlist[i].id);
 			if ((nPlaylistUtente+1)>5 && (j+1)%5==0) {
 				char scelta='Y';
 				scelta = richiesta(12);
@@ -224,11 +225,11 @@ void mostraPlaylistUtente(database db, int modalita, int idUtente) {
 	}
 }
 
-void mostraTuttePlaylist(database db, int modalita) {
+void mostrareTuttePlaylist(database db, int modalita) {
 	int i=0, n=contareNelDatabase(db,4), controllo=0;
 	while (i<n&&controllo!=-1) {
 		printf("\n");
-		mostraSingolaPlaylist(db, modalita,db.playlist[i].id);
+		mostrareSingolaPlaylist(db, modalita,db.playlist[i].id);
 		if ((n+1)>5 && (i+1)%5==0) {
 			char scelta='Y';
 			scelta = richiesta(12);
@@ -240,12 +241,12 @@ void mostraTuttePlaylist(database db, int modalita) {
 	}
 }
 
-void mostraTuttePlaylistPubbliche(database db, int modalita) {
+void mostrareTuttePlaylistPubbliche(database db, int modalita) {
 	int i=0, n=contareNelDatabase(db,4), controllo=0;
 	while(i<n&&controllo!=-1) {
-		if (isPublicPlaylist(db, db.playlist[i].id)) {
+		if (controllareSePlaylistPubblica(db, db.playlist[i].id)) {
 			printf("\n");
-			mostraSingolaPlaylist(db, modalita,db.playlist[i].id);
+			mostrareSingolaPlaylist(db, modalita,db.playlist[i].id);
 			if ((n+1)>5 && (i+1)%5==0) {
 				char scelta='Y';
 				scelta = richiesta(12);
@@ -258,7 +259,7 @@ void mostraTuttePlaylistPubbliche(database db, int modalita) {
 	}
 }
 
-void mostraSingoloUtente(database db, int modalita, int idUtente) {
+void mostrareSingoloUtente(database db, int modalita, int idUtente) {
 	int posUtente = ottenerePosDaID(db, -1, idUtente);
 	char* ruolo;
 	if (controllareSeAdminUtente(db, idUtente)==true) {
@@ -279,7 +280,7 @@ void mostraSingoloUtente(database db, int modalita, int idUtente) {
 	printf("\nRuolo: %s", ruolo);
 }
 
-void mostraTuttiUtenti(database db) {
+void mostrareTuttiUtenti(database db) {
 	int i=0, n=contareNelDatabase(db,-1), controllo=0, modalita=-1;
 	
 	while(modalita<0||modalita>1) {
@@ -288,7 +289,7 @@ void mostraTuttiUtenti(database db) {
 	}
 	while (i<n&&controllo!=-1) {
 		printf("\n");
-		mostraSingoloUtente(db, modalita,db.utente[i].id);
+		mostrareSingoloUtente(db, modalita,db.utente[i].id);
 		if ((n+1)>5 && (i+1)%5==0) {
 			char scelta='a';
 			scelta = richiesta(0);
@@ -307,7 +308,7 @@ void mostraTuttiUtenti(database db) {
  * 3 == per Playlist
  * 4 == per Utente
  */
-int mostraInfo(database db, int modalita) {
+int ricercareInfo(database db, int modalita) {
 	int esiste=0;
 	if (modalita==0) {
 		char *nome = calloc(MAX_MEDIO, sizeof(char));
@@ -323,11 +324,11 @@ int mostraInfo(database db, int modalita) {
 		int i=0, n=contareNelDatabase(db,2);
 		printf("\nDi seguito i risultati della ricerca:");
 		while (i<n) {
-			if (comparaStringheParziale(db.artista[i].nome,nome)
-				&&comparaStringheParziale(db.artista[i].cognome, cognome)
-				&&comparaStringheParziale(db.artista[i].nomeArte, nomeArte)) {
+			if (comparareStringheParziale(db.artista[i].nome,nome)
+				&&comparareStringheParziale(db.artista[i].cognome, cognome)
+				&&comparareStringheParziale(db.artista[i].nomeArte, nomeArte)) {
 				printf("\n");
-				mostraSingoloArtista(db, db.artista[i].id);
+				mostrareSingoloArtista(db, db.artista[i].id);
 				esiste=1;
 			}
 			i++;
@@ -335,13 +336,13 @@ int mostraInfo(database db, int modalita) {
 		if(esiste != 1){
 
 			//Sistemare ricerche nulle
-			if (comparaStringhe(nome, "N/A")==0){
+			if (comparareStringhe(nome, "N/A")==0){
 				strcpy(nome, "unknown");
 			}
-			if (comparaStringhe(cognome, "N/A")==0){
+			if (comparareStringhe(cognome, "N/A")==0){
 				strcpy(cognome, "unknown");
 			}
-			if (comparaStringhe(nomeArte, "N/A")==0){
+			if (comparareStringhe(nomeArte, "N/A")==0){
 				strcpy(nomeArte, "unknown");
 			}
 
@@ -349,9 +350,9 @@ int mostraInfo(database db, int modalita) {
 			printf("\nArtisti con nome simile:");
 			i=0;
 			while (i<n) {
-				if (comparaStringheParziale(db.artista[i].nome,nome)) {
+				if (comparareStringheParziale(db.artista[i].nome,nome)) {
 					printf("\n");
-					mostraSingoloArtista(db, db.artista[i].id);
+					mostrareSingoloArtista(db, db.artista[i].id);
 					esiste=1;
 				}
 				i++;
@@ -359,9 +360,9 @@ int mostraInfo(database db, int modalita) {
 			printf("\nArtisti con cognome simile:");
 			i=0;
 			while (i<n) {
-				if (comparaStringheParziale(db.artista[i].cognome,cognome)) {
+				if (comparareStringheParziale(db.artista[i].cognome,cognome)) {
 					printf("\n");
-					mostraSingoloArtista(db, db.artista[i].id);
+					mostrareSingoloArtista(db, db.artista[i].id);
 					esiste=1;
 				}
 				i++;
@@ -369,9 +370,9 @@ int mostraInfo(database db, int modalita) {
 			printf("\nArtisti con nome d'arte simile:");
 			i=0;
 			while (i<n) {
-				if (comparaStringheParziale(db.artista[i].nomeArte,nomeArte)) {
+				if (comparareStringheParziale(db.artista[i].nomeArte,nomeArte)) {
 					printf("\n");
-					mostraSingoloArtista(db, db.artista[i].id);
+					mostrareSingoloArtista(db, db.artista[i].id);
 					esiste=1;
 				}
 				i++;
@@ -384,7 +385,7 @@ int mostraInfo(database db, int modalita) {
 		
 		printf("\n[Premi invio per saltare] Inserisci il titolo dell'album da ricercare: ");
 		titolo = inputStringa(MAX_MEDIO,titolo);
-		if (comparaStringhe(titolo, "N/A")==0)
+		if (comparareStringhe(titolo, "N/A")==0)
 			titolo = "unknown";
 		while(anno<0||anno>3000) {
 			printf("\n[0 per saltare] Inserisci l'anno di uscita dell'album da ricercare: ");
@@ -393,9 +394,9 @@ int mostraInfo(database db, int modalita) {
 		int i=0, n=contareNelDatabase(db,1);
 		printf("\nDi seguito i risultati della ricerca:");
 		while(i<n) {
-			if (comparaStringheParziale(db.album[i].titolo, titolo)||db.album[i].anno == anno) {
+			if (comparareStringheParziale(db.album[i].titolo, titolo)||db.album[i].anno == anno) {
 				printf("\n");
-				mostraSingoloAlbum(db, db.album[i].id);
+				mostrareSingoloAlbum(db, db.album[i].id);
 				esiste=1;
 			}
 			i++;
@@ -409,9 +410,9 @@ int mostraInfo(database db, int modalita) {
 		int i=0, n=contareNelDatabase(db,3);
 		printf("\nDi seguito i risultati della ricerca:");
 		while (i<n) {
-			if (comparaStringheParziale(db.genere[i].nome, nome)) {
+			if (comparareStringheParziale(db.genere[i].nome, nome)) {
 				printf("\n");
-				mostraSingoloGenere(db, db.genere[i].id);
+				mostrareSingoloGenere(db, db.genere[i].id);
 				esiste=1;
 			}
 			i++;
@@ -424,10 +425,10 @@ int mostraInfo(database db, int modalita) {
 		int i=0, n=contareNelDatabase(db,4);
 		printf("\nDi seguito i risultati della ricerca:");
 		while (i<n) {
-			if (comparaStringheParziale(db.playlist[i].nome, playlist)) {
-				if (isPublicPlaylist(db, db.playlist[i].id)||isUserPlaylist(db, db.playlist[i].id,db.utenteCorrente)||controllareSeAdmin(db)) {
+			if (comparareStringheParziale(db.playlist[i].nome, playlist)) {
+				if (controllareSePlaylistPubblica(db, db.playlist[i].id)||controllareSePlaylistUtente(db, db.playlist[i].id,db.utenteCorrente)||controllareSeAdmin(db)) {
 					printf("\n");
-					mostraSingolaPlaylist(db, 0,db.playlist[i].id);
+					mostrareSingolaPlaylist(db, 0,db.playlist[i].id);
 					esiste=1;
 				}
 			}
@@ -442,9 +443,9 @@ int mostraInfo(database db, int modalita) {
 		int i=0, n=contareNelDatabase(db,-1);
 		printf("\nDi seguito i risultati della ricerca:");
 		while(i<n) {
-			if (comparaStringheParziale(db.utente[i].username, username)) {
+			if (comparareStringheParziale(db.utente[i].username, username)) {
 				printf("\n");
-				mostraSingoloUtente(db, 0, db.utente[i].id);
+				mostrareSingoloUtente(db, 0, db.utente[i].id);
 				esiste=1;
 			}
 			i++;
@@ -470,15 +471,15 @@ database moduloRicercaBrani(database db) {
 			scelta = inputNumero();
 		}
 		if (scelta==1) {
-			db.ultimoEsito = mostraBrani(db, 0);
+			db.ultimoEsito = ricercareBrani(db, 0);
 		} else if (scelta==2) {
-			db.ultimoEsito = mostraBrani(db, 1);
+			db.ultimoEsito = ricercareBrani(db, 1);
 		} else if (scelta==3) {
-			db.ultimoEsito = mostraBraniArtista(db);
+			db.ultimoEsito = ricercareBraniArtista(db);
 		} else if (scelta==4) {
-			db.ultimoEsito = mostraBraniAlbum(db);
+			db.ultimoEsito = ricercareBraniAlbum(db);
 		} else if (scelta==5) {
-			db.ultimoEsito = mostraBraniGenere(db);
+			db.ultimoEsito = ricercareBraniGenere(db);
 		} else if (scelta==0) {
 			printf("\nUscita dalla ricerca...\n");
 			db.ultimoEsito=-1;
@@ -494,7 +495,7 @@ database moduloRicercaBrani(database db) {
  * 0 == per Titolo
  * 1 == per Anno
  */
-int mostraBrani(database db, int modalita) {
+int ricercareBrani(database db, int modalita) {
 	int esiste=0;
 	if (modalita==0) {
 		char *titolo = calloc(MAX_MEDIO, sizeof(char));
@@ -502,9 +503,9 @@ int mostraBrani(database db, int modalita) {
 		titolo = inputStringa(MAX_MEDIO,titolo);
 		int i=0, n=contareNelDatabase(db,0);
 		while (i<n) {
-			if (comparaStringheParziale(db.brano[i].titolo,titolo)) {
+			if (comparareStringheParziale(db.brano[i].titolo,titolo)) {
 				printf("\n");
-				mostraSingoloBrano(db, db.brano[i].id);
+				mostrareSingoloBrano(db, db.brano[i].id);
 				esiste=1;
 			}
 			i++;
@@ -521,7 +522,7 @@ int mostraBrani(database db, int modalita) {
 		while (i<n) {
 			if (db.brano[i].anno == anno) {
 				printf("\n");
-				mostraSingoloBrano(db, db.brano[i].id);
+				mostrareSingoloBrano(db, db.brano[i].id);
 				esiste=1;
 			}
 			i++;
@@ -530,14 +531,14 @@ int mostraBrani(database db, int modalita) {
 	return esiste;
 }
 
-int mostraBraniArtista(database db) {
+int ricercareBraniArtista(database db) {
 	int esiste=0;
 	int id=0;
 	char *nomeArte = calloc(MAX_MEDIO, sizeof(char));
 	
 	printf("\nInserisci nome d'arte dell'artista: ");
 	nomeArte = inputStringa(MAX_MEDIO,nomeArte);
-	id = controlloEsistenzaArtista(db, nomeArte);
+	id = controllareEsistenzaArtista(db, nomeArte);
 	if (id==0) {
 		printf("\nArtista non esistente");
 	} else {
@@ -546,7 +547,7 @@ int mostraBraniArtista(database db) {
 		while(i<n) {
 			if (db.branoArtista[i].idArtista==id) {
 				printf("\n");
-				mostraSingoloBrano(db, db.branoArtista[i].idBrano);
+				mostrareSingoloBrano(db, db.branoArtista[i].idBrano);
 				esiste=1;
 			}
 			i++;
@@ -556,14 +557,14 @@ int mostraBraniArtista(database db) {
 	return esiste;
 }
 
-int mostraBraniAlbum(database db) {
+int ricercareBraniAlbum(database db) {
 	int esiste=0;
 	int id=0;
 	char *album = calloc(MAX_MEDIO, sizeof(char));
 	
 	printf("\nInserisci nome album: ");
 	album = inputStringa(MAX_MEDIO,album);
-	id = controlloEsistenzaAlbum(db, album);
+	id = controllareEsistenzaAlbum(db, album);
 	if (id==0) {
 		printf("\nAlbum non esistente.");
 	} else {
@@ -572,7 +573,7 @@ int mostraBraniAlbum(database db) {
 		while(i<n) {
 			if (db.branoAlbum[i].idAlbum==id) {
 				printf("\n");
-				mostraSingoloBrano(db, db.branoAlbum[i].idBrano);
+				mostrareSingoloBrano(db, db.branoAlbum[i].idBrano);
 				esiste=1;
 			}
 			i++;
@@ -582,7 +583,7 @@ int mostraBraniAlbum(database db) {
 	return esiste;
 }
 
-int mostraBraniGenere(database db) {
+int ricercareBraniGenere(database db) {
 	int esiste=0;
 	int id=0;
 	char *genere = calloc(MAX_MEDIO, sizeof(char));
@@ -598,7 +599,7 @@ int mostraBraniGenere(database db) {
 		while(i<n) {
 			if (db.branoGenere[i].idGenere==id) {
 				printf("\n");
-				mostraSingoloBrano(db, db.branoGenere[i].idBrano);
+				mostrareSingoloBrano(db, db.branoGenere[i].idBrano);
 				esiste=1;
 			}
 			i++;
@@ -608,24 +609,24 @@ int mostraBraniGenere(database db) {
 	return esiste;
 }
 
-int mostraBraniPlaylist(database db) {
+int ricercareBraniPlaylist(database db) {
 	int esiste=0;
 	int id=0;
 	char *playlist = calloc(MAX_MEDIO, sizeof(char));
 	
 	printf("\nInserisci nome playlist: ");
 	playlist = inputStringa(MAX_MEDIO,playlist);
-	id = controlloEsistenzaPlaylist(db, playlist);
+	id = controllareEsistenzaPlaylist(db, playlist);
 	if (id==0) {
 		printf("\nPlaylist non esistente.");
 	} else {
-		if (isPublicPlaylist(db, id)||isUserPlaylist(db, id, db.utenteCorrente)) {
+		if (controllareSePlaylistPubblica(db, id)||controllareSePlaylistUtente(db, id, db.utenteCorrente)) {
 			int i=0, n=contareNelDatabase(db,8);
 			printf("\nPlaylist: %s", playlist);
 			while (i<n) {
 				if (db.playlistBrano[i].idPlaylist==id) {
 					printf("\n");
-					mostraSingoloBrano(db, db.playlistBrano[i].idBrano);
+					mostrareSingoloBrano(db, db.playlistBrano[i].idBrano);
 					esiste=1;
 				}
 				i++;
@@ -638,7 +639,7 @@ int mostraBraniPlaylist(database db) {
 	return esiste;
 }
 
-int mostraPlaylistUtenteGuidato(database db) {
+int ricercarePlaylistUtenteGuidato(database db) {
 	int esiste=0;
 	int id=0;
 	char *utente = calloc(MAX_MEDIO, sizeof(char));
@@ -650,27 +651,27 @@ int mostraPlaylistUtenteGuidato(database db) {
 	} else {
 		int i=0, n=contareNelDatabase(db,-1), controllo=0;
 		while(i<n&&controllo!=-1) {
-			if (comparaStringhe(utente, db.utente[i].username)==0) {
+			if (comparareStringhe(utente, db.utente[i].username)==0) {
 				id=db.utente[i].id;
 				controllo=-1;
 			}
 		}
 		printf("\nUtente: %s", utente);
-		mostraPlaylistUtente(db, 0, id);
+		mostrarePlaylistUtente(db, 0, id);
 		esiste=1;
 	}
 	free(utente);
 	return esiste;
 }
 
-void mostraBraniPlaylistDaID(database db, int id) {
+void ricercareBraniPlaylistDaID(database db, int id) {
 	int posPlaylist = ottenerePosDaID(db,4,id);
-	int i=0, j=0, n=contareNelDatabase(db,8), controllo=0, nBraniplaylist=(contaBraniPlaylist(db, id));
+	int i=0, j=0, n=contareNelDatabase(db,8), controllo=0, nBraniplaylist=(contareBraniPlaylist(db, id));
 	printf("\n\n===[Brani Playlist %s]===", db.playlist[posPlaylist].nome);
 	while (i<n&&controllo!=-1) {
 		if (db.playlistBrano[i].idPlaylist==id) {
 			printf("\n");
-			mostraSingoloBrano(db, db.playlistBrano[i].idBrano);
+			mostrareSingoloBrano(db, db.playlistBrano[i].idBrano);
 			if ((nBraniplaylist+1)>5 && (j+1)%5==0) {
 				char scelta='Y';
 				scelta = richiesta(8);
@@ -685,4 +686,148 @@ void mostraBraniPlaylistDaID(database db, int id) {
 	if (i==0) {
 		printf("\nNessun brano trovato nella playlist %s", db.playlist[posPlaylist].nome);
 	}
+}
+
+void stampareBraniGuidato(database db) {
+	int scelta=-1, i=0, branoscelto=0, controllo=0;
+	int nBrani = contareNelDatabase(db,0);
+	int *idBrani = calloc(nBrani, sizeof(int));
+	printf("\n===[Stampa di un Report dei Brani]===");
+	printf("\nDesideri selezionare alcuni brani[0] oppure tutti i brani[1]? ");
+	while (scelta<0||scelta>1) {
+		scelta = inputNumero();
+	}
+	if (scelta==0) {
+		printf("\nSeleziona fino a %d brani da stampare", nBrani);
+		i=0;
+		do {
+			branoscelto=0;
+			db = moduloRicercaBrani(db);
+			if (db.ultimoEsito==-1) {
+				scelta = richiesta(-1);
+				if (scelta=='Y'||scelta=='y') {
+					printf("\nContinuo con la selezione dei brani.");
+					db.ultimoEsito=0;
+				} else {
+					printf("\nUscito dalla selezione dei brani.");
+				}
+			}
+			if (db.ultimoEsito==1) {
+				do {
+					printf("\nInserire l'identificativo del brano da selezionare e stampare, altrimenti [-1] per cercare di nuovo: ");
+					branoscelto = inputNumero();
+					if (branoscelto==-1) {
+						db.ultimoEsito=2;
+					} else {
+						if (ottenerePosDaID(db, 0, branoscelto)==-1) {
+							printf("\nBrano non trovato, riprova");
+							db.ultimoEsito=0;
+						} else {
+							int j=0;
+							while (idBrani[j]!=0) {
+								if (idBrani[j]==branoscelto&&controllo!=-1) {
+									printf("\nBrano gia' selezionato, riprova");
+									controllo=-1;
+									db.ultimoEsito=0;
+								} else {
+									db.ultimoEsito=1;
+								}
+								j++;
+							}
+						}
+					}
+					if (db.ultimoEsito==1) {
+						idBrani[i] = branoscelto;
+						i++;
+					}
+				} while (db.ultimoEsito==0);
+			}
+		} while (i<nBrani&&db.ultimoEsito!=-1);
+	} else {
+		idBrani[0]=-1;
+	}
+
+	if (idBrani[0]==0) {
+		printf("\nNessun brano selezionato");
+	} else {
+		stampareListaBrani(db, idBrani);
+	}
+}
+
+void stampareSingoloBrano(database db, FILE* fp, int id) {
+	int j=0;
+	int posBrano = ottenerePosDaID(db, 0,id);
+	fprintf(fp, DIVISORE
+			"\nIdentificativo: %d"
+			"\nTitolo: %s"
+			"\nDurata: %s", db.brano[posBrano].id, db.brano[posBrano].titolo, convertireSecondiInTempo(db.brano[posBrano].durata));
+	fprintf(fp, "\nArtisti: ");
+	int *posArtisti=ottenerePosAssociazioniDaID(db, 5, db.brano[posBrano].id);
+	j=0;
+	do {
+		int posArtista = ottenerePosDaID(db, 2, db.branoArtista[posArtisti[j]].idArtista);
+		if (j!=0) {
+			fprintf(fp, ", ");
+		}
+		fprintf(fp, "%s", db.artista[posArtista].nomeArte);
+		j++;
+	} while (posArtisti[j]!=0);
+	if (posArtisti!=NULL) {
+		free(posArtisti); posArtisti=NULL;
+	}
+	fprintf(fp, "\nAlbum: ");
+	int *posAlbums=ottenerePosAssociazioniDaID(db, 6, db.brano[posBrano].id);
+	j=0;
+	do {
+		int posAlbum = ottenerePosDaID(db, 1, db.branoAlbum[posAlbums[j]].idAlbum);
+		if (j!=0)
+			fprintf(fp, ", ");
+		fprintf(fp, "%s", db.album[posAlbum].titolo);
+		j++;
+	} while (posAlbums[j]!=0);
+	if (posAlbums!=NULL) {
+		free(posAlbums); posAlbums=NULL;
+	}
+	fprintf(fp, "\nGeneri: ");
+	int *posGeneri=ottenerePosAssociazioniDaID(db, 7, db.brano[posBrano].id);
+	j=0;
+	do {
+		int posGenere = ottenerePosDaID(db, 3, db.branoGenere[posGeneri[j]].idGenere);
+		if (j!=0)
+			fprintf(fp, ", ");
+		fprintf(fp, "%s", db.genere[posGenere].nome);
+		j++;
+	} while (posGeneri[j]!=0);
+	if (posGeneri!=NULL) {
+		free(posGeneri); posGeneri=NULL;
+	}
+	fprintf(fp, "\nAnno: %d"
+		   "\nAscolti: %d"
+			DIVISORE, db.brano[posBrano].anno, db.brano[posBrano].ascolti);
+}
+
+void stampareListaBrani(database db, int idBrani[]) {
+	srand(time(NULL));
+	char *nomefile = calloc(MAX_MEDIO, sizeof(char));
+	sprintf(nomefile, "report_brani_%d.txt", rand()%1000);
+	FILE *fp = fopen(nomefile, "a");
+	int nBrani = contareNelDatabase(db, 0), i=0;
+	if (idBrani[0]==-1) {
+		fprintf(fp, "%d Brani presenti nel Database attuale di Ampere", nBrani);
+		i=0;
+		while (i<nBrani) {
+			stampareSingoloBrano(db, fp, db.brano[i].id);
+			i++;
+		}
+		successo(150);
+	} else {
+		fprintf(fp, "Brani selezionati dal Database attuale di Ampere");
+		i=0;
+		while (idBrani[i]!=0) {
+			stampareSingoloBrano(db, fp, idBrani[i]);
+			i++;
+		}
+		successo(151);
+	}
+	fclose(fp);
 }

@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.0.1
+ * UNIBA/Ampere 1.1
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -19,7 +19,7 @@
  *	Si avvale di ottenerePosDaID per ottenere la posizione dell'identificativo playlist dato in input
  *	@output risultato booleano
  */
-bool isUserPlaylist(database db, int idPlaylist, int idUtente);
+bool controllareSePlaylistUtente(database db, int idPlaylist, int idUtente);
 
 /**
  *	@input istanza database, identificativo della playlist
@@ -28,7 +28,7 @@ bool isUserPlaylist(database db, int idPlaylist, int idUtente);
  *	Si avvale di ottenerePosDaID per ottenere la posizione dell'identificativo playlist dato in input
  *	@output risultato booleano
  */
-bool isPublicPlaylist(database db, int idPlaylist);
+bool controllareSePlaylistPubblica(database db, int idPlaylist);
 
 /**
  *	@input istanza database, identificativo dell'utente
@@ -37,7 +37,7 @@ bool isPublicPlaylist(database db, int idPlaylist);
  *	Si avvale di contareNelDatabase per far funzionare il ciclo atto al controllo
  *	@ouput numero intero conta
  */
-int contaPlaylistUtente(database db, int idUtente);
+int contarePlaylistUtente(database db, int idUtente);
 
 /**
  *	@input istanza database, identificativo della playlist
@@ -46,7 +46,7 @@ int contaPlaylistUtente(database db, int idUtente);
  *	Si avvale di contareNelDatabase per far funzionare il ciclo atto al controllo
  *	@ouput numero intero conta
  */
-int contaBraniPlaylist(database db, int idPlaylist);
+int contareBraniPlaylist(database db, int idPlaylist);
 
 /**
  * 	@input istanza database, numero intero identificativo utente,
@@ -72,7 +72,7 @@ database inserirePlaylist(database db, struct Playlist playlist);
  *	senza dipendere da altre funzioni
  *	Dopo la creazione della playlist, chiede anche all'utente se vuole inserire dei brani in essa
  *	Crea la playlist con crearePlaylist e la passa ad inserirePlaylist
- *	Se l'utente vuole aggiungere brani, chiama anche inserimentoBraniPlaylistGuidato
+ *	Se l'utente vuole aggiungere brani, chiama anche inserireBraniPlaylistGuidato
  *	@output database modificato
  */
 database crearePlaylistGuidato(database db);
@@ -86,14 +86,14 @@ database crearePlaylistGuidato(database db);
  *	Esegue operazioni di inserimento dei brani in una playlist attraverso l'associazione playlist-brano
  *	@output database modificato
  */
-database inserimentoBraniPlaylistGuidato(database db);
+database inserireBraniPlaylistGuidato(database db);
 
 /**
  *	@input struct Playlist playlist, booleano status privacy "pubblica"
  *	Scrive sul file "file_playlists", le informazioni date in input, separate con separatore pipe "|"
  *	@output FILE modificato
  */
-void inserisciPlaylistSuFile(struct Playlist playlist, char pubblica[]);
+void inserirePlaylistSuFile(struct Playlist playlist, char pubblica[]);
 
 /**
  * 	TODO: Migliorare funzione, potrebbe esserci piu' di un'occorrenza
@@ -102,7 +102,7 @@ void inserisciPlaylistSuFile(struct Playlist playlist, char pubblica[]);
  *	della playlist data in input e se esiste allora esce dal ciclo dando in output l'identificativo di esso
  *	@output identificativo playlist
  */
-int controlloEsistenzaPlaylist(database db, char playlist[]);
+int controllareEsistenzaPlaylist(database db, char playlist[]);
 
 /**
  *	TODO: adeguare modifica allo standard imposto dalle specifiche
@@ -133,10 +133,10 @@ database modificarePlaylist(database db, int idPlaylist, struct Playlist playlis
  *	Interfaccia utente per la cancellazione di una playlist presente nel database
  *	Si avvale di ottenerePosDaID per controllare l'esistenza di essa attraverso l'identificativo
  *	Se la playlist e' presente ed e' dell'utente oppure ad eseguire la funzione e' un admin,
- *	procede alla cancellazione della playlist con cancellaSingolaPlaylist
+ *	procede alla cancellazione della playlist con cancellareSingolaPlaylist
  *	@output database modificato
  */
-database cancellaPlaylist(database db);
+database cancellarePlaylistGuidato(database db);
 
 /**
  *	TODO: adeguare cancellazione allo standard imposto dalle specifiche
@@ -148,7 +148,7 @@ database cancellaPlaylist(database db);
  *	avvalendosi di cancellaAssociazionePlaylist
  *	@output database modificato
  */
-database cancellaSingolaPlaylist(database db, int id);
+database cancellareSingolaPlaylist(database db, int id);
 
 /**
  *	TODO: adeguare cancellazione allo standard imposto dalle specifiche

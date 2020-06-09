@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.0.1
+ * UNIBA/Ampere 1.1
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -29,14 +29,14 @@ void aspetta();
  * 	@input stringa link
  * 	Funzione universale per l'apertura di un link con browser
  */
-void apriLink(char link[]);
+void aprireLink(char link[]);
 
 /**
  * 	@input stringa nome cartella, booleano silenzioso
  * 	Funzione di creazione cartella universale
  * 	Se impostato silenzioso, non mostra messaggi
  */
-void creaCartella(char nome[], bool silenzioso);
+void creareCartella(char nome[], bool silenzioso);
 
 /**
  * 	@input numero intero lunghezza, stringa
@@ -53,7 +53,7 @@ char* inputStringa(int lunghezza, char stringa[]);
  * 	Non rimuove ulteriori whitespace come \n, \r, etc.
  * 	@output lunghezza della stringa finale
  */
-int rimuoviSpaziFinali(char *stringa);
+int rimuovereSpaziFinali(char *stringa);
 
 /**
  * 	Funzione sicura per l'input da tastiera di un intero senza segno fino a MAX_MEDIO cifre
@@ -74,27 +74,27 @@ char inputCarattere();
  * 	@output risultato comparazione, 0 se uguali
  */
 
-int comparaStringhe(const char *s1, const char *s2);
+int comparareStringhe(const char *s1, const char *s2);
 
 /**
  * 	@input stringa s1, stringa s2
  * 	Funzione universale per la comparazione di stringhe anche se non complete
  * 	@output risultato booleano della comparazione
  */
-bool comparaStringheParziale(const char *s1, const char *s2);
+bool comparareStringheParziale(const char *s1, const char *s2);
 
 /**
  * 	Funzione universale per la pulizia del buffer in input
  * 	@output buffer pulito
  */
-void pulisciBuffer();
+void pulireBuffer();
 
 /**
  * 	@input stringa file
  * 	Funzione universale per il controllo del contenuto di un file
  * 	@output esito controllo
  */
-int controllaSeFileVuoto(char *file);
+int controllareSeFileVuoto(char *file);
 
 void backupFile(char *file1, char *file2);
 
@@ -102,12 +102,12 @@ void backupFile(char *file1, char *file2);
  * 	Funzione per la conversione dei secondi in ore, minuti e secondi
  * 	@output stringa hh:mm:ss
  */
-char *convertiSecondiInTempo(int secondi);
+char *convertireSecondiInTempo(int secondi);
 
 /**
  *	Abilita i colori ANSI per la linea di comando attraverso il comando color
  *	Funziona solo su Windows.
  */
-void abilitaColori();
+void abilitareColori();
 
 #endif /* SRC_SYS_UTILS_H_ */
