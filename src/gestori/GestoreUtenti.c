@@ -56,7 +56,7 @@ void infoUtenteConnesso(database *db) {
 
 void loginUtente(database *db) {
 	printf("\nEsecuzione Login ad Ampere");
-	int controllo=0, id=0;
+	int controllo=0, id=0, tentativi=0;
 	char *username;
 	char *password;
 	while (controllo!=-1) {
@@ -73,10 +73,12 @@ void loginUtente(database *db) {
 			attenzione(2);
 		} else if (id!=0) {
 			db->utenteCorrente = id;
+			db->ultimoEsito = 0;
 			printf("\n"C_VERDE"Accesso consentito."C_RESET" Bentornato su Ampere, %s.", db->utente[ottenerePosDaID(db, -1, db->utenteCorrente)].username);
 			controllo=-1;
 		} else {
 			attenzione(1);
+			tentativi++;
 		}
 		if (username!=NULL) {
 			free(username);
@@ -85,6 +87,10 @@ void loginUtente(database *db) {
 		if (password!=NULL) {
 			free(password);
 			password=NULL;
+		}
+		if (tentativi>2) {
+			controllo=-1;
+			db->ultimoEsito = -1;
 		}
 	}
 	
@@ -103,7 +109,6 @@ int controllareDatiUtente(database *db, char username[], char password[]) {
 }
 
 void registrareUtente(database *db) {
-	
 	char scelta='a';
 	int ruolo=-1;
 	bool admin = false;

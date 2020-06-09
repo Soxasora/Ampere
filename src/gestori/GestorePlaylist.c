@@ -428,7 +428,7 @@ void cancellarePlaylistGuidato(database *db) {
 		if (ottenerePosDaID(db, 4,id)==-1) {
 			printf("\nNessuna playlist trovata, riprovare");
 			esito=-1;
-		} else if (controllareSePlaylistUtente(db, id, db->utenteCorrente)==false||!controllareSeAdmin(db)==false) {
+		} else if (controllareSePlaylistUtente(db, id, db->utenteCorrente)==false||!controllareSeAdmin(db)) {
 			printf("\nL'identificativo che hai dato punta ad una playlist che non ti appartiene, riprova.");
 			esito=-1;
 		} else {

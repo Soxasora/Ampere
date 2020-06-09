@@ -26,16 +26,19 @@
 #include "Messaggi.h"
 
 void menuLogin(database *db) {
-	int scelta=-1;
-	while (scelta<0||scelta>1) {
-		printf("\nDesideri effettuare: il "C_VERDE"Login[0]"C_RESET" oppure "C_GIALLO"Registrarti[1]"C_RESET" ad Ampere? ");
-		scelta = inputNumero();
-	}
-	if (scelta==0) {
-		loginUtente(db);
-	} else {
-		registrareUtente(db);
-	}
+	int scelta;
+	do {
+		scelta=-1;
+		while (scelta<0||scelta>1) {
+				printf("\nDesideri effettuare: il "C_VERDE"Login[0]"C_RESET" oppure "C_GIALLO"Registrarti[1]"C_RESET" ad Ampere? ");
+				scelta = inputNumero();
+			}
+			if (scelta==0) {
+				loginUtente(db);
+			} else {
+				registrareUtente(db);
+			}
+	} while (db->ultimoEsito==-1);
 	
 }
 

@@ -321,66 +321,30 @@ int ricercareInfo(database *db, int modalita) {
 		
 		printf("\n[Premi invio per saltare] Inserisci il nome dell'artista da ricercare: ");
 		nome = inputStringa(MAX_MEDIO,nome);
+		if (comparareStringhe(nome, "N/A")==0){
+			strcpy(nome, "unknown");
+		}
 		printf("\n[Premi invio per saltare] Inserisci il cognome dell'artista da ricercare: ");
 		cognome = inputStringa(MAX_MEDIO,cognome);
+		if (comparareStringhe(cognome, "N/A")==0){
+			strcpy(cognome, "unknown");
+		}
 		printf("\n[Premi invio per saltare] Inserisci il nome d'arte dell'artista da ricercare: ");
 		nomeArte = inputStringa(MAX_MEDIO,nomeArte);
+		if (comparareStringhe(nomeArte, "N/A")==0){
+			strcpy(nomeArte, "unknown");
+		}
 		int i=0, n=contareNelDatabase(db,2);
 		printf("\nDi seguito i risultati della ricerca:");
 		while (i<n) {
 			if (comparareStringheParziale(db->artista[i].nome,nome)
-				&&comparareStringheParziale(db->artista[i].cognome, cognome)
-				&&comparareStringheParziale(db->artista[i].nomeArte, nomeArte)) {
+				||comparareStringheParziale(db->artista[i].cognome, cognome)
+				||comparareStringheParziale(db->artista[i].nomeArte, nomeArte)) {
 				printf("\n");
 				mostrareSingoloArtista(db, db->artista[i].id);
 				esiste=1;
 			}
 			i++;
-		}
-		if(esiste != 1){
-
-			//Sistemare ricerche nulle
-			if (comparareStringhe(nome, "N/A")==0){
-				strcpy(nome, "unknown");
-			}
-			if (comparareStringhe(cognome, "N/A")==0){
-				strcpy(cognome, "unknown");
-			}
-			if (comparareStringhe(nomeArte, "N/A")==0){
-				strcpy(nomeArte, "unknown");
-			}
-
-			printf("\nNon e' stato trovato nessun artista che rispetti interamente i criteri cercati.");
-			printf("\nArtisti con nome simile:");
-			i=0;
-			while (i<n) {
-				if (comparareStringheParziale(db->artista[i].nome,nome)) {
-					printf("\n");
-					mostrareSingoloArtista(db, db->artista[i].id);
-					esiste=1;
-				}
-				i++;
-			}
-			printf("\nArtisti con cognome simile:");
-			i=0;
-			while (i<n) {
-				if (comparareStringheParziale(db->artista[i].cognome,cognome)) {
-					printf("\n");
-					mostrareSingoloArtista(db, db->artista[i].id);
-					esiste=1;
-				}
-				i++;
-			}
-			printf("\nArtisti con nome d'arte simile:");
-			i=0;
-			while (i<n) {
-				if (comparareStringheParziale(db->artista[i].nomeArte,nomeArte)) {
-					printf("\n");
-					mostrareSingoloArtista(db, db->artista[i].id);
-					esiste=1;
-				}
-				i++;
-			}
 		}
 		if (nome!=NULL) {
 			free(nome);
@@ -396,17 +360,14 @@ int ricercareInfo(database *db, int modalita) {
 		}
 	} else if (modalita==1) {
 		char *titolo = calloc(MAX_MEDIO, sizeof(char));
-		int anno=0;
+		int anno=-1;
 		printf("\n[Premi invio per saltare] Inserisci il titolo dell'album da ricercare: ");
 		titolo = inputStringa(MAX_MEDIO,titolo);
 		if (comparareStringhe(titolo, "N/A")==0)
 			titolo = "unknown";
-		while(anno<1950) {
+		while(anno<0) {
 			printf("\n[0 per saltare] Inserisci l'anno di uscita dell'album da ricercare: ");
 			anno = inputNumero();
-			if (anno==0) {
-				anno = 9999;
-			}
 		}
 		int i=0, n=contareNelDatabase(db,1);
 		printf("\nDi seguito i risultati della ricerca:");
