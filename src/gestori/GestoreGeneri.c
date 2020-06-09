@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.2.2
+ * UNIBA/Ampere 1.3
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -30,7 +30,10 @@ void inserireGenereGuidato(database *db) {
 		nome = inputStringa(MAX_MEDIO,nome);
 		creareGenereSeNonEsiste(db, nome);
 	} while (db->ultimoEsito!=0);
-	
+	if (nome!=NULL) {
+		free(nome);
+		nome=NULL;
+	}
 }
 
 void creareGenereSeNonEsiste(database *db, char nome[]) {
@@ -145,12 +148,14 @@ void creareGenereModificato(database *db, int id) {
 	int pos = ottenerePosDaID(db, 3,id);
 	struct Genere genereModificato = db->genere[pos];
 	do {
-		
 		char *nome = calloc(MAX_MEDIO, sizeof(char));
 		printf("\nInserisci nuovo nome: ");
 		nome = inputStringa(MAX_MEDIO,nome);
 		strcpy(genereModificato.nome, nome);
-		free(nome);
+		if (nome!=NULL) {
+			free(nome);
+			nome=NULL;
+		}
 		printf("\nGenere ORIGINALE:");
 		mostrareSingoloGenere(db, id);
 		printf("\n");
@@ -184,9 +189,14 @@ void modificareGenere(database *db, int idGenere, struct Genere genereModificato
 }
 
 void cancellareGenereGuidato(database *db) {
-	int id=0;
+	int id=0, esiste=0;
 	char scelta='a';
-	mostrareTuttiGeneri(db);
+	do {
+		esiste = ricercareInfo(db, 2);
+		if (esiste==0) {
+			attenzione(101);
+		}
+	} while (esiste==0);
 	while(ottenerePosDaID(db, 3,id)==-1) {
 		printf("\n\nInserire l'identificativo del genere da cancellare: ");
 		id = inputNumero();

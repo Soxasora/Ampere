@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.2.2
+ * UNIBA/Ampere 1.3
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -35,7 +35,6 @@ void inserireBranoGuidato(database *db) {
 	// Registrazione
 	do {
 		if ((titolo=calloc(MAX_MEDIO, sizeof(char)))) {
-			
 			printf("\nInserisci titolo: ");
 			titolo = inputStringa(MAX_MEDIO,titolo);
 		}
@@ -54,7 +53,10 @@ void inserireBranoGuidato(database *db) {
 				}
 			} while (db->ultimoEsito!=0);
 			idArtisti[i] = controllareEsistenzaArtista(db, artista);
-			free(artista); artista=NULL;
+			if (artista!=NULL) {
+				free(artista);
+				artista=NULL;
+			}
 			i++;
 		}
 		do {
@@ -72,7 +74,10 @@ void inserireBranoGuidato(database *db) {
 				}
 			} while (db->ultimoEsito!=0);
 			idAlbum[i] = controllareEsistenzaAlbum(db, album);
-			free(album); album=NULL;
+			if (album!=NULL) {
+				free(album);
+				album=NULL;
+			}
 			i++;
 		}
 		do {
@@ -90,7 +95,10 @@ void inserireBranoGuidato(database *db) {
 				}
 			} while (db->ultimoEsito!=0);
 			idGeneri[i] = controllareEsistenzaGenere(db, genere);
-			free(genere); genere=NULL;
+			if (genere!=NULL) {
+				free(genere);
+				genere=NULL;
+			}
 			i++;
 		}
 		
@@ -107,7 +115,10 @@ void inserireBranoGuidato(database *db) {
 			ascolti = inputNumero();
 		} while (ascolti<=0);
 		struct Brano nuovoBrano = creareBrano(titolo, durata, anno, ascolti);
-		free(titolo); titolo=NULL;
+		if (titolo!=NULL) {
+			free(titolo);
+			titolo=NULL;
+		}
 		// Mostra anteprima del brano
 		mostrareAnteprimaBrano(db, nuovoBrano, idArtisti, idAlbum, idGeneri);
 		scelta = richiesta(0);
@@ -120,6 +131,18 @@ void inserireBranoGuidato(database *db) {
 			db->ultimoEsito=0;
 		} else {
 			db->ultimoEsito=-1;
+		}
+		if (idArtisti!=NULL) {
+			free(idArtisti);
+			idArtisti=NULL;
+		}
+		if (idAlbum!=NULL) {
+			free(idAlbum);
+			idAlbum=NULL;
+		}
+		if (idGeneri!=NULL) {
+			free(idGeneri);
+			idGeneri=NULL;
 		}
 	} while (db->ultimoEsito!=0);
 	
@@ -138,10 +161,14 @@ struct Brano creareBrano(char titolo[], int durata, int anno, int ascolti) {
 void mostrareAnteprimaBrano(database *db, struct Brano nuovoBrano, int* idArtisti, int* idAlbum, int* idGeneri) {
 	int i=0;
 	int posAlbum = 0, posArtista = 0, posGenere = 0;
+	char *tempo = convertireSecondiInTempo(nuovoBrano.durata);
 	printf("\nIl brano che stai per inserire ha questi dettagli:"
 		   "\nTitolo: %s"
 		   "\nDurata: %s"
-		   "\nArtisti: ", nuovoBrano.titolo, convertireSecondiInTempo(nuovoBrano.durata));
+		   "\nArtisti: ", nuovoBrano.titolo, tempo);
+	if (tempo!=NULL) {
+		free(tempo); tempo=NULL;
+	}
 	i=0;
 	while (idArtisti[i]!=0) {
 		posArtista = ottenerePosDaID(db, 2, idArtisti[i]);
@@ -305,7 +332,10 @@ void creareBranoModificato(database *db, int campo, int id) {
 			printf("\nInserisci nuovo titolo: ");
 			titolo = inputStringa(MAX_MEDIO,titolo);
 			strcpy(branoModificato.titolo, titolo);
-			free(titolo);
+			if (titolo!=NULL) {
+				free(titolo);
+				titolo=NULL;
+			}
 		} else if (campo==2) {
 			int durata=0;
 			while (durata<1) {
@@ -343,7 +373,10 @@ void creareBranoModificato(database *db, int campo, int id) {
 						idAssociazioni[i] = controllareEsistenzaArtista(db, artista);
 					}
 				} while (db->ultimoEsito!=0);
-				free(artista); artista=NULL;
+				if (artista!=NULL) {
+					free(artista);
+					artista=NULL;
+				}
 				i++;
 			}
 		} else if (campo==6) {
@@ -362,7 +395,10 @@ void creareBranoModificato(database *db, int campo, int id) {
 						idAssociazioni[i] = controllareEsistenzaAlbum(db, album);
 					}
 				} while (db->ultimoEsito!=0);
-				free(album); album=NULL;
+				if (album!=NULL) {
+					free(album);
+					album=NULL;
+				}
 				i++;
 			}
 		} else if (campo==7) {
@@ -381,7 +417,10 @@ void creareBranoModificato(database *db, int campo, int id) {
 						idAssociazioni[i] = controllareEsistenzaGenere(db, genere);
 					}
 				} while (db->ultimoEsito!=0);
-				free(genere); genere=NULL;
+				if (genere!=NULL) {
+					free(genere);
+					genere=NULL;
+				}
 				i++;
 			}
 		}
@@ -398,6 +437,10 @@ void creareBranoModificato(database *db, int campo, int id) {
 				db->ultimoEsito=-1;
 			}
 		}
+		if (idAssociazioni!=NULL) {
+			free(idAssociazioni);
+			idAssociazioni=NULL;
+		}
 	} while (db->ultimoEsito==-2);
 	
 }
@@ -406,9 +449,13 @@ void mostrareAnteprimaModificaBrano(database *db, int idBrano, int campo, struct
 	printf("\n===[Brano ORIGINALE]===");
 	mostrareSingoloBrano(db, idBrano);
 	printf("\n\n===[Brano MODIFICATO]===");
+	char *tempo = convertireSecondiInTempo(branoModificato.durata);
 	int i=0;
 	printf("\nTitolo: %s"
-		   "\nDurata: %s", branoModificato.titolo, convertireSecondiInTempo(branoModificato.durata));
+		   "\nDurata: %s", branoModificato.titolo, tempo);
+	if (tempo!=NULL) {
+		free(tempo); tempo=NULL;
+	}
 	if (campo==5) {
 		printf(C_VERDE"\n[MODIFICATO]"C_RESET" Artisti: ");
 		int posArtista=0;
@@ -491,7 +538,7 @@ void modificareBrano(database *db, int idBrano, int campo, struct Brano branoMod
 void cancellareBranoGuidato(database *db) {
 	int id=0;
 	char scelta='a';
-	mostrareTuttiBrani(db);
+	moduloRicercaBrani(db);
 	while (ottenerePosDaID(db, 0,id)==-1) {
 		printf("\n\nInserire l'identificativo del brano da cancellare: ");
 		id = inputNumero();
@@ -565,6 +612,14 @@ void apriTesto(int idBrano) {
 			system(comando);
 		}
 		fclose(fp);
+	}
+	if (posizione_testo!=NULL) {
+		free(posizione_testo);
+		posizione_testo=NULL;
+	}
+	if (comando!=NULL) {
+		free(comando);
+		comando=NULL;
 	}
 }
 

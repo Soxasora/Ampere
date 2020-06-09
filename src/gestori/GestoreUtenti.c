@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.2.2
+ * UNIBA/Ampere 1.3
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -60,7 +60,6 @@ void loginUtente(database *db) {
 	char *username;
 	char *password;
 	while (controllo!=-1) {
-		
 		if ((username = calloc(MAX_MEDIO, sizeof(char)))) {
 			printf("\nInserisci "C_GIALLO"username: "C_RESET);
 			username = inputStringa(MAX_MEDIO,username);
@@ -79,8 +78,14 @@ void loginUtente(database *db) {
 		} else {
 			attenzione(1);
 		}
-		free(username); username=NULL;
-		free(password); password=NULL;
+		if (username!=NULL) {
+			free(username);
+			username=NULL;
+		}
+		if (password!=NULL) {
+			free(password);
+			password=NULL;
+		}
 	}
 	
 }
@@ -112,7 +117,6 @@ void registrareUtente(database *db) {
 		printf("\nBenvenuto su Ampere. Procediamo alla creazione del tuo profilo.");
 	}
 	do {
-		
 		char *username;
 		char *password;
 		if ((username = calloc(MAX_MEDIO, sizeof(char)))) {
@@ -151,8 +155,14 @@ void registrareUtente(database *db) {
 			attenzione(0);
 			db->ultimoEsito = -1;
 		}
-		free(username); username=NULL;
-		free(password); password=NULL;
+		if (username!=NULL) {
+			free(username);
+			username=NULL;
+		}
+		if (password!=NULL) {
+			free(password);
+			password=NULL;
+		}
 	} while (db->ultimoEsito!=0);
 	if (!controllareSeAdmin(db)||db->utenteCorrente==0) {
 		loginUtente(db);
@@ -189,7 +199,6 @@ void inserireUtente(database *db, struct Utente nuovoUtente) {
 		salvareUtentiSuFile(db);
 	} else {
 		db->modificato=true;
-		successo(0);
 	}
 	
 }
@@ -269,13 +278,15 @@ void creareUtenteModificato(database *db, int campo, int id) {
 	int pos = ottenerePosDaID(db, -1, id);
 	struct Utente utenteModificato = db->utente[pos];
 	do {
-		
 		if (campo==1) {
 			char *username = calloc(MAX_MEDIO, sizeof(char));
 			printf("\nInserisci nuovo username: ");
 			username = inputStringa(MAX_MEDIO,username);
 			strcpy(utenteModificato.username, username);
-			free(username);
+			if (username!=NULL) {
+				free(username);
+				username=NULL;
+			}
 		} else if (campo==2) {
 			char *passwordVecchia = calloc(MAX_MEDIO, sizeof(char));
 			strcpy(passwordVecchia, "null");
@@ -288,7 +299,7 @@ void creareUtenteModificato(database *db, int campo, int id) {
 					printf("\nInserisci password attuale: ");
 					passwordVecchia = inputStringa(MAX_MEDIO,passwordVecchia);
 					if (strcmp(passwordVecchia, utenteModificato.password)!=0)
-						printf("\nLa password attuale non è corretta! Riprova\n");
+						printf("\nLa password attuale non e' corretta! Riprova\n");
 				}
 			}
 			while (strcmp(password,password2)!=0) {
@@ -301,6 +312,18 @@ void creareUtenteModificato(database *db, int campo, int id) {
 				}
 			}
 			strcpy(utenteModificato.password,password);
+			if (password!=NULL) {
+				free(password);
+				password=NULL;
+			}
+			if (password2!=NULL) {
+				free(password2);
+				password2=NULL;
+			}
+			if (passwordVecchia!=NULL) {
+				free(passwordVecchia);
+				passwordVecchia=NULL;
+			}
 		} else if (campo==3) {
 			if (controllareSeAdmin(db)) {
 				int ruolo=1;
@@ -350,10 +373,15 @@ void modificareUtente(database *db, int idUtente, struct Utente utenteModificato
 }
 
 void cancellareUtenteGuidato(database *db) {
-	int id=0;
+	int id=0, esiste=0;
 	char scelta='a';
 	if (controllareSeAdmin(db)) {
-		mostrareTuttiUtenti(db);
+		do {
+			esiste = ricercareInfo(db, 4);
+			if (esiste==0) {
+				attenzione(101);
+			}
+		} while (esiste==0);
 		while (ottenerePosDaID(db, -1,id)==-1) {
 			printf("\n\nInserisci id dell'utente: ");
 			id = inputNumero();

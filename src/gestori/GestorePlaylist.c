@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.2.2
+ * UNIBA/Ampere 1.3
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -139,8 +139,14 @@ void crearePlaylistGuidato(database *db) {
 			} else {
 				nuovaPlaylist = crearePlaylist(idUtente, nome, descrizione, true);
 			}
-			free(nome); nome=NULL;
-			free(descrizione); descrizione=NULL;
+			if (nome!=NULL) {
+				free(nome);
+				nome=NULL;
+			}
+			if (descrizione!=NULL) {
+				free(descrizione);
+				descrizione=NULL;
+			}
 			//TODO
 			mostrareAnteprimaPlaylist(nuovaPlaylist);
 			scelta = richiesta(0);
@@ -184,7 +190,6 @@ void inserireBraniPlaylistGuidato(database *db) {
 
 	printf("\nInserisci fino a %d brani nella playlist %s", nBrani, db->playlist[ottenerePosDaID(db, 4,id)].nome);
 	int* idbrani = calloc(nBrani, sizeof(int));
-
 	i=0;
 	do {
 		branoscelto=0;
@@ -242,7 +247,10 @@ void inserireBraniPlaylistGuidato(database *db) {
 		}
 		printf("\nBrani inseriti nella playlist %s", db->playlist[ottenerePosDaID(db, 4, id)].nome);
 	}
-	
+	if (idbrani!=NULL) {
+		free(idbrani);
+		idbrani=NULL;
+	}
 }
 
 void inserirePlaylistSuFile(struct Playlist playlist, char pubblica[]) {
@@ -328,13 +336,19 @@ void crearePlaylistModificata(database *db, int campo, int id) {
 			printf("\nInserisci nuovo nome: ");
 			nome = inputStringa(MAX_MEDIO,nome);
 			strcpy(playlistModificata.nome, nome);
-			free(nome);
+			if (nome!=NULL) {
+				free(nome);
+				nome=NULL;
+			}
 		} else if (campo==2) {
 			char *descrizione = calloc(MAX_GRANDE, sizeof(char));
 			printf("\nInserisci nuova descrizione: ");
 			descrizione = inputStringa(MAX_GRANDE,descrizione);
 			strcpy(playlistModificata.descrizione, descrizione);
-			free(descrizione);
+			if (descrizione!=NULL) {
+				free(descrizione);
+				descrizione=NULL;
+			}
 		} else if (campo==3) {
 			int pubblica=-1;
 			while (pubblica<0||pubblica>1) {
@@ -400,13 +414,14 @@ void modificarePlaylist(database *db, int idPlaylist, struct Playlist playlistMo
 }
 
 void cancellarePlaylistGuidato(database *db) {
-	int id=0, esito=0;
+	int id=0, esiste=0, esito=0;
 	char scelta='a';
-	if (controllareSeAdmin(db)) {
-		mostrareTuttePlaylist(db, -1);
-	} else {
-		mostrarePlaylistUtente(db, -1, db->utenteCorrente);
-	}
+	do {
+		esiste = ricercareInfo(db, 3);
+		if (esiste==0) {
+			attenzione(101);
+		}
+	} while (esiste==0);
 	do {
 		printf("\nInserisci id della playlist: ");
 		id = inputNumero();

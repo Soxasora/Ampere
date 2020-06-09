@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.2.2
+ * UNIBA/Ampere 1.3
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -26,15 +26,16 @@
 void inserireAlbumGuidato(database *db) {
 	char *titolo = calloc(MAX_MEDIO, sizeof(char));
 	do {
-		
 		if ((titolo = calloc(MAX_MEDIO, sizeof(char)))) {
 			printf("\nInserisci titolo dell'album: ");
 			titolo = inputStringa(MAX_MEDIO,titolo);
 			creareAlbumSeNonEsiste(db, titolo);
 		}
 	} while (db->ultimoEsito!=0);
-	free(titolo); titolo=NULL;
-	
+	if (titolo!=NULL) {
+		free(titolo);
+		titolo=NULL;
+	}
 }
 
 void creareAlbumGuidato(database *db, char titoloAlbum[]) {
@@ -178,7 +179,10 @@ void creareAlbumModificato(database *db, int campo, int id) {
 			printf("\nInserisci nuovo titolo: ");
 			titolo = inputStringa(MAX_MEDIO,titolo);
 			strcpy(albumModificato.titolo, titolo);
-			free(titolo);
+			if(titolo!=NULL) {
+				free(titolo);
+				titolo=NULL;
+			}
 		} else if (campo==2) {
 			int anno=0;
 			while (anno<1950) {
@@ -220,9 +224,14 @@ void modificareAlbum(database *db, int idAlbum, struct Album albumModificato) {
 }
 
 void cancellareAlbumGuidato(database *db) {
-	int id=0;
+	int id=0, esiste=0;
 	char scelta='N';
-	mostrareTuttiAlbum(db);
+	do {
+		esiste = ricercareInfo(db, 1);
+		if (esiste==0) {
+			attenzione(101);
+		}
+	} while (esiste==0);
 	while (ottenerePosDaID(db, 1,id)==-1) {
 		printf("\n\nInserire l'identificativo dell'album da cancellare: ");
 		id = inputNumero();

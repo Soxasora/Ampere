@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.2.2
+ * UNIBA/Ampere 1.3
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -30,7 +30,10 @@ void inserireArtistaGuidato(database *db) {
 		nomeArte = inputStringa(MAX_MEDIO,nomeArte);
 		creareArtistaSeNonEsiste(db,nomeArte);
 	} while (db->ultimoEsito!=0);
-	
+	if (nomeArte!=NULL) {
+		free(nomeArte);
+		nomeArte=NULL;
+	}
 }
 
 void creareArtistaGuidato(database *db, char nomeArte[]) {
@@ -40,7 +43,6 @@ void creareArtistaGuidato(database *db, char nomeArte[]) {
 	char *linkBio = calloc(MAX_ENORME, sizeof(char));
 	printf("\n===[Inserimento guidato di un artista]==="
 	       "\nNome d'arte: %s", nomeArte);
-	
 	printf("\n"C_GIALLO"[Premi invio per saltare]"C_RESET" Inserisci nome ANAGRAFICO dell'artista: ");
 	nome = inputStringa(MAX_MEDIO,nome);
 	printf("\n"C_GIALLO"[Premi invio per saltare]"C_RESET" Inserisci cognome ANAGRAFICO dell'artista: ");
@@ -48,6 +50,18 @@ void creareArtistaGuidato(database *db, char nomeArte[]) {
 	printf("\n"C_GIALLO"[Premi invio per saltare]"C_RESET" Inserisci il link della biografia dell'artista: ");
 	linkBio = inputStringa(MAX_ENORME,linkBio);
 	struct Artista nuovoArtista = creareArtista(nome, cognome, nomeArte, linkBio);
+	if (nome!=NULL) {
+		free(nome);
+		nome=NULL;
+	}
+	if (cognome!=NULL) {
+		free(cognome);
+		cognome=NULL;
+	}
+	if (linkBio!=NULL) {
+		free(linkBio);
+		linkBio=NULL;
+	}
 	mostrareAnteprimaArtista(nuovoArtista);
 	scelta = richiesta(0);
 	if (scelta=='Y'||scelta=='y') {
@@ -178,25 +192,37 @@ void creareArtistaModificato(database *db, int campo, int id) {
 			printf("\nInserisci nuovo nome: ");
 			nome = inputStringa(MAX_MEDIO,nome);
 			strcpy(artistaModificato.nome, nome);
-			free(nome);
+			if (nome!=NULL) {
+				free(nome);
+				nome=NULL;
+			}
 		} else if (campo==2) {
 			char *cognome = calloc(MAX_MEDIO, sizeof(char));
 			printf("\nInserisci nuovo cognome: ");
 			cognome = inputStringa(MAX_MEDIO,cognome);
 			strcpy(artistaModificato.cognome, cognome);
-			free(cognome);
+			if (cognome!=NULL) {
+				free(cognome);
+				cognome=NULL;
+			}
 		} else if (campo==3) {
 			char *nomeArte = calloc(MAX_MEDIO, sizeof(char));
 			printf("\nInserisci nuovo nome d'arte: ");
 			nomeArte = inputStringa(MAX_MEDIO,nomeArte);
 			strcpy(artistaModificato.nomeArte, nomeArte);
-			free(nomeArte);
+			if (nomeArte!=NULL) {
+				free(nomeArte);
+				nomeArte=NULL;
+			}
 		} else if (campo==4) {
 			char *linkBio = calloc(MAX_ENORME, sizeof(char));
 			printf("\nInserisci nuovo link della biografia: ");
 			linkBio = inputStringa(MAX_ENORME, linkBio);
 			strcpy(artistaModificato.linkBio, linkBio);
-			free(linkBio);
+			if (linkBio!=NULL) {
+				free(linkBio);
+				linkBio=NULL;
+			}
 		}
 		printf("\nArtista ORIGINALE: ");
 		mostrareSingoloArtista(db, id);
@@ -231,9 +257,14 @@ void modificareArtista(database *db, int idArtista, struct Artista artistaModifi
 }
 
 void cancellareArtistaGuidato(database *db) {
-	int id=0;
+	int id=0, esiste=0;
 	char scelta='N';
-	mostrareTuttiArtisti(db);
+	do {
+		esiste = ricercareInfo(db, 0);
+		if (esiste==0) {
+			attenzione(101);
+		}
+	} while (esiste==0);
 	while (ottenerePosDaID(db, 2,id)==-1) {
 		printf("\n\nInserire l'identificativo dell'artista da cancellare: ");
 		id = inputNumero();

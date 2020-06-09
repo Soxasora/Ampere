@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.2.2
+ * UNIBA/Ampere 1.3
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -25,9 +25,13 @@
 
 void mostrareSingoloBrano(database *db, int id) {
 	int posBrano = ottenerePosDaID(db, 0,id);
+	char *tempo = convertireSecondiInTempo(db->brano[posBrano].durata);
 	printf("\nIdentificativo: %d"
 		   "\nTitolo: %s"
-		   "\nDurata: %s", db->brano[posBrano].id, db->brano[posBrano].titolo, convertireSecondiInTempo(db->brano[posBrano].durata));
+		   "\nDurata: %s", db->brano[posBrano].id, db->brano[posBrano].titolo, tempo);
+	if (tempo!=NULL) {
+		free(tempo); tempo=NULL;
+	}
 	mostrareAssociazioni(db, 0, id);
 	mostrareAssociazioni(db, 1, id);
 	mostrareAssociazioni(db, 2, id);
@@ -378,11 +382,21 @@ int ricercareInfo(database *db, int modalita) {
 				i++;
 			}
 		}
-		free(nome); free(cognome); free(nomeArte);
+		if (nome!=NULL) {
+			free(nome);
+			nome=NULL;
+		}
+		if (cognome!=NULL) {
+			free(cognome);
+			cognome=NULL;
+		}
+		if (nomeArte!=NULL) {
+			free(nomeArte);
+			nomeArte=NULL;
+		}
 	} else if (modalita==1) {
 		char *titolo = calloc(MAX_MEDIO, sizeof(char));
 		int anno=0;
-		
 		printf("\n[Premi invio per saltare] Inserisci il titolo dell'album da ricercare: ");
 		titolo = inputStringa(MAX_MEDIO,titolo);
 		if (comparareStringhe(titolo, "N/A")==0)
@@ -404,10 +418,12 @@ int ricercareInfo(database *db, int modalita) {
 			}
 			i++;
 		}
-		free(titolo);
+		if (titolo!=NULL) {
+			free(titolo);
+			titolo=NULL;
+		}
 	} else if (modalita==2) {
 		char *nome = calloc(MAX_MEDIO, sizeof(char));
-		
 		printf("\nInserisci il nome del genere da ricercare: ");
 		nome = inputStringa(MAX_MEDIO,nome);
 		int i=0, n=contareNelDatabase(db,3);
@@ -420,7 +436,10 @@ int ricercareInfo(database *db, int modalita) {
 			}
 			i++;
 		}
-		free(nome);
+		if (nome!=NULL) {
+			free(nome);
+			nome=NULL;
+		}
 	} else if (modalita==3) {
 		char *playlist = calloc(MAX_MEDIO, sizeof(char));
 		printf("\nInserisci il nome della playlist da ricercare: ");
@@ -437,10 +456,12 @@ int ricercareInfo(database *db, int modalita) {
 			}
 			i++;
 		}
-		free(playlist);
+		if (playlist!=NULL) {
+			free(playlist);
+			playlist=NULL;
+		}
 	} else if (modalita==4) {
 		char *username = calloc(MAX_MEDIO, sizeof(char));
-		
 		printf("\nInserisci l'username dell'utente: ");
 		username = inputStringa(MAX_MEDIO,username);
 		int i=0, n=contareNelDatabase(db,-1);
@@ -453,7 +474,10 @@ int ricercareInfo(database *db, int modalita) {
 			}
 			i++;
 		}
-		free(username);
+		if (username!=NULL) {
+			free(username);
+			username=NULL;
+		}
 	}
 	return esiste;
 }
@@ -513,7 +537,10 @@ int ricercareBrani(database *db, int modalita) {
 			}
 			i++;
 		}
-		free(titolo);
+		if (titolo!=NULL) {
+			free(titolo);
+			titolo=NULL;
+		}
 	} else if (modalita==1) {
 		int anno = 0;
 		
@@ -538,7 +565,6 @@ int ricercareBraniArtista(database *db) {
 	int esiste=0;
 	int id=0;
 	char *nomeArte = calloc(MAX_MEDIO, sizeof(char));
-	
 	printf("\nInserisci nome d'arte dell'artista: ");
 	nomeArte = inputStringa(MAX_MEDIO,nomeArte);
 	id = controllareEsistenzaArtista(db, nomeArte);
@@ -556,7 +582,10 @@ int ricercareBraniArtista(database *db) {
 			i++;
 		}
 	}
-	free(nomeArte);
+	if (nomeArte!=NULL) {
+		free(nomeArte);
+		nomeArte=NULL;
+	}
 	return esiste;
 }
 
@@ -564,7 +593,6 @@ int ricercareBraniAlbum(database *db) {
 	int esiste=0;
 	int id=0;
 	char *album = calloc(MAX_MEDIO, sizeof(char));
-	
 	printf("\nInserisci nome album: ");
 	album = inputStringa(MAX_MEDIO,album);
 	id = controllareEsistenzaAlbum(db, album);
@@ -582,7 +610,10 @@ int ricercareBraniAlbum(database *db) {
 			i++;
 		}
 	}
-	free(album);
+	if (album!=NULL) {
+		free(album);
+		album=NULL;
+	}
 	return esiste;
 }
 
@@ -590,7 +621,6 @@ int ricercareBraniGenere(database *db) {
 	int esiste=0;
 	int id=0;
 	char *genere = calloc(MAX_MEDIO, sizeof(char));
-	
 	printf("\nInserisci nome genere: ");
 	genere = inputStringa(MAX_MEDIO,genere);
 	id = controllareEsistenzaGenere(db, genere);
@@ -608,7 +638,10 @@ int ricercareBraniGenere(database *db) {
 			i++;
 		}
 	}
-	free(genere);
+	if (genere!=NULL) {
+		free(genere);
+		genere=NULL;
+	}
 	return esiste;
 }
 
@@ -616,7 +649,6 @@ int ricercareBraniPlaylist(database *db) {
 	int esiste=0;
 	int id=0;
 	char *playlist = calloc(MAX_MEDIO, sizeof(char));
-	
 	printf("\nInserisci nome playlist: ");
 	playlist = inputStringa(MAX_MEDIO,playlist);
 	id = controllareEsistenzaPlaylist(db, playlist);
@@ -638,7 +670,10 @@ int ricercareBraniPlaylist(database *db) {
 			printf("\nPlaylist privata.");
 		}
 	}
-	free(playlist);
+	if (playlist!=NULL) {
+		free(playlist);
+		playlist=NULL;
+	}
 	return esiste;
 }
 
@@ -646,7 +681,6 @@ int ricercarePlaylistUtenteGuidato(database *db) {
 	int esiste=0;
 	int id=0;
 	char *utente = calloc(MAX_MEDIO, sizeof(char));
-	
 	printf("\nInserisci nome utente: ");
 	utente = inputStringa(MAX_MEDIO,utente);
 	if (!controllareEsistenzaUtente(db, utente)) {
@@ -663,7 +697,10 @@ int ricercarePlaylistUtenteGuidato(database *db) {
 		mostrarePlaylistUtente(db, 0, id);
 		esiste=1;
 	}
-	free(utente);
+	if (utente!=NULL) {
+		free(utente);
+		utente=NULL;
+	}
 	return esiste;
 }
 
@@ -755,15 +792,23 @@ void stampareBraniGuidato(database *db) {
 	} else {
 		stampareListaBrani(db, idBrani);
 	}
+	if (idBrani!=NULL) {
+		free(idBrani);
+		idBrani=NULL;
+	}
 }
 
 void stampareSingoloBrano(database *db, FILE* fp, int id) {
 	int j=0;
 	int posBrano = ottenerePosDaID(db, 0,id);
+	char *tempo = convertireSecondiInTempo(db->brano[posBrano].durata);
 	fprintf(fp, DIVISORE
 			"\nIdentificativo: %d"
 			"\nTitolo: %s"
-			"\nDurata: %s", db->brano[posBrano].id, db->brano[posBrano].titolo, convertireSecondiInTempo(db->brano[posBrano].durata));
+			"\nDurata: %s", db->brano[posBrano].id, db->brano[posBrano].titolo, tempo);
+	if (tempo!=NULL) {
+		free(tempo); tempo=NULL;
+	}
 	fprintf(fp, "\nArtisti: ");
 	int *posArtisti=ottenerePosAssociazioniDaID(db, 5, db->brano[posBrano].id);
 	j=0;
@@ -822,7 +867,7 @@ void stampareListaBrani(database *db, int idBrani[]) {
 			stampareSingoloBrano(db, fp, db->brano[i].id);
 			i++;
 		}
-		successo(150);
+		successo(151);
 	} else {
 		fprintf(fp, "Brani selezionati dal Database attuale di Ampere");
 		i=0;
@@ -830,7 +875,11 @@ void stampareListaBrani(database *db, int idBrani[]) {
 			stampareSingoloBrano(db, fp, idBrani[i]);
 			i++;
 		}
-		successo(151);
+		successo(150);
 	}
 	fclose(fp);
+	if (nomefile!=NULL) {
+		free(nomefile);
+		nomefile=NULL;
+	}
 }

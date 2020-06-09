@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.2.2
+ * UNIBA/Ampere 1.3
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -368,11 +368,17 @@ void backupDatabase() {
 	sprintf(percorso_backup, "backup/%s/utenti.txt", nome_backup);
 	backupFile(file_utenti, percorso_backup);
 	printf(" Backup effettuato.");
-	free(nome_backup); free(percorso_backup);
+	if (nome_backup!=NULL) {
+		free(nome_backup);
+		nome_backup=NULL;
+	}
+	if (percorso_backup!=NULL) {
+		free(percorso_backup);
+		percorso_backup=NULL;
+	}
 }
 
 void ripristinareDatabase(database *db) {
-	
 	char *nome_backup = calloc(MAX_GRANDE, sizeof(char));
 	char *percorso_backup = calloc(MAX_GRANDE, sizeof(char));
 	printf("\nInserire il nome del backup dal quale ripristinare il database (es. 05052020): ");
@@ -415,5 +421,12 @@ void ripristinareDatabase(database *db) {
 			printf("\nUscendo dal ripristino...");
 		}
 	}
-	
+	if (nome_backup!=NULL) {
+		free(nome_backup);
+		nome_backup=NULL;
+	}
+	if (percorso_backup!=NULL) {
+		free(percorso_backup);
+		percorso_backup=NULL;
+	}
 }
