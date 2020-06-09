@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.1
+ * UNIBA/Ampere 1.2
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -20,7 +20,7 @@ void cancellareDatabaseFile();
  * 	@input istanza database
  *	Serve a chiamare le varie funzioni stand-alone per il salvataggio delle modifiche effettuate al database
  */
-void salvareModificheSuFile(database db);
+void salvareModificheSuFile(database *db);
 
 /**
  *	@input istanza database
@@ -30,7 +30,7 @@ void salvareModificheSuFile(database db);
  *	Esegue inserireBranoSuFile, ricreando, dunque, "file_brani" ed inserendo record per record le informazioni
  *	Cancella "temp_brani.txt" attraverso "remove" una volta finito il processo di inserimento
  */
-void salvareBraniSuFile(database db);
+void salvareBraniSuFile(database *db);
 
 /**
  *	@input istanza database
@@ -40,7 +40,7 @@ void salvareBraniSuFile(database db);
  *	Esegue inserireAlbumSuFile, ricreando, dunque, "file_albums" ed inserendo record per record le informazioni
  *	Cancella "temp_albums.txt" attraverso "remove" una volta finito il processo di inserimento
  */
-void salvareAlbumSuFile(database db);
+void salvareAlbumSuFile(database *db);
 
 /**
  *	@input istanza database
@@ -50,7 +50,7 @@ void salvareAlbumSuFile(database db);
  *	Esegue inserisciArtistaSuFile, ricreando, dunque, "file_artisti" ed inserendo record per record le informazioni
  *	Cancella "temp_artisti.txt" attraverso "remove" una volta finito il processo di inserimento
  */
-void salvareArtistiSuFile(database db);
+void salvareArtistiSuFile(database *db);
 
 /**
  *	@input istanza database
@@ -60,7 +60,7 @@ void salvareArtistiSuFile(database db);
  *	Esegue inserireGenereSuFile, ricreando, dunque, "file_generi" ed inserendo record per record le informazioni
  *	Cancella "temp_generi.txt" attraverso "remove" una volta finito il processo di inserimento
  */
-void salvareGeneriSuFile(database db);
+void salvareGeneriSuFile(database *db);
 
 /**
  *	@input istanza database
@@ -70,7 +70,7 @@ void salvareGeneriSuFile(database db);
  *	Esegue inserirePlaylistSuFile, ricreando, dunque, "file_playlists" ed inserendo record per record le informazioni
  *	Cancella "temp_playlists.txt" attraverso "remove" una volta finito il processo di inserimento
  */
-void salvarePlaylistSuFile(database db);
+void salvarePlaylistSuFile(database *db);
 
 /**
  *	@input istanza database
@@ -80,7 +80,7 @@ void salvarePlaylistSuFile(database db);
  *	Esegue inserireUtenteSuFile, ricreando, dunque, "file_utenti" ed inserendo record per record le informazioni
  *	Cancella "temp_utenti.txt" attraverso "remove" una volta finito il processo di inserimento
  */
-void salvareUtentiSuFile(database db);
+void salvareUtentiSuFile(database *db);
 
 // Associazioni
 /**
@@ -91,7 +91,7 @@ void salvareUtentiSuFile(database db);
  *	Esegue inserireBranoArtistaSuFile, ricreando, dunque, "file_BranoAlbum" ed inserendo record per record le informazioni
  *	Cancella "temp_BranoAlbum.txt" attraverso "remove" una volta finito il processo di inserimento
  */
-void salvareBranoAlbumSuFile(database db);
+void salvareBranoAlbumSuFile(database *db);
 
 /**
  *	@input istanza database
@@ -102,7 +102,7 @@ void salvareBranoAlbumSuFile(database db);
  *	ed inserendo record per record le informazioni
  *	Cancella "temp_BranoArtista.txt" attraverso "remove" una volta finito il processo di inserimento
  */
-void salvareAssociazioniArtistiSuFile(database db);
+void salvareAssociazioniArtistiSuFile(database *db);
 
 /**
  *	@input istanza database
@@ -112,7 +112,7 @@ void salvareAssociazioniArtistiSuFile(database db);
  *	Esegue inserireBranoGenereSuFile, ricreando, dunque, "file_BranoGenere" ed inserendo record per record le informazioni
  *	Cancella "temp_BranoGenere.txt" attraverso "remove" una volta finito il processo di inserimento
  */
-void salvareBranoGenereSuFile(database db);
+void salvareBranoGenereSuFile(database *db);
 
 /**
  *	@input istanza database
@@ -122,6 +122,6 @@ void salvareBranoGenereSuFile(database db);
  *	Esegue inserirePlaylistBranoSuFile, ricreando, dunque, "file_PlaylistBrano" ed inserendo record per record le informazioni
  *	Cancella "temp_PlaylistBrano.txt" attraverso "remove" una volta finito il processo di inserimento
  */
-void salvarePlaylistBranoSuFile(database db);
+void salvarePlaylistBranoSuFile(database *db);
 
 #endif /* GESTORI_GESTOREFILE_H_ */

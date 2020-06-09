@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.1
+ * UNIBA/Ampere 1.2
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -21,20 +21,20 @@
 #include "../sys/Messaggi.h"
 #include "../Ampere.h"
 
-bool controllareSeAdmin(database db) {
+bool controllareSeAdmin(database *db) {
 	bool risultato=false;
-	int pos=ottenerePosDaID(db, -1,db.utenteCorrente);
-	risultato = db.utente[pos].admin;
+	int pos=ottenerePosDaID(db, -1,db->utenteCorrente);
+	risultato = db->utente[pos].admin;
 	return risultato;
 }
 
-bool controllareSeAdminUtente(database db, int id) {
+bool controllareSeAdminUtente(database *db, int id) {
 	bool risultato=false;
-	risultato = db.utente[ottenerePosDaID(db, -1, id)].admin;
+	risultato = db->utente[ottenerePosDaID(db, -1, id)].admin;
 	return risultato;
 }
 
-bool controllareSePrescelto(database db) {
+bool controllareSePrescelto(database *db) {
 	bool risultato=false;
 	if (contareNelDatabase(db, -1)==0) {
 		risultato=true;
@@ -42,11 +42,11 @@ bool controllareSePrescelto(database db) {
 	return risultato;
 }
 
-void infoUtenteConnesso(database db) {
-	int posUtente = ottenerePosDaID(db, -1, db.utenteCorrente);
+void infoUtenteConnesso(database *db) {
+	int posUtente = ottenerePosDaID(db, -1, db->utenteCorrente);
 	printf("\n===[Informazioni Utente Connesso]==="
 		   "\nNome Utente: %s"
-		   "\nRuolo Utente: ", db.utente[posUtente].username);
+		   "\nRuolo Utente: ", db->utente[posUtente].username);
 	if (controllareSeAdmin(db)==true) {
 		printf(COLOR_ADMIN"\n");
 	} else {
@@ -54,7 +54,7 @@ void infoUtenteConnesso(database db) {
 	}
 }
 
-database loginUtente(database db) {
+void loginUtente(database *db) {
 	printf("\nEsecuzione Login ad Ampere");
 	int controllo=0, id=0;
 	char *username;
@@ -73,8 +73,8 @@ database loginUtente(database db) {
 		if (strcmp(username, "N/A")==0||strcmp(password, "N/A")==0) {
 			attenzione(2);
 		} else if (id!=0) {
-			db.utenteCorrente = id;
-			printf("\n"C_VERDE"Accesso consentito."C_RESET" Bentornato su Ampere, %s.", db.utente[ottenerePosDaID(db, -1, db.utenteCorrente)].username);
+			db->utenteCorrente = id;
+			printf("\n"C_VERDE"Accesso consentito."C_RESET" Bentornato su Ampere, %s.", db->utente[ottenerePosDaID(db, -1, db->utenteCorrente)].username);
 			controllo=-1;
 		} else {
 			attenzione(1);
@@ -82,14 +82,14 @@ database loginUtente(database db) {
 		free(username); username=NULL;
 		free(password); password=NULL;
 	}
-	return db;
+	
 }
 
-int controllareDatiUtente(database db, char username[], char password[]) {
+int controllareDatiUtente(database *db, char username[], char password[]) {
 	int n = contareNelDatabase(db,-1), i=0, controllo=0, id=0;
 	while (i<n&&controllo!=-1) {
-		if (comparareStringhe(db.utente[i].username, username)==0 && strcmp(db.utente[i].password, password)==0) {
-			id = db.utente[i].id;
+		if (comparareStringhe(db->utente[i].username, username)==0 && strcmp(db->utente[i].password, password)==0) {
+			id = db->utente[i].id;
 			controllo=-1;
 		}
 		i++;
@@ -97,17 +97,17 @@ int controllareDatiUtente(database db, char username[], char password[]) {
 	return id;
 }
 
-database registrareUtente(database db) {
+void registrareUtente(database *db) {
 	
 	char scelta='a';
 	int ruolo=-1;
 	bool admin = false;
 	if (controllareSePrescelto(db)) {
-		printf("\nSei il primo utente di Ampere."
+		printf("\nSei il prescelto di Ampere."
 			   "\nAvrai poteri sovrannaturali: potrai creare, trasformare e distruggere il database."
 			   "\nProcediamo alla creazione del tuo profilo, "COLOR_ADMIN".");
 		admin = true;
-	} else if (!controllareSeAdmin(db)||db.utenteCorrente==0) {
+	} else if (!controllareSeAdmin(db)||db->utenteCorrente==0) {
 		printf("\n===[Registrazione guidata di un utente]===");
 		printf("\nBenvenuto su Ampere. Procediamo alla creazione del tuo profilo.");
 	}
@@ -125,7 +125,7 @@ database registrareUtente(database db) {
 		}
 		if (strcmp(username,"N/A")==0||strcmp(password,"N/A")==0) {
 			attenzione(2);
-			db.ultimoEsito=-1;
+			db->ultimoEsito=-1;
 		} else if (controllareEsistenzaUtente(db, username)==false) {
 			if (controllareSeAdmin(db)) {
 				while (ruolo<0||ruolo>1) {
@@ -142,22 +142,22 @@ database registrareUtente(database db) {
 			mostrareAnteprimaUtente(nuovoUtente);
 			scelta = richiesta(0);
 			if (scelta=='Y'||scelta=='y') {
-				db = inserireUtente(db, nuovoUtente);
-				db.ultimoEsito = 0;
+				inserireUtente(db, nuovoUtente);
+				db->ultimoEsito = 0;
 			} else {
-				db.ultimoEsito = -1;
+				db->ultimoEsito = -1;
 			}
 		} else {
 			attenzione(0);
-			db.ultimoEsito = -1;
+			db->ultimoEsito = -1;
 		}
 		free(username); username=NULL;
 		free(password); password=NULL;
-	} while (db.ultimoEsito!=0);
-	if (!controllareSeAdmin(db)||db.utenteCorrente==0) {
-		db = loginUtente(db);
+	} while (db->ultimoEsito!=0);
+	if (!controllareSeAdmin(db)||db->utenteCorrente==0) {
+		loginUtente(db);
 	}
-	return db;
+	
 }
 
 struct Utente creareUtente(char username[], char password[], bool admin) {
@@ -180,25 +180,25 @@ void mostrareAnteprimaUtente(struct Utente nuovoUtente) {
 	}
 }
 
-database inserireUtente(database db, struct Utente nuovoUtente) {
+void inserireUtente(database *db, struct Utente nuovoUtente) {
 	nuovoUtente.id = trovareUltimoId(db, -1)+1;
 	int n=contareNelDatabase(db,-1);
-	db.utente[n] = nuovoUtente;
+	db->utente[n] = nuovoUtente;
 	successo(0);
 	if (salvataggioDiretto) {
 		salvareUtentiSuFile(db);
 	} else {
-		db.modificato=true;
+		db->modificato=true;
 		successo(0);
 	}
-	return db;
+	
 }
 
-bool controllareEsistenzaUtente(database db, char username[]) {
+bool controllareEsistenzaUtente(database *db, char username[]) {
 	int i=0, n=contareNelDatabase(db,-1), controllo=0;
 	bool esistenza=false;
 	while (i<n&&controllo!=-1) {
-		if (comparareStringhe(db.utente[i].username, username)==0) {
+		if (comparareStringhe(db->utente[i].username, username)==0) {
 			esistenza=true;
 			controllo=-1;
 		}
@@ -217,7 +217,7 @@ void inserireUtenteSuFile(struct Utente utente, char admin[]) {
 	fclose(fp);
 }
 
-database modificareUtenteGuidato(database db) {
+void modificareUtenteGuidato(database *db) {
 	int id=0, campo=-1, esiste=0;
 	char scelta='a';
 	if (controllareSeAdmin(db)) {
@@ -237,8 +237,8 @@ database modificareUtenteGuidato(database db) {
 		printf("\nHai scelto l'utente");
 		mostrareSingoloUtente(db, 0, id);
 	} else {
-		mostrareSingoloUtente(db, 1,db.utenteCorrente);
-		id = db.utenteCorrente;
+		mostrareSingoloUtente(db, 1,db->utenteCorrente);
+		id = db->utenteCorrente;
 	}
 	
 	scelta = richiesta(0);
@@ -255,22 +255,19 @@ database modificareUtenteGuidato(database db) {
 				campo = inputNumero();
 			}
 			if (campo!=0) {
-				db = creareUtenteModificato(db, campo, id);
-				if (db.ultimoEsito==0) {
-					printf("\nUtente modificato.");
-				}
+				creareUtenteModificato(db, campo, id);
 			} else {
-				db.ultimoEsito=-2;
+				db->ultimoEsito=-2;
 			}
-		} while (db.ultimoEsito==-1);
+		} while (db->ultimoEsito==-1);
 	}
-	return db;
+	
 }
 
-database creareUtenteModificato(database db, int campo, int id) {
+void creareUtenteModificato(database *db, int campo, int id) {
 	char scelta='a';
 	int pos = ottenerePosDaID(db, -1, id);
-	struct Utente utenteModificato = db.utente[pos];
+	struct Utente utenteModificato = db->utente[pos];
 	do {
 		
 		if (campo==1) {
@@ -326,33 +323,33 @@ database creareUtenteModificato(database db, int campo, int id) {
 		mostrareAnteprimaUtente(utenteModificato);
 		scelta = richiesta(0);
 		if (scelta=='Y'||scelta=='y') {
-			db = modificareUtente(db, id, utenteModificato);
-			db.ultimoEsito=0;
+			modificareUtente(db, id, utenteModificato);
+			db->ultimoEsito=0;
 		} else {
 			scelta = richiesta(3);
 			if (scelta=='Y'||scelta=='y') {
-				db.ultimoEsito=-2;
+				db->ultimoEsito=-2;
 			} else {
-				db.ultimoEsito=-1;
+				db->ultimoEsito=-1;
 			}
 		}
-	} while (db.ultimoEsito==-2);
-	return db;
+	} while (db->ultimoEsito==-2);
+	
 }
 
-database modificareUtente(database db, int idUtente, struct Utente utenteModificato) {
+void modificareUtente(database *db, int idUtente, struct Utente utenteModificato) {
 	int posUtente = ottenerePosDaID(db, -1, idUtente);
-	db.utente[posUtente] = utenteModificato;
+	db->utente[posUtente] = utenteModificato;
 	successo(6);
 	if (salvataggioDiretto) {
 		salvareUtentiSuFile(db);
 	} else {
-		db.modificato=true;
+		db->modificato=true;
 	}
-	return db;
+	
 }
 
-database cancellareUtenteGuidato(database db) {
+void cancellareUtenteGuidato(database *db) {
 	int id=0;
 	char scelta='a';
 	if (controllareSeAdmin(db)) {
@@ -367,12 +364,12 @@ database cancellareUtenteGuidato(database db) {
 		printf("\nHai scelto l'utente: ");
 		mostrareSingoloUtente(db, 0, id);
 	} else {
-		id = db.utenteCorrente;
+		id = db->utenteCorrente;
 		mostrareSingoloUtente(db, 0, id);
 	}
 	scelta = richiesta(0);
 	if (scelta=='Y'||scelta=='y') {
-		db = cancellareUtente(db, id);
+		cancellareUtente(db, id);
 		printf("\nPer rendere effettive le modifiche, ora chiudero' Ampere.");
 		aspetta();
 		terminazione(db);
@@ -380,23 +377,23 @@ database cancellareUtenteGuidato(database db) {
 	} else {
 		printf("\nNessuna modifica effettuata.");
 	}
-	return db;
+	
 }
 
-database cancellareUtente(database db, int id) {
+void cancellareUtente(database *db, int id) {
 	int n=contareNelDatabase(db,-1);
 	int i=ottenerePosDaID(db, -1, id);
 	while (i<n-1) {
-		db.utente[i] = db.utente[i+1];
+		db->utente[i] = db->utente[i+1];
 		i++;
 	}
-	db.utente[n-1].id = 0;
+	db->utente[n-1].id = 0;
 
 	int nPlaylist=contareNelDatabase(db,4);
 	i=0;
 	while (i<nPlaylist) {
-		if (db.playlist[i].idUtente==id) {
-			db = cancellareSingolaPlaylist(db, db.playlist[i].id);
+		if (db->playlist[i].idUtente==id) {
+			cancellareSingolaPlaylist(db, db->playlist[i].id);
 			i=-1;
 		}
 		i++;
@@ -405,8 +402,8 @@ database cancellareUtente(database db, int id) {
 	if (salvataggioDiretto) {
 		salvareUtentiSuFile(db);
 	} else {
-		db.modificato=true;
+		db->modificato=true;
 	}
-	return db;
+	
 }
 

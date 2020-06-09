@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.1
+ * UNIBA/Ampere 1.2
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -32,15 +32,15 @@ struct BranoArtista creareAssociazioneArtista(int idBrano, int idArtista) {
 	return branoArtista;
 }
 
-database inserireAssociazioneArtista(database db, struct BranoArtista branoArtista) {
+void inserireAssociazioneArtista(database *db, struct BranoArtista branoArtista) {
 	int n = contareNelDatabase(db,5);
-	db.branoArtista[n] = branoArtista;
+	db->branoArtista[n] = branoArtista;
 	if (salvataggioDiretto) {
 		salvareAssociazioniArtistiSuFile(db);
 	} else {
-		db.modificato=true;
+		db->modificato=true;
 	}
-	return db;
+	
 }
 
 struct BranoAlbum creareAssociazioneAlbum(int idBrano, int idAlbum) {
@@ -50,15 +50,15 @@ struct BranoAlbum creareAssociazioneAlbum(int idBrano, int idAlbum) {
 	return branoAlbum;
 }
 
-database inserireAssociazioneAlbum(database db, struct BranoAlbum branoAlbum) {
+void inserireAssociazioneAlbum(database *db, struct BranoAlbum branoAlbum) {
 	int n = contareNelDatabase(db,6);
-	db.branoAlbum[n] = branoAlbum;
+	db->branoAlbum[n] = branoAlbum;
 	if (salvataggioDiretto) {
 		salvareBranoAlbumSuFile(db);
 	} else {
-		db.modificato=true;
+		db->modificato=true;
 	}
-	return db;
+	
 }
 
 struct BranoGenere creareAssociazioneGenere(int idBrano, int idGenere) {
@@ -68,15 +68,15 @@ struct BranoGenere creareAssociazioneGenere(int idBrano, int idGenere) {
 	return branoGenere;
 }
 
-database inserireAssociazioneGenere(database db, struct BranoGenere branoGenere) {
+void inserireAssociazioneGenere(database *db, struct BranoGenere branoGenere) {
 	int n=contareNelDatabase(db,7);
-	db.branoGenere[n] = branoGenere;
+	db->branoGenere[n] = branoGenere;
 	if (salvataggioDiretto) {
 		salvareBranoGenereSuFile(db);
 	} else {
-		db.modificato=true;
+		db->modificato=true;
 	}
-	return db;
+	
 }
 
 struct PlaylistBrano creareAssociazionePlaylist(int idPlaylist, int idBrano) {
@@ -86,15 +86,15 @@ struct PlaylistBrano creareAssociazionePlaylist(int idPlaylist, int idBrano) {
 	return playlistBrano;
 }
 
-database inserireAssociazionePlaylist(database db, struct PlaylistBrano playlistBrano) {
+void inserireAssociazionePlaylist(database *db, struct PlaylistBrano playlistBrano) {
 	int n = contareNelDatabase(db, 8);
-	db.playlistBrano[n] = playlistBrano;
+	db->playlistBrano[n] = playlistBrano;
 	if (salvataggioDiretto) {
 		salvarePlaylistBranoSuFile(db);
 	} else {
-		db.modificato=true;
+		db->modificato=true;
 	}
-	return db;
+	
 }
 
 void inserireBranoAlbumSuFile(struct BranoAlbum branoAlbum) {
@@ -138,84 +138,84 @@ void inserirePlaylistBranoSuFile(struct PlaylistBrano playlistBrano) {
 	fclose(fp);
 }
 
-database cancellareAssociazioniBrano(database db, int id) {
+void cancellareAssociazioniBrano(database *db, int id) {
 	//Cancella Associazioni
-	db = cancellareAssociazioniArtisti(db, id);
+	cancellareAssociazioniArtisti(db, id);
 
-	db = cancellareAssociazioniAlbum(db, id);
+	cancellareAssociazioniAlbum(db, id);
 
-	db = cancellareAssociazioniGenere(db, id);
+	cancellareAssociazioniGenere(db, id);
 
-	db = cancellareAssociazioniPlaylist(db, id);
-	return db;
+	cancellareAssociazioniPlaylist(db, id);
+	
 }
 
-database cancellareAssociazioniArtisti(database db, int id) {
+void cancellareAssociazioniArtisti(database *db, int id) {
 	int n = contareNelDatabase(db,5);
 	int i = ottenerePosDaID(db, 5, id);
 
 	while (i<n-1) {
-		db.branoArtista[i] = db.branoArtista[i+1];
+		db->branoArtista[i] = db->branoArtista[i+1];
 		i++;
 	}
-	db.branoArtista[n-1].idBrano = 0;
-	db.branoArtista[n-1].idArtista = 0;
+	db->branoArtista[n-1].idBrano = 0;
+	db->branoArtista[n-1].idArtista = 0;
 	if (salvataggioDiretto) {
 		salvareAssociazioniArtistiSuFile(db);
 	} else {
-		db.modificato=true;
+		db->modificato=true;
 	}
-	return db;
+	
 }
 
-database cancellareAssociazioniAlbum(database db, int idBrano) {
+void cancellareAssociazioniAlbum(database *db, int idBrano) {
 	int n = contareNelDatabase(db,6);
 	int i = ottenerePosDaID(db, 6, idBrano);
 	while (i<n-1) {
-		db.branoAlbum[i] = db.branoAlbum[i+1];
+		db->branoAlbum[i] = db->branoAlbum[i+1];
 		i++;
 	}
-	db.branoAlbum[n-1].idBrano = 0;
-	db.branoAlbum[n-1].idAlbum = 0;
+	db->branoAlbum[n-1].idBrano = 0;
+	db->branoAlbum[n-1].idAlbum = 0;
 	if (salvataggioDiretto) {
 		salvareBranoAlbumSuFile(db);
 	} else {
-		db.modificato=true;
+		db->modificato=true;
 	}
-	return db;
+	
 }
 
-database cancellareAssociazioniGenere(database db, int idBrano) {
+void cancellareAssociazioniGenere(database *db, int idBrano) {
 	int n = contareNelDatabase(db,7);
 	int i = ottenerePosDaID(db, 7, idBrano);
 	while (i<n-1) {
-		db.branoGenere[i] = db.branoGenere[i+1];
+		db->branoGenere[i] = db->branoGenere[i+1];
 		i++;
 	}
-	db.branoGenere[n-1].idBrano = 0;
-	db.branoGenere[n-1].idGenere = 0;
+	db->branoGenere[n-1].idBrano = 0;
+	db->branoGenere[n-1].idGenere = 0;
 	if (salvataggioDiretto) {
 		salvareBranoGenereSuFile(db);
 	} else {
-		db.modificato=true;
+		db->modificato=true;
 	}
-	return db;
+	
 }
 
-database cancellareAssociazioniPlaylist(database db, int id) {
+void cancellareAssociazioniPlaylist(database *db, int id) {
 	int n=contareNelDatabase(db,8);
 	int i=ottenerePosDaID(db, 8, id);
 	while (i<n-1) {
-		db.playlistBrano[i] = db.playlistBrano[i+1];
+		db->playlistBrano[i] = db->playlistBrano[i+1];
 		i++;
 	}
-	db.playlistBrano[n-1].idPlaylist = 0;
-	db.playlistBrano[n-1].idBrano = 0;
+	db->playlistBrano[n-1].idPlaylist = 0;
+	db->playlistBrano[n-1].idBrano = 0;
 	if (salvataggioDiretto) {
 		salvarePlaylistBranoSuFile(db);
 	} else {
-		db.modificato=true;
+		db->modificato=true;
 	}
-	return db;
+	
 }
 

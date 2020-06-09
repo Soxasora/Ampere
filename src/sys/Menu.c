@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.1
+ * UNIBA/Ampere 1.2
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -25,22 +25,22 @@
 #include "../Ampere.h"
 #include "Messaggi.h"
 
-database menuLogin(database db) {
+void menuLogin(database *db) {
 	int scelta=-1;
 	while (scelta<0||scelta>1) {
 		printf("\nDesideri effettuare: il "C_VERDE"Login[0]"C_RESET" oppure "C_GIALLO"Registrarti[1]"C_RESET" ad Ampere? ");
 		scelta = inputNumero();
 	}
 	if (scelta==0) {
-		db = loginUtente(db);
+		loginUtente(db);
 	} else {
-		db = registrareUtente(db);
+		registrareUtente(db);
 	}
-	return db;
+	
 }
 
 // Nuovo Menu di Ampere
-database menu(database db) {
+void menu(database *db) {
 	int scelta=-1;
 	printf("\n===["C_CIANO"Menu Principale"C_RESET"]===");
 	printf("\n[1] Effettua una "C_CIANO"Ricerca"C_RESET);
@@ -59,33 +59,33 @@ database menu(database db) {
 	if (scelta==1) {
 		eseguireRicerca(db);
 		aspetta();
-		db = menu(db);
+		menu(db);
 	} else if (scelta==2) {
 		menuRicercaAvanzata(db);
 	} else if (scelta==3) {
-		db = menuPlaylist(db);
+		menuPlaylist(db);
 	} else if (scelta==4) {
-		db = menuAccount(db);
+		menuAccount(db);
 	} else if (scelta==9) {
 		if (controllareSeAdmin(db))
-			db = menuDatabase(db);
+			menuDatabase(db);
 		else
 			errore(16);
 	} else if (scelta==10) {
 		if (controllareSeAdmin(db))
-			db = menuDebug(db);
+			menuDebug(db);
 		else
 			errore(16);
 	} else if (scelta==0) {
 		printf("\nUscendo dal programma...\n");
 	} else {
 		attenzione(20);
-		db = menu(db);
+		menu(db);
 	}
-	return db;
+	
 }
 
-database menuAccount(database db) {
+void menuAccount(database *db) {
 	
 	int scelta=-1;
 	printf("\n===["C_GIALLO"Menu Account"C_RESET"]===");
@@ -97,23 +97,23 @@ database menuAccount(database db) {
 		scelta = inputNumero();
 	}
 	if (scelta==1) {
-		db = modificareUtenteGuidato(db);
+		modificareUtenteGuidato(db);
 		aspetta();
 		menuAccount(db);
 	} else if (scelta==2) {
-		db = cancellareUtenteGuidato(db);
+		cancellareUtenteGuidato(db);
 		aspetta();
-		db = menuAccount(db);
+		menuAccount(db);
 	} else if (scelta==0) {
-		db = menu(db);
+		menu(db);
 	} else {
 		attenzione(20);
-		db = menuAccount(db);
+		menuAccount(db);
 	}
-	return db;
+	
 }
 
-database menuPlaylist(database db) {
+void menuPlaylist(database *db) {
 	
 	int scelta=-1;
 	printf("\n===["C_CIANO"Menu Playlist"C_RESET"]===");
@@ -128,35 +128,35 @@ database menuPlaylist(database db) {
 		scelta = inputNumero();
 	}
 	if (scelta==1) {
-		mostrarePlaylistUtente(db, 0,db.utenteCorrente);
+		mostrarePlaylistUtente(db, 0,db->utenteCorrente);
 		aspetta();
-		db = menuPlaylist(db);
+		menuPlaylist(db);
 	} else if (scelta==2) {
-		db = crearePlaylistGuidato(db);
+		crearePlaylistGuidato(db);
 		aspetta();
-		db = menuPlaylist(db);
+		menuPlaylist(db);
 	} else if (scelta==3) {
-		db = inserireBraniPlaylistGuidato(db);
+		inserireBraniPlaylistGuidato(db);
 		aspetta();
-		db = menuPlaylist(db);
+		menuPlaylist(db);
 	} else if (scelta==4) {
-		db = modificarePlaylistGuidato(db);
+		modificarePlaylistGuidato(db);
 		aspetta();
-		db = menuPlaylist(db);
+		menuPlaylist(db);
 	} else if (scelta==5) {
-		db = cancellarePlaylistGuidato(db);
+		cancellarePlaylistGuidato(db);
 		aspetta();
-		db = menuPlaylist(db);
+		menuPlaylist(db);
 	} else if (scelta==0) {
-		db = menu(db);
+		menu(db);
 	} else {
 		attenzione(20);
-		db = menuPlaylist(db);
+		menuPlaylist(db);
 	}
-	return db;
+	
 }
 
-database menuDatabase(database db) {
+void menuDatabase(database *db) {
 	
 	int scelta=-1;
 	printf("\n===["C_ROSSO"Menu Database"C_RESET"]===");
@@ -164,38 +164,38 @@ database menuDatabase(database db) {
 	printf("\n[2] "C_ROSSO"Cancella"C_RESET" nel database");
 	printf("\n[3] "C_GIALLO"Modifica"C_RESET" nel database");
 	printf("\n[4] "C_VERDE"Effettua un backup"C_RESET" del database");
-	printf("\n[5] "C_VERDE"Effettua un ripristino"C_RESET" del database da un backup");
+	printf("\n[5] "C_VERDE"Effettua un ripristino"C_RESET" del void da un backup");
 	printf("\n[0] "C_BLU"Ritorna al menu principale"C_RESET);
 	while (scelta<0||scelta>5) {
 		printf("\n"C_VERDE"Inserisci la tua scelta"C_RESET": ");
 		scelta = inputNumero();
 	}
 	if (scelta==1) {
-		db = menuDBInserimento(db);
+		menuDBInserimento(db);
 	} else if (scelta==2) {
-		db = menuDBCancella(db);
+		menuDBCancella(db);
 	} else if (scelta==3) {
-		db = menuDBModifica(db);
+		menuDBModifica(db);
 	} else if (scelta==4) {
 		backupDatabase();
 		aspetta();
-		db = menuDatabase(db);
+		menuDatabase(db);
 	} else if (scelta==5) {
-		db = ripristinareDatabase(db);
+		ripristinareDatabase(db);
 		printf("\nPer rendere effettive le modifiche, ora chiudero' Ampere.");
 		aspetta();
 		terminazione(db);
 		exit(0);
 	} else if (scelta==0) {
-		db = menu(db);
+		menu(db);
 	} else {
 		attenzione(20);
-		db = menuDatabase(db);
+		menuDatabase(db);
 	}
-	return db;
+	
 }
 
-database menuDBInserimento(database db) {
+void menuDBInserimento(database *db) {
 	
 	int scelta=-1;
 	printf("\n===["C_VERDE"Menu di Inserimento nel Database"C_RESET"]===");
@@ -210,35 +210,35 @@ database menuDBInserimento(database db) {
 		scelta = inputNumero();
 	}
 	if (scelta==1) {
-		db = inserireBranoGuidato(db);
+		inserireBranoGuidato(db);
 		aspetta();
-		db = menuDBInserimento(db);
+		menuDBInserimento(db);
 	} else if (scelta==2) {
-		db = inserireArtistaGuidato(db);
+		inserireArtistaGuidato(db);
 		aspetta();
-		db = menuDBInserimento(db);
+		menuDBInserimento(db);
 	} else if (scelta==3) {
-		db = inserireAlbumGuidato(db);
+		inserireAlbumGuidato(db);
 		aspetta();
-		db = menuDBInserimento(db);
+		menuDBInserimento(db);
 	} else if (scelta==4) {
-		db = inserireGenereGuidato(db);
+		inserireGenereGuidato(db);
 		aspetta();
-		db = menuDBInserimento(db);
+		menuDBInserimento(db);
 	} else if (scelta==5) {
-		db = registrareUtente(db);
+		registrareUtente(db);
 		aspetta();
-		db = menuDBInserimento(db);
+		menuDBInserimento(db);
 	} else if (scelta==0) {
-		db = menuDatabase(db);
+		menuDatabase(db);
 	} else {
 		attenzione(20);
-		db = menuDBInserimento(db);
+		menuDBInserimento(db);
 	}
-	return db;
+	
 }
 
-database menuDBModifica(database db) {
+void menuDBModifica(database *db) {
 	
 	int scelta=-1;
 	printf("\n===["C_GIALLO"Menu di Modifica nel Database"C_RESET"]===");
@@ -254,39 +254,39 @@ database menuDBModifica(database db) {
 		scelta = inputNumero();
 	}
 	if (scelta==1) {
-		db = modificareBranoGuidato(db);
+		modificareBranoGuidato(db);
 		aspetta();
-		db = menuDBModifica(db);
+		menuDBModifica(db);
 	} else if (scelta==2) {
-		db = modificareArtistaGuidato(db);
+		modificareArtistaGuidato(db);
 		aspetta();
-		db = menuDBModifica(db);
+		menuDBModifica(db);
 	} else if (scelta==3) {
-		db = modificareAlbumGuidato(db);
+		modificareAlbumGuidato(db);
 		aspetta();
-		db = menuDBModifica(db);
+		menuDBModifica(db);
 	} else if (scelta==4) {
-		db = modificareGenereGuidato(db);
+		modificareGenereGuidato(db);
 		aspetta();
-		db = menuDBModifica(db);
+		menuDBModifica(db);
 	} else if (scelta==5) {
-		db = modificarePlaylistGuidato(db);
+		modificarePlaylistGuidato(db);
 		aspetta();
-		db = menuDBModifica(db);
+		menuDBModifica(db);
 	} else if (scelta==6) {
-		db = modificareUtenteGuidato(db);
+		modificareUtenteGuidato(db);
 		aspetta();
-		db = menuDBModifica(db);
+		menuDBModifica(db);
 	} else if (scelta==0) {
-		db = menuDatabase(db);
+		menuDatabase(db);
 	} else {
 		attenzione(20);
-		db = menuDBModifica(db);
+		menuDBModifica(db);
 	}
-	return db;
+	
 }
 
-database menuDBCancella(database db) {
+void menuDBCancella(database *db) {
 	
 	int scelta=-1;
 	printf("\n===["C_ROSSO"Menu di Cancellazione nel Database"C_RESET"]===");
@@ -302,39 +302,39 @@ database menuDBCancella(database db) {
 		scelta = inputNumero();
 	}
 	if (scelta==1) {
-		db = cancellareBranoGuidato(db);
+		cancellareBranoGuidato(db);
 		aspetta();
-		db = menuDBCancella(db);
+		menuDBCancella(db);
 	} else if (scelta==2) {
-		db = cancellareArtistaGuidato(db);
+		cancellareArtistaGuidato(db);
 		aspetta();
-		db = menuDBCancella(db);
+		menuDBCancella(db);
 	} else if (scelta==3) {
-		db = cancellareAlbumGuidato(db);
+		cancellareAlbumGuidato(db);
 		aspetta();
-		db = menuDBCancella(db);
+		menuDBCancella(db);
 	} else if (scelta==4) {
-		db = cancellareGenereGuidato(db);
+		cancellareGenereGuidato(db);
 		aspetta();
-		db = menuDBCancella(db);
+		menuDBCancella(db);
 	} else if (scelta==5) {
-		db = cancellarePlaylistGuidato(db);
+		cancellarePlaylistGuidato(db);
 		aspetta();
-		db = menuDBCancella(db);
+		menuDBCancella(db);
 	} else if (scelta==6) {
-		db = cancellareUtenteGuidato(db);
+		cancellareUtenteGuidato(db);
 		aspetta();
-		db = menuDBCancella(db);
+		menuDBCancella(db);
 	} else if (scelta==0) {
-		db = menuDatabase(db);
+		menuDatabase(db);
 	} else {
 		attenzione(20);
-		db = menuDBCancella(db);
+		menuDBCancella(db);
 	}
-	return db;
+	
 }
 
-void menuRicercaAvanzata(database db) {
+void menuRicercaAvanzata(database *db) {
 	
 	int scelta=-1;
 	printf("\n===["C_CIANO"Menu Ricerca Avanzata"C_RESET"]===");
@@ -385,7 +385,7 @@ void menuRicercaAvanzata(database db) {
 	}
 }
 
-void menuRicercaInfo(database db) {
+void menuRicercaInfo(database *db) {
 	
 	int scelta=-1;
 	printf("\n===["C_CIANO"Menu Ricerca su Criterio"C_RESET"]===");
@@ -420,7 +420,7 @@ void menuRicercaInfo(database db) {
 		aspetta();
 		menuRicercaInfo(db);
 	} else if (scelta==5) {
-		mostrarePlaylistUtente(db, 0, db.utenteCorrente);
+		mostrarePlaylistUtente(db, 0, db->utenteCorrente);
 		aspetta();
 		menuRicercaInfo(db);
 	} else if (scelta==6) {
@@ -447,7 +447,7 @@ void menuRicercaInfo(database db) {
 	}
 }
 
-void menuRicercaBraniCriterio(database db) {
+void menuRicercaBraniCriterio(database *db) {
 	
 	int scelta=-1;
 	printf("\n===["C_CIANO"Menu Ricerca Brani su Criterio]===");
@@ -494,7 +494,7 @@ void menuRicercaBraniCriterio(database db) {
 	}
 }
 
-void menuRicercaInfoCriterio(database db) {
+void menuRicercaInfoCriterio(database *db) {
 	
 	int scelta=-1, esiste=0;
 	printf("\n===["C_CIANO"Menu Ricerca Info su Criterio"C_RESET"]===");
@@ -567,7 +567,7 @@ void menuRicercaInfoCriterio(database db) {
 	}
 }
 
-database menuDebug(database db) {
+void menuDebug(database *db) {
 	
 	int scelta=-1;
 	printf("\n===[Menu Debug]===");
@@ -586,5 +586,5 @@ database menuDebug(database db) {
 		attenzione(20);
 		menuDebug(db);
 	}
-	return db;
+	
 }

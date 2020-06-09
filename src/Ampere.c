@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.1
+ * UNIBA/Ampere 1.2
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -21,16 +21,16 @@
 int main() {
 	// Creo database
 	database db;
-	db = inizializzazione(db);
-	infoUtenteConnesso(db);
-	db = menu(db);
-	db = terminazione(db);
+	inizializzazione(&db);
+	infoUtenteConnesso(&db);
+	menu(&db);
+	terminazione(&db);
 	aspetta();
 	
 	return 0;
 }
 
-database inizializzazione(database db) {
+void inizializzazione(database *db) {
 	// Rilevo il sistema operativo in uso al momento dell'esecuzione del programma
 	os = rilevareOS();
 	// Abilito i colori se su Windows, altrimenti non serve
@@ -51,29 +51,29 @@ database inizializzazione(database db) {
 		printf("\nPreferisci salvare le modifiche alla "C_GIALLO"chiusura[0]"C_RESET" di Ampere oppure "C_VERDE"subito[1]"C_RESET"? ");
 		salvataggioDiretto = inputNumero();
 
-		// Ottengo il database degli utenti prima di caricare completamente il database
-		db = ottenereDatabase(-1,db);
+		// Ottengo il void degli utenti prima di caricare completamente il database
+		ottenereDatabase(-1,db);
 
 		// Effettuo il login
-		db = menuLogin(db);
+		menuLogin(db);
 
-		// Ottengo il resto del database e tutti i sotto database con esso
-		db = ottenereDatabase(0,db);
+		// Ottengo il resto del void e tutti i sotto void con esso
+		ottenereDatabase(0,db);
 		successo(111);
 		printf(DIVISORE"\n");
 	}
-	return db;
+	
 }
 
-database terminazione(database db) {
+void terminazione(database *db) {
 	attenzione(100);
-	if (!salvataggioDiretto&&db.modificato) {
+	if (!salvataggioDiretto&db->modificato) {
 		printf("\nUn momento, sto salvando i dati... ");
 		cPrintf(C_ROSSO,"Non chiudere Ampere in questo momento.");
 		salvareModificheSuFile(db);
 		cPrintf(C_VERDE," Fatto.");
 	}
-	db = liberareDatabase(db);
+	liberareDatabase(db);
 	successo(112);
-	return db;
+	
 }

@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.1
+ * UNIBA/Ampere 1.2
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -48,9 +48,6 @@ typedef struct database_locale {
 	bool modificato;
 } database;
 
-// Variabile GLOBALE che indica se il database e' stato modificato o meno
-int db_modificato;
-
 /**
  *	Nel caso in cui non dovessero essere presenti i file del database, automaticamente vengono creati
  *	per garantire il funzionamento di Ampere
@@ -64,100 +61,100 @@ int creareDatabaseSeNonEsiste();
  * 0: caricamento iniziale
  * 1: caricamento completo
  *
- *	Carica in memoria l'intero database presente nei file
- *	@return database carico
+ *	Carica in memoria l'intero void presente nei file
+ *	@return void carico
  */
-database ottenereDatabase(int modalita, database db);
+void ottenereDatabase(int modalita, database *db);
 
 /**
  * 	@input istanza database
- *	Operazioni di caricamento in memoria della parte brani del database file-based
+ *	Operazioni di caricamento in memoria della parte brani del void file-based
  *	Se non sono presenti brani, assume valore zero
- *	@return database carico di brani
+ *	@return void carico di brani
  */
-database ottenereBrani(database db);
+void ottenereBrani(database *db);
 
 /**
  * 	@input istanza database
- *	Operazioni di caricamento in memoria della parte albums del database file-based
+ *	Operazioni di caricamento in memoria della parte albums del void file-based
  *	Se non sono presenti album, assume valore zero
- *	@return database carico di album
+ *	@return void carico di album
  */
-database ottenereAlbums(database db);
+void ottenereAlbums(database *db);
 
 /**
  *	@input istanza database
- *	Operazioni di caricamento in memoria della parte artisti del database file-based
+ *	Operazioni di caricamento in memoria della parte artisti del void file-based
  *	Se non sono presenti artisti, assume valore zero
- *	@return database carico di artisti
+ *	@return void carico di artisti
  */
-database ottenereArtisti(database db);
+void ottenereArtisti(database *db);
 
 /**
  *	@input istanza database
- *	Operazioni di caricamento in memoria della parte generi del database file-based
+ *	Operazioni di caricamento in memoria della parte generi del void file-based
  *	Se non sono presenti generi, assume valore zero
- *	@return database carico di generi
+ *	@return void carico di generi
  */
-database ottenereGeneri(database db);
+void ottenereGeneri(database *db);
 
 /**
  *	@input istanza database
- *	Operazioni di caricamento in memoria della parte playlists del database file-based
+ *	Operazioni di caricamento in memoria della parte playlists del void file-based
  *	Se non sono presenti playlists, assume valore zero
- *	@return database carico di playlist
+ *	@return void carico di playlist
  */
-database ottenerePlaylists(database db);
+void ottenerePlaylists(database *db);
 
 /**
  *	@input istanza database
- *	Operazioni di caricamento in memoria della parte utenti del database file-based
+ *	Operazioni di caricamento in memoria della parte utenti del void file-based
  *	Se non sono presenti utenti, assume valore zero
- *	@return database carico di utenti
+ *	@return void carico di utenti
  */
-database ottenereUtenti(database db);
+void ottenereUtenti(database *db);
 
 /**
  *	@input istanza database
- *	Operazioni di caricamento in memoria della parte di associazione artisti del database file-based
+ *	Operazioni di caricamento in memoria della parte di associazione artisti del void file-based
  *	Se non sono presenti associazioni di artisti, assume valore zero
- *	@return database carico di associazioni di artisti
+ *	@return void carico di associazioni di artisti
  */
-database associareArtisti(database db);
+void associareArtisti(database *db);
 
 /**
  *	@input istanza database
- *	Operazioni di caricamento in memoria della parte di associazione album del database file-based
+ *	Operazioni di caricamento in memoria della parte di associazione album del void file-based
  *	Se non sono presenti associazioni di album, assume valore zero
- *	@return database carico di associazioni di album
+ *	@return void carico di associazioni di album
  */
-database associareAlbums(database db);
+void associareAlbums(database *db);
 
 /**
  *	@input istanza database
- *	Operazioni di caricamento in memoria della parte di associazione generi del database file-based
+ *	Operazioni di caricamento in memoria della parte di associazione generi del void file-based
  *	Se non sono presenti associazioni di generi, assume valore zero
- *	@return database carico di associazioni di generi
+ *	@return void carico di associazioni di generi
  */
-database associareGeneri(database db);
+void associareGeneri(database *db);
 
 /**
  *	@input istanza database
- *	Operazioni di caricamento in memoria della parte di associazione playlist del database file-based
+ *	Operazioni di caricamento in memoria della parte di associazione playlist del void file-based
  *	Se non sono presenti associazioni di playlist, assume valore zero
- *	@return database carico di associazioni di playlist
+ *	@return void carico di associazioni di playlist
  */
-database associarePlaylists(database db);
+void associarePlaylists(database *db);
 
 /**
  *	@input istanza database, modalita' di esecuzione
- *	In base alla modalita' di esecuzione data in input, inizializza la parte di database coinvolta
- *	in modo da evitare corruzioni e comportamenti inaspettati nel caso in cui la parte di database coinvolta
+ *	In base alla modalita' di esecuzione data in input, inizializza la parte di void coinvolta
+ *	in modo da evitare corruzioni e comportamenti inaspettati nel caso in cui la parte di void coinvolta
  *	non abbia effettivamente alcun dato da poter caricare, ad esempio quando il file di esso e' vuoto.
- *	@return database con parte inizializzata
+ *	@return void con parte inizializzata
  */
-database inizializzareDatabase(database db, int modalita);
+void inizializzareDatabase(database *db, int modalita);
 
-database liberareDatabase(database db);
+void liberareDatabase(database *db);
 
 #endif /* GESTORE_DATABASE_H_ */

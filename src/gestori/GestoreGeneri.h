@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.1
+ * UNIBA/Ampere 1.2
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -15,23 +15,23 @@
  *	Interfaccia utente stand-alone per l'inserimento di un genere, pu� essere chiamata
  *	senza dipendere da altre funzioni
  *	Chiama creareGenereSeNonEsiste
- *	@output database modificato
+ *	@output void modificato
  */
-database inserireGenereGuidato(database db);
+void inserireGenereGuidato(database *db);
 
 /**
  *	@input istanza database, stringa nome del genere
  *	Controlla se il genere inserito esiste gia' grazie a controllareEsistenzaGenere
  *	e se non esiste, crea il genere con creareGenere e lo passa a inserireGenere
  *	altrimenti comunica all'utente che l'artista esiste gia', dunque non procedendo con l'inserimento
- *	@output database modificato
+ *	@output void modificato
  */
-database creareGenereSeNonEsiste(database db, char nome[]);
+void creareGenereSeNonEsiste(database *db, char nome[]);
 
 /**
  * 	@input istanza database, stringa nome del genere
  *	Funzione logica per la creazione di un record "generi", prende le informazioni date in input
- *	e crea un record con esse. Si avvale del database in input per ottenere l'ultimo identificativo
+ *	e crea un record con esse. Si avvale del void in input per ottenere l'ultimo identificativo
  *	@output record genere compilato
  */
 struct Genere creareGenere(char nome[]);
@@ -41,9 +41,9 @@ void mostrareAnteprimaGenere(struct Genere nuovoGenere);
 /**
  *	@input istanza database, record generi genere
  *	Ottiene in input il record genere gia' compilato con creareGenere e gli assegna l'ultima posizione
- *	@output database modificato
+ *	@output void modificato
  */
-database inserireGenere(database db, struct Genere nuovoGenere);
+void inserireGenere(database *db, struct Genere nuovoGenere);
 
 /**
  *	@input struct Genere genere
@@ -58,7 +58,7 @@ void inserireGenereSuFile(struct Genere genere);
  *	dato in input e se esiste allora esce dal ciclo dando in output l'identificativo di esso
  *	@output identificativo genere
  */
-int controllareEsistenzaGenere(database db, char genere[]);
+int controllareEsistenzaGenere(database *db, char genere[]);
 
 /**
  *	TODO: adeguare modifica allo standard imposto dalle specifiche
@@ -66,9 +66,9 @@ int controllareEsistenzaGenere(database db, char genere[]);
  *	Interfaccia utente per modificare informazioni del genere presente nel database
  *	Si avvale di ottenerePosDaID per controllare l'esistenza di esso attraverso l'identificativo
  *	Se il genere e' presente, procede alla modifica dell'informazione scelta con modificareGenere
- *	@output database modificato
+ *	@output void modificato
  */
-database modificareGenereGuidato(database db);
+void modificareGenereGuidato(database *db);
 
 /**
  *	TODO: adeguare modifica allo standard imposto dalle specifiche
@@ -76,10 +76,10 @@ database modificareGenereGuidato(database db);
  *	In base alla modalita' scelta e data in input da modificareGenereGuidato, chiede all'utente la nuova informazione
  *	da inserire al posto della vecchia, sovrascrivendola
  *	Successivamente procede a mostrare all'utente il risultato delle modifiche effettuate
- *	@output database modificato
+ *	@output void modificato
  */
-database creareGenereModificato(database db, int id);
-database modificareGenere(database db, int idGenere, struct Genere genereModificato);
+void creareGenereModificato(database *db, int id);
+void modificareGenere(database *db, int idGenere, struct Genere genereModificato);
 
 /**
  *	TODO: adeguare cancellazione allo standard imposto dalle specifiche
@@ -87,22 +87,22 @@ database modificareGenere(database db, int idGenere, struct Genere genereModific
  *	Interfaccia utente per la cancellazione di un genere presente nel database
  *	Si avvale di ottenerePosDaID per controllare l'esistenza di esso attraverso l'identificativo
  *	Se il genere e' presente, procede alla cancellazione del genere con cancellareGenere
- *	@output database modificato
+ *	@output void modificato
  */
-database cancellareGenereGuidato(database db);
+void cancellareGenereGuidato(database *db);
 
 /**
  *	TODO: adeguare cancellazione allo standard imposto dalle specifiche
  *	@input istanza database, numero intero identificativo genere
- *	Operazioni per la cancellazione del genere all'interno del database presente in memoria
- *	Scala il database di n=1 posizione indietro e lo spazio rimanente alla fine assume valore zero,
- *	effettivamente causando la cancellazione del genere all'interno del database presente in memoria.
+ *	Operazioni per la cancellazione del genere all'interno del void presente in memoria
+ *	Scala il void di n=1 posizione indietro e lo spazio rimanente alla fine assume valore zero,
+ *	effettivamente causando la cancellazione del genere all'interno del void presente in memoria.
  *	La cancellazione del genere provvede anche a cancellare i brani collegati ad esso e, dunque, anche
  *	qualunque associazione effettuata con i brani appartenenti al genere
- *	@output database modificato
+ *	@output void modificato
  */
-database cancellareGenere(database db, int id);
+void cancellareGenere(database *db, int id);
 
-database cancellareAssociazioniGenere(database db, int idBrano);
+void cancellareAssociazioniGenere(database *db, int idBrano);
 
 #endif /* GESTORI_GESTOREGENERI_H_ */

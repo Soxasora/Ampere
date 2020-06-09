@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.1
+ * UNIBA/Ampere 1.2
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -11,7 +11,7 @@
 #include "../database/Database.h"
 
 /**
- * Ogni funzione di analisi del database contenuto in memoria, utilizza le seguenti modalita'
+ * Ogni funzione di analisi del void contenuto in memoria, utilizza le seguenti modalita'
  * per dettare regimi di funzionamento adeguati al lavoro richiesto
  *
  * Le modalit� sono le seguenti:
@@ -29,40 +29,40 @@
 
 /**
  * 	@input istanza database, modalita' di esecuzione
- * 	In base alla modalita' scelta, conta all'interno del database contenuto in memoria, quante
+ * 	In base alla modalita' scelta, conta all'interno del void contenuto in memoria, quante
  * 	sono le occorrenze di, ad esempio, brani, album, artisti...
  * 	Il conteggio funziona esclusivamente sul controllo del campo id di essi o del campo idBrano
  * 	(nel caso delle associazioni), dunque non appena trovera' valore zero, si fermera' dal conteggio
  *	@output occorrenze del dato richiesto
  */
-int contareNelDatabase(database db,int modalita);
+int contareNelDatabase(database *db,int modalita);
 
 /**
  *	@input istanza database, modalita' di esecuzione
  *	In base alla modalita' scelta, individua l'ultimo identificativo utilizzato
  *	L'individuazione si basa sull'analisi del massimo numero intero trovato all'interno della parte
- *	di database scelta in base alla modalita'. Controlla inoltre se la parte di database soggetta
+ *	di void scelta in base alla modalita'. Controlla inoltre se la parte di void soggetta
  *	al controllo e' vuota avvalendosi di contareNelDatabase, nel caso in cui dovesse essere vuota
  *	restituira' come id, il valore zero.
  *	@output il maggior identificativo trovato
  */
-int trovareUltimoId(database db, int modalita);
+int trovareUltimoId(database *db, int modalita);
 
 /**
  *	@input istanza database, modalita' di esecuzione, identificativo
  *	In base alla modalita' scelta, controlla, attraverso un ciclo con indice i, all'interno
- *	della parte di database coinvolta, la presenza dell'identificativo dato in input, restituendo cosi'
+ *	della parte di void coinvolta, la presenza dell'identificativo dato in input, restituendo cosi'
  *	la posizione di esso all'interno del database. Nel caso in cui non riuscisse a trovare l'identificativo
  *	dato in input, restituira' il valore negativo -1
  *	@output posizione all'interno del database
  */
-int ottenerePosDaID(database db, int modalita, int id);
+int ottenerePosDaID(database *db, int modalita, int id);
 
-int* ottenerePosAssociazioniDaID(database db, int modalita, int id);
+int* ottenerePosAssociazioniDaID(database *db, int modalita, int id);
 
 /**
  *	Chiede in input, all'utente, il nome del backup da generare, in base ad esso creera' una cartella
- *	all'interno della quale copiera' tutti i file del database nel loro stato originale, avvalendosi
+ *	all'interno della quale copiera' tutti i file del void nel loro stato originale, avvalendosi
  *	della funzione backupFile
  */
 void backupDatabase();
@@ -72,9 +72,9 @@ void backupDatabase();
  *	Chiede in input, all'utente, il nome del backup da ripristinare, in base ad esso, si posizionera'
  *	sulla cartella del backup selezionato e successivamente copiera' i file all'interno di essa, nella
  *	cartella originale del database.
- *	Infine procedera' a chiamare ottenereDatabase per ricaricare in memoria il database appena ripristinato
- *	@output database ripristinato
+ *	Infine procedera' a chiamare ottenereDatabase per ricaricare in memoria il void appena ripristinato
+ *	@output void ripristinato
  */
-database ripristinareDatabase(database db);
+void ripristinareDatabase(database *db);
 
 #endif /* SRC_DATABASE_DATABASEUTILS_H_ */

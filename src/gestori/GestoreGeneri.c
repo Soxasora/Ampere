@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.1
+ * UNIBA/Ampere 1.2
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -23,17 +23,17 @@
 #include "../sys/Utils.h"
 #include "../sys/Impostazioni.h"
 
-database inserireGenereGuidato(database db) {
+void inserireGenereGuidato(database *db) {
 	char *nome = calloc(MAX_MEDIO, sizeof(char));
 	do {
 		printf("\nInserisci nome del genere: ");
 		nome = inputStringa(MAX_MEDIO,nome);
-		db = creareGenereSeNonEsiste(db, nome);
-	} while (db.ultimoEsito!=0);
-	return db;
+		creareGenereSeNonEsiste(db, nome);
+	} while (db->ultimoEsito!=0);
+	
 }
 
-database creareGenereSeNonEsiste(database db, char nome[]) {
+void creareGenereSeNonEsiste(database *db, char nome[]) {
 	char scelta='a';
 	int id = controllareEsistenzaGenere(db, nome);
 	if (id==0) {
@@ -42,16 +42,16 @@ database creareGenereSeNonEsiste(database db, char nome[]) {
 		mostrareAnteprimaGenere(nuovoGenere);
 		scelta = richiesta(0);
 		if (scelta=='Y'||scelta=='y') {
-			db = inserireGenere(db, nuovoGenere);
-			db.ultimoEsito=0;
+			inserireGenere(db, nuovoGenere);
+			db->ultimoEsito=0;
 		} else {
-			db.ultimoEsito=-1;
+			db->ultimoEsito=-1;
 		}
 	} else {
 		attenzione(204);
-		db.ultimoEsito=0;
+		db->ultimoEsito=0;
 	}
-	return db;
+	
 }
 
 struct Genere creareGenere(char nome[]) {
@@ -66,17 +66,17 @@ void mostrareAnteprimaGenere(struct Genere nuovoGenere) {
 		   "\nNome: %s", nuovoGenere.nome);
 }
 
-database inserireGenere(database db, struct Genere nuovoGenere) {
+void inserireGenere(database *db, struct Genere nuovoGenere) {
 	int n = contareNelDatabase(db, 3);
 	nuovoGenere.id = trovareUltimoId(db, 3)+1;
-	db.genere[n] = nuovoGenere;
+	db->genere[n] = nuovoGenere;
 	successo(4);
 	if (salvataggioDiretto) {
 		salvareGeneriSuFile(db);
 	} else {
-		db.modificato=true;
+		db->modificato=true;
 	}
-	return db;
+	
 }
 
 void inserireGenereSuFile(struct Genere genere) {
@@ -89,11 +89,11 @@ void inserireGenereSuFile(struct Genere genere) {
 	fclose(fp);
 }
 
-int controllareEsistenzaGenere(database db, char genere[]) {
+int controllareEsistenzaGenere(database *db, char genere[]) {
 	int id=0, i=0, n=contareNelDatabase(db,3), controllo=0;
 	while (i<n&&controllo!=-1) {
-		if (comparareStringhe(db.genere[i].nome, genere)==0) {
-			id = db.genere[i].id;
+		if (comparareStringhe(db->genere[i].nome, genere)==0) {
+			id = db->genere[i].id;
 			controllo=-1;
 		}
 		i++;
@@ -101,7 +101,7 @@ int controllareEsistenzaGenere(database db, char genere[]) {
 	return id;
 }
 
-database modificareGenereGuidato(database db) {
+void modificareGenereGuidato(database *db) {
 	int id=0, campo=-1, esiste=0;
 	char scelta='a';
 	do {
@@ -131,22 +131,19 @@ database modificareGenereGuidato(database db) {
 				campo = inputNumero();
 			}
 			if (campo!=0) {
-				db = creareGenereModificato(db, id);
-				if (db.ultimoEsito==0) {
-					printf("\nGenere modificato.");
-				}
+				creareGenereModificato(db, id);
 			} else {
-				db.ultimoEsito=-2;
+				db->ultimoEsito=-2;
 			}
-		} while (db.ultimoEsito==-1);
+		} while (db->ultimoEsito==-1);
 	}
-	return db;
+	
 }
 
-database creareGenereModificato(database db, int id) {
+void creareGenereModificato(database *db, int id) {
 	char scelta='a';
 	int pos = ottenerePosDaID(db, 3,id);
-	struct Genere genereModificato = db.genere[pos];
+	struct Genere genereModificato = db->genere[pos];
 	do {
 		
 		char *nome = calloc(MAX_MEDIO, sizeof(char));
@@ -160,33 +157,33 @@ database creareGenereModificato(database db, int id) {
 		mostrareAnteprimaGenere(genereModificato);
 		scelta = richiesta(0);
 		if (scelta=='Y'||scelta=='y') {
-			db = modificareGenere(db, id, genereModificato);
-			db.ultimoEsito=0;
+			modificareGenere(db, id, genereModificato);
+			db->ultimoEsito=0;
 		} else {
 			scelta = richiesta(3);
 			if (scelta=='Y'||scelta=='y') {
-				db.ultimoEsito=-2;
+				db->ultimoEsito=-2;
 			} else {
-				db.ultimoEsito=-1;
+				db->ultimoEsito=-1;
 			}
 		}
-	} while (db.ultimoEsito==-2);
-	return db;
+	} while (db->ultimoEsito==-2);
+	
 }
 
-database modificareGenere(database db, int idGenere, struct Genere genereModificato) {
+void modificareGenere(database *db, int idGenere, struct Genere genereModificato) {
 	int posGenere = ottenerePosDaID(db, 3, idGenere);
-	db.genere[posGenere] = genereModificato;
+	db->genere[posGenere] = genereModificato;
 	successo(10);
 	if (salvataggioDiretto) {
 		salvareGeneriSuFile(db);
 	} else {
-		db.modificato=true;
+		db->modificato=true;
 	}
-	return db;
+	
 }
 
-database cancellareGenereGuidato(database db) {
+void cancellareGenereGuidato(database *db) {
 	int id=0;
 	char scelta='a';
 	mostrareTuttiGeneri(db);
@@ -202,24 +199,24 @@ database cancellareGenereGuidato(database db) {
 	
 	scelta = richiesta(5);
 	if (scelta=='Y'||scelta=='y') {
-		db = cancellareGenere(db, id);
+		cancellareGenere(db, id);
 	}
-	return db;
+	
 }
 
-database cancellareGenere(database db, int id) {
+void cancellareGenere(database *db, int id) {
 	int n=contareNelDatabase(db,3);
 	int i=ottenerePosDaID(db, 3, id);
 	while(i<n-1) {
-		db.genere[i] = db.genere[i+1];
+		db->genere[i] = db->genere[i+1];
 		i++;
 	}
-	db.genere[n-1].id = 0;
+	db->genere[n-1].id = 0;
 	int nBrani=contareNelDatabase(db,7);
 	i=0;
 	while (i<nBrani) {
-		if(db.branoGenere[i].idGenere==id) {
-			db = cancellareBrano(db, db.branoGenere[i].idBrano);
+		if(db->branoGenere[i].idGenere==id) {
+			cancellareBrano(db, db->branoGenere[i].idBrano);
 			i=-1;
 		}
 		i++;
@@ -228,7 +225,7 @@ database cancellareGenere(database db, int id) {
 	if (salvataggioDiretto) {
 		salvareGeneriSuFile(db);
 	} else {
-		db.modificato=true;
+		db->modificato=true;
 	}
-	return db;
+	
 }

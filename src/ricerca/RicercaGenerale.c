@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.1
+ * UNIBA/Ampere 1.2
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -23,23 +23,23 @@
 #include "../sys/Utils.h"
 #include "../sys/Impostazioni.h"
 
-void ricercare(database db, int modalita, char interrogazione[], bool light) {
+void ricercare(database *db, int modalita, char interrogazione[], bool light) {
 	int i=0, n=0, conta=0;
 	if (modalita==0) {
 		printf("\nBrani:");
 		n = contareNelDatabase(db,0);
 		while (i<n) {
-			if (comparareStringheParziale(db.brano[i].titolo, interrogazione)
-				||comparareStringheParziale(db.album[ottenerePosDaID(db, 1,db.branoAlbum[ottenerePosDaID(db, 6, db.brano[i].id)].idAlbum)].titolo, interrogazione)
-				||comparareStringheParziale(db.artista[ottenerePosDaID(db, 2,db.branoArtista[ottenerePosDaID(db, 5, db.brano[i].id)].idArtista)].nomeArte, interrogazione)
-				||db.brano[i].anno==atoi(interrogazione)) {
+			if (comparareStringheParziale(db->brano[i].titolo, interrogazione)
+				||comparareStringheParziale(db->album[ottenerePosDaID(db, 1,db->branoAlbum[ottenerePosDaID(db, 6, db->brano[i].id)].idAlbum)].titolo, interrogazione)
+				||comparareStringheParziale(db->artista[ottenerePosDaID(db, 2,db->branoArtista[ottenerePosDaID(db, 5, db->brano[i].id)].idArtista)].nomeArte, interrogazione)
+				||db->brano[i].anno==atoi(interrogazione)) {
 				if (light) {
 					if (conta<3) {
-						printf("\n%d. Titolo: %s", conta+1, db.brano[i].titolo);
+						printf("\n%d. Titolo: %s", conta+1, db->brano[i].titolo);
 					}
 				} else {
 					printf("\n");
-					mostrareSingoloBrano(db, db.brano[i].id);
+					mostrareSingoloBrano(db, db->brano[i].id);
 				}
 				conta++;
 			}
@@ -60,15 +60,15 @@ void ricercare(database db, int modalita, char interrogazione[], bool light) {
 		printf("\n\nAlbum:");
 		n = contareNelDatabase(db,1);
 		while (i<n) {
-			if (comparareStringheParziale(db.album[i].titolo, interrogazione)
-				||db.album[i].anno==atoi(interrogazione)) {
+			if (comparareStringheParziale(db->album[i].titolo, interrogazione)
+				||db->album[i].anno==atoi(interrogazione)) {
 				if (light) {
 					if (conta<3) {
-						printf("\n%d. Titolo: %s", conta+1, db.album[i].titolo);
+						printf("\n%d. Titolo: %s", conta+1, db->album[i].titolo);
 					}
 				} else {
 					printf("\n");
-					mostrareSingoloAlbum(db, db.album[i].id);
+					mostrareSingoloAlbum(db, db->album[i].id);
 					char scelta = 'N';
 					scelta = richiesta(14);
 					if (scelta=='Y'||scelta=='y') {
@@ -94,16 +94,16 @@ void ricercare(database db, int modalita, char interrogazione[], bool light) {
 		printf("\n\nArtisti:");
 		n = contareNelDatabase(db,2);
 		while (i<n) {
-			if (comparareStringheParziale(db.artista[i].nome, interrogazione)
-				||comparareStringheParziale(db.artista[i].cognome, interrogazione)
-				||comparareStringheParziale(db.artista[i].nomeArte, interrogazione)) {
+			if (comparareStringheParziale(db->artista[i].nome, interrogazione)
+				||comparareStringheParziale(db->artista[i].cognome, interrogazione)
+				||comparareStringheParziale(db->artista[i].nomeArte, interrogazione)) {
 				if (light) {
 					if (conta<3) {
-						printf("\n%d. Nome d'Arte: %s", conta+1, db.artista[i].nomeArte);
+						printf("\n%d. Nome d'Arte: %s", conta+1, db->artista[i].nomeArte);
 					}
 				} else {
 					printf("\n");
-					mostrareSingoloArtista(db, db.artista[i].id);
+					mostrareSingoloArtista(db, db->artista[i].id);
 					char scelta = 'N';
 					scelta = richiesta(15);
 					if (scelta=='Y'||scelta=='y') {
@@ -129,14 +129,14 @@ void ricercare(database db, int modalita, char interrogazione[], bool light) {
 		printf("\n\nGeneri:");
 		n = contareNelDatabase(db,3);
 		while (i<n) {
-			if (comparareStringheParziale(db.genere[i].nome, interrogazione)) {
+			if (comparareStringheParziale(db->genere[i].nome, interrogazione)) {
 				if (light) {
 					if (conta<3) {
-						printf("\n%d. Nome: %s", conta+1, db.genere[i].nome);
+						printf("\n%d. Nome: %s", conta+1, db->genere[i].nome);
 					}
 				} else {
 					printf("\n");
-					mostrareSingoloGenere(db, db.genere[i].id);
+					mostrareSingoloGenere(db, db->genere[i].id);
 					char scelta = 'N';
 					scelta = richiesta(16);
 					if (scelta=='Y'||scelta=='y') {
@@ -162,16 +162,16 @@ void ricercare(database db, int modalita, char interrogazione[], bool light) {
 		printf("\n\nPlaylists:");
 		n = contareNelDatabase(db,4);
 		while (i<n) {
-			if (comparareStringheParziale(db.playlist[i].nome, interrogazione)) {
-				if (controllareSePlaylistPubblica(db, db.playlist[i].id)||controllareSePlaylistUtente(db, db.playlist[i].id, db.utenteCorrente)) {
+			if (comparareStringheParziale(db->playlist[i].nome, interrogazione)) {
+				if (controllareSePlaylistPubblica(db, db->playlist[i].id)||controllareSePlaylistUtente(db, db->playlist[i].id, db->utenteCorrente)) {
 					if (light) {
 						if (conta<3) {
-							printf("\n%d. Nome: %s", conta+1, db.playlist[i].nome);
-							printf("\n   Autore: %s", db.utente[ottenerePosDaID(db, -1,db.playlist[i].idUtente)].username);
+							printf("\n%d. Nome: %s", conta+1, db->playlist[i].nome);
+							printf("\n   Autore: %s", db->utente[ottenerePosDaID(db, -1,db->playlist[i].idUtente)].username);
 						}
 					} else {
 						printf("\n");
-						mostrareSingolaPlaylist(db, -1, db.playlist[i].id);
+						mostrareSingolaPlaylist(db, -1, db->playlist[i].id);
 						char scelta = 'N';
 						scelta = richiesta(17);
 						if (scelta=='Y'||scelta=='y') {
@@ -198,14 +198,14 @@ void ricercare(database db, int modalita, char interrogazione[], bool light) {
 		printf("\n\nUtenti:");
 		n = contareNelDatabase(db,-1);
 		while (i<n) {
-			if (comparareStringheParziale(db.utente[i].username, interrogazione)) {
+			if (comparareStringheParziale(db->utente[i].username, interrogazione)) {
 				if (light) {
 					if (conta<3) {
-						printf("\n%d. Nome utente: %s", conta+1, db.utente[i].username);
+						printf("\n%d. Nome utente: %s", conta+1, db->utente[i].username);
 					}
 				} else {
 					printf("\n");
-					mostrareSingoloUtente(db, -1,db.utente[i].id);
+					mostrareSingoloUtente(db, -1,db->utente[i].id);
 					char scelta = 'N';
 					scelta = richiesta(18);
 					if (scelta=='Y'||scelta=='y') {
@@ -230,7 +230,7 @@ void ricercare(database db, int modalita, char interrogazione[], bool light) {
 	}
 }
 
-void eseguireRicerca(database db) {
+void eseguireRicerca(database *db) {
 	int scelta=-1;
 	bool ripeti=false;
 	char *interrogazione;

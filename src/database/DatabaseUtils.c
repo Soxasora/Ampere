@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.1
+ * UNIBA/Ampere 1.2
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -30,46 +30,46 @@
  * 8: Associazione playlist-brano
  */
 
-int contareNelDatabase(database db,int modalita) {
+int contareNelDatabase(database *db,int modalita) {
 	int i=0;
 	if (modalita==-1) {
-		while(db.utente[i].id!=0) {
+		while(db->utente[i].id!=0) {
 			i++;
 		}
 	} else if (modalita==0) { // Brano
-		while(db.brano[i].id!=0) {
+		while(db->brano[i].id!=0) {
 			i++;
 		}
 	} else if (modalita==1) { // Conta Album
-		while(db.album[i].id!=0) {
+		while(db->album[i].id!=0) {
 			i++;
 		}
 	} else if (modalita==2) { // Conta Artisti
-		while(db.artista[i].id!=0) {
+		while(db->artista[i].id!=0) {
 			i++;
 		}
 	} else if (modalita==3) { // Conta Generi
-		while(db.genere[i].id!=0) {
+		while(db->genere[i].id!=0) {
 			i++;
 		}
 	} else if (modalita==4) { // Conta Playlist
-		while(db.playlist[i].id!=0) {
+		while(db->playlist[i].id!=0) {
 			i++;
 		}
 	} else if (modalita==5) { // Conta associazioniArtisti
-		while(db.branoArtista[i].idBrano!=0) {
+		while(db->branoArtista[i].idBrano!=0) {
 			i++;
 		}
 	} else if (modalita==6) { // Conta BranoAlbum
-		while(db.branoAlbum[i].idAlbum!=0) {
+		while(db->branoAlbum[i].idAlbum!=0) {
 			i++;
 		}
 	} else if (modalita==7) { // Conta tipi brano
-		while(db.branoGenere[i].idBrano!=0) {
+		while(db->branoGenere[i].idBrano!=0) {
 			i++;
 		}
 	} else if (modalita==8) { // Conta PlaylistBrano playlist
-		while(db.playlistBrano[i].idBrano!=0) {
+		while(db->playlistBrano[i].idBrano!=0) {
 			i++;
 		}
 	}
@@ -77,7 +77,7 @@ int contareNelDatabase(database db,int modalita) {
 	return i;
 }
 
-int trovareUltimoId(database db, int modalita) {
+int trovareUltimoId(database *db, int modalita) {
 	int i=0, n=0, max=0;
 	bool vuoto=true;
 	n = contareNelDatabase(db,modalita);
@@ -88,8 +88,8 @@ int trovareUltimoId(database db, int modalita) {
 			vuoto=false;
 		if (!vuoto) {
 			while(i<n) {
-				if (db.utente[i].id>max) {
-					max=db.utente[i].id;
+				if (db->utente[i].id>max) {
+					max=db->utente[i].id;
 				}
 				i++;
 			}
@@ -103,8 +103,8 @@ int trovareUltimoId(database db, int modalita) {
 			vuoto=false;
 		if (!vuoto) {
 			while(i<n) {
-				if (db.brano[i].id>max) {
-					max=db.brano[i].id;
+				if (db->brano[i].id>max) {
+					max=db->brano[i].id;
 				}
 				i++;
 			}
@@ -118,8 +118,8 @@ int trovareUltimoId(database db, int modalita) {
 			vuoto=false;
 		if (!vuoto) {
 			while(i<n) {
-				if (db.album[i].id>max) {
-					max=db.album[i].id;
+				if (db->album[i].id>max) {
+					max=db->album[i].id;
 				}
 				i++;
 			}
@@ -133,8 +133,8 @@ int trovareUltimoId(database db, int modalita) {
 			vuoto=false;
 		if (!vuoto) {
 			while(i<n) {
-				if (db.artista[i].id>max) {
-					max=db.artista[i].id;
+				if (db->artista[i].id>max) {
+					max=db->artista[i].id;
 				}
 				i++;
 			}
@@ -148,8 +148,8 @@ int trovareUltimoId(database db, int modalita) {
 			vuoto=false;
 		if (!vuoto) {
 			while(i<n) {
-				if (db.genere[i].id>max) {
-					max=db.genere[i].id;
+				if (db->genere[i].id>max) {
+					max=db->genere[i].id;
 				}
 				i++;
 			}
@@ -163,8 +163,8 @@ int trovareUltimoId(database db, int modalita) {
 			vuoto=false;
 		if (!vuoto) {
 			while(i<n) {
-				if (db.playlist[i].id>max) {
-					max=db.playlist[i].id;
+				if (db->playlist[i].id>max) {
+					max=db->playlist[i].id;
 				}
 				i++;
 			}
@@ -175,12 +175,12 @@ int trovareUltimoId(database db, int modalita) {
 	return max;
 }
 
-int ottenerePosDaID(database db, int modalita, int id) {
+int ottenerePosDaID(database *db, int modalita, int id) {
 	int pos=0, i=0, controllo=0, n=0;
 	n = contareNelDatabase(db,modalita);
 	if (modalita==-1) { // Utente
 		while(i<n&&controllo!=-1) {
-			if (db.utente[i].id == id) {
+			if (db->utente[i].id == id) {
 				pos=i;
 				controllo=-1;
 			} else {
@@ -190,7 +190,7 @@ int ottenerePosDaID(database db, int modalita, int id) {
 		}
 	} else if (modalita==0) { // Brano
 		while(i<n&&controllo!=-1) {
-			if (db.brano[i].id == id) {
+			if (db->brano[i].id == id) {
 				pos=i;
 				controllo=-1;
 			} else {
@@ -200,7 +200,7 @@ int ottenerePosDaID(database db, int modalita, int id) {
 		}
 	} else if (modalita==1) { // Album
 		while(i<n&&controllo!=-1) {
-			if (db.album[i].id == id) {
+			if (db->album[i].id == id) {
 				pos=i;
 				controllo=-1;
 			} else {
@@ -210,7 +210,7 @@ int ottenerePosDaID(database db, int modalita, int id) {
 		}
 	} else if (modalita==2) { // Artisti
 		while(i<n&&controllo!=-1) {
-			if (db.artista[i].id == id) {
+			if (db->artista[i].id == id) {
 				pos=i;
 				controllo=-1;
 			} else {
@@ -220,7 +220,7 @@ int ottenerePosDaID(database db, int modalita, int id) {
 		}
 	} else if (modalita==3) { // Generi
 		while(i<n&&controllo!=-1) {
-			if (db.genere[i].id == id) {
+			if (db->genere[i].id == id) {
 				pos=i;
 				controllo=-1;
 			} else {
@@ -230,7 +230,7 @@ int ottenerePosDaID(database db, int modalita, int id) {
 		}
 	} else if (modalita==4) { // Playlist
 		while(i<n&&controllo!=-1) {
-			if (db.playlist[i].id == id) {
+			if (db->playlist[i].id == id) {
 				pos=i;
 				controllo=-1;
 			} else {
@@ -240,7 +240,7 @@ int ottenerePosDaID(database db, int modalita, int id) {
 		}
 	} else if (modalita==5) { // Associazione artista-brano
 		while(i<n&&controllo!=-1) {
-			if (db.branoArtista[i].idBrano==id) {
+			if (db->branoArtista[i].idBrano==id) {
 				pos = i;
 				controllo=-1;
 			} else {
@@ -250,7 +250,7 @@ int ottenerePosDaID(database db, int modalita, int id) {
 		}
 	} else if (modalita==6) { //Associazione album-brano
 		while(i<n&&controllo!=-1) {
-			if (db.branoAlbum[i].idBrano==id) {
+			if (db->branoAlbum[i].idBrano==id) {
 				pos = i;
 				controllo=-1;
 			} else {
@@ -260,7 +260,7 @@ int ottenerePosDaID(database db, int modalita, int id) {
 		}
 	} else if (modalita==7) { // Associazione genere-brano
 		while(i<n&&controllo!=-1) {
-			if (db.branoGenere[i].idBrano==id) {
+			if (db->branoGenere[i].idBrano==id) {
 				pos = i;
 				controllo=-1;
 			} else {
@@ -270,7 +270,7 @@ int ottenerePosDaID(database db, int modalita, int id) {
 		}
 	} else if (modalita==8) { // Associazione playlist-brano
 		while(i<n&&controllo!=-1) {
-			if (db.playlistBrano[i].idPlaylist==id) {
+			if (db->playlistBrano[i].idPlaylist==id) {
 				pos=i;
 				controllo=-1;
 			} else {
@@ -289,13 +289,13 @@ int ottenerePosDaID(database db, int modalita, int id) {
  * 7: Associazione genere-brano
  * 8: Associazione playlist-brano
  */
-int* ottenerePosAssociazioniDaID(database db, int modalita, int id) {
+int* ottenerePosAssociazioniDaID(database *db, int modalita, int id) {
 	int i=0, j=0;
 	int n=contareNelDatabase(db, modalita);
 	int* nAssociazioni = calloc(MAX_MEDIO, sizeof(int));
 	if (modalita==5) {
 		while(i<n) {
-			if (db.branoArtista[i].idBrano==id) {
+			if (db->branoArtista[i].idBrano==id) {
 				nAssociazioni[j]=i;
 				j++;
 			}
@@ -303,7 +303,7 @@ int* ottenerePosAssociazioniDaID(database db, int modalita, int id) {
 		}
 	} else if (modalita==6) {
 		while (i<n) {
-			if (db.branoAlbum[i].idBrano==id) {
+			if (db->branoAlbum[i].idBrano==id) {
 				nAssociazioni[j]=i;
 				j++;
 			}
@@ -311,7 +311,7 @@ int* ottenerePosAssociazioniDaID(database db, int modalita, int id) {
 		}
 	} else if (modalita==7) {
 		while (i<n) {
-			if (db.branoGenere[i].idBrano==id) {
+			if (db->branoGenere[i].idBrano==id) {
 				nAssociazioni[j]=i;
 				j++;
 			}
@@ -319,7 +319,7 @@ int* ottenerePosAssociazioniDaID(database db, int modalita, int id) {
 		}
 	} else if (modalita==8) {
 		while (i<n) {
-			if (db.playlistBrano[i].idPlaylist==id) {
+			if (db->playlistBrano[i].idPlaylist==id) {
 				nAssociazioni[j]=i;
 				j++;
 			}
@@ -346,7 +346,7 @@ void backupDatabase() {
 	} while (esito!=0);
 	sprintf(percorso_backup, "backup/%s", nome_backup);
 	creareCartella(percorso_backup, true);
-	printf("\nBackup del database in corso...");
+	printf("\nBackup del void in corso...");
 	sprintf(percorso_backup, "backup/%s/brani.txt", nome_backup);
 	backupFile(file_brani, percorso_backup);
 	sprintf(percorso_backup, "backup/%s/albums.txt", nome_backup);
@@ -371,11 +371,11 @@ void backupDatabase() {
 	free(nome_backup); free(percorso_backup);
 }
 
-database ripristinareDatabase(database db) {
+void ripristinareDatabase(database *db) {
 	
 	char *nome_backup = calloc(MAX_GRANDE, sizeof(char));
 	char *percorso_backup = calloc(MAX_GRANDE, sizeof(char));
-	printf("\nInserire il nome del backup dal quale ripristinare il database (es. 05052020): ");
+	printf("\nInserire il nome del backup dal quale ripristinare il void (es. 05052020): ");
 	nome_backup = inputStringa(MAX_GRANDE,nome_backup);
 	sprintf(percorso_backup, "backup/%s/brani.txt", nome_backup);
 	FILE* fp=fopen(percorso_backup, "r");
@@ -387,7 +387,7 @@ database ripristinareDatabase(database db) {
 		char scelta='N';
 		scelta = richiesta(4);
 		if (scelta=='Y'||scelta=='y') {
-			printf("\nRipristino del database in corso...");
+			printf("\nRipristino del void in corso...");
 			cancellareDatabaseFile();
 			sprintf(percorso_backup, "backup/%s/brani.txt", nome_backup);
 			backupFile(percorso_backup, file_brani);
@@ -409,11 +409,11 @@ database ripristinareDatabase(database db) {
 			backupFile(percorso_backup, file_PlaylistBrano);
 			sprintf(percorso_backup, "backup/%s/utenti.txt", nome_backup);
 			backupFile(percorso_backup, file_utenti);
-			db = ottenereDatabase(1, db);
+			ottenereDatabase(1, db);
 			printf(" Ripristino dal backup %s effettuato.", nome_backup);
 		} else {
 			printf("\nUscendo dal ripristino...");
 		}
 	}
-	return db;
+	
 }

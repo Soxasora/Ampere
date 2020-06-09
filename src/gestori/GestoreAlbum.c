@@ -1,5 +1,5 @@
 /*
- * UNIBA/Ampere 1.1
+ * UNIBA/Ampere 1.2
  * Gruppo n.16 - Marco Furone, Michele Barile, Nicolo' Cucinotta, Simone Cervino
  * Progetto universitario di gruppo intento alla creazione di un gestore dati per la musica, es: WinAmp
  * da realizzare nell'ambito del corso di studi di Laboratorio di Informatica, a.a. 2019/20.
@@ -23,21 +23,21 @@
 #include "../sys/Utils.h"
 #include "../sys/Impostazioni.h"
 
-database inserireAlbumGuidato(database db) {
+void inserireAlbumGuidato(database *db) {
 	char *titolo = calloc(MAX_MEDIO, sizeof(char));
 	do {
 		
 		if ((titolo = calloc(MAX_MEDIO, sizeof(char)))) {
 			printf("\nInserisci titolo dell'album: ");
 			titolo = inputStringa(MAX_MEDIO,titolo);
-			db = creareAlbumSeNonEsiste(db, titolo);
+			creareAlbumSeNonEsiste(db, titolo);
 		}
-	} while (db.ultimoEsito!=0);
+	} while (db->ultimoEsito!=0);
 	free(titolo); titolo=NULL;
-	return db;
+	
 }
 
-database creareAlbumGuidato(database db, char titoloAlbum[]) {
+void creareAlbumGuidato(database *db, char titoloAlbum[]) {
 	char scelta='a';
 	int controllo=0;
 	int anno=0;
@@ -58,24 +58,24 @@ database creareAlbumGuidato(database db, char titoloAlbum[]) {
 		}
 	}
 	if (scelta=='Y'||scelta=='y') {
-		db = inserireAlbum(db, nuovoAlbum);
-		db.ultimoEsito=0;
+		inserireAlbum(db, nuovoAlbum);
+		db->ultimoEsito=0;
 	} else {
-		db.ultimoEsito = -1;
+		db->ultimoEsito = -1;
 	}
-	return db;
+	
 }
 
-database creareAlbumSeNonEsiste(database db, char titoloAlbum[]) {
+void creareAlbumSeNonEsiste(database *db, char titoloAlbum[]) {
 	int id = controllareEsistenzaAlbum(db, titoloAlbum);
 	if (id==0) {
 		printf("\nSembra che quest'album non esista nel database, inseriamolo.");
-		db = creareAlbumGuidato(db, titoloAlbum);
+		creareAlbumGuidato(db, titoloAlbum);
 	} else {
 		attenzione(202);
-		db.ultimoEsito=0;
+		db->ultimoEsito=0;
 	}
-	return db;
+	
 }
 
 struct Album creareAlbum(char titolo[], int anno) {
@@ -92,17 +92,17 @@ void mostrareAnteprimaAlbum(struct Album nuovoAlbum) {
 		   "\nAnno: %d", nuovoAlbum.titolo, nuovoAlbum.anno);
 }
 
-database inserireAlbum(database db, struct Album nuovoAlbum) {
+void inserireAlbum(database *db, struct Album nuovoAlbum) {
 	int n = contareNelDatabase(db, 1);
 	nuovoAlbum.id = trovareUltimoId(db,1)+1;
-	db.album[n] = nuovoAlbum;
+	db->album[n] = nuovoAlbum;
 	successo(2);
 	if (salvataggioDiretto) {
 		salvareAlbumSuFile(db);
 	} else {
-		db.modificato=true;
+		db->modificato=true;
 	}
-	return db;
+	
 }
 
 void inserireAlbumSuFile(struct Album album) {
@@ -115,11 +115,11 @@ void inserireAlbumSuFile(struct Album album) {
 	fclose(fp);
 }
 
-int controllareEsistenzaAlbum(database db, char album[]) {
+int controllareEsistenzaAlbum(database *db, char album[]) {
 	int id=0, i=0, n=contareNelDatabase(db,1), controllo=0;
 	while (i<n&&controllo!=-1) {
-		if (comparareStringhe(db.album[i].titolo, album)==0) {
-			id = db.album[i].id;
+		if (comparareStringhe(db->album[i].titolo, album)==0) {
+			id = db->album[i].id;
 			controllo=-1;
 		}
 		i++;
@@ -127,7 +127,7 @@ int controllareEsistenzaAlbum(database db, char album[]) {
 	return id;
 }
 
-database modificareAlbumGuidato(database db) {
+void modificareAlbumGuidato(database *db) {
 	int id=0, campo=-1, esiste=0;
 	char scelta='a';
 	do {
@@ -158,22 +158,19 @@ database modificareAlbumGuidato(database db) {
 				campo = inputNumero();
 			}
 			if (campo!=0) {
-				db = creareAlbumModificato(db, campo, id);
-				if (db.ultimoEsito==0) {
-					printf("\nAlbum modificato.");
-				}
+				creareAlbumModificato(db, campo, id);
 			} else {
-				db.ultimoEsito=-2;
+				db->ultimoEsito=-2;
 			}
-		} while (db.ultimoEsito==-1);
+		} while (db->ultimoEsito==-1);
 	}
-	return db;
+	
 }
 
-database creareAlbumModificato(database db, int campo, int id) {
+void creareAlbumModificato(database *db, int campo, int id) {
 	char scelta='a';
 	int pos = ottenerePosDaID(db, 1, id);
-	struct Album albumModificato = db.album[pos];
+	struct Album albumModificato = db->album[pos];
 	do {
 		
 		if (campo==1) {
@@ -196,33 +193,33 @@ database creareAlbumModificato(database db, int campo, int id) {
 		mostrareAnteprimaAlbum(albumModificato);
 		scelta = richiesta(0);
 		if (scelta=='Y'||scelta=='y') {
-			db = modificareAlbum(db, id, albumModificato);
-			db.ultimoEsito=0;
+			modificareAlbum(db, id, albumModificato);
+			db->ultimoEsito=0;
 		} else {
 			scelta = richiesta(3);
 			if (scelta=='Y'||scelta=='y') {
-				db.ultimoEsito=-2;
+				db->ultimoEsito=-2;
 			} else {
-				db.ultimoEsito=-1;
+				db->ultimoEsito=-1;
 			}
 		}
-	} while (db.ultimoEsito==-2);
-	return db;
+	} while (db->ultimoEsito==-2);
+	
 }
 
-database modificareAlbum(database db, int idAlbum, struct Album albumModificato) {
+void modificareAlbum(database *db, int idAlbum, struct Album albumModificato) {
 	int posAlbum = ottenerePosDaID(db, 1, idAlbum);
-	db.album[posAlbum] = albumModificato;
+	db->album[posAlbum] = albumModificato;
 	successo(8);
 	if (salvataggioDiretto) {
 		salvareAlbumSuFile(db);
 	} else {
-		db.modificato=true;
+		db->modificato=true;
 	}
-	return db;
+	
 }
 
-database cancellareAlbumGuidato(database db) {
+void cancellareAlbumGuidato(database *db) {
 	int id=0;
 	char scelta='N';
 	mostrareTuttiAlbum(db);
@@ -237,25 +234,25 @@ database cancellareAlbumGuidato(database db) {
 	mostrareSingoloAlbum(db, id);
 	scelta = richiesta(5);
 	if (scelta=='Y'||scelta=='y') {
-		db = cancellareAlbum(db,id);
+		cancellareAlbum(db,id);
 	}
-	return db;
+	
 }
 
-database cancellareAlbum(database db, int id) {
+void cancellareAlbum(database *db, int id) {
 	int n=contareNelDatabase(db,1);
 	int i=ottenerePosDaID(db, 1, id);
 	while(i<n-1) {
-		db.album[i] = db.album[i+1];
+		db->album[i] = db->album[i+1];
 		i++;
 	}
-	db.album[n-1].id = 0;
+	db->album[n-1].id = 0;
 
 	int nBrani=contareNelDatabase(db,6);
 	i=0;
 	while (i<nBrani) {
-		if(db.branoAlbum[i].idAlbum==id) {
-			db = cancellareBrano(db, db.branoAlbum[i].idBrano);
+		if(db->branoAlbum[i].idAlbum==id) {
+			cancellareBrano(db, db->branoAlbum[i].idBrano);
 			i=-1;
 		}
 		i++;
@@ -264,7 +261,7 @@ database cancellareAlbum(database db, int id) {
 	if (salvataggioDiretto) {
 		salvareAlbumSuFile(db);
 	} else {
-		db.modificato=true;
+		db->modificato=true;
 	}
-	return db;
+	
 }
